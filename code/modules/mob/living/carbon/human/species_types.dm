@@ -18,7 +18,7 @@
 		return 1	//Pure humans are always allowed in all roles.
 
 	//Mutants are not allowed in most roles.
-	if(rank in security_positions) //This list does not include lawyers.
+	if(rank in command_positions) //This list does not include lawyers.
 		return 0
 	if(rank in science_positions)
 		return 0
@@ -762,7 +762,7 @@ var/global/image/plasmaman_on_fire = image("icon"='icons/mob/OnFire.dmi', "icon_
 	return 0
 
 /datum/species/plasmaman/qualifies_for_rank(rank, list/features)
-	if(rank in security_positions)
+	if(rank in command_positions)
 		return 0
 	if(rank == "Clown" || rank == "Mime")//No funny bussiness
 		return 0

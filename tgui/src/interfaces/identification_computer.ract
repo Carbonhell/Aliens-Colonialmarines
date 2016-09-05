@@ -156,7 +156,9 @@
 		  <tr>
 			<th>Special</th>
 			<td>
-			  <ui-button action='PRG_assign' params='{"assign_target" : "Captain"}' state='{{data.id_rank == "Captain" ? "selected" : null}}'>Captain</ui-button>
+			  {{#each data.command_jobs}}
+				<ui-button action='PRG_assign' params='{"assign_target" : "{{job}}"}' state='{{data.id_rank == job ? "selected" : null}}'>{{display_name}}</ui-button>
+			  {{/each}}
 			  <ui-button action='PRG_assign' params='{"assign_target" : "Custom"}'>Custom</ui-button>
 			</td>
 		  </tr>
@@ -164,6 +166,14 @@
 			<th style="color: '#FFA500';">Engineering</th>
 			<td>
 			  {{#each data.engineering_jobs}}
+				<ui-button action='PRG_assign' params='{"assign_target" : "{{job}}"}' state='{{data.id_rank == job ? "selected" : null}}'>{{display_name}}</ui-button>
+			  {{/each}}
+			</td>
+		  </tr>
+		  <tr>
+			<th style="color: '#cc6600';">Supply</th>
+			<td>
+			  {{#each data.cargo_jobs}}
 				<ui-button action='PRG_assign' params='{"assign_target" : "{{job}}"}' state='{{data.id_rank == job ? "selected" : null}}'>{{display_name}}</ui-button>
 			  {{/each}}
 			</td>
@@ -185,25 +195,9 @@
 			</td>
 		  </tr>
 		  <tr>
-			<th style="color: '#DD0000';">Security</th>
+			<th style="color: '#DD0000';">Marines</th>
 			<td>
-			  {{#each data.security_jobs}}
-				<ui-button action='PRG_assign' params='{"assign_target" : "{{job}}"}' state='{{data.id_rank == job ? "selected" : null}}'>{{display_name}}</ui-button>
-			  {{/each}}
-			</td>
-		  </tr>
-		  <tr>
-			<th style="color: '#cc6600';">Cargo</th>
-			<td>
-			  {{#each data.cargo_jobs}}
-				<ui-button action='PRG_assign' params='{"assign_target" : "{{job}}"}' state='{{data.id_rank == job ? "selected" : null}}'>{{display_name}}</ui-button>
-			  {{/each}}
-			</td>
-		  </tr>
-		  <tr>
-			<th style="color: '#808080';">Civilian</th>
-			<td>
-			  {{#each data.civilian_jobs}}
+			  {{#each data.marines_jobs}}
 				<ui-button action='PRG_assign' params='{"assign_target" : "{{job}}"}' state='{{data.id_rank == job ? "selected" : null}}'>{{display_name}}</ui-button>
 			  {{/each}}
 			</td>

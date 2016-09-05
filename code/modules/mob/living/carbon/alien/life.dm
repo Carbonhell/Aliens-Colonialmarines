@@ -1,10 +1,10 @@
 /mob/living/carbon/alien/Life()
 	findQueen()
 	checkPheromones()
-	if(jelly && jellyMax && jellyGrow < jellyMax && client)
-		jellyGrow++
-		if(jellyGrow == jellyMax)
-			src << "<span class='greentext'>You feel the royal jelly swirl in your veins...</span>"
+	if(timerMax && timerGrow < timerMax && client)
+		timerGrow++
+		if(timerGrow == timerMax)
+			src << "<span class='greentext'>You feel ready to evolve...</span>"
 	return ..()
 
 /mob/living/carbon/alien/check_breath(datum/gas_mixture/breath)
@@ -52,10 +52,13 @@
 /mob/living/carbon/alien/handle_changeling()
 	return
 
-/mob/living/carbon/alien/checkPheromones()
+/mob/living/carbon/alien/proc/checkPheromones()
+	active_pheromones.Cut()
 	for(var/mob/living/carbon/C in range(7, src))
 		var/obj/item/organ/alien/pheromone/P = C.getorgan(/obj/item/organ/alien/pheromone)
 		if(!C)
 			continue
-		if(P.active && P.pheromone)
-			active_pheromones |= P.pheromone
+		if(!P)
+			continue
+		if(P.active && P.pheromone && !(P.pheromone in active_pheromones))
+			active_pheromones += P.pheromone

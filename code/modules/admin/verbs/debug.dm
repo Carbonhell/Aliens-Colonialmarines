@@ -588,7 +588,7 @@ var/global/list/g_fancy_list_of_types = null
 
 	var/datum/job/jobdatum
 	if (dresscode == "As Job...")
-		var/jobname = input("Select job", "Robust quick dress shop") as null|anything in get_all_jobs()
+		var/jobname = input("Select job", "Robust quick dress shop") as null|anything in get_all_marine_jobs()
 		if(isnull(jobname))
 			return
 		jobdatum = SSjob.GetJob(jobname)

@@ -8,6 +8,11 @@
 	range = 7
 	var/chosenchemid = "neuroacid"
 
+/obj/item/projectile/bullet/neurotoxin/Bump(atom/A, yes)
+	if(isalien(A))
+		return 0
+	..()
+
 /obj/item/projectile/bullet/neurotoxin/New()
 	..()
 	create_reagents(50)
@@ -44,15 +49,20 @@
 	damage = 20//jeez don't get hit by it
 	damage_type = BURN
 	suppressed = TRUE
-	chosenchemid = "neuroacid"
+	var/chosenchemid = "neuroacid"
 	range = 16
 
-/obj/item/projectile/bullet/bombard/New()
+/obj/item/projectile/bullet/weakbombard/Bump(atom/A, yes)
+	if(isalien(A))
+		return 0
+	..()
+
+/obj/item/projectile/bullet/weakbombard/New()
 	..()
 	create_reagents(100)
 	reagents.add_reagent(chosenchemid, 10)
 
-/obj/item/projectile/bullet/bombard/on_hit(atom/target, blocked = 0, hit_zone)
+/obj/item/projectile/bullet/weakbombard/on_hit(atom/target, blocked = 0, hit_zone)
 	..()
 	reagents.add_reagent("smoke_powder", 50, reagtemp = 4000) //Makes a big healthy cloud of smoke with your death gas of choice!
 	reagents.handle_reactions()
@@ -60,20 +70,3 @@
 /obj/item/projectile/bullet/weakbombard/notweak
 	chosenchemid = "acidglob"
 
-
-/obj/effect/particle_effect/acid
-	name = "acid"
-	icon_state = "acid"
-	var/chem_id = "acidglob"
-
-/obj/effect/particle_effect/acid/New()
-	..()
-	QDEL_IN(src, 100+rand(0,30))
-	for(var/mob/M in get_turf(src))
-		Crossed(M)
-
-/obj/effect/particle_effect/acid/Crossed(atom/movable/AM)
-	if(ismob(AM))
-		var/mob/M = AM
-		M.reagents.add_reagent(chem_id, 1)
-		M.reagents.reaction(M, TOUCH)

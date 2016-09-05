@@ -133,7 +133,7 @@
 /datum/outfit/job
 	name = "Standard Gear"
 
-	uniform = /obj/item/clothing/under/marine/pajama
+	uniform = /obj/item/clothing/under/pj/red
 	id = /obj/item/weapon/card/id
 
 	var/backpack

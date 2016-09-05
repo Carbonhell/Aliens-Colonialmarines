@@ -55,7 +55,7 @@
 	..()
 	icon_state = "secbot[on]"
 	spawn(3)
-		var/datum/job/detective/J = new/datum/job/detective
+		var/datum/job/police/J = new/datum/job/police
 		access_card.access += J.get_access()
 		prev_access = access_card.access
 

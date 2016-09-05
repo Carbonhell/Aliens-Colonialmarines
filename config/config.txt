@@ -1,14 +1,14 @@
 ## Server name: This appears at the top of the screen in-game. Remove the # infront of SERVERNAME and replace 'tgstation' with the name of your choice
-# SERVERNAME tgstation
+# SERVERNAME Aliens : Colonial Marines
 
 ## Station name: The name of the station as it is referred to in-game. If commented out, the game will generate a random name instead.
-STATIONNAME Space Station 13
+STATIONNAME Sulaco
 
 # Lobby time: This is the amount of time between rounds that players have to setup their characters and be ready.
-LOBBY_COUNTDOWN 120
+LOBBY_COUNTDOWN 150
 
 # Round End Time: This is the amount of time after the round ends that players have to murder death kill each other.
-ROUND_END_COUNTDOWN 90
+ROUND_END_COUNTDOWN 30
 
 ## Add a # infront of this if you want to use the SQL based admin system, the legacy system uses admins.txt. You need to set up your database to use the SQL based system.
 ADMIN_LEGACY_SYSTEM
@@ -63,10 +63,10 @@ LOG_PRAYER
 LOG_LAW
 
 ## log all Topic() calls (for use by coders in tracking down Topic issues)
-# LOG_HREFS
+LOG_HREFS
 
 ## log all world.Topic() calls
-# LOG_WORLD_TOPIC
+LOG_WORLD_TOPIC
 
 ## disconnect players who did nothing during 10 minutes
 # KICK_INACTIVE
@@ -102,7 +102,7 @@ NORESPAWN
 # DONT_DEL_NEWMOB
 
 ## set a hosted by name for unix platforms
-HOSTEDBY Yournamehere
+HOSTEDBY Carbonhell
 
 ## Set to jobban "Guest-" accounts from Captain, HoS, HoP, CE, RD, CMO, Warden, Security, Detective, and AI positions.
 ## Set to 1 to jobban them from those positions, set to 0 to allow them.

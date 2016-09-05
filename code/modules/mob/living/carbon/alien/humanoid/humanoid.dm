@@ -5,13 +5,11 @@
 	limb_destroyer = 1
 	var/obj/item/r_store = null
 	var/obj/item/l_store = null
-	var/caste = ""
 	var/alt_icon = 'icons/mob/alienleap.dmi' //used to switch between the two alien icon files.
 	var/custom_pixel_x_offset = 0 //for admin fuckery.
 	var/custom_pixel_y_offset = 0
 	var/sneaking = 0 //For sneaky-sneaky mode and appropriate slowdown
 	tier = 1
-	var/castedesc = ""
 
 //This is fine right now, if we're adding organ specific damage this needs to be updated
 /mob/living/carbon/alien/humanoid/New()
@@ -109,7 +107,8 @@
 /mob/living/carbon/alien/humanoid/Stat()
 	..()
 	if(statpanel("Status"))
-		stat(null, "Jelly Progress: [jellyGrow]/[jellyMax]")
+		if(timerMax)
+			stat(null, "Evolution Progress: [timerGrow]/[timerMax]")
 		/*var/slashing = ""
 		switch(slashing_allowed)
 			if(0)

@@ -58,9 +58,9 @@
 		src << "<span class='noticealien'>You begin to evolve!</span>"
 		visible_message("<span class='alertalien'>[src] begins to twist and contort!</span>")
 		new_xeno.setDir(dir)
-		if(mind)
-			mind.transfer_to(new_xeno)
-		qdel(src)
+		if(user.mind)
+			user.mind.transfer_to(new_xeno)
+		qdel(user)
 		return 0
 	else
 		user << "<span class='danger'>You are not fully grown.</span>"

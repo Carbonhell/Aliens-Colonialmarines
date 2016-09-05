@@ -75,7 +75,7 @@
 	var/resintype = null
 
 /obj/structure/alien/resin/attack_alien(mob/living/carbon/alien/humanoid/M)
-	if(M.intent == "harm")
+	if(M.a_intent == "harm")
 		M << "<span class='danger'>You start clawing the [name] down...</span>"
 		if(do_after(M, 50, src))
 			M << "<span class='danger'>You claw the [name] down.</span>"
@@ -118,27 +118,28 @@
 /obj/structure/alien/resin/door
 	name = "resin door"
 	desc = "Resin with a weird fracture in the central part, seems like it can be opened in some way."
-	icon = 'icons/obj/alienshit.dmi'
-	icon_state = "resindoor_0"
+	icon = 'icons/obj/smooth_structures/alien/door.dmi'
+	icon_state = "door_1"
+	density = 1
 	health = 150
 	resintype = "door"
 	smooth = SMOOTH_FALSE
 
 /obj/structure/alien/resin/door/attack_alien(mob/living/carbon/alien/humanoid/M)
-	if(M.intent == "help")
+	if(M.a_intent == "help")
 		switchstate()
 		return
 	..()
 
-/obj/structure/alien/resin/door/Bump()
-	if(density)
+/obj/structure/alien/resin/door/Bump(atom/A, yes)
+	if(density && isalien(A))
 		switchstate()
 
 /obj/structure/alien/resin/door/proc/switchstate()
 	density = !density
-	flick("door_[density]", src)
-	icon_state = "resindoor_[density]"
-
+	flick("flick_[density]", src)
+	icon_state = "door_[density]"
+/*
 /obj/structure/alien/resin/sticky
 	name = "sticky resin"
 	desc = "Some disgusting sticky slime. Gross!"
@@ -160,7 +161,7 @@
 	if(T && istype(T))
 		T.slowdown -= 2
 	..()
-
+*/
 /obj/structure/alien/resin/ex_act(severity, target)
 	switch(severity)
 		if(1)
@@ -232,9 +233,7 @@
 	canSmoothWith = list(/obj/structure/alien/weeds, /turf/closed/wall)
 	smooth = SMOOTH_MORE
 	var/list/blacklist = list(/turf/open/space,
-							/turf/closed,
-							/turf/open/grounddirt/grass,
-							/turf/open/grounddirt/river
+							/turf/closed
 							)
 
 

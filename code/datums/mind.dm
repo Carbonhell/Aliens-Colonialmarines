@@ -1682,7 +1682,7 @@
 	return 1
 
 /datum/mind/proc/make_Alien(caste = "larva")
-	var/list/possible_castes = list("larva","boiler","crusher","drone","hunter","praetorian","ravager","sentinel")//intentionally didn't put queen
+	var/list/possible_castes = list("larva","big/boiler","big/crusher","drone","hunter","big/praetorian","ravager","sentinel")//intentionally didn't put queen
 	if(!caste)
 		caste = input("Which caste?","Caste") in possible_castes
 	if(!(caste in possible_castes))
@@ -1798,17 +1798,17 @@
 	mind.special_role = "Alien"
 	mind.assigned_role = "Alien"
 	//XENO HUMANOID
-/mob/living/carbon/alien/humanoid/royal/queen/mind_initialize()
+/mob/living/carbon/alien/humanoid/big/queen/mind_initialize()
 	..()
 	mind.special_role = "Queen"
 
-/mob/living/carbon/alien/humanoid/royal/praetorian/mind_initialize()
+/mob/living/carbon/alien/humanoid/big/praetorian/mind_initialize()
 	..()
 	mind.special_role = "Praetorian"
 
-/mob/living/carbon/alien/humanoid/hunter/mind_initialize()
+/mob/living/carbon/alien/humanoid/warrior/mind_initialize()
 	..()
-	mind.special_role = "Hunter"
+	mind.special_role = "Warrior"
 
 /mob/living/carbon/alien/humanoid/drone/mind_initialize()
 	..()

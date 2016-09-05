@@ -243,7 +243,7 @@
 				qdel(E)
 
 
-/proc/wash_mob(mob/living/L)//made this global cause it's very useful for water turfs too imho
+/obj/machinery/shower/proc/wash_mob(mob/living/L)
 	L.wash_cream()
 	L.ExtinguishMob()
 	L.adjust_fire_stacks(-20) //Douse ourselves with water to avoid fire more easily

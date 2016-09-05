@@ -391,14 +391,20 @@
 				M.change_mob_type( /mob/dead/observer , null, null, delmob )
 			if("drone")
 				M.change_mob_type( /mob/living/carbon/alien/humanoid/drone , null, null, delmob )
-			if("hunter")
-				M.change_mob_type( /mob/living/carbon/alien/humanoid/hunter , null, null, delmob )
+			if("warrior")
+				M.change_mob_type( /mob/living/carbon/alien/humanoid/warrior , null, null, delmob )
 			if("queen")
-				M.change_mob_type( /mob/living/carbon/alien/humanoid/royal/queen , null, null, delmob )
+				M.change_mob_type( /mob/living/carbon/alien/humanoid/big/queen , null, null, delmob )
 			if("praetorian")
-				M.change_mob_type( /mob/living/carbon/alien/humanoid/royal/praetorian , null, null, delmob )
+				M.change_mob_type( /mob/living/carbon/alien/humanoid/big/praetorian , null, null, delmob )
 			if("sentinel")
 				M.change_mob_type( /mob/living/carbon/alien/humanoid/sentinel , null, null, delmob )
+			if("boiler")
+				M.change_mob_type( /mob/living/carbon/alien/humanoid/big/corroder , null, null, delmob )
+			if("crusher")
+				M.change_mob_type( /mob/living/carbon/alien/humanoid/big/crusher , null, null, delmob )
+			if("ravager")
+				M.change_mob_type( /mob/living/carbon/alien/humanoid/big/ravager , null, null, delmob )
 			if("larva")
 				M.change_mob_type( /mob/living/carbon/alien/larva , null, null, delmob )
 			if("human")
@@ -595,7 +601,7 @@
 				counter = 0
 		jobs += "</tr></table>"
 
-	//Security (Red)
+/*	//Security (Red)
 		counter = 0
 		jobs += "<table cellpadding='1' cellspacing='0' width='100%'>"
 		jobs += "<tr bgcolor='ffddf0'><th colspan='[length(security_positions)]'><a href='?src=\ref[src];jobban3=securitydept;jobban4=\ref[M]'>Security Positions</a></th></tr><tr align='center'>"
@@ -617,7 +623,7 @@
 				jobs += "</tr><tr align='center'>"
 				counter = 0
 		jobs += "</tr></table>"
-
+*/
 	//Engineering (Yellow)
 		counter = 0
 		jobs += "<table cellpadding='1' cellspacing='0' width='100%'>"
@@ -710,11 +716,11 @@
 				counter = 0
 		jobs += "</tr></table>"
 
-	//Civilian (Grey)
+	//Marine
 		counter = 0
 		jobs += "<table cellpadding='1' cellspacing='0' width='100%'>"
-		jobs += "<tr bgcolor='dddddd'><th colspan='[length(civilian_positions)]'><a href='?src=\ref[src];jobban3=civiliandept;jobban4=\ref[M]'>Civilian Positions</a></th></tr><tr align='center'>"
-		for(var/jobPos in civilian_positions)
+		jobs += "<tr bgcolor='dddddd'><th colspan='[length(marine_squad_positions)]'><a href='?src=\ref[src];jobban3=marinesquad;jobban4=\ref[M]'>Marine Squad Positions</a></th></tr><tr align='center'>"
+		for(var/jobPos in marine_squad_positions)
 			if(!jobPos)
 				continue
 			var/datum/job/job = SSjob.GetJob(jobPos)
@@ -894,14 +900,14 @@
 					if(!temp)
 						continue
 					joblist += temp.title
-			if("securitydept")
+/*			if("securitydept")
 				for(var/jobPos in security_positions)
 					if(!jobPos)
 						continue
 					var/datum/job/temp = SSjob.GetJob(jobPos)
 					if(!temp)
 						continue
-					joblist += temp.title
+					joblist += temp.title*/
 			if("engineeringdept")
 				for(var/jobPos in engineering_positions)
 					if(!jobPos)
@@ -934,8 +940,8 @@
 					if(!temp)
 						continue
 					joblist += temp.title
-			if("civiliandept")
-				for(var/jobPos in civilian_positions)
+			if("marinesquad")
+				for(var/jobPos in marine_squad_positions)
 					if(!jobPos)
 						continue
 					var/datum/job/temp = SSjob.GetJob(jobPos)

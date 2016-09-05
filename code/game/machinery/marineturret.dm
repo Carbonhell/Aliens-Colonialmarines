@@ -1,7 +1,8 @@
 /obj/machinery/porta_turret/syndicate/marine
 	name = "machine gun"
 	desc = "A smart machine gun capable of avoiding friendly fire and dealing huge amount of damage."
-	icon_state = "marine"
+	icon = 'icons/obj/machines/turret.dmi'
+	icon_state = "turret-0"
 	density = 1
 	anchored = 1
 	unacidable = 1
@@ -11,15 +12,15 @@
 	faction = "Marine"
 	installation = null
 	scan_range = 7//viewrange
+	health = 200
 	var/online = 0 //0=off, 1=on, -1 = empty battery.
 	var/dir_lock = 0
 	var/manual_override = 0
 	var/burst_fire = 0
 	var/ammo = 300
 	var/max_ammo = 300
-	var/health = 200
-	var/maxHealth = 200
 	var/obj/item/weapon/stock_parts/cell/cell
+	var/mob/living/silicon/pai/pai
 
 /obj/machinery/porta_turret/syndicate/marine/attack_hand(mob/user)
 	if(..())
@@ -33,7 +34,7 @@
 	var/dat = "<TT><B>Automatic Portable Turret Installation</B></TT><BR><BR>\
 				Turn [online ? "<b>ON</b>" : "<A href='?src=\ref[src];op=power'>ON</a>"]/[online ? "<A href='?src=\ref[src];op=power'>OFF</a>" : "<b>OFF</b>"]<br>\
 				Current rounds: [ammo]/[max_ammo]<br>\
-				Structural Integrity: [round(health * 100 / health_max)]% <BR>\
+				Structural Integrity: [round(health * 100 / initial(health))]% <BR>\
 				<A href='?src=\ref[src];op=direction'>Direction Cycle Lock:</a> [dir_lock ? "ON, " : "OFF"]"
 	if(dir_lock)
 		switch(dir)
@@ -65,11 +66,11 @@
 			if(online == -1)
 				return //no cell
 			online = !online
-			target = null//let's reset it to be sure
 			if(online)
 				SetLuminosity(7)
 			else
 				SetLuminosity(0)
+			update_icon()
 			usr << "<span class='notice'>You turn \the [src] [online ? "on" : "off"].</span>"
 			visible_message("<span class='notice'>[src] hums to life and emits several beeps.</span>")
 			visible_message("\icon[src] [src] buzzes in a monotone: 'Default systems initiated.'")
@@ -90,9 +91,6 @@
 			dir_lock = 1//must be on
 			usr << "<span class='notice'>You turn the manual override [manual_override ? "on" : "off"].</span>"
 	updateUsrDialog()
-
-/obj/machinery/porta_turret/syndicate/marine/power_change()
-	icon_state = online ? "marineturret_on" : "marineturret_off"
 
 /obj/machinery/porta_turret/syndicate/marine/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/wrench))
@@ -125,7 +123,7 @@
 		playsound(loc, 'sound/items/Welder.ogg', 40, 1)
 		if(do_after(user, 20/W.toolspeed, target = src))
 			user << "<span class='notice'>You fix some dents on \the [src]."
-			health = min(maxHealth, health+30)
+			health = min(initial(health), health+30)
 	else
 		..()
 
@@ -146,7 +144,11 @@
 	return 0 //the aliens get shot automatically,this is just for actual humans
 
 /obj/machinery/porta_turret/syndicate/marine/target(atom/movable/target)
-	..()//todo
+	if(!dir_lock)
+		..()
+	else
+		if(abs(get_dir(src, target) - dir) in cardinal)
+			..()
 
 /obj/machinery/porta_turret/syndicate/marine/process()
 	if(!online)
@@ -170,3 +172,11 @@
 
 	cell.charge -= power
 	return 1
+
+/obj/machinery/porta_turret/syndicate/marine/update_icon()
+	if(stat & BROKEN)
+		icon_state = "turret_fallen"
+	else if(pai)
+		icon_state = "turret_pai"
+	else
+		icon_state = "turret_[online]"

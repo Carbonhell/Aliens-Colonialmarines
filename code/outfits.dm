@@ -5,63 +5,55 @@
 
 /datum/outfit/survivor/colonist
 	name = "standard colonist"
-	uniform = /obj/item/clothing/under/colonist
-	shoes = /obj/item/clothing/shoes/black
-	back = /obj/item/weapon/storage/backpack/satchel_norm
+	uniform = /obj/item/clothing/under/color/grey
+	back = /obj/item/weapon/storage/backpack/satchel
 
 /datum/outfit/survivor/civilian
 	name = "civvie"
 	uniform = /obj/item/clothing/under/pj/red
-	shoes = /obj/item/clothing/shoes/black
 
 /datum/outfit/survivor/scientist
 	name = "scientist"
-	uniform = /obj/item/clothing/under/colonist
-	suit = /obj/item/clothing/suit/storage/labcoat
-	shoes = /obj/item/clothing/shoes/black
-	back = /obj/item/weapon/storage/backpack/satchel_tox
+	uniform = /obj/item/clothing/under/rank/scientist
+	suit = /obj/item/clothing/suit/toggle/labcoat/science
+	back = /obj/item/weapon/storage/backpack/satchel/tox
 
 /datum/outfit/survivor/doctor
 	name = "doctor"
-	uniform = /obj/item/clothing/under/colonist
-	suit = /obj/item/clothing/suit/storage/labcoat
-	shoes = /obj/item/clothing/shoes/black
+	uniform = /obj/item/clothing/under/rank/medical
+	suit = /obj/item/clothing/suit/toggle/labcoat
 	belt = /obj/item/weapon/storage/belt/medical
-	back = /obj/item/weapon/storage/backpack/satchel_med
+	back = /obj/item/weapon/storage/backpack/satchel/med
 
 /datum/outfit/survivor/chef
 	name = "chef"
-	uniform = /obj/item/clothing/under/colonist
-	suit = /obj/item/clothing/suit/chef
-	shoes = /obj/item/clothing/shoes/black
-	back = /obj/item/weapon/storage/backpack/satchel_norm
+	uniform = /obj/item/clothing/under/rank/chef
+	suit = /obj/item/clothing/suit/toggle/chef
+	back = /obj/item/weapon/storage/backpack/satchel
 	l_hand = /obj/item/weapon/kitchen/rollingpin
 
 /datum/outfit/survivor/botanist
 	name = "botanist"
-	uniform = /obj/item/clothing/under/colonist
+	uniform = /obj/item/clothing/under/rank/hydroponics
 	suit = /obj/item/clothing/suit/apron
-	shoes = /obj/item/clothing/shoes/black
 	belt = /obj/item/weapon/hatchet
 
 /datum/outfit/survivor/atmos
 	name = "atmos tech"
-	uniform = /obj/item/clothing/under/colonist
-	shoes = /obj/item/clothing/shoes/black
+	uniform = /obj/item/clothing/under/rank/atmospheric_technician
 	belt = /obj/item/weapon/storage/belt/utility/atmostech
 
 /datum/outfit/survivor/chaplain
 	name = "chaplain"
 	uniform = /obj/item/clothing/under/rank/chaplain
-	shoes = /obj/item/clothing/shoes/black
-	l_hand = /obj/item/weapon/storage/bible/booze
+	l_hand = /obj/item/weapon/storage/book/bible/booze
 
 /datum/outfit/survivor/miner
 	name = "miner"
 	uniform = /obj/item/clothing/under/rank/miner
-	shoes = /obj/item/clothing/shoes/black
 	l_hand = /obj/item/weapon/pickaxe
 
+/*
 /datum/outfit/survivor/liaison
 	name = "liaison"
 	uniform = /obj/item/clothing/under/liaison_suit
@@ -75,4 +67,4 @@
 	shoes = /obj/item/clothing/shoes/jackboots
 	l_hand = /obj/item/weapon/gun/revolver/cmb
 	suit_store = /obj/item/clothing/suit/storage/CMB
-
+*/

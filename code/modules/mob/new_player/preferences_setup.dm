@@ -23,8 +23,8 @@
 
 /datum/preferences/proc/update_preview_icon()
 	// Silicons only need a very basic preview since there is no customization for them.
-	if(job_engsec_high)
-		switch(job_engsec_high)
+	if(job_engi_high)
+		switch(job_engi_high)
 			if(AI)
 				preview_icon = icon('icons/mob/AI.dmi', "AI", SOUTH)
 				preview_icon.Scale(64, 64)
@@ -40,18 +40,20 @@
 
 	// Determine what job is marked as 'High' priority, and dress them up as such.
 	var/datum/job/previewJob
-	var/highRankFlag = job_civilian_high | job_medsci_high | job_engsec_high
+	var/highRankFlag = job_command_high | job_medsci_high | job_engi_high | job_marines_high
 
-	if(job_civilian_low & ASSISTANT)
-		previewJob = SSjob.GetJob("Assistant")
+	if(job_marines_low & SQUADMA)
+		previewJob = SSjob.GetJob("Squad Marine")
 	else if(highRankFlag)
 		var/highDeptFlag
-		if(job_civilian_high)
-			highDeptFlag = CIVILIAN
+		if(job_command_high)
+			highDeptFlag = COMMAND
 		else if(job_medsci_high)
 			highDeptFlag = MEDSCI
-		else if(job_engsec_high)
-			highDeptFlag = ENGSEC
+		else if(job_engi_high)
+			highDeptFlag = ENGI
+		else if(job_marines_high)
+			highDeptFlag = MARINES
 
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.flag == highRankFlag && job.department_flag == highDeptFlag)
@@ -66,7 +68,7 @@
 	preview_icon.Scale(48+32, 16+32)
 	CHECK_TICK
 	mannequin.setDir(NORTH)
-	
+
 	var/icon/stamp = getFlatIcon(mannequin)
 	CHECK_TICK
 	preview_icon.Blend(stamp, ICON_OVERLAY, 25, 17)

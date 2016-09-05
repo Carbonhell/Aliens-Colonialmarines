@@ -41,7 +41,7 @@
 /mob/living/simple_animal/bot/floorbot/New()
 	..()
 	update_icon()
-	var/datum/job/engineer/J = new/datum/job/engineer
+	var/datum/job/sulaco_engineer/J = new/datum/job/sulaco_engineer
 	access_card.access += J.get_access()
 	prev_access = access_card.access
 

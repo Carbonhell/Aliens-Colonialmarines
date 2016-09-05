@@ -2,6 +2,7 @@
 #define HEAT_DAMAGE_LEVEL_2 3 //Amount of damage applied when your body temperature passes the 400K point
 #define HEAT_DAMAGE_LEVEL_3 8 //Amount of damage applied when your body temperature passes the 460K point and you are on fire
 var/list/aliens = list()
+var/queen_died_recently = FALSE
 
 /mob/living/carbon/alien
 	name = "alien"
@@ -18,6 +19,7 @@ var/list/aliens = list()
 	verb_say = "hisses"
 	bubble_icon = "alien"
 	type_of_meat = /obj/item/weapon/reagent_containers/food/snacks/meat/slab/xeno
+	status_flags = CANPARALYSE|CANPUSH
 	var/nightvision = 1
 
 	var/list/evolves_to = list() //This is where you add castes to evolve into. "Seperated", "by", "commas"
@@ -32,16 +34,17 @@ var/list/aliens = list()
 	var/melee_protection = 1 // default, pratically does nothing. formula is amount/melee_protection, so the higher this is,the lower amt will be
 	var/tier = 0 //used in can_evolve()
 
-	var/jellyGrow = 0
-	var/jellyMax = 0
-	var/jelly = 0
+	var/timerGrow = 0
+	var/timerMax = 0
+
+	var/caste = ""
+	var/caste_desc = ""
 
 	gib_type = /obj/effect/decal/cleanable/xenoblood/xgibs
 	unique_name = 1
 
 	var/static/hive_orders = "" //What orders should the hive have
 	var/static/slashing_allowed = 2
-	var/static/queen_died_recently = FALSE
 
 /mob/living/carbon/alien/New()
 	verbs += /mob/living/proc/mob_sleep
@@ -64,7 +67,6 @@ var/list/aliens = list()
 	if(mob_size == MOB_SIZE_LARGE)
 		ventcrawler = 0
 		pressure_resistance = 200 //Because big, stompy xenos should not be blown around like paper.
-		pixel_x = -16
 	aliens += src
 	var/random_name = pick(alien_names)
 	name = "[random_name] [caste]"
@@ -80,7 +82,7 @@ var/list/aliens = list()
 /mob/living/carbon/alien/assess_threat() // beepsky won't hunt aliums
 	return -10
 
-/mob/living/carbon/alien/adjustBruteLoss()
+/mob/living/carbon/alien/adjustBruteLoss(amount)
 	var/actual_melee_prot = melee_protection
 	if("guard" in active_pheromones)
 		actual_melee_prot *= GUARDPOWERUP
@@ -283,8 +285,6 @@ Des: Removes all infected images from the alien.
 
 /mob/living/carbon/alien/Destroy()
 	aliens -= src
-	if(ticker && ticker.mode && mind)
-		ticker.mode.alienminds -= mind
 	..()
 
 /mob/living/carbon/alien/stripPanelUnequip(obj/item/what, mob/who)
@@ -299,35 +299,17 @@ Des: Removes all infected images from the alien.
 	switch(tier)
 		if(0)//larva wants to evolve
 			return 1//larvas can always evolve.
-		if(1)//hunter/drone/sentinels wanna evolve  INFO:drones have special requirements
+		if(1)//hunter/drone/sentinels wanna evolve.
 			var/high_caste_num = 0//number of tier 2 aliens already existing
 			for(var/i in aliens)
 				var/mob/living/carbon/alien/A = i
 				if(A.tier == 2)
 					high_caste_num++
-			if(aliens.len/TIERTWOLIMIT <= high_caste_num)
+			if(aliens.len/TIERTWOLIMIT >= high_caste_num)
 				return 1
 		if(2)//queen evolution
-			if(!(locate(/mob/living/carbon/alien/humanoid/queen) in aliens) && !queen_died_recently)//we got a queen or it died recently!
+			if(!(locate(/mob/living/carbon/alien/humanoid/big/queen) in aliens) && !queen_died_recently)//we got a queen or it died recently!
 				return 1
-
-
-//middle/shift click verbs to enable/disable midround, todo:make those preferences
-/mob/living/carbon/alien/verb/middle_mousetoggle()
-	set name = "Toggle Middle Clicking"
-	set desc = "Toggles middle mouse button for hugger throwing, neuro spit and other abilities."
-	set category = "Alien"
-
-	middle_mouse_toggle = !middle_mouse_toggle
-	src << "You turn middle mouse clicking macros [middle_mouse_toggle ? "ON" : "OFF"]."
-
-/mob/living/carbon/alien/verb/shift_mousetoggle()
-	set name = "Toggle Shift Clicking"
-	set desc = "Toggles shift + mouse button for hugger throwing, neuro spit and other abilities."
-	set category = "Alien"
-
-	shift_mouse_toggle = !shift_mouse_toggle
-	src << "You turn shift clicking macros [shift_mouse_toggle ? "ON" : "OFF"]."
 
 /proc/xeno_message(message = "", size = 3, sound)
 	if(!message)
@@ -338,7 +320,7 @@ Des: Removes all infected images from the alien.
 			if(M && !M.stat && M.client)
 				M << "<span class='danger'><font size=[size]> [message]</font></span>"
 				if(sound)
-					playsound(loc, sound, 50, 1, 1)
+					playsound(M.loc, sound, 50, 1, 1)
 
 /obj/effect/proc_holder/alien/hive_status
 	name = "Hive Status"
@@ -356,3 +338,12 @@ Des: Removes all infected images from the alien.
 				dat += "<tr><td>[M.name] [M.client ? "" : " <i>(logged out)</i>"][M.stat == DEAD ? " <b><font color=red>(DEAD)</font></b>" : ""]</td></tr>"
 		dat += "</table></body>"
 	usr << browse(dat, "window=roundstatus;size=400x300")
+
+proc/get_alien_type(alienpath)
+	for(var/mob/living/carbon/alien/humanoid/A in aliens)
+		if(!istype(A, alienpath))
+			continue
+		if(!A.key || A.stat == DEAD) //Only living aliens with a ckey are valid.
+			continue
+		return A
+	return FALSE

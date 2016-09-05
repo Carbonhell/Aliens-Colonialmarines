@@ -4,8 +4,8 @@
 	icon_state = "alienwarrior_s"
 	maxHealth = 150
 	health = 150
-	jellyMax = 500
-	move_delay_add = -2
+	timerMax = 500
+	move_delay_add = -1
 	tier = 1
 	melee_protection = 2//double the normal
 	evolves_to = list("crusher","ravager")

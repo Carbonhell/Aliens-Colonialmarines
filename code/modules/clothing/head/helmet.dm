@@ -13,7 +13,7 @@
 	strip_delay = 60
 	burn_state = FIRE_PROOF
 	flags_cover = HEADCOVERSEYES
-	antihug = 1
+	anti_hug = 1
 
 	dog_fashion = /datum/dog_fashion/head/helmet
 

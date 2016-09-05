@@ -133,6 +133,8 @@ var/const/BRIDGE			=(1<<2)
 var/const/MPOLICE			=(1<<3)
 var/const/LIAISON			=(1<<4)
 var/const/REQUI				=(1<<5)
+var/const/AI				=(1<<6)
+var/const/CYBORG			=(1<<7)
 
 var/const/ENGI				=(1<<1)
 
@@ -171,7 +173,7 @@ var/list/engineering_positions = list(
 	"Engineer"
 )
 
-var/list/cargo_positions = list(
+var/list/supply_positions = list(
 	"Requisitions Officer",
 	"Cargo Technician"
 )
@@ -181,7 +183,7 @@ var/list/medical_positions = list(
 	"Doctor"
 )
 
-var/list/research_positions = list(
+var/list/science_positions = list(
 	"Researcher"
 )
 
@@ -212,7 +214,7 @@ var/list/nonhuman_positions = list(
 
 
 /proc/guest_jobbans(job)
-	return ((job in command_positions) || (job in nonhuman_positions) || (job in security_positions))
+	return ((job in command_positions) || (job in nonhuman_positions))
 
 
 

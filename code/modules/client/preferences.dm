@@ -581,9 +581,10 @@ var/list/preferences_datums = list()
 		job_engi_med |= job_engi_high
 		job_medsci_med |= job_medsci_high
 		job_marines_med |= job_marines_high
-		job_civilian_high = 0
-		job_engsec_high = 0
+		job_command_high = 0
+		job_engi_high = 0
 		job_medsci_high = 0
+		job_marines_high = 0
 
 	if (job.department_flag == COMMAND)
 		job_command_low &= ~job.flag

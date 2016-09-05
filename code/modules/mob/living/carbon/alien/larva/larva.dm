@@ -6,6 +6,7 @@
 	mob_size = MOB_SIZE_TINY
 	density = 0
 	tier = 0
+	caste = "larva"
 
 	maxHealth = 35
 	health = 35

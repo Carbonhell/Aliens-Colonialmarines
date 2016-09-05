@@ -127,7 +127,7 @@
 	//this is here because this has no client/prefs/brain whatever.
 	age = rand(AGE_MIN,AGE_MAX)
 	//job handling
-	myjob = new/datum/job/assistant()
+	myjob = new/datum/job/marine()
 	job = myjob.title
 	myjob.equip(src)
 	myjob.apply_fingerprints(src)

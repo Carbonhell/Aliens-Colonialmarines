@@ -16,3 +16,7 @@
 	shown_name = "<FONT size = 3>[shown_name]</FONT>"
 	..(message, shown_name)
 
+/mob/living/carbon/hivecheck()
+	var/obj/item/organ/alien/hivenode/N = getorgan(/obj/item/organ/alien/hivenode)
+	if(N) //Mob has alien hive node.
+		return N

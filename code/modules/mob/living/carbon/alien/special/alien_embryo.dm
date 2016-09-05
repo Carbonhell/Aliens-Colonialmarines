@@ -45,7 +45,7 @@ var/const/ALIEN_AFK_BRACKET = 450 // 45 seconds
 		if(4)
 			if(prob(1))
 				if(!owner.paralysis)
-					O.visible_message("<span class='userdanger'>[owner] starts shaking uncontrollably!</span>")
+					owner.visible_message("<span class='userdanger'>[owner] starts shaking uncontrollably!</span>")
 					owner.Paralyse(10)
 					owner.Jitter(50)
 					owner.take_organ_damage(1)
@@ -57,7 +57,7 @@ var/const/ALIEN_AFK_BRACKET = 450 // 45 seconds
 				owner << "<span class='danger'>Your heart starts beating rapidly, and each beat is painful.</span>"
 		if(5)
 			if(!owner.paralysis)
-				O.visible_message("<span class='userdanger'>[owner] starts shaking uncontrollably!</span>")
+				owner.visible_message("<span class='userdanger'>[owner] starts shaking uncontrollably!</span>")
 				owner.Paralyse(20)
 				owner.Jitter(100)
 				owner.take_organ_damage(5)
@@ -106,7 +106,7 @@ var/const/ALIEN_AFK_BRACKET = 450 // 45 seconds
 			new_xeno.canmove = 1
 			new_xeno.notransform = 0
 			new_xeno.invisibility = 0
-		if(gib_on_success)
+		if(kill_on_success)
 			owner.death()
 		else
 			owner.adjustBruteLoss(40)

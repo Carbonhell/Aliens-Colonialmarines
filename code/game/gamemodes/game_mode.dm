@@ -401,10 +401,10 @@
 //////////////////////////////////////////////
 //Keeps track of all living security members//
 //////////////////////////////////////////////
-/*/datum/game_mode/proc/get_living_sec()
+/datum/game_mode/proc/get_living_sec()
 	. = list()
 	for(var/mob/living/carbon/human/player in mob_list)
-		if(player.stat != DEAD && player.mind && (player.mind.assigned_role in security_positions))
+		if(player.stat != DEAD && player.mind && (player.mind.assigned_role == "Military Police"))
 			. |= player.mind
 
 ////////////////////////////////////////
@@ -413,9 +413,9 @@
 /datum/game_mode/proc/get_all_sec()
 	. = list()
 	for(var/mob/living/carbon/human/player in mob_list)
-		if(player.mind && (player.mind.assigned_role in security_positions))
+		if(player.mind && (player.mind.assigned_role == "Military Police"))
 			. |= player.mind
-*/
+
 //////////////////////////
 //Reports player logouts//
 //////////////////////////

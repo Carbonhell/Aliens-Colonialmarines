@@ -2,15 +2,17 @@ var/global/list/queenckeys = list()
 
 /mob/living/carbon/alien/humanoid/big
 	icon = 'icons/mob/alienlarge.dmi'
-	jellyMax = 0
+	timerMax = 0
 	bubble_icon = "alienroyal"
 	mob_size = MOB_SIZE_LARGE
 	layer = LARGE_MOB_LAYER
 	tier = 2
+	pixel_x = -16
+	var/alt_inhands_file = 'icons/mob/alienlarge.dmi'
 
 /mob/living/carbon/alien/humanoid/big/queen
 	name = "alien queen"
-	icon_state = "alienqueen_s"
+	icon_state = "alienqueen"
 	caste = "queen"
 	maxHealth = 400
 	health = 400
@@ -24,7 +26,7 @@ var/global/list/queenckeys = list()
 		return
 	if(!queen_died_recently)//just to be sure
 		queen_died_recently = TRUE
-		addTimer(GLOBAL_PROC, reset_queendeath, 3000)
+		addtimer(GLOBAL_PROC, "reset_queendeath", 3000)
 		var/sounddead = "sound/voice/alien_queen_died.ogg"
 		xeno_message("You hear a loud painful screech as your queen falls to the floor, limp and lifeless...", sound = sounddead)
 		for(var/mob/living/carbon/alien/A in aliens)
@@ -59,7 +61,6 @@ var/global/list/queenckeys = list()
 	internal_organs += new /obj/effect/proc_holder/alien/screech
 //	AddAbility(new/obj/effect/proc_holder/alien/claw_toggle())   removed
 	AddAbility(new/obj/effect/proc_holder/alien/queen_order())
-	AddAbility(new/obj/effect/proc_holder/alien/makejelly())
 	..()
 
 //Queen verbs
@@ -77,7 +78,7 @@ var/global/list/queenckeys = list()
 	user.visible_message("<span class='alertalien'>[user] has laid an egg!</span>")
 	new /obj/structure/alien/egg(user.loc)
 	return 1
-
+/*
 /obj/effect/proc_holder/alien/claw_toggle
 	name = "Permit/Disallow Slashing"
 	desc = "Allows you to permit the hive to harm."
@@ -103,14 +104,14 @@ var/global/list/queenckeys = list()
 			queenorder = "You allow slashing."
 			xeno_message("The Queen has <b>permitted</b> the harming of hosts! Go hog wild!",3)
 	user << "<span class='notice'>[queenorder]</span>"
-
+*/
 /obj/effect/proc_holder/alien/queen_order
 	name = "Set Hive Orders"
 	desc = "Give some specific orders to the hive. They can see this on the status panel."
 	action_icon_state = "queen_order"
 
-/obj/effect/proc_holder/alien/queen_order/fire(mob/living/carbon/user)
-	hive_orders = stripped_input(user, "What would you like the orders to be?", "Hive Orders")
-	if(hive_orders)
+/obj/effect/proc_holder/alien/queen_order/fire(mob/living/carbon/alien/humanoid/big/queen/user)
+	user.hive_orders = stripped_input(user, "What would you like the orders to be?", "Hive Orders")
+	if(user.hive_orders)
 		var/random_sound = pick("sound/voice/alien_queen_command.ogg", "sound/voice/alien_queen_command2.ogg", "sound/voice/alien_queen_command3.ogg")
 		xeno_message("<span class='userdanger'>The Queen has given a new order. Check Status panel for details.</span>", sound = random_sound)

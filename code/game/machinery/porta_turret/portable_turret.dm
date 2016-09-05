@@ -380,7 +380,7 @@
 		take_damage(damage)
 
 /obj/machinery/porta_turret/attack_alien(mob/living/carbon/alien/A)
-	user.visible_message("<span class='warning'>[user] slashes [src]!</span>")
+	A.visible_message("<span class='warning'>[A] slashes [src]!</span>")
 	take_damage(20)
 
 /obj/machinery/porta_turret/take_damage(damage, damage_type = BRUTE, sound_effect = 1)

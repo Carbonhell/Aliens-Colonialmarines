@@ -51,6 +51,8 @@ var/list/existing_squads = list()
 	var/obj/item/weapon/card/id/C = user.wear_id
 	if(C)
 		C.access += special_access
+		C.assignment = user.job//adds the squad bit to the id
+		C.update_label()
 
 /proc/assign_to_weakest_squad(mob/user)
 	var/datum/squad/S

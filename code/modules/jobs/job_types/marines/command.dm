@@ -25,18 +25,18 @@
 	name = "Commander"
 
 	id = /obj/item/weapon/card/id/gold
-	belt = /obj/item/weapon/storage/belt/marine
+	belt = /obj/item/weapon/storage/belt/military/army
 	glasses = /obj/item/clothing/glasses/sunglasses
-	ears = /obj/item/device/radio/headset/mcom
-	gloves = /obj/item/clothing/gloves/marine/techofficer/commander
-	uniform =  /obj/item/clothing/under/marine/officer/command
-	shoes = /obj/item/clothing/shoes/marinechief/commander
-	head = /obj/item/clothing/head/cmberet/tan
+	ears = /obj/item/device/radio/headset/heads/captain/alt
+	gloves = /obj/item/clothing/gloves/color/captain
+	uniform =  /obj/item/clothing/under/rank/captain
+	shoes = /obj/item/clothing/shoes/laceup
+	head = /obj/item/clothing/head/caphat
 	backpack_contents = list(/obj/item/weapon/melee/classic_baton/telescopic=1)
 
-	backpack = /obj/item/weapon/storage/backpack/marinesatchel
-	satchel = /obj/item/weapon/storage/backpack/marinesatchel
-	dufflebag = /obj/item/weapon/storage/backpack/marinesatchel
+	backpack = /obj/item/weapon/storage/backpack/captain
+	satchel = /obj/item/weapon/storage/backpack/satchel/cap
+	dufflebag = /obj/item/weapon/storage/backpack/dufflebag/captain
 
 /datum/outfit/job/captain/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
@@ -82,17 +82,13 @@
 	name = "Executive Officer"
 
 	id = /obj/item/weapon/card/id/silver
-	belt = /obj/item/weapon/storage/belt/marine/full
-	glasses = /obj/item/clothing/glasses/sunglasses
-	ears = /obj/item/device/radio/headset/mcom
-	uniform =  /obj/item/clothing/under/marine/officer/exec
-	shoes = /obj/item/clothing/shoes/marinechief/commander
-	head = /obj/item/clothing/head/cmcap
-	backpack_contents = list(/obj/item/weapon/melee/classic_baton/telescopic=1)
-
-	backpack = /obj/item/weapon/storage/backpack/marinesatchel
-	satchel = /obj/item/weapon/storage/backpack/marinesatchel
-	dufflebag = /obj/item/weapon/storage/backpack/marinesatchel
+	belt = /obj/item/device/pda/heads/hop
+	ears = /obj/item/device/radio/headset/heads/hop
+	uniform = /obj/item/clothing/under/rank/head_of_personnel
+	shoes = /obj/item/clothing/shoes/sneakers/brown
+	head = /obj/item/clothing/head/hopcap
+	backpack_contents = list(/obj/item/weapon/storage/box/ids=1,\
+		/obj/item/weapon/melee/classic_baton/telescopic=1, /obj/item/modular_computer/tablet/preset/advanced = 1)
 
 /datum/outfit/job/xo/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
@@ -113,8 +109,8 @@
 	department_head = list("Commander")
 	department_flag = COMMAND
 	faction = "Marine"
-	total_positions = 4
-	spawn_positions = 4
+	total_positions = 1
+	spawn_positions = 1
 	supervisors = "the Commander"
 	selection_color = "#ddddff"
 	req_admin_notify = 1
@@ -125,22 +121,17 @@
 	access = list(access_change_ids, access_sulaco_bridge, access_sulaco_brig)
 	minimal_access = list(access_change_ids, access_sulaco_bridge, access_sulaco_brig)
 
-
 /datum/outfit/job/bo
 	name = "Bridge Officer"
 
 	id = /obj/item/weapon/card/id/silver
-	belt = /obj/item/weapon/storage/belt/marine/full
-	glasses = /obj/item/clothing/glasses/sunglasses
-	ears = /obj/item/device/radio/headset/mcom
-	uniform =  /obj/item/clothing/under/marine/officer/logistics
-	shoes = /obj/item/clothing/shoes/marinechief/commander
-	head = /obj/item/clothing/head/cmcap/ro
-	backpack_contents = list(/obj/item/weapon/melee/classic_baton/telescopic=1)
-
-	backpack = /obj/item/weapon/storage/backpack/marinesatchel
-	satchel = /obj/item/weapon/storage/backpack/marinesatchel
-	dufflebag = /obj/item/weapon/storage/backpack/marinesatchel
+	belt = /obj/item/device/pda/heads/hop
+	ears = /obj/item/device/radio/headset/heads/hop
+	uniform = /obj/item/clothing/under/bo
+	shoes = /obj/item/clothing/shoes/sneakers/brown
+	head = /obj/item/clothing/head/hopcap
+	backpack_contents = list(/obj/item/weapon/storage/box/ids=1,\
+		/obj/item/weapon/melee/classic_baton/telescopic=1, /obj/item/modular_computer/tablet/preset/advanced = 1)
 
 /datum/outfit/job/bo/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
@@ -177,16 +168,15 @@
 /datum/outfit/job/liaison
 	name = "Corporate Liaison"
 
-	id = /obj/item/weapon/card/id/silver
+	uniform = /obj/item/clothing/under/rank/centcom_officer
+	shoes = /obj/item/clothing/shoes/sneakers/black
+	gloves = /obj/item/clothing/gloves/color/black
+	ears = /obj/item/device/radio/headset/headset_cent
 	glasses = /obj/item/clothing/glasses/sunglasses
-	ears = /obj/item/device/radio/headset/mcom
-	uniform =  /obj/item/clothing/under/liaison_suit
-	shoes = /obj/item/clothing/shoes/laceup
-	backpack_contents = list(/obj/item/weapon/melee/classic_baton/telescopic=1)
-
-	backpack = /obj/item/weapon/storage/backpack/satchel
-	satchel = /obj/item/weapon/storage/backpack/satchel
-	dufflebag = /obj/item/weapon/storage/backpack/satchel
+	l_pocket = /obj/item/weapon/pen
+	back = /obj/item/weapon/storage/backpack/satchel
+	r_pocket = /obj/item/device/pda/heads
+	l_hand = /obj/item/weapon/clipboard
 
 /datum/outfit/job/liaison/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
@@ -198,3 +188,11 @@
 	L.imp_in = H
 	L.implanted = 1
 	H.sec_hud_set_implants()
+
+/obj/item/clothing/under/bo//PLACEHOLDER
+	name = "bridge officer's uniform"
+	desc = "A nice uniform, which appears to be kept pretty clean."
+	icon = 'icons/uniformmarine.dmi'
+	lefthand_file = 'icons/uniformmarine.dmi'
+	righthand_file = 'icons/uniformmarine.dmi'
+	icon_state = "BO_jumpsuit_s"

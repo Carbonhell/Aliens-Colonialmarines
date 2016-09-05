@@ -6,10 +6,11 @@
 	icon_state = "alienravager"
 	melee_protection = 2
 	caste_desc = "The core of the xenomorphic offense power. This guy can destroy defenses in a whim. Aswell as people."
+	move_delay_add = -1
 
 /mob/living/carbon/alien/humanoid/big/ravager/New()
 	internal_organs += new /obj/item/organ/alien/plasmavessel/small
-	internal_organs += new /obj/effect/proc_holder/alien/pounce/charge
+	internal_organs += new /obj/item/organ/alien/legmuscles/ravager
 	..()
 
 /mob/living/carbon/alien/humanoid/big/ravager/throw_impact(atom/A)

@@ -74,15 +74,14 @@
 	y = target.y
 	z = target.z
 
-	switch(ticks)
-		if(target_strength/5)
-			visible_message("<span class='warning'>[target] is holding up against the acid!</span>")
-		if(target_strength/4)
-			visible_message("<span class='warning'>[target] is being melted by the acid!</span>")
-		if(target_strength/3)
-			visible_message("<span class='warning'>[target] is struggling to withstand the acid!</span>")
-		if(target_strength/2)
-			visible_message("<span class='warning'>[target] begins to crumble under the acid!</span>")
+	if(ticks == target_strength/5)
+		visible_message("<span class='warning'>[target] is holding up against the acid!</span>")
+	else if(ticks == target_strength/4)
+		visible_message("<span class='warning'>[target] is being melted by the acid!</span>")
+	else if(ticks == target_strength/3)
+		visible_message("<span class='warning'>[target] is struggling to withstand the acid!</span>")
+	else if(ticks ==target_strength/2)
+		visible_message("<span class='warning'>[target] starts to fall apart!</span>")
 
 	spawn(1)
 		if(src)
@@ -90,12 +89,10 @@
 
 /obj/effect/acid/weak
 	name = "weak acid"
-	icon_state = "weakacid"
 	strength = 0.75
 
 /obj/effect/acid/strong
 	name = "strong acid"
-	icon_state = "strongacid"
 	strength = 1.25
 
 
@@ -109,6 +106,10 @@
 	anchored = 1
 	unacidable = 1
 	var/damage = 20
+
+/obj/effect/sprayed_acid/New()
+	..()
+	QDEL_IN(src, 100+rand(0,30))
 
 /obj/effect/sprayed_acid/Crossed(atom/A)
 	if(isliving(A))

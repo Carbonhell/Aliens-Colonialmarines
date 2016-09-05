@@ -11,6 +11,17 @@ In all, this is a lot like the monkey code. /N
 		M << "You cannot attack people before the game has started."
 		return
 
+	if(M == src)//clicked on self
+		if(pulling)
+			var/mob/living/carbon/pulled = pulling
+			if(!istype(pulled))
+				return
+			if(isalien(pulled))
+				src << "<span class='danger'>Nice try! That wouldn't taste very good.</span>"
+				return
+			devour_mob(pulled, 50)
+			return
+
 	switch(M.a_intent)
 
 		if ("help")
@@ -30,15 +41,6 @@ In all, this is a lot like the monkey code. /N
 				updatehealth()
 			else
 				M << "<span class='warning'>[name] is too injured for that.</span>"
-	if(M == src)//clicked on self
-		if(pulling)
-			var/mob/living/carbon/pulled = pulling
-			if(!istype(pulled))
-				return
-			if(isalien(pulled))
-				src << "<span class='danger'>Nice try! That wouldn't taste very good.</span>"
-				return
-			devour_mob(pulled, 50)
 	return
 
 

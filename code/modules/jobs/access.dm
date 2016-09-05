@@ -119,6 +119,7 @@
 /var/const/access_sulaco_chemistry = 229
 /var/const/access_sulaco_cargo = 230
 /var/const/access_sulaco_maint = 231
+/var/const/access_marine_leader = 232
 
 /obj/var/list/req_access = null
 /obj/var/req_access_txt = "0"
@@ -531,6 +532,11 @@
 				"Shaft Miner", "Clown", "Mime", "Janitor", "Librarian", "Lawyer", "Chaplain", "Chief Engineer", "Station Engineer",
 				"Atmospheric Technician", "Chief Medical Officer", "Medical Doctor", "Chemist", "Geneticist", "Virologist",
 				"Research Director", "Scientist", "Roboticist", "Head of Security", "Warden", "Detective", "Security Officer")
+
+/proc/get_all_marine_jobs()
+	return list("Commander", "Executive Officer", "Bridge Officer", "Corporate Liaison", "Requisitions Officer", "Chief Engineer",
+				"Engineer", "Squad Leader", "Squad Engineer", "Squad Medic", "Squad Specialist", "Squad Marine", "Chief Medical Officer",
+				"Medical Doctor", "Researcher", "Military Police")
 
 /proc/get_all_job_icons() //For all existing HUD icons
 	return get_all_jobs() + list("Prisoner")

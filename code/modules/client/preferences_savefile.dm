@@ -307,9 +307,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["job_engi_high"]		>> job_engi_high
 	S["job_engi_med"]		>> job_engi_med
 	S["job_engi_low"]		>> job_engi_low
-	S["job_marines_high"]	>> job_marine_high
-	S["job_marines_med"]	>> job_marine_med
-	S["job_marines_low"]	>> job_marine_low
+	S["job_marines_high"]	>> job_marines_high
+	S["job_marines_med"]	>> job_marines_med
+	S["job_marines_low"]	>> job_marines_low
 
 	//try to fix any outdated data if necessary
 	if(needs_update >= 0)

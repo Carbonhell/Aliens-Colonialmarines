@@ -102,7 +102,7 @@
 	alien_plasma_display = new /obj/screen/alien/plasma_display()
 	infodisplay += alien_plasma_display
 
-	if(!istype(mymob, /mob/living/carbon/alien/humanoid/royal/queen))
+	if(!istype(mymob, /mob/living/carbon/alien/humanoid/big/queen))
 		alien_queen_finder = new /obj/screen/alien/alien_queen_finder
 		infodisplay += alien_queen_finder
 

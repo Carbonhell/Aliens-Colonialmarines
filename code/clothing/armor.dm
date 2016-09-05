@@ -232,17 +232,3 @@ var/list/squad_colors = list(rgb(230,25,25), rgb(255,195,45), rgb(160,32,240), r
 		helmet.color = squad_colors[i]
 		helmetmarkings_sql += helmet
 
-/obj/item/clothing/suit/storage/marine
-	New() //Now 100% more robust.
-		..()
-		var/armor_variation = rand(1,6)
-		if(armor_variation == 2 || armor_variation == 3) body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
-		switch(type)
-			if(/obj/item/clothing/suit/storage/marine)
-				icon_state = "[armor_variation]"
-			if(/obj/item/clothing/suit/storage/marine/snow)
-				icon_state = "s_"+"[armor_variation]"
-			else body_parts_covered = initial(body_parts_covered)
-		ArmorVariation = icon_state
-
-		overlays += image('icons/Marine/marine_armor.dmi', "lamp-off")

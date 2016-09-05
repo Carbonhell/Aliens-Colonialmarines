@@ -27,7 +27,7 @@
 /datum/game_mode/colonialmarines/post_setup()
 	for(var/i in antag_candidates)
 		var/datum/mind/M = i//less lag than typechecking in the for loop!
-		make_Alien(M)//defaults to larva
+		M.make_Alien()//defaults to larva
 		M.current << "You are an alien! Reproduce and make a new home out of this place. Speak in the hivemind with :a (Like ':a Hello fellow sisters!')"
 	for(var/survy in survivor_candidates)
 		var/datum/mind/S = survy
@@ -79,10 +79,10 @@
 			world << "<FONT size = 3><B>Marines Major Victory!</B></FONT>"
 			world << "<B>The infestation has been cleared successfully. Marines, now you can return home!</B>"
 		if(3)//both teams are still alive,aka marines evacuated
-			winnertxt = "Aliens minor victory"
 			feedback_set_details("round_end_result","alien win - minor")
 			world << "<FONT size = 3><B>Aliens Minor Victory!</B></FONT>"
 			world << "<B>The marines have failed to clear the infestation, the hive can live for another day.</B>"
+	world << "[num_marines_survived] marines survived, [num_marines_escaped] managed to escape. [num_aliens_survived] aliens survived."
 
 /datum/game_mode/proc/auto_declare_completion_colonialmarines()
 	if(queenckeys.len)
@@ -99,7 +99,7 @@
 		for(var/pi in 1 to survivor_candidates.len)
 			var/datum/mind/S = survivor_candidates[pi]
 			thesurvies += "[S.key] was [survivor_candidates[S]]"
-			if(pi != survivor_candidates_len)
+			if(pi != survivor_candidates.len)
 				thesurvies += ", "
 			else
 				thesurvies += "."

@@ -2,7 +2,7 @@
 	name = "Minor Space Dust"
 	typepath = /datum/round_event/space_dust
 	weight = 200
-	max_occurrences = 1000
+	max_occurrences = 0
 	earliest_start = 0
 	alertadmins = 0
 

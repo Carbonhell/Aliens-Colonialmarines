@@ -28,6 +28,7 @@ var/const/MAX_ACTIVE_TIME = 200
 	var/strength = 5
 	var/walk_speed = 1
 	var/mob/living/carbon/target
+	var/nextwalk = 0
 
 	var/attached = 0
 
@@ -104,13 +105,6 @@ var/const/MAX_ACTIVE_TIME = 200
 		return
 
 /obj/item/clothing/mask/facehugger/attack_alien(mob/user) //can be picked up by aliens
-	if(istype(user, /mob/living/carbon/alien/humanoid/carrier))
-		var/mob/living/carbon/alien/humanoid/carrier/C = user
-		if(C.huggers_cur < C.huggers_max)
-			if(stat == CONSCIOUS)
-				C.huggers_cur++
-				user << "<span class='notice'>You scoop up the facehugger and carry it for safekeeping. Now sheltering: [C.huggers_cur] / [C.huggers_max].</span>"
-				qdel(src)
 	attack_hand(user)
 	return
 
@@ -168,14 +162,8 @@ var/const/MAX_ACTIVE_TIME = 200
 	return 0
 
 /obj/item/clothing/mask/facehugger/throw_at(atom/target, range, speed, mob/thrower, spin)
-	var/reset = FALSE
-	if(istype(thrower, /mob/living/carbon/alien/humanoid/carrier))
-		throw_range += 4
-		reset = TRUE
 	if(!..())
 		return
-	if(reset)
-		throw_range = initial(throw_range)
 	if(stat == CONSCIOUS)
 		icon_state = "[initial(icon_state)]_thrown"
 		spawn(15)
@@ -218,7 +206,7 @@ var/const/MAX_ACTIVE_TIME = 200
 				return 0
 			if(istype(D))
 				if(D.anti_hug)
-					H.visible_message("<span class='userdanger'>[src] smashes against [H]'s [D] and [D.antihug == 1 ? "rips it off!" : "bounces off!"]</span>")
+					H.visible_message("<span class='userdanger'>[src] smashes against [H]'s [D] and [D.anti_hug == 1 ? "rips it off!" : "bounces off!"]</span>")
 					D.anti_hug--
 					if(prob(50))
 						Die()
@@ -226,10 +214,6 @@ var/const/MAX_ACTIVE_TIME = 200
 						GoIdle()
 					if(!D.anti_hug)
 						H.unEquip(D)
-						if(istype(D,/obj/item/clothing/head/helmet/marine))
-							var/obj/item/clothing/head/helmet/marine/Marine = D
-							Marine.add_hugger_damage()
-							Marine.update_icons()
 					return 0
 			H.visible_message("<span class='danger'>[src] smashes against [H]'s [D]!</span>", \
 								"<span class='userdanger'>[src] smashes against [H]'s [D]!</span>")

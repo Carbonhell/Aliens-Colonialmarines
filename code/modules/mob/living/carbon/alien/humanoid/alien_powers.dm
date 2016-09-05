@@ -19,10 +19,7 @@ Doesn't work on other aliens/AI.*/
 	var/action_icon_state = "spell_default"
 	var/action_background_icon_state = "bg_alien"
 	var/list/turf_blacklist = list(
-									/turf/open/grounddirt,
-									/turf/closed/jungle,
-									/turf/open/space,
-									/turf/open/snow
+									/turf/open/space
 									)
 
 /obj/effect/proc_holder/alien/New()
@@ -75,10 +72,6 @@ Doesn't work on other aliens/AI.*/
 			user << "<span class='noticealien'>Not enough plasma stored.</span>"
 		return 0
 	if(check_turf && (!isturf(user.loc) || is_type_in_list(user.loc, turf_blacklist)))
-		if(istype(user.loc, /turf/open/snow))
-			var/turf/open/snow/S = user.loc
-			if(!S.slayer)
-				return 1//i'm a special snowflake
 		if(!silent)
 			user << "<span class='noticealien'>Bad place for a garden!</span>"
 
@@ -96,9 +89,6 @@ Doesn't work on other aliens/AI.*/
 	if(locate(/obj/structure/alien/weeds/node) in get_turf(user))
 		user << "There's already a weed node here."
 		return 0
-	if(!is_weedable(get_turf(user)))
-		user << "You cannot plant the weeds here!"
-		return
 	user.visible_message("<span class='alertalien'>\The [user] regurgitates a pulsating node and plants it on the ground!</span>")
 	new /obj/structure/alien/weeds/node(user.loc)
 	playsound(loc, 'sound/effects/splat.ogg', 30, 1)
@@ -111,6 +101,7 @@ Doesn't work on other aliens/AI.*/
 	charge_max = 30
 	action_icon_state = "leap_0"
 	active = FALSE
+	var/organcheck = /obj/item/organ/alien/muscles
 
 /obj/effect/proc_holder/alien/pounce/update_icon()
 	action.button_icon_state = "leap_[active]"
@@ -121,14 +112,16 @@ Doesn't work on other aliens/AI.*/
 	if(active)
 		message = "<span class='notice'>You relax your muscles.</span>"
 		remove_ranged_ability(user, message)
+		user.update_icons()
 	else
 		message = "<span class='notice'>You prepare your muscles to [lowertext(name)]. <B>Left-click to [lowertext(name)] at a target!</B></span>"
 		add_ranged_ability(user, message)
+		user.update_icons()
 
 /obj/effect/proc_holder/alien/pounce/InterceptClickOn(mob/living/carbon/user, params, atom/target)
 	if(..())
 		return
-	var/obj/item/organ/alien/muscles/M = user.getorgan(/obj/item/organ/alien/muscles)
+	var/obj/item/organ/alien/muscles/M = user.getorgan(organcheck)
 	if(!M)
 		return //shouldn't even happen but eh.
 
@@ -142,12 +135,15 @@ Doesn't work on other aliens/AI.*/
 	user.leaping = 0
 	user.weather_immunities -= "lava"
 	user.update_icons()
+	active = !active
+	update_icon()
 
 /obj/effect/proc_holder/alien/pounce/charge
 	name = "Charge"
 	desc = "Charge towards someone."
 	plasma_cost = 20
 	action_icon_state = "alien_charge_0"
+	organcheck = /obj/item/organ/alien/legmuscles/ravager
 
 /obj/effect/proc_holder/alien/pounce/charge/update_icon()
 	action.button_icon_state = "alien_charge_[active]"
@@ -278,12 +274,12 @@ Doesn't work on other aliens/AI.*/
 	desc = "Spits neurotoxin at someone, with an effect varying based on the acid concentration."
 	action_icon_state = "alien_neurotoxin_0"
 	active = FALSE
-	max_charge = 50
+	charge_max = 50
 	var/p_cost = 50
 
 /obj/effect/proc_holder/alien/neurotoxin/fire(mob/living/carbon/user)
 	var/message
-	var/obj/item/organ/alien/neurotoxin/bombard/B = user.getorgan(/obj/item/organ/alien/neurotoxin/bombard)
+	var/obj/item/organ/alien/neurotoxin/B = user.getorgan(/obj/item/organ/alien/neurotoxin)
 
 	if(active)
 		message = "<span class='notice'>You empty your [B].</span>"
@@ -318,7 +314,8 @@ Doesn't work on other aliens/AI.*/
 		return FALSE
 
 	user.visible_message("<span class='danger'>[user] spits [initial(N.name)]!", "<span class='alertalien'>You spit [initial(N.name)].</span>")
-	var/obj/item/projectile/bullet/neurotoxin/A = new N.ammo_list[chosenammo](user.loc)
+	var/path = N.ammo_list[N.chosenammo]
+	var/obj/item/projectile/bullet/neurotoxin/A = new path(user.loc)
 	A.current = U
 	A.preparePixelProjectile(target, get_turf(target), user, params)
 	A.fire()
@@ -334,14 +331,19 @@ Doesn't work on other aliens/AI.*/
 		user.ranged_ability = null
 
 /obj/effect/proc_holder/alien/neurotoxin/bombard
-	max_charge = 100
+	charge_max = 100
 	p_cost = 200
 
 /obj/effect/proc_holder/alien/neurotoxinchange
 	name = "Toggle Spit Type"
 	desc = "Toggles the acid concentration of the neurotoxin spit. The higher the concentration, the higher the plasma cost."
 	plasma_cost = 20
-	action_icon_state = "alien_spittype"
+	action_icon_state = "alien_spittype_0"
+	active = FALSE
+
+/obj/effect/proc_holder/alien/neurotoxinchange/update_icon()
+	action.button_icon_state = "alien_spittype_[active]"
+	action.UpdateButtonIcon()
 
 /obj/effect/proc_holder/alien/neurotoxinchange/fire(mob/living/carbon/user)
 	var/obj/item/organ/alien/neurotoxin/N = user.getorgan(/obj/item/organ/alien/neurotoxin)
@@ -350,8 +352,9 @@ Doesn't work on other aliens/AI.*/
 	N.chosenammo++
 	if(N.chosenammo > N.ammo_list.len)
 		N.chosenammo = 1
-	var/path = N.ammo_list[chosenammo]
+	var/obj/item/projectile/path = N.ammo_list[N.chosenammo]
 	user << "<span class='notice'>You doubled the concentration of your spit. It will now spit [initial(path.name)]."
+	update_icon()
 	return 1
 
 /obj/effect/proc_holder/alien/resin
@@ -363,8 +366,7 @@ Doesn't work on other aliens/AI.*/
 		"resin wall" = /obj/structure/alien/resin/wall,
 		"resin membrane" = /obj/structure/alien/resin/membrane,
 		"resin nest" = /obj/structure/bed/nest,
-		"resin door" = /obj/structure/alien/resin/door,
-		"sticky resin" = /obj/structure/alien/resin/sticky)
+		"resin door" = /obj/structure/alien/resin/door)
 
 	action_icon_state = "alien_resin"
 
@@ -470,7 +472,8 @@ Doesn't work on other aliens/AI.*/
 	desc = "Spray several acid globs within a small range."
 	action_icon_state = "alien_sprayacid_0"
 	active = FALSE
-	max_charge = 50
+	charge_max = 50
+	plasma_cost = 100
 	var/range = 7
 
 /obj/effect/proc_holder/alien/sprayacid/fire(mob/living/carbon/user)
@@ -499,6 +502,8 @@ Doesn't work on other aliens/AI.*/
 		if(!turfsleft)
 			break
 		if(T.density)
+			break
+		if(is_blocked_turf(T))
 			break
 		turfsleft--
 		PoolOrNew(/obj/effect/sprayed_acid, T)
@@ -575,7 +580,7 @@ Doesn't work on other aliens/AI.*/
 	name = "Screech"
 	desc = "Screech loudly to paralyse whoever's near you."
 	plasma_cost = 250
-	max_charge = 300//no spamming this,it's op
+	charge_max = 300//no spamming this,it's op
 	action_icon_state = "alien_screech"
 
 /obj/effect/proc_holder/alien/screech/fire(mob/living/carbon/user)
@@ -585,26 +590,13 @@ Doesn't work on other aliens/AI.*/
 	for(var/mob/M in view())
 		if(M == src || !M.client || isalien(M))
 			continue
-		var/stuntime = get_dist <= 4 ? 4 : 2
+		var/stuntime = get_dist(src, M) <= 4 ? 4 : 2
 		M.Stun(stuntime)
 		M.Weaken(1)
 		shake_camera(M, 30, 1)
-		adjustEarDamage(stuntime*2,stuntime*2)
+		M.adjustEarDamage(stuntime*2,stuntime*2)
 		playsound(user.loc, 'sound/voice/alien_queen_screech.ogg', 50, 1, 1)
 		M << "<span class='danger'>An ear-splitting guttural roar shakes the ground beneath your feet!</span>"
-
-/obj/effect/proc_holder/alien/makejelly
-	name = "Produce Jelly"
-	desc = "Secrete a gelatinous product able to enhance your daughters' evolution."
-	plasma_cost = 350
-	action_icon_state = "jelly"
-
-/obj/effect/proc_holder/alien/makejelly/fire(mob/living/carbon/user)
-	var/obj/item/organ/alien/jellygland/J = user.getorgan(/obj/item/organ/alien/jellygland)
-	if(!J)
-		return
-	user << "<span class='notice'>You secrete some jelly.</span>"
-	new /obj/structure/jelly(get_turf(user))
 
 /mob/living/carbon/proc/getPlasma()
 	var/obj/item/organ/alien/plasmavessel/vessel = getorgan(/obj/item/organ/alien/plasmavessel)
@@ -615,10 +607,11 @@ Doesn't work on other aliens/AI.*/
 /mob/living/carbon/proc/adjustPlasma(amount)
 	var/obj/item/organ/alien/plasmavessel/vessel = getorgan(/obj/item/organ/alien/plasmavessel)
 	if(!vessel) return 0
-	vessel.storedPlasma = max(vessel.storedPlasma + amount,0)
-	vessel.storedPlasma = min(vessel.storedPlasma, vessel.max_plasma) //upper limit of max_plasma, lower limit of 0
+	vessel.storedPlasma = Clamp(vessel.storedPlasma + amount, 0, vessel.max_plasma)
 	for(var/X in abilities)
 		var/obj/effect/proc_holder/alien/APH = X
+		if(!APH)
+			continue//this can be null because fuck you i guess
 		if(APH.has_action)
 			APH.action.UpdateButtonIcon()
 	return 1
@@ -656,24 +649,3 @@ Doesn't work on other aliens/AI.*/
 
 /obj/item/weapon/storage/internal/Adjacent(A)
 	return ClickAccessible(A)
-
-//jelly
-/obj/structure/jelly//to be honest this doesn't fit anything but eh.
-	name = "royal jelly"
-	desc = "A gelatinous compound of nutritive siliconic resources."
-	icon = 'icons/obj/surgery.dmi'
-	icon_state = "jelly"
-	anchored = 1
-	opacity = 0
-	density = 0
-	layer = 3.4 //On top of most things
-
-/obj/structure/jelly/attack_alien(mob/living/carbon/alien/humanoid/H)
-	if(!istype(H))
-		return
-	if(H.jelly)
-		H << "You're already filled with delicious jelly."
-		return
-	H.jelly = 1
-	visible_message("<span class='greentext'>[H] greedily devours the [src].</span>","<span class='greentext'>You greedily gulp down the [src].</span>")
-	qdel(src)

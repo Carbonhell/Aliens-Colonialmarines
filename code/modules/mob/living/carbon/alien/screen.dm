@@ -8,6 +8,8 @@
 
 /mob/living/carbon/alien/proc/findQueen()
 	if(hud_used)
+		if(!hud_used.alien_queen_finder)
+			return
 		hud_used.alien_queen_finder.cut_overlays()
 		var/mob/queen = get_alien_type(/mob/living/carbon/alien/humanoid/queen)
 		if(!queen)

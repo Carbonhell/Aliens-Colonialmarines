@@ -26,7 +26,7 @@
 
 	var/obj/item/weapon/storage/internal/pocket/pockets = null
 
-	var/antihug = 0 // set to whatever times you want this thing to protect from huggers,only mask&head are supported as for now
+	var/anti_hug = 0 // set to whatever times you want this thing to protect from huggers,only mask&head are supported as for now
 
 /obj/item/clothing/New()
 	..()

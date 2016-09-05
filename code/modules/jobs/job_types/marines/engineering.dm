@@ -22,8 +22,9 @@
 
 	id = /obj/item/weapon/card/id/silver
 	belt = /obj/item/weapon/storage/belt/utility/full
-	ears = /obj/item/device/radio/headset/mcom
-	uniform = /obj/item/clothing/under/marine/officer/ce
+	l_pocket = /obj/item/device/pda/heads/ce
+	ears = /obj/item/device/radio/headset/heads/ce
+	uniform = /obj/item/clothing/under/rank/chief_engineer
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	head = /obj/item/clothing/head/hardhat/white
 	gloves = /obj/item/clothing/gloves/color/black/ce
@@ -33,6 +34,7 @@
 	satchel = /obj/item/weapon/storage/backpack/satchel/eng
 	dufflebag = /obj/item/weapon/storage/backpack/dufflebag/engineering
 	box = /obj/item/weapon/storage/box/engineer
+	pda_slot = slot_l_store
 
 
 
@@ -43,8 +45,8 @@
 	department_head = list("Chief Engineer")
 	department_flag = ENGI
 	faction = "Marine"
-	total_positions = 4
-	spawn_positions = 4
+	total_positions = 1
+	spawn_positions = 1
 	supervisors = "the Chief Engineer"
 	selection_color = "#ffeeaa"
 	req_admin_notify = 1
@@ -59,7 +61,7 @@
 	name = "Engineer"
 
 	belt = /obj/item/weapon/storage/belt/utility/full
-	ears = /obj/item/device/radio/headset/mcom
+	ears = /obj/item/device/radio/headset/headset_eng
 	uniform = /obj/item/clothing/under/rank/engineer
 	shoes = /obj/item/clothing/shoes/workboots
 	head = /obj/item/clothing/head/hardhat

@@ -35,7 +35,7 @@ Cargo Technician
 	title = "Cargo Technician"
 	flag = SULCARG
 	department_head = list("Bridge Officer")
-	department_flag = CIVILIAN
+	department_flag = ENGI
 	faction = "Marine"
 	total_positions = 3
 	spawn_positions = 3

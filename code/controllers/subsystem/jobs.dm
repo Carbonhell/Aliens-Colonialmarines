@@ -17,7 +17,7 @@ var/datum/subsystem/job/SSjob
 /datum/subsystem/job/Initialize(timeofday)
 	for(var/i in subtypesof(/datum/squad))
 		var/datum/squad/squad = i
-		if(squad.start_squad)
+		if(initial(squad.start_squad))
 			new squad()
 	SetupOccupations()
 	if(config.load_jobs_from_txt)
@@ -114,7 +114,7 @@ var/datum/subsystem/job/SSjob
 		if(!job)
 			continue
 
-		if(istype(job, GetJob("Assistant"))) // We don't want to give him assistant, that's boring!
+		if(istype(job, GetJob("Squad Marine"))) // We don't want to give him assistant, that's boring!
 			continue
 
 		if(job.title in command_positions) //If you want a command position, select it!
@@ -251,12 +251,12 @@ var/datum/subsystem/job/SSjob
 
 	//People who wants to be assistants, sure, go on.
 	Debug("DO, Running Assistant Check 1")
-	var/datum/job/assist = new /datum/job/assistant()
+	var/datum/job/assist = new /datum/job/marine()
 	var/list/assistant_candidates = FindOccupationCandidates(assist, 3)
 	Debug("AC1, Candidates: [assistant_candidates.len]")
 	for(var/mob/new_player/player in assistant_candidates)
 		Debug("AC1 pass, Player: [player]")
-		AssignRole(player, "Assistant")
+		AssignRole(player, "Squad Marine")
 		assistant_candidates -= player
 	Debug("DO, AC1 end")
 
@@ -326,7 +326,7 @@ var/datum/subsystem/job/SSjob
 	for(var/mob/new_player/player in unassigned)
 		if(PopcapReached())
 			RejectPlayer(player)
-		else if(jobban_isbanned(player, "Assistant"))
+		else if(jobban_isbanned(player, "Squad Marine"))
 			GiveRandomJob(player) //you get to roll for random before everyone else just to be sure you don't get assistant. you're so speshul
 
 	for(var/mob/new_player/player in unassigned)
@@ -343,7 +343,7 @@ var/datum/subsystem/job/SSjob
 	for(var/mob/new_player/player in unassigned)
 		if(PopcapReached())
 			RejectPlayer(player)
-		if(player.client.prefs.joblessrole == BEASSISTANT)
+		if(player.client.prefs.joblessrole == BEMARINE)
 			Debug("AC2 Assistant located, Player: [player]")
 			AssignRole(player, "Assistant")
 		else // For those who don't want to play if their preference were filled, back you go.

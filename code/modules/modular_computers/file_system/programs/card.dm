@@ -361,13 +361,12 @@
 			data["id_name"] = id_card ? strip_html_simple(id_card.name) : "-----"
 
 			if(show_assignments)
+				data["command_jobs"] = format_jobs(command_positions)
 				data["engineering_jobs"] = format_jobs(engineering_positions)
+				data["cargo_jobs"] = format_jobs(supply_positions)
 				data["medical_jobs"] = format_jobs(medical_positions)
 				data["science_jobs"] = format_jobs(science_positions)
-				data["security_jobs"] = format_jobs(security_positions)
-				data["cargo_jobs"] = format_jobs(supply_positions)
-				data["civilian_jobs"] = format_jobs(civilian_positions)
-				data["centcom_jobs"] = format_jobs(get_all_centcom_jobs())
+				data["marines_jobs"] = format_jobs(marine_squad_positions)
 
 
 		if(computer.card_slot.stored_card)

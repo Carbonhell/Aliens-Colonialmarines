@@ -1,4 +1,4 @@
-/obj/structure/closet/secure_closet/marine //standard marine shite
+/*/obj/structure/closet/secure_closet/marine //standard marine shite
 	name = "marine locker"
 	req_access = list(access_marine_prep)
 	icon_state = "marinestandard"
@@ -34,3 +34,4 @@
 	desc = "You could probably get court-marshaled just by looking at this..."
 	icon_state = "largermetal"
 
+*/

@@ -35,7 +35,7 @@
 					"<span class='notice'>[user.name] pulls you free from the gelatinous resin.</span>",\
 					"<span class='italics'>You hear squelching...</span>")
 				recently_nested |= M
-				addTimer(src, "reset_nest_delay", 300, TRUE, M)
+				addtimer(src, "reset_nest_delay", 300, TRUE, M)
 			else
 				M.visible_message(\
 					"<span class='warning'>[M.name] struggles to break free from the gelatinous resin!</span>",\
@@ -74,9 +74,6 @@
 		return
 	if(M in recently_nested)
 		user << "<span class='danger'>[M.name] was recently recently unbuckled. Wait a bit.</span>"
-		return
-	if(isYautja(M))
-		user << "<span class='danger'>The resin won't stick to [M.name]'s flesh, for some reasons!</span>"
 		return
 	if(has_buckled_mobs())
 		unbuckle_all_mobs()
@@ -119,7 +116,7 @@
 		qdel(src)
 
 /obj/structure/bed/nest/attack_alien(mob/living/carbon/alien/humanoid/M)
-	if(M.intent == "harm")
+	if(M.a_intent == "harm")
 		M << "<span class='danger'>You start clawing the [name] down...</span>"
 		if(do_after(M, 50, src))
 			M << "<span class='danger'>You claw the [name] down.</span>"

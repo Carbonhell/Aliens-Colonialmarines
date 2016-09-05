@@ -44,7 +44,7 @@
 	w_class = 3
 	zone = "chest"
 	slot = "plasmavessel"
-	alien_powers = list(/obj/effect/proc_holder/alien/plant, /obj/effect/proc_holder/alien/transfer)
+	alien_powers = list(/obj/effect/proc_holder/alien/transfer)
 	var/affected_by_pheromone = FALSE
 
 	var/storedPlasma = 100
@@ -99,7 +99,10 @@
 /obj/item/organ/alien/plasmavessel/on_life()
 	if(!owner)
 		return
-	if("recovery" in owner.active_pheromones)
+	if(!isalien(owner))
+		return
+	var/mob/living/carbon/alien/A = owner
+	if("recovery" in A.active_pheromones)
 		affected_by_pheromone = TRUE
 	//If there are alien weeds on the ground then heal if needed or give some plasma
 	if(locate(/obj/structure/alien/weeds) in owner.loc)
@@ -128,8 +131,8 @@
 		var/mob/living/carbon/alien/A = M
 		A.updatePlasmaDisplay()
 //Caste plasmavessels
-//Boiler
-/obj/item/organ/alien/plasmavessel/large/boiler
+//corroder
+/obj/item/organ/alien/plasmavessel/large/corroder
 	name = "huge plasma vessel"
 	storedPlasma = 450
 	max_plasma = 800
@@ -160,7 +163,7 @@
 	zone = "mouth"
 	slot = "resinspinner"
 	origin_tech = "biotech=5;materials=4"
-	alien_powers = list(/obj/effect/proc_holder/alien/resin)
+	alien_powers = list(/obj/effect/proc_holder/alien/resin, /obj/effect/proc_holder/alien/plant)
 
 
 /obj/item/organ/alien/acid
@@ -184,12 +187,16 @@
 	origin_tech = "biotech=5;combat=5"
 	alien_powers = list(/obj/effect/proc_holder/alien/neurotoxin, /obj/effect/proc_holder/alien/neurotoxinchange)
 	var/chosenammo = 1
-	var/list/ammo_list = list(/obj/item/projectile/bullet/neurotoxin, /obj/item/projectile/bullet/neurotoxin/mediumacid)//list of possible ammo types
+	var/list/ammo_list = list(/obj/item/projectile/bullet/neurotoxin, /obj/item/projectile/bullet/neurotoxin/weakacid)//list of possible ammo types
+
+/obj/item/organ/alien/neurotoxin/spitter
+	name = "medium spitting gland"
+	ammo_list = list(/obj/item/projectile/bullet/neurotoxin, /obj/item/projectile/bullet/neurotoxin/mediumacid)
 
 /obj/item/organ/alien/neurotoxin/bombard
 	name = "enhanced spitting gland"
-	origin_tech = "biotech=7;combat=8"//if you get this somehow, you're getting it from a boiler, you're robust man
-	alien_powers = list(/obj/effect/proc_holder/alien/bombard, /obj/effect/proc_holder/alien/neurotoxinchange, /obj/effect/proc_holder/alien/zoom)
+	origin_tech = "biotech=7;combat=8"//if you get this somehow, you're getting it from a corroder, you're robust man
+	alien_powers = list(/obj/effect/proc_holder/alien/neurotoxin, /obj/effect/proc_holder/alien/neurotoxinchange, /obj/effect/proc_holder/alien/zoom)
 	ammo_list = list(/obj/item/projectile/bullet/weakbombard, /obj/item/projectile/bullet/weakbombard/notweak)
 
 /obj/item/organ/alien/acidspray
@@ -252,7 +259,7 @@
 			active = FALSE
 	return ..()
 
-/obj/item/organ/alien/pheromone/on_lose()
+/obj/item/organ/alien/pheromone/Remove(mob/living/carbon/M, special = 0)
 	..()
 	active = FALSE
 
@@ -260,7 +267,7 @@
 	name = "reinforced vocal chords"
 	icon_state = "vocal"
 	zone = "mouth"
-	slot "vocal chords"
+	slot = "vocal chords"
 	w_class = 3
 	origin_tech = "biotech=7;combat=7"
 	alien_powers = list(/obj/effect/proc_holder/alien/screech)
@@ -278,12 +285,3 @@
 /obj/item/organ/alien/storage/New()
 	..()
 	huggerinv = new(src)
-
-/obj/item/organ/alien/jellygland
-	name = "jelly gland"
-	icon_state = "jellygland"
-	zone = "groin"
-	slot = "jelly gland"
-	w_class = 4
-	origin_tech = "biotech=8;engineering=8"
-	alien_powers = list(/obj/effect/proc_holder/alien/makejelly)

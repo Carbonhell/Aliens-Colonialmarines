@@ -733,7 +733,7 @@
 	color = "#86B028"
 	metabolization_rate = 2.5*REAGENTS_METABOLISM
 
-/datum/reagent/toxin/acid/reaction_mob(mob/living/carbon/M, method=TOUCH, reac_volume)
+/datum/reagent/xenoneuroacid/reaction_mob(mob/living/carbon/M, method=TOUCH, reac_volume)
 	if(!isalien(M))
 		M.Weaken(4)
 	..()
@@ -746,9 +746,9 @@
 	metabolization_rate = 2.5*REAGENTS_METABOLISM
 	var/pwr = 15
 
-/datum/reagent/toxin/acid/reaction_mob(mob/living/carbon/M, method=TOUCH, reac_volume)
+/datum/reagent/xenoacid/reaction_mob(mob/living/carbon/M, method=TOUCH, reac_volume)
 	if(!isalien(M))
-		M.adjustBurnLoss(pwr)
+		M.adjustFireLoss(pwr)
 	..()
 
 /datum/reagent/xenoacid/medium

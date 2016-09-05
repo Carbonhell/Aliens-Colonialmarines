@@ -3,10 +3,10 @@
 	caste = "s"
 	maxHealth = 130
 	health = 130
-	jelly = 0
 	tier = 1
+	timerMax = 400
 	icon_state = "aliensentinel_s"
-	evolves_to = list("corroder", "praetorian")
+	evolves_to = list("corroder")
 
 
 /mob/living/carbon/alien/humanoid/sentinel/New()
