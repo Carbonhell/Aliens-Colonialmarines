@@ -1,6 +1,6 @@
 var/list/uplink_items = list() // Global list so we only initialize this once.
 
-/proc/get_uplink_items(var/datum/game_mode/gamemode = null)
+/proc/get_uplink_items(var/datum/game_mode/gamemode = null, mob/user)
 	if(!uplink_items.len)
 		for(var/item in subtypesof(/datum/uplink_item))
 			var/datum/uplink_item/I = new item()
@@ -26,7 +26,14 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 					continue
 			if(I.player_minimum && I.player_minimum > joined_player_list.len)
 				continue
-
+			if(I.jobs.len)
+				if(I.jobs && !(user.mind.assigned_role in I.jobs))
+					// world << "User doesn't fit the job requirement."
+					continue
+			if(I.jobs_exclude.len)
+				if(I.jobs_exclude && (user.mind.assigned_role in I.jobs_exclude))
+					// world << "User's job is excluded."
+					continue
 			if(!filtered_uplink_items[category])
 				filtered_uplink_items[category] = list()
 			filtered_uplink_items[category][item] = I
@@ -52,6 +59,8 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	var/list/include_modes = list() // Game modes to allow this item in.
 	var/list/exclude_modes = list() // Game modes to disallow this item from.
 	var/player_minimum //The minimum crew size needed for this item to be added to uplinks.
+	var/list/jobs = list() // For job-specific traitor items. Leave empty for all jobs to be allowed to buy it.
+	var/list/jobs_exclude = list() //Not sure why would you want to exclude uplink items from some jobs, but okay.
 
 /datum/uplink_item/proc/spawn_item(turf/loc, obj/item/device/uplink/U)
 	if(item)
@@ -86,6 +95,60 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 			H << "\The [A] materializes onto the floor."
 	return 1
 
+// JOB-SPECIFIC ITEMS
+
+/datum/uplink_item/job_specific //No job-specific support for surplus yet.
+	category = "Job-specific Contraband"
+	surplus = 0
+
+//MEDICAL
+/datum/uplink_item/job_specific/voodoo
+	name = "Voodoo Doll"
+	desc = "An artifact provided by the Wizard Federation, it allows you to attach any item to it and manipulate anyone who has ever touched said item, be it from moving them around, making them say stuff and stabbing them with objects. The Wizard Federation has notified us that the victim will be made alert of the user's general location if used too aggresively."
+	item = /obj/item/weapon/storage/box/syndie_kit/voodoo
+	cost = 10
+	jobs = list("Chemist", "Medical Doctor", "Chief Medical Officer", "Geneticist", "Virologist")
+
+//SERVICE DIVISION
+/datum/uplink_item/job_specific/chainsaw
+	name = "Chainsaw"
+	desc = "An extremely loud, dirty, noisy, bulky, powerful as hell chainsaw that will absolutely destroy anyone it comes in contact with. Obviously won't fit in your backpack. RIP AND RUN"
+	item = /obj/item/weapon/twohanded/required/chainsaw/doomslayer
+	cost = 14
+	jobs = list("Botanist", "Bartender", "Chef")
+
+//CIVILIAN DIVISION
+/datum/uplink_item/job_specific/spiritcam
+	name = "Spirit Camera"
+	desc = "This special camera allows you to take long-distance photographs of any living person provided you know their name."
+	item = /obj/item/device/camera/spiritcam
+	cost = 4
+	jobs = list("Librarian", "Assistant", "Clown", "Mime", "Lawyer", "Chaplain")
+
+//LIBRARIAN
+/datum/uplink_item/job_specific/soulstone
+	name = "Soulstone"
+	desc = "This stone will be able to capture your victim's soul and bind them to your will."
+	item = /obj/item/device/soulstone/anybody
+	cost = 5
+	jobs = list("Librarian")
+
+//CHAPLAIN
+/datum/uplink_item/job_specific/skelestone
+	name = "Skelestone"
+	desc = "Make a skeleton minion! Has one use."
+	item = /obj/item/device/necromantic_stone/oneuse
+	cost = 7
+	jobs = list("Chaplain")
+
+//BARTENDER
+/datum/uplink_item/job_specific/buckshot
+	name = "12g Buckshot Shell"
+	desc = "Buckshot shells fire 5 pellets that will spread in the direction you are shooting. They can be loaded into your double-barreled shotgun. Absolutely devastating point-blank."
+	item = /obj/item/ammo_casing/shotgun/buckshot
+	cost = 5
+	jobs = list("Bartender")
+
 // Nuclear Operative (Special Offers)
 /datum/uplink_item/nukeoffer
 	category = "Special Offers"
@@ -114,10 +177,10 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 
 /datum/uplink_item/nukeoffer/sniper
 	name = "Sniper bundle"
-	desc = "Elegant and refined: Contains a collapsed sniper rifle in an expensive carrying case, a hollowpoint \
-			haemorrhage magazine, a soporific knockout magazine, a free surplus supressor, and a worn out suit and tie."
+	desc = "Elegant and refined: Contains a collapsed sniper rifle in an expensive carrying case, a \
+			high-explosive magazine, a soporific knockout magazine, a penetrator magazine a free surplus supressor, and a worn out suit and tie."
 	item = /obj/item/weapon/storage/briefcase/sniperbundle
-	cost = 20 // normally 26
+	cost = 25 // normally 29
 
 /datum/uplink_item/nukeoffer/chemical
 	name = "Bioterror bundle"
@@ -149,6 +212,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	item = /obj/item/weapon/gun/projectile/revolver
 	cost = 13
 	surplus = 50
+	exclude_modes = list(/datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/dangerous/shotgun
 	name = "Bulldog Shotgun"
@@ -168,16 +232,19 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	surplus = 40
 	include_modes = list(/datum/game_mode/nuclear)
 
-/datum/uplink_item/dangerous/smg/unrestricted
-	item = /obj/item/weapon/gun/projectile/automatic/c20r/unrestricted
-	include_modes = list(/datum/game_mode/gang)
+/datum/uplink_item/dangerous/carbine
+	name = "C-90gl Carbine"
+	desc = "A fully-loaded three-round burst carbine that uses 30-round 5.56mm magazines with an underslung 40mm grenade launcher."
+	item = /obj/item/weapon/gun/projectile/automatic/c90
+	cost = 16
+	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/dangerous/machinegun
 	name = "L6 Squad Automatic Weapon"
 	desc = "A fully-loaded Aussec Armoury belt-fed machine gun. \
-			This deadly weapon has a massive 50-round magazine of devastating 5.56x45mm ammunition."
+			This deadly weapon has a massive 50-round magazine of devastating 7.62 ammunition."
 	item = /obj/item/weapon/gun/projectile/automatic/l6_saw
-	cost = 18
+	cost = 24
 	surplus = 0
 	include_modes = list(/datum/game_mode/nuclear)
 
@@ -193,7 +260,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	name = "Sniper Rifle"
 	desc = "Ranged fury, Syndicate style. guaranteed to cause shock and awe or your TC back!"
 	item = /obj/item/weapon/gun/projectile/automatic/sniper_rifle/syndicate
-	cost = 16
+	cost = 14
 	surplus = 25
 	include_modes = list(/datum/game_mode/nuclear)
 
@@ -215,7 +282,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	item = /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow
 	cost = 12
 	surplus = 50
-	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/gang)
+	exclude_modes = list(/datum/game_mode/traitor/king_disk, /datum/game_mode/gang)
 
 /datum/uplink_item/dangerous/flamethrower
 	name = "Flamethrower"
@@ -256,7 +323,13 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	desc = "The minibomb is a grenade with a five-second fuse. Upon detonation, it will create a small hull breach \
 			in addition to dealing high amounts of damage to nearby personnel."
 	item = /obj/item/weapon/grenade/syndieminibomb
-	cost = 6
+	cost = 5
+
+/datum/uplink_item/dangerous/cat_grenade
+	name = "Feral Cat Delivery Grenade"
+	desc = "The feral cat delivery grenade contains 8 dehydrated feral cats in a similar manner to dehydrated monkeys, which, upon detonation, will be rehydrated by a small reservoir of water contained within the grenade. These cats will then attack anything in sight."
+	item = /obj/item/weapon/grenade/spawnergrenade/feral_cats
+	cost = 5
 
 /datum/uplink_item/dangerous/foamsmg
 	name = "Toy Submachine Gun"
@@ -264,7 +337,6 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	item = /obj/item/weapon/gun/projectile/automatic/c20r/toy
 	cost = 5
 	surplus = 0
-	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/dangerous/foammachinegun
 	name = "Toy Machine Gun"
@@ -273,7 +345,6 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	item = /obj/item/weapon/gun/projectile/automatic/l6_saw/toy
 	cost = 10
 	surplus = 0
-	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/dangerous/viscerators
 	name = "Viscerator Delivery Grenade"
@@ -314,6 +385,13 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	surplus = 35
 	include_modes = list(/datum/game_mode/nuclear)
 
+/datum/uplink_item/dangerous/guardian
+	name = "Holoparasite Injector"
+	desc = "Though capable of near sorcerous feats via use of hardlight holograms and nanomachines, they require an organic host as a home base and source of fuel."
+	item = /obj/item/weapon/storage/box/syndie_kit/guardian
+	exclude_modes = list(/datum/game_mode/nuclear,/datum/game_mode/gang)
+	cost = 20
+
 // Ammunition
 /datum/uplink_item/ammo
 	category = "Ammunition"
@@ -338,7 +416,8 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	desc = "A speed loader that contains seven additional .357 Magnum rounds; usable with the Syndicate revolver. \
 			For when you really need a lot of things dead."
 	item = /obj/item/ammo_box/a357
-	cost = 4
+	cost = 2
+	exclude_modes = list(/datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/ammo/shotgun
 	cost = 2
@@ -398,68 +477,58 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	cost = 20
 	include_modes = list(/datum/game_mode/nuclear)
 
+/datum/uplink_item/ammo/carbine
+	name = "5.56 Carbine Magazine"
+	desc = "An additional 30-round 5.56 magazine sutable for use with the C-90gl carbine. \
+			These bullets deal heavy enough damage to send an unarmoured target into critical condition with a single burst."
+	item = /obj/item/ammo_box/magazine/m556
+	cost = 4
+	include_modes = list(/datum/game_mode/nuclear)
+	
+/datum/uplink_item/ammo/grenades
+	name = "40mm Grenade Box"
+	desc = "A box containing four 40mm grenades for use with the C-90gl carbine. \
+			These grenades are absolutely devastating but the C-90 can only hold one at a time making them less than ideal primary weapons."
+	item = /obj/item/ammo_box/a40mm
+	cost = 4
+	include_modes = list(/datum/game_mode/nuclear)	
+
 /datum/uplink_item/ammo/machinegun
-	cost = 6
-	surplus = 0
+	name = "7.62 Box Magazine"
+	desc = "A 50-round magazine of 7.62 ammunition for use with the L6 SAW. \
+			Even the most well-armoured targets will be unable to stand after taking a burst of 7.62 bullets."
+	cost = 5
+	item = /obj/item/ammo_box/magazine/m762
 	include_modes = list(/datum/game_mode/nuclear)
 
-/datum/uplink_item/ammo/machinegun/basic
-	name = "5.56x45mm Box Magazine"
-	desc = "A 50-round magazine of 5.56x45mm ammunition for use with the L6 SAW. \
-			By the time you need to use this, you'll already be on a pile of corpses."
-	item = /obj/item/ammo_box/magazine/mm556x45
-
-/datum/uplink_item/ammo/machinegun/bleeding
-	name = "5.56x45mm (Bleeding) Box Magazine"
-	desc = "A 50-round magazine of 5.56x45mm ammunition for use in the L6 SAW; equipped with special properties \
-			to induce internal bleeding on targets."
-	item = /obj/item/ammo_box/magazine/mm556x45/bleeding
-
-/datum/uplink_item/ammo/machinegun/hollow
-	name = "5.56x45mm (Hollow-Point) Box Magazine"
-	desc = "A 50-round magazine of 5.56x45mm ammunition for use in the L6 SAW; equipped with hollow-point tips to help \
-			with the unarmored masses of crew."
-	item = /obj/item/ammo_box/magazine/mm556x45/hollow
-
-/datum/uplink_item/ammo/machinegun/ap
-	name = "5.56x45mm (Armor Penetrating) Box Magazine"
-	desc = "A 50-round magazine of 5.56x45mm ammunition for use in the L6 SAW; equipped with special properties \
-			to puncture even the most durable armor."
-	item = /obj/item/ammo_box/magazine/mm556x45/ap
-
-/datum/uplink_item/ammo/machinegun/incen
-	name = "5.56x45mm (Incendiary) Box Magazine"
-	desc = "A 50-round magazine of 5.56x45mm ammunition for use in the L6 SAW; tipped with a special flammable \
-			mixture that'll ignite anyone struck by the bullet. Some men just want to watch the world burn."
-	item = /obj/item/ammo_box/magazine/mm556x45/incen
-
 /datum/uplink_item/ammo/sniper
-	cost = 4
+	cost = 5
 	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/ammo/sniper/basic
 	name = ".50 Magazine"
-	desc = "An additional standard 6-round magazine for use with .50 sniper rifles."
+	desc = "An additional standard 5-round magazine for use with .50 sniper rifles."
 	item = /obj/item/ammo_box/magazine/sniper_rounds
 
 /datum/uplink_item/ammo/sniper/soporific
 	name = ".50 Soporific Magazine"
-	desc = "A 3-round magazine of soporific ammo designed for use with .50 sniper rifles. Put your enemies to sleep today!"
+	desc = "A 5-round magazine of soporific ammo designed for use with .50 sniper rifles. Put your enemies to sleep today!"
 	item = /obj/item/ammo_box/magazine/sniper_rounds/soporific
-	cost = 6
+	cost = 3
 
-/datum/uplink_item/ammo/sniper/haemorrhage
-	name = ".50 Haemorrhage Magazine"
-	desc = "A 5-round magazine of haemorrhage ammo designed for use with .50 sniper rifles; causes heavy bleeding \
-			in the target."
-	item = /obj/item/ammo_box/magazine/sniper_rounds/haemorrhage
+/datum/uplink_item/ammo/sniper/he
+	name = ".50 High-Explosive Magazine"
+	desc = "A 5-round magazine of high-exposives ammo designed for use with .50 sniper rifles; causes heavy collateral \
+			damage around the target."
+	item = /obj/item/ammo_box/magazine/sniper_rounds/he
+	cost = 6
 
 /datum/uplink_item/ammo/sniper/penetrator
 	name = ".50 Penetrator Magazine"
 	desc = "A 5-round magazine of penetrator ammo designed for use with .50 sniper rifles. \
 			Can pierce walls and multiple enemies."
 	item = /obj/item/ammo_box/magazine/sniper_rounds/penetrator
-	cost = 5
+	cost = 6
 
 /datum/uplink_item/ammo/toydarts
 	name = "Box of Riot Darts"
@@ -585,7 +654,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 			The concussive effect from the explosion will knock the recipient out for a short period, and deafen \
 			them for longer. Beware, it has a chance to detonate your PDA."
 	item = /obj/item/weapon/cartridge/syndicate
-	cost = 6
+	cost = 4
 
 /datum/uplink_item/stealthy_weapons/suppressor
 	name = "Universal Suppressor"
@@ -670,6 +739,12 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	item = /obj/item/weapon/card/id/syndicate
 	cost = 2
 
+/datum/uplink_item/stealthy_tools/pickpocket_gloves
+	name = "Pickpocket Gloves"
+	desc = "These gloves allow you to quickly and stealthily remove items from people and puts them straight into your hands."
+	item = /obj/item/clothing/gloves/pickpocket
+	cost = 4
+
 /datum/uplink_item/stealthy_tools/chameleon_proj
 	name = "Chameleon Projector"
 	desc = "Projects an image across a user, disguising them as an object scanned with it, as long as they don't \
@@ -707,7 +782,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	desc = "Screwed up and have security on your tail? This handy syringe will give you a completely new identity \
 			and appearance."
 	item = /obj/item/weapon/reagent_containers/syringe/mulligan
-	cost = 4
+	cost = 2
 	surplus = 30
 	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/gang)
 
@@ -818,7 +893,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 			emitted as heat and light by objects. Hotter objects, such as warm bodies, cybernetic organisms \
 			and artificial intelligence cores emit more of this light than cooler objects like walls and airlocks."
 	item = /obj/item/clothing/glasses/thermal/syndi
-	cost = 4
+	cost = 6
 
 /datum/uplink_item/device_tools/binary
 	name = "Binary Translator Key"
@@ -849,7 +924,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	desc = "When used with an upload console, this module allows you to upload priority laws to an artificial intelligence. \
 			Be careful with wording, as artificial intelligences may look for loopholes to exploit."
 	item = /obj/item/weapon/aiModule/syndicate
-	cost = 14
+	cost = 10
 
 /datum/uplink_item/device_tools/magboots
 	name = "Blood-Red Magboots"
@@ -887,7 +962,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 			load on the grid, causing a stationwide blackout. The sink is large and cannot be stored in most \
 			traditional bags and boxes."
 	item = /obj/item/device/powersink
-	cost = 6
+	cost = 8
 
 /datum/uplink_item/device_tools/singularity_beacon
 	name = "Power Beacon"
@@ -907,7 +982,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 			transported to you that will teleport the actual bomb to it upon activation. Note that this bomb can \
 			be defused, and some crew may attempt to do so."
 	item = /obj/item/device/sbeacondrop/bomb
-	cost = 11
+	cost = 10
 
 /datum/uplink_item/device_tools/syndicate_detonator
 	name = "Syndicate Detonator"
@@ -994,6 +1069,14 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_storage
 	cost = 8
 
+/datum/uplink_item/implants/mindslave
+	name = "Mindslave Implant"
+	desc = "An implant injected into another body, forcing the victim to obey any command by the user for the rest of the shift."
+	item = /obj/item/weapon/storage/box/syndie_kit/imp_mindslave
+	cost = 10
+	exclude_modes = list(/datum/game_mode/nuclear)
+	surplus = 20
+
 /datum/uplink_item/implants/microbomb
 	name = "Microbomb Implant"
 	desc = "An implant injected into the body, and later activated either manually or automatically upon death. \
@@ -1001,7 +1084,6 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 			This will permanently destroy your body, however."
 	item = /obj/item/weapon/storage/box/syndie_kit/imp_microbomb
 	cost = 2
-	include_modes = list(/datum/game_mode/nuclear)
 
 /datum/uplink_item/implants/macrobomb
 	name = "Macrobomb Implant"
@@ -1099,7 +1181,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 			you will receive."
 	item = /obj/item/weapon/storage/box/syndicate
 	cost = 20
-	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/gang)
+	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/gang, /datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/badass/surplus
 	name = "Syndicate Surplus Crate"
@@ -1108,7 +1190,7 @@ var/list/uplink_items = list() // Global list so we only initialize this once.
 	item = /obj/structure/closet/crate
 	cost = 20
 	player_minimum = 25
-	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/gang)
+	exclude_modes = list(/datum/game_mode/nuclear, /datum/game_mode/gang, /datum/game_mode/traitor/king_disk)
 
 /datum/uplink_item/badass/surplus/spawn_item(turf/loc, obj/item/device/uplink/U)
 	var/list/uplink_items = get_uplink_items()

@@ -11,6 +11,7 @@
 	var/destination_z
 	var/destination_x
 	var/destination_y
+	plane = PLANE_SPACE_BACKGROUND
 
 	var/global/datum/gas_mixture/space/space_gas = new
 
@@ -18,6 +19,11 @@
 /turf/open/space/New()
 	update_icon()
 	air = space_gas
+	var/image/I = image('icons/turf/space_parallax1.dmi',"[icon_state]")
+	I.plane = PLANE_SPACE_DUST
+	I.alpha = 80
+	I.blend_mode = BLEND_ADD
+	overlays += I
 
 /turf/open/space/Destroy(force)
 	if(force)

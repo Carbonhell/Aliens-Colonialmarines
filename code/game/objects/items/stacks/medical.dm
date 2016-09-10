@@ -12,7 +12,7 @@
 	var/heal_brute = 0
 	var/heal_burn = 0
 	var/stop_bleeding = 0
-	var/self_delay = 50
+	var/self_delay = 0 //50
 
 /obj/item/stack/medical/attack(mob/living/M, mob/user)
 
@@ -106,7 +106,7 @@
 	icon_state = "brutepack"
 	heal_brute = 40
 	origin_tech = "biotech=2"
-	self_delay = 20
+	self_delay = 0 //20
 
 /obj/item/stack/medical/gauze
 	name = "medical gauze"
@@ -115,7 +115,7 @@
 	singular_name = "medical gauze"
 	icon_state = "gauze"
 	stop_bleeding = 1800
-	self_delay = 20
+	self_delay = 0 //20
 
 /obj/item/stack/medical/gauze/improvised
 	name = "improvised gauze"
@@ -136,4 +136,4 @@
 	icon_state = "ointment"
 	heal_burn = 40
 	origin_tech = "biotech=2"
-	self_delay = 20
+	self_delay = 0 //20

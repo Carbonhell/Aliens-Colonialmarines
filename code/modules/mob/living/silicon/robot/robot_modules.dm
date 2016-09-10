@@ -135,7 +135,7 @@
 	modules += new /obj/item/weapon/extinguisher(src)
 
 	modules += new /obj/item/weapon/pickaxe(src)
-	modules += new /obj/item/weapon/storage/bag/sheetsnatcher/borg(src)
+	modules += new /obj/item/device/t_scanner/adv_mining_scanner(src)
 
 	modules += new /obj/item/weapon/restraints/handcuffs/cable/zipties/cyborg(src)
 
@@ -280,6 +280,19 @@
 		emag.reagents.add_reagent("lube", 2 * coeff)
 
 
+/obj/item/weapon/robot_module/detective
+	name = "detective robot module"
+
+obj/item/weapon/robot_module/detective/New()
+	..()
+	modules += new /obj/item/weapon/restraints/handcuffs/cable/zipties/cyborg(src)
+	modules += new /obj/item/weapon/gun/energy/disabler/cyborg(src)
+	modules += new /obj/item/clothing/mask/gas/sechailer/cyborg(src)
+	modules += new /obj/item/device/detective_scanner(src)
+	emag = new /obj/item/weapon/gun/energy/revolver/cyborg(src)
+	fix_modules()
+
+
 /obj/item/weapon/robot_module/butler
 	name = "service robot module"
 
@@ -318,6 +331,7 @@
 	modules += new /obj/item/weapon/storage/bag/ore/cyborg(src)
 	modules += new /obj/item/weapon/pickaxe/drill/cyborg(src)
 	modules += new /obj/item/weapon/shovel(src)
+	modules += new /obj/item/weapon/crowbar/cyborg(src)
 	modules += new /obj/item/weapon/weldingtool/mini(src)
 	modules += new /obj/item/weapon/extinguisher/mini(src)
 	modules += new /obj/item/weapon/storage/bag/sheetsnatcher/borg(src)

@@ -13,9 +13,9 @@
 	strip_delay = 60
 	burn_state = FIRE_PROOF
 	flags_cover = HEADCOVERSEYES
-	anti_hug = 1
 
 	dog_fashion = /datum/dog_fashion/head/helmet
+	anti_hug = 1
 
 
 /obj/item/clothing/head/helmet/New()
@@ -291,8 +291,6 @@
 	var/mob/user = usr
 	if(user.incapacitated())
 		return
-	if(!isturf(user.loc))
-		user << "<span class='warning'>You cannot turn the light on while in this [user.loc]!</span>"
 	F.on = !F.on
 	user << "<span class='notice'>You toggle the helmetlight [F.on ? "on":"off"].</span>"
 

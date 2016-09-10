@@ -7,7 +7,7 @@
 
 	var/on = FALSE
 	state_open = FALSE
-	var/autoeject = FALSE
+	var/autoeject = TRUE
 	var/volume = 100
 
 	var/efficiency = 1
@@ -104,7 +104,7 @@
 	if(!on)
 		return
 	var/datum/gas_mixture/air1 = AIR1
-	if(!NODE1 || !AIR1 || air1.gases["o2"][MOLES] < 5) // Turn off if the machine won't work.
+	if(!NODE1 || !air1 || air1.gases["o2"][MOLES] < 5) // Turn off if the machine won't work.
 		on = FALSE
 		update_icon()
 		return
@@ -130,7 +130,7 @@
 	update_icon()
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/relaymove(mob/user)
-	container_resist(user)
+	open_machine()
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/open_machine()
 	if(!state_open && !panel_open)
@@ -145,11 +145,7 @@
 		return occupant
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/container_resist(mob/user)
-	user << "<span class='notice'>You struggle inside the cryotube, kicking the release with your foot... (This will take around 30 seconds.)</span>"
-	audible_message("<span class='notice'>You hear a thump from [src].</span>")
-	if(do_after(user, 300))
-		if(occupant == user) // Check they're still here.
-			open_machine()
+	open_machine()
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/examine(mob/user)
 	..()
@@ -212,7 +208,7 @@
 		occupantData["stat"] = occupant.stat
 		occupantData["health"] = occupant.health
 		occupantData["maxHealth"] = occupant.maxHealth
-		occupantData["minHealth"] = config.health_threshold_dead
+		occupantData["minHealth"] = HEALTH_THRESHOLD_DEAD
 		occupantData["bruteLoss"] = occupant.getBruteLoss()
 		occupantData["oxyLoss"] = occupant.getOxyLoss()
 		occupantData["toxLoss"] = occupant.getToxLoss()
@@ -244,7 +240,8 @@
 			. = TRUE
 		if("door")
 			if(state_open)
-				close_machine()
+				if(close_machine() == usr)
+					on = 1
 			else
 				open_machine()
 			. = TRUE

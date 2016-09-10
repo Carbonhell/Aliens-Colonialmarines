@@ -316,3 +316,7 @@
 	icon_state = "stuffed_legion"
 	bonus_reagents = list("vitamin" = 3, "capsaicin" = 1, "tricordrazine" = 5)
 	list_reagents = list("nutriment" = 5, "vitamin" = 5, "capsaicin" = 2, "tricordrazine" = 10,)
+
+/obj/item/weapon/reagent_containers/food/snacks/deepfryholder
+	name = "placeholder"
+	bitesize = 2

@@ -36,7 +36,7 @@
 	//stuff in the stomach
 	handle_stomach()
 
-	update_gravity(mob_has_gravity())
+	update_gravity(has_gravity())
 
 	if(machine)
 		machine.check_eye(src)
@@ -78,7 +78,7 @@
 //this updates all special effects: stunned, sleeping, weakened, druggy, stuttering, etc..
 /mob/living/proc/handle_status_effects()
 	if(paralysis)
-		AdjustParalysis(-1)
+		AdjustParalysis(-1, 1, 1)
 	if(stunned)
 		AdjustStunned(-1, 1, 1)
 	if(weakened)

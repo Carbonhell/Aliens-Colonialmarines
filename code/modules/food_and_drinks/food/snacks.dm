@@ -43,10 +43,35 @@
 /obj/item/weapon/reagent_containers/food/snacks/attack_self(mob/user)
 	return
 
+/obj/item/weapon/reagent_containers/food/snacks/process()
+	if(!istype(loc, /obj/item/weapon/storage/internal/pocket/butt))
+		world << "fucko"
+		STOP_PROCESSING(SSobj, src)
+		return
+	var/obj/item/weapon/storage/internal/pocket/butt/inv = loc
+	var/obj/item/organ/internal/butt/B = inv.loc
+	if(!B.owner)
+		world << "fuckox2"
+		STOP_PROCESSING(SSobj, src)
+		return
+	if(reagents.total_volume)
+		sleep(10)
+		reagents.trans_to(B.owner, 1)
+	else
+		STOP_PROCESSING(SSobj, src)
+		qdel(src)
 
 /obj/item/weapon/reagent_containers/food/snacks/attack(mob/M, mob/user, def_zone)
 	if(user.a_intent == "harm")
 		return ..()
+	if(user.zone_selected == "groin" && user.a_intent == "grab")
+		if(ishuman(M))
+			var/mob/living/carbon/human/H = M
+			var/datum/species/S = H.dna.species
+			if(S.spec_attacked_by(src, user, H = M) == 2)
+				START_PROCESSING(SSobj, src)
+			return
+
 	if(!eatverb)
 		eatverb = pick("bite","chew","nibble","gnaw","gobble","chomp")
 	if(!reagents.total_volume)						//Shouldn't be needed but it checks to see if it has anything left in it.
@@ -154,17 +179,18 @@
 			return 1
 
 //Called when you finish tablecrafting a snack.
-/obj/item/weapon/reagent_containers/food/snacks/CheckParts(list/parts_list, datum/crafting_recipe/R)
+/obj/item/weapon/reagent_containers/food/snacks/CheckParts(list/parts_list, datum/crafting_recipe/food/R)
 	..()
 	reagents.reagent_list.Cut()
 	for(var/obj/item/weapon/reagent_containers/RC in contents)
 		RC.reagents.trans_to(reagents, RC.reagents.maximum_volume)
-	contents_loop:
-		for(var/A in contents)
-			for(var/B in initial(R.parts))
-				if(istype(A, B))
-					continue contents_loop
-			qdel(A)
+	if(istype(R))
+		contents_loop:
+			for(var/A in contents)
+				for(var/B in R.real_parts)
+					if(istype(A, B))
+						continue contents_loop
+				qdel(A)
 	feedback_add_details("food_made","[type]")
 	if(bonus_reagents.len)
 		for(var/r_id in bonus_reagents)

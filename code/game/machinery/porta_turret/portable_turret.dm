@@ -334,7 +334,7 @@
 
 /obj/machinery/porta_turret/bullet_act(obj/item/projectile/P)
 	. = ..()
-	take_damage(P.damage/2, P.damage_type, 0)
+	take_damage(P.damage, P.damage_type, 0)
 	if(!disabled)
 		if(lasercolor == "b")
 			if(istype(P, /obj/item/projectile/beam/lasertag/redtag))
@@ -378,10 +378,6 @@
 		user.do_attack_animation(src)
 		var/damage = rand(user.melee_damage_lower, user.melee_damage_upper)
 		take_damage(damage)
-
-/obj/machinery/porta_turret/attack_alien(mob/living/carbon/alien/A)
-	A.visible_message("<span class='warning'>[A] slashes [src]!</span>")
-	take_damage(20)
 
 /obj/machinery/porta_turret/take_damage(damage, damage_type = BRUTE, sound_effect = 1)
 	switch(damage_type)
@@ -599,7 +595,7 @@
 	if(target)
 		spawn()
 			popUp()				//pop the turret up if it's not already up.
-		setDir(get_dir(base, target))//even if you can't shoot, follow the target
+		setDir(get_dir(base, target)	)//even if you can't shoot, follow the target
 		spawn()
 			shootAt(target)
 		return 1

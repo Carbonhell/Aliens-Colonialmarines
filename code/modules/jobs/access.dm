@@ -289,6 +289,9 @@
 		if("med")
 			return list(access_cent_general, access_cent_specops, access_cent_medical, access_cent_living)
 
+/proc/get_absolutely_all_accesses()
+	return (get_all_accesses() | get_all_centcom_access() | get_all_syndicate_access() | get_all_marine_accesses())
+
 /proc/get_all_syndicate_access()
 	return list(access_syndicate, access_syndicate)
 

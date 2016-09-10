@@ -732,14 +732,22 @@
 	name = "Laptop Frame"
 	id = "laptop"
 	build_type = AUTOLATHE
-	materials = list(MAT_METAL = 1200, MAT_GLASS = 200)
-	build_path = /obj/machinery/modular_computer/laptop/buildable
+	materials = list(MAT_METAL = 10000, MAT_GLASS = 1000)
+	build_path = /obj/item/device/modular_computer/laptop/buildable
 	category = list("initial","Misc")
 
 /datum/design/tablet
 	name = "Tablet Frame"
 	id = "tablet"
 	build_type = AUTOLATHE
-	materials = list(MAT_METAL = 500, MAT_GLASS = 1000)
-	build_path = /obj/item/modular_computer/tablet
+	materials = list(MAT_METAL = 2000, MAT_GLASS = 1000)
+	build_path = /obj/item/device/modular_computer/tablet
 	category = list("initial","Misc")
+
+/datum/design/replacement_teeth
+	name = "Replacement teeth"
+	id = "replacement_teeth"
+	build_type = AUTOLATHE
+	materials = list(MAT_METAL = 250)
+	build_path = /obj/item/stack/teeth/replacement
+	category = list("initial", "Medical")

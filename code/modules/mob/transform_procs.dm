@@ -377,7 +377,7 @@
 	var/mob/living/carbon/alien/humanoid/new_xeno
 	switch(alien_caste)
 		if("Hunter")
-			new_xeno = new /mob/living/carbon/alien/humanoid/warrior(loc)
+			new_xeno = new /mob/living/carbon/alien/humanoid/hunter(loc)
 		if("Sentinel")
 			new_xeno = new /mob/living/carbon/alien/humanoid/sentinel(loc)
 		if("Drone")

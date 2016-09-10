@@ -209,28 +209,23 @@ var/const/INJECT = 5 //injection
 				var/datum/reagents/R = target.reagents
 				var/trans_data = null
 				//if(R.total_volume + amount > R.maximum_volume) return 0
-
 				current_list_element = rand(1,reagent_list.len) //Eh, bandaid fix.
-
 				while(total_transfered != amount)
 					if(total_transfered >= amount) break //Better safe than sorry.
 					if(total_volume <= 0 || !reagent_list.len) break
 					if(R.total_volume >= R.maximum_volume) break
-
 					if(current_list_element > reagent_list.len) current_list_element = 1
 					var/datum/reagent/current_reagent = reagent_list[current_list_element]
 					if(preserve_data)
 						trans_data = current_reagent.data
 					R.add_reagent(current_reagent.id, (1 * multiplier), trans_data)
 					src.remove_reagent(current_reagent.id, 1)
-
 					current_list_element++
 					total_transfered++
 					src.update_total()
 					R.update_total()
 				R.handle_reactions()
 				handle_reactions()
-
 				return total_transfered
 */
 
@@ -344,6 +339,8 @@ var/const/INJECT = 5 //injection
 				var/matching_other = 0
 				var/list/multipliers = new/list()
 				var/required_temp = C.required_temp
+				var/is_cold_recipe = C.is_cold_recipe
+				var/meets_temp_requirement = 0
 
 				for(var/B in C.required_reagents)
 					if(!has_reagent(B, C.required_reagents[B]))
@@ -373,20 +370,18 @@ var/const/INJECT = 5 //injection
 					if(M.Uses > 0) // added a limit to slime cores -- Muskets requested this
 						matching_other = 1
 
-				if(required_temp == 0)
-					required_temp = chem_temp
+				if(required_temp == 0 || (is_cold_recipe && chem_temp <= required_temp) || (!is_cold_recipe && chem_temp >= required_temp))
+					meets_temp_requirement = 1
 
-
-				if(total_matching_reagents == total_required_reagents && total_matching_catalysts == total_required_catalysts && matching_container && matching_other && chem_temp >= required_temp)
+				if(total_matching_reagents == total_required_reagents && total_matching_catalysts == total_required_catalysts && matching_container && matching_other && meets_temp_requirement)
 					var/multiplier = min(multipliers)
 					for(var/B in C.required_reagents)
 						remove_reagent(B, (multiplier * C.required_reagents[B]), safety = 1)
 
-					var/created_volume = C.result_amount*multiplier
-					if(C.result)
-						feedback_add_details("chemical_reaction","[C.result]|[C.result_amount*multiplier]")
+					for(var/P in C.results)
+						feedback_add_details("chemical_reaction", "[P]|[C.results[P]*multiplier]")
 						multiplier = max(multiplier, 1) //this shouldnt happen ...
-						add_reagent(C.result, C.result_amount*multiplier, null, chem_temp)
+						add_reagent(P, C.results[P]*multiplier, null, chem_temp)
 
 					var/list/seen = viewers(4, get_turf(my_atom))
 
@@ -405,7 +400,7 @@ var/const/INJECT = 5 //injection
 								ME2.name = "used slime extract"
 								ME2.desc = "This extract has been used up."
 
-					C.on_reaction(src, created_volume)
+					C.on_reaction(src, multiplier)
 					reaction_occured = 1
 					break
 
@@ -542,10 +537,10 @@ var/const/INJECT = 5 //injection
 		add_reagent(r_id, amt, data)
 
 /datum/reagents/proc/remove_reagent(reagent, amount, safety)//Added a safety check for the trans_id_to
-	
+
 	if(isnull(amount))
 		amount = INFINITY
-		
+
 	if(!isnum(amount))
 		return 1
 

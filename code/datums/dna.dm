@@ -184,6 +184,14 @@
 
 /mob/living/carbon/human/set_species(datum/species/mrace, icon_update = 1)
 	..()
+	var/obj/item/bodypart/head/U = locate() in bodyparts
+	if(istype(U))
+		U.teeth_list.Cut() //Clear out their mouth of teeth if they had any
+		var/obj/item/stack/teeth/T = new dna.species.teeth_type
+		T.loc = U
+		U.max_teeth = T.max_amount //Set max teeth for the head based on teeth spawntype
+		T.amount = T.max_amount
+		U.teeth_list += T
 	if(icon_update)
 		update_body()
 		update_hair()
@@ -261,12 +269,12 @@ mob/living/carbon/human/updateappearance(icon_update=1, mutcolor_update=0, mutat
 /mob/proc/domutcheck()
 	return
 
-/mob/living/carbon/domutcheck()
+/mob/living/carbon/domutcheck(force_powers=0) //Set force_powers to 1 to bypass the power chance
 	if(!has_dna())
 		return
 
 	for(var/datum/mutation/human/A in good_mutations | bad_mutations | not_good_mutations)
-		if(ismob(A.check_block(src)))
+		if(ismob(A.check_block(src, force_powers)))
 			return //we got monkeyized/humanized, this mob will be deleted, no need to continue.
 
 	update_mutations_overlay()
@@ -309,12 +317,19 @@ mob/living/carbon/human/updateappearance(icon_update=1, mutcolor_update=0, mutat
 	var/datum/mutation/human/HM = pick(good_mutations)
 	. = HM.force_give(M)
 
+/proc/randmutvg(mob/living/carbon/M)
+	if(!M.has_dna())
+		return
+	var/datum/mutation/human/HM = pick((good_mutations) - mutations_list[HULK] - mutations_list[DWARFISM])
+	. = HM.force_give(M)
+
 /proc/randmuti(mob/living/carbon/M)
 	if(!M.has_dna())
 		return
 	var/num = rand(1, DNA_UNI_IDENTITY_BLOCKS)
 	var/newdna = setblock(M.dna.uni_identity, num, random_string(DNA_BLOCK_SIZE, hex_characters))
 	M.dna.uni_identity = newdna
+	M.updateappearance(mutations_overlay_update=1)
 	return
 
 /proc/clean_dna(mob/living/carbon/M)

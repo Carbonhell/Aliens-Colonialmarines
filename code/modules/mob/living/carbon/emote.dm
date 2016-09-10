@@ -4,6 +4,9 @@
 
 /mob/living/carbon/emote(act,m_type=1,message = null)
 	var/param = null
+	var/delay = 5
+	if(spam_flag == 1)
+		return
 
 	if (findtext(act, "-", 1, null))
 		var/t1 = findtext(act, "-", 1, null)
@@ -122,10 +125,44 @@
 
 		if ("scream","screams")
 			if (!muzzled)
-				..(act)
+				var/sound = pick('sound/misc/scream_m1.ogg', 'sound/misc/scream_m2.ogg')
+
+				if(src.dna)
+					var/DNA = src.dna.species.id
+
+					switch(DNA)
+						if("IPC")
+							sound = "sound/voice/screamsilicon.ogg"
+						if("tarajan")
+							sound = "sound/misc/cat.ogg"
+						if("lizard")
+							sound = "sound/misc/lizard.ogg"
+						if("avian")
+							sound = "sound/misc/caw.ogg"
+						if("skeleton")
+							sound = "sound/misc/skeleton.ogg"
+						if ("moth")
+							sound = "sound/misc/moth.ogg"
+						else
+							if(gender == FEMALE)
+								sound = pick('sound/misc/scream_f1.ogg', 'sound/misc/scream_f2.ogg')
+
+				if(isalien(src))
+					sound = pick('sound/voice/hiss6.ogg')
+
+				if(alternate_screams.len > 0)
+					sound = pick(alternate_screams)
+
+				playsound(src.loc, sound, 50, 1, 4, 1.2)
+				message = "<B>[src]</B> screams!"
+				src.adjustOxyLoss(5)
+				m_type = 2
 			else
 				message = "<B>[src]</B> makes a very loud noise."
 				m_type = 2
+
+			delay = 15
+
 
 		if ("shake","shakes")
 			message = "<B>[src]</B> shakes \his head."
@@ -183,6 +220,9 @@
 
 	if (message)
 		log_emote("[name]/[key] : [message]")
+		src.spam_flag = 1
+		spawn(delay)
+			src.spam_flag = 0
 
  //Hearing gasp and such every five seconds is not good emotes were not global for a reason.
  // Maybe some people are okay with that.

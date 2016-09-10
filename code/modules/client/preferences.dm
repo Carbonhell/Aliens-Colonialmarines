@@ -58,8 +58,7 @@ var/list/preferences_datums = list()
 	var/skin_tone = "caucasian1"		//Skin color
 	var/eye_color = "000"				//Eye color
 	var/datum/species/pref_species = new /datum/species/human()	//Mutant race
-	var/list/features = list("mcolor" = "FFF", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "ears" = "None", "wings" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None")
-
+	var/list/features = list("mcolor" = "FFF", "tail_lizard" = "Smooth", "tail_human" = "None", "snout" = "Round", "horns" = "None", "ears" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None", "wing" = "Plain")
 	var/list/custom_names = list("clown", "mime", "ai", "cyborg", "religion", "deity")
 		//Mob preview
 	var/icon/preview_icon = null
@@ -93,6 +92,10 @@ var/list/preferences_datums = list()
 	var/unlock_content = 0
 
 	var/list/ignoring = list()
+
+	var/space_parallax = 1
+	var/space_dust = 1
+	var/parallax_speed = 2
 
 /datum/preferences/New(client/C)
 	custom_names["ai"] = pick(ai_names)
@@ -155,7 +158,7 @@ var/list/preferences_datums = list()
 			dat += "<a href='?_src_=prefs;preference=job;task=menu'>Set Occupation Preferences</a><br></center>"
 			dat += "<h2>Identity</h2>"
 			dat += "<table width='100%'><tr><td width='75%' valign='top'>"
-			if(appearance_isbanned(user))
+			if(jobban_isbanned(user, "appearance"))
 				dat += "<b>You are banned from using custom names and appearances. You can continue to adjust your characters, but you will be randomised once you join the game.</b><br>"
 			dat += "<a href='?_src_=prefs;preference=name;task=random'>Random Name</A> "
 			dat += "<a href='?_src_=prefs;preference=name'>Always Random Name: [be_random_name ? "Yes" : "No"]</a><BR>"
@@ -294,6 +297,16 @@ var/list/preferences_datums = list()
 					dat += "<a href='?_src_=prefs;preference=spines;task=input'>[features["spines"]]</a><BR>"
 
 					dat += "</td>"
+
+				if("wing" in pref_species.mutant_bodyparts)
+					dat += "<td valign='top' width='7%'>"
+
+					dat += "<h3>Wing</h3>"
+
+					dat += "<a href='?_src_=prefs;preference=wing;task=input'>[features["wing"]]</a><BR>"
+
+					dat += "</td>"
+
 
 				if("body_markings" in pref_species.mutant_bodyparts)
 					dat += "<td valign='top' width='7%'>"
@@ -645,6 +658,7 @@ var/list/preferences_datums = list()
 
 	return 0
 
+
 /datum/preferences/proc/UpdateJobPreference(mob/user, role, desiredLvl)
 	if(!SSjob)
 		return
@@ -691,6 +705,7 @@ var/list/preferences_datums = list()
 	job_marines_high = 0
 	job_marines_med = 0
 	job_marines_low = 0
+
 
 /datum/preferences/proc/GetJobDepartment(datum/job/job, level)
 	if(!job || !level)
@@ -764,7 +779,7 @@ var/list/preferences_datums = list()
 			if("random")
 				switch(joblessrole)
 					if(RETURNTOLOBBY)
-						if(jobban_isbanned(user, "Squad Marines"))
+						if(jobban_isbanned(user, "Assistant"))
 							joblessrole = BERANDOMJOB
 						else
 							joblessrole = BEMARINE
@@ -1010,6 +1025,12 @@ var/list/preferences_datums = list()
 					new_spines = input(user, "Choose your character's spines:", "Character Preference") as null|anything in spines_list
 					if(new_spines)
 						features["spines"] = new_spines
+
+				if("wing")
+					var/new_wing
+					new_wing = input(user, "Choose your character's wings:", "Character Preference") as null|anything in wing_list
+					if(new_wing)
+						features["wing"] = new_wing
 
 				if("body_markings")
 					var/new_body_markings

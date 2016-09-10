@@ -65,6 +65,7 @@
 /datum/hud/ghost/show_hud()
 	var/mob/dead/observer/G = mymob
 	mymob.client.screen = list()
+	update_parallax_existence() //UPDATE THE EXISTANCE!
 	if(!G.client.prefs.ghost_hud)
 		return
 	mymob.client.screen += static_inventory

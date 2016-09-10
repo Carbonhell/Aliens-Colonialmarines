@@ -566,3 +566,43 @@
 	..()
 	for(var/i in 1 to 5)
 		new /obj/effect/mine/explosive(src)
+
+
+//Alien spawners
+/obj/effect/mob_spawn/xenomorph
+	mob_type = /mob/living/carbon/alien/larva
+	random = TRUE//what does this even do ayyy lmao
+	var/keep_organs = FALSE
+
+/obj/effect/mob_spawn/xenomorph/special(mob/living/carbon/alien/xeno)
+	if(!keep_organs && isalien(xeno))
+		for(var/obj/item/organ/O in xeno.internal_organs)
+			O.Remove()
+			qdel(O)
+
+/obj/effect/mob_spawn/xenomorph/crusher
+	mob_type = /mob/living/carbon/alien/humanoid/big/crusher
+
+/obj/effect/mob_spawn/xenomorph/drone
+	mob_type = /mob/living/carbon/alien/humanoid/drone
+
+/obj/effect/mob_spawn/xenomorph/praetorian
+	mob_type = /mob/living/carbon/alien/humanoid/big/praetorian
+
+/obj/effect/mob_spawn/xenomorph/ravager
+	mob_type = /mob/living/carbon/alien/humanoid/big/ravager
+
+/obj/effect/mob_spawn/xenomorph/sentinel
+	mob_type = /mob/living/carbon/alien/humanoid/sentinel
+
+/obj/effect/mob_spawn/xenomorph/warrior
+	mob_type = /mob/living/carbon/alien/humanoid/warrior
+
+/obj/effect/mob_spawn/xenomorph/queen
+	mob_type = /mob/living/carbon/alien/humanoid/big/queen
+
+/obj/effect/mob_spawn/xenomorph/queen/create(ckey, specialdeath = TRUE)
+	..()
+
+/obj/effect/mob_spawn/xenomorph/queen
+	mob_type = /mob/living/carbon/alien/humanoid/big/queen

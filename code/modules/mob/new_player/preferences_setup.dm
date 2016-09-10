@@ -40,20 +40,20 @@
 
 	// Determine what job is marked as 'High' priority, and dress them up as such.
 	var/datum/job/previewJob
-	var/highRankFlag = job_command_high | job_medsci_high | job_engi_high | job_marines_high
+	var/highRankFlag = job_command_high | job_marines_high | job_medsci_high | job_engi_high
 
 	if(job_marines_low & SQUADMA)
 		previewJob = SSjob.GetJob("Squad Marine")
 	else if(highRankFlag)
 		var/highDeptFlag
-		if(job_command_high)
-			highDeptFlag = COMMAND
+		if(job_marines_high)
+			highDeptFlag = MARINES
 		else if(job_medsci_high)
 			highDeptFlag = MEDSCI
 		else if(job_engi_high)
 			highDeptFlag = ENGI
-		else if(job_marines_high)
-			highDeptFlag = MARINES
+		else if(job_command_high)
+			highDeptFlag = COMMAND
 
 		for(var/datum/job/job in SSjob.occupations)
 			if(job.flag == highRankFlag && job.department_flag == highDeptFlag)

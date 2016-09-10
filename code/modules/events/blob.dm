@@ -2,6 +2,7 @@
 	name = "Blob"
 	typepath = /datum/round_event/ghost_role/blob
 	weight = 5
+	max_occurrences = 1
 
 	min_players = 20
 	earliest_start = 18000 //30 minutes
@@ -10,6 +11,7 @@
 
 /datum/round_event/ghost_role/blob
 	announceWhen	= 12
+	role_name = "blob_overmind"
 	var/new_rate = 2
 
 /datum/round_event/ghost_role/blob/New(my_processing = TRUE, set_point_rate)

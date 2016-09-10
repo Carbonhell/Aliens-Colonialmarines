@@ -77,7 +77,7 @@
 	chameleon_blacklist += target.type
 	var/list/temp_list = typesof(chameleon_type)
 	for(var/V in temp_list - (chameleon_blacklist))
-		if(istype(V, /obj/item))
+		if(ispath(V, /obj/item))
 			var/obj/item/I = V
 			if(initial(I.flags) & ABSTRACT)
 				continue
@@ -184,6 +184,23 @@
 	var/datum/action/item_action/chameleon/change/chameleon_action = new(src)
 	chameleon_action.chameleon_type = /obj/item/clothing/suit
 	chameleon_action.chameleon_name = "Suit"
+	chameleon_action.initialize_disguises()
+
+/obj/item/clothing/suit/labcoat/chameleon //For some reason the button up button was appearing where the action button should be for this, so until someone works that out this thing cant be buttoned up I guess
+	name = "labcoat"
+	icon_state = "labcoat"
+	item_state = "labcoat"
+	desc = "A reinforced labcoat that protects against much more than a minor chemical spill. Has a small dial inside it."
+	origin_tech = "syndicate=2"
+	armor = list(melee = 35, bullet = 15, laser = 15, energy = 0, bomb = 0, bio = 50, rad = 0) //real armor is still better
+	permeability_coefficient = 0.01 //Defends against viruses perfectly, when combined with white shoes, latex gloves, and a medical mask.
+	burn_state = FIRE_PROOF
+
+/obj/item/clothing/suit/labcoat/chameleon/New()
+	..()
+	var/datum/action/item_action/chameleon/change/chameleon_action = new(src)
+	chameleon_action.chameleon_type = /obj/item/clothing/suit/labcoat
+	chameleon_action.chameleon_name = "Labcoat"
 	chameleon_action.initialize_disguises()
 
 /obj/item/clothing/glasses/chameleon
@@ -324,7 +341,6 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/practice)
 	clumsy_check = 0
 	needs_permit = 0
-	pin = /obj/item/device/firing_pin
 	cell_type = /obj/item/weapon/stock_parts/cell/bluespace
 
 /obj/item/weapon/gun/energy/laser/chameleon/New()

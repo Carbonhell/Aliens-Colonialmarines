@@ -115,7 +115,7 @@ var/CURRENT_TICKLIMIT = TICK_LIMIT_RUNNING
 /datum/controller/master/proc/Setup()
 	check_for_cleanbot_bug()
 	world << "<span class='boldannounce'>Initializing subsystems...</span>"
-
+	create_global_parallax_icons()
 	// Sort subsystems by init_order, so they initialize in the correct order.
 	sortTim(subsystems, /proc/cmp_subsystem_init)
 

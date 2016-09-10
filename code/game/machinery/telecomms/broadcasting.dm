@@ -299,14 +299,6 @@
 				freq_text = "Supply"
 			if(AIPRIV_FREQ)
 				freq_text = "AI Private"
-			if(ALPHA_FREQ)
-				freq_text = "Alpha"
-			if(BRAVO_FREQ)
-				freq_text = "Bravo"
-			if(CHARLIE_FREQ)
-				freq_text = "Charlie"
-			if(DELTA_FREQ)
-				freq_text = "Delta"
 		//There's probably a way to use the list var of channels in code\game\communications.dm to make the dept channels non-hardcoded, but I wasn't in an experimentive mood. --NEO
 
 
@@ -347,14 +339,6 @@
 			part_a = "<span class='centcomradio'><span class='name'>"
 		else if (display_freq==AIPRIV_FREQ)
 			part_a = "<span class='aiprivradio'><span class='name'>"
-		else if (display_freq==ALPHA_FREQ)
-			part_a = "<span class='alpharadio'><span class='name'>"
-		else if (display_freq==BRAVO_FREQ)
-			part_a = "<span class='bravoradio'><span class='name'>"
-		else if (display_freq==CHARLIE_FREQ)
-			part_a = "<span class='charlieradio'><span class='name'>"
-		else if (display_freq==DELTA_FREQ)
-			part_a = "<span class='deltaradio'><span class='name'>"
 
 		// --- This following recording is intended for research and feedback in the use of department radio channels ---
 

@@ -297,16 +297,16 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 				var/mob/living/carbon/alien/new_xeno
 				switch(G_found.mind.special_role)//If they have a mind, we can determine which caste they were.
-					if("Warrior")
-						new_xeno = new /mob/living/carbon/alien/humanoid/warrior(T)
+					if("Hunter")
+						new_xeno = new /mob/living/carbon/alien/humanoid/hunter(T)
 					if("Sentinel")
 						new_xeno = new /mob/living/carbon/alien/humanoid/sentinel(T)
 					if("Drone")
 						new_xeno = new /mob/living/carbon/alien/humanoid/drone(T)
 					if("Praetorian")
-						new_xeno = new /mob/living/carbon/alien/humanoid/big/praetorian(T)
+						new_xeno = new /mob/living/carbon/alien/humanoid/royal/praetorian(T)
 					if("Queen")
-						new_xeno = new /mob/living/carbon/alien/humanoid/big/queen(T)
+						new_xeno = new /mob/living/carbon/alien/humanoid/royal/queen(T)
 					else//If we don't know what special role they have, for whatever reason, or they're a larva.
 						create_xeno(G_found.ckey)
 						return
@@ -1143,3 +1143,63 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 	H.regenerate_icons()
 
 #undef ON_PURRBATION
+
+/client/proc/spawn_human()
+	set category = "Fun"
+	set name = "Spawn Human"
+	set desc = "Spawns a normal Human"
+
+	if(!holder)
+		return
+
+	var/turf/T = get_turf(usr)
+	new /mob/living/carbon/human(T)
+	message_admins("[key_name_admin(usr)] spawned a human.")
+	log_admin("[key_name(usr)] spawned a human.")
+	feedback_add_details("admin_verb","SH")
+
+
+/*
+/client/proc/reset_atmos()
+	set name = "Clean Air"
+	set category = "Special Verbs"
+	set desc = "Cleans the air in a radius of harmful gasses like plasma and n2o "
+	var/size = input("How big?", "Input") in list(5, 10, 20, "Cancel")
+	if(size == "Cancel")
+		return 0
+	for(var/turf/simulated/T in range(size))
+		if(T.air)
+			var/datum/gas_mixture/A = T.air
+			T.overlays.Cut()
+			if(A)
+				A.trace_gases.Cut()
+				A.toxins = 0
+				A.oxygen = 21.8366
+				A.nitrogen = 82.1472
+				A.temperature = T20C
+	message_admins("[key_name(src)] cleaned air within [size] tiles.")
+	log_game("[key_name(src)] cleaned air within [size] tiles.")
+
+/client/proc/fill_breach()
+	set name = "Fill Hull Breach"
+	set category = "Special Verbs"
+	set desc = "Spawns plating over space breachs"
+	var/size = input("How big?", "Input") in list(5, 10, "Cancel")
+	if(size == "Cancel")
+		return 0
+	for(var/turf/space/T in range(size))
+		T.ChangeTurf(/turf/simulated/floor/plating)
+	spawn(1)
+	for(var/turf/simulated/T in range(size))
+		if(T.air)
+			var/datum/gas_mixture/A = T.air
+			T.overlays.Cut()
+			if(A)
+				A.trace_gases.Cut()
+				A.toxins = 0
+				A.oxygen = 21.8366
+				A.nitrogen = 82.1472
+				A.temperature = T20C
+	message_admins("[key_name(src)] filled the hullbreachs in [size] tiles.")
+	log_game("[key_name(src)] filled the hullbreachs in [size] tiles.")
+	*/

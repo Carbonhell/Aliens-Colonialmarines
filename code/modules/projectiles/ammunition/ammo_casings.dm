@@ -110,10 +110,10 @@
 	projectile_type = /obj/item/projectile/bullet/sniper/soporific
 	icon_state = ".50"
 
-/obj/item/ammo_casing/haemorrhage
-	desc = "A .50 bullet casing, specialised in causing massive bloodloss"
+/obj/item/ammo_casing/he
+	desc = "A .50 bullet casing that deals high ammounts of collateral damage in a 1-tile radius"
 	caliber = ".50"
-	projectile_type = /obj/item/projectile/bullet/sniper/haemorrhage
+	projectile_type = /obj/item/projectile/bullet/sniper/he
 	icon_state = ".50"
 
 /obj/item/ammo_casing/penetrator
@@ -126,31 +126,11 @@
 
 /// SAW ROUNDS
 
-/obj/item/ammo_casing/mm556x45
-	desc = "A 556x45mm bullet casing."
+/obj/item/ammo_casing/m762
+	desc = "A 7.62 bullet casing."
 	icon_state = "762-casing"
-	caliber = "mm55645"
+	caliber = "a762"
 	projectile_type = /obj/item/projectile/bullet/saw
-
-/obj/item/ammo_casing/mm556x45/bleeding
-	desc = "A 556x45mm bullet casing with specialized inner-casing, that when it makes contact with a target, release tiny shrapnel to induce internal bleeding."
-	icon_state = "762-casing"
-	projectile_type = /obj/item/projectile/bullet/saw/bleeding
-
-/obj/item/ammo_casing/mm556x45/hollow
-	desc = "A 556x45mm bullet casing designed to cause more damage to unarmored targets."
-	projectile_type = /obj/item/projectile/bullet/saw/hollow
-
-/obj/item/ammo_casing/mm556x45/ap
-	desc = "A 556x45mm bullet casing designed with a hardened-tipped core to help penetrate armored targets."
-	projectile_type = /obj/item/projectile/bullet/saw/ap
-
-/obj/item/ammo_casing/mm556x45/incen
-	desc = "A 556x45mm bullet casing designed with a chemical-filled capsule on the tip that when bursted, reacts with the atmosphere to produce a fireball, engulfing the target in flames. "
-	projectile_type = /obj/item/projectile/bullet/saw/incen
-
-
-
 
 //SHOTGUN ROUNDS
 

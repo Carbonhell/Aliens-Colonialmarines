@@ -16,7 +16,7 @@
 	var/damage = I.force
 	switch(I.damtype)
 		if(BRUTE)
-			damage *= 0.5
+			damage *= 0.25
 		if(BURN)
 			damage *= 2
 		else
@@ -50,7 +50,7 @@
 
 /obj/structure/alien/gelpod
 	name = "gelatinous mound"
-	desc = "A mound of jelly-like substance incasing something inside."
+	desc = "A mound of jelly-like substance encasing something inside."
 	icon = 'icons/obj/fluff.dmi'
 	icon_state = "gelmound"
 
@@ -74,12 +74,7 @@
 	smooth = SMOOTH_TRUE
 	var/resintype = null
 
-/obj/structure/alien/resin/attack_alien(mob/living/carbon/alien/humanoid/M)
-	if(M.a_intent == "harm")
-		M << "<span class='danger'>You start clawing the [name] down...</span>"
-		if(do_after(M, 50, src))
-			M << "<span class='danger'>You claw the [name] down.</span>"
-			qdel(src)
+
 
 /obj/structure/alien/resin/New(location)
 	..()
@@ -100,7 +95,7 @@
 	icon = 'icons/obj/smooth_structures/alien/resin_wall.dmi'
 	icon_state = "wall0"	//same as resin, but consistency ho!
 	resintype = "wall"
-	canSmoothWith = list(/obj/structure/alien/resin/wall, /obj/structure/alien/resin/membrane, /obj/structure/alien/resin/door)
+	canSmoothWith = list(/obj/structure/alien/resin/wall, /obj/structure/alien/resin/membrane)
 
 /obj/structure/alien/resin/wall/BlockSuperconductivity()
 	return 1
@@ -113,7 +108,7 @@
 	opacity = 0
 	health = 160
 	resintype = "membrane"
-	canSmoothWith = list(/obj/structure/alien/resin/wall, /obj/structure/alien/resin/membrane, /obj/structure/alien/resin/door)
+	canSmoothWith = list(/obj/structure/alien/resin/wall, /obj/structure/alien/resin/membrane)
 
 /obj/structure/alien/resin/door
 	name = "resin door"
@@ -139,29 +134,7 @@
 	density = !density
 	flick("flick_[density]", src)
 	icon_state = "door_[density]"
-/*
-/obj/structure/alien/resin/sticky
-	name = "sticky resin"
-	desc = "Some disgusting sticky slime. Gross!"
-	icon = 'icons/obj/alienshit.dmi'
-	icon_state = "stickyresin"
-	health = 150
-	opacity = 0
-	density = 0
-	smooth = SMOOTH_FALSE
 
-/obj/structure/alien/resin/sticky/New()
-	..()
-	var/turf/open/T = get_turf(src)
-	if(T && istype(T))
-		T.slowdown += 2
-
-/obj/structure/alien/resin/sticky/Destroy()
-	var/turf/open/T = get_turf(src)
-	if(T && istype(T))
-		T.slowdown -= 2
-	..()
-*/
 /obj/structure/alien/resin/ex_act(severity, target)
 	switch(severity)
 		if(1)
@@ -232,9 +205,6 @@
 	var/obj/structure/alien/weeds/node/linked_node = null
 	canSmoothWith = list(/obj/structure/alien/weeds, /turf/closed/wall)
 	smooth = SMOOTH_MORE
-	var/list/blacklist = list(/turf/open/space,
-							/turf/closed
-							)
 
 
 /obj/structure/alien/weeds/New(pos, node)
@@ -250,7 +220,7 @@
 			if(3)
 				icon = 'icons/obj/smooth_structures/alien/weeds3.dmi'
 	linked_node = node
-	if(is_type_in_list(loc, blacklist))
+	if(istype(loc, /turf/open/space))
 		qdel(src)
 		return
 	addtimer(src, "Life", rand(150, 200))
@@ -263,7 +233,7 @@
 	set background = BACKGROUND_ENABLED
 	var/turf/U = get_turf(src)
 
-	if(is_type_in_list(U, blacklist))
+	if(istype(U, /turf/open/space))
 		qdel(src)
 		return
 
@@ -272,7 +242,7 @@
 
 	for(var/turf/T in U.GetAtmosAdjacentTurfs())
 
-		if (locate(/obj/structure/alien/weeds) in T || is_type_in_list(T, blacklist))
+		if (locate(/obj/structure/alien/weeds) in T || istype(T, /turf/open/space))
 			continue
 
 		new /obj/structure/alien/weeds(T, linked_node)
@@ -291,13 +261,13 @@
 /obj/structure/alien/weeds/node
 	name = "glowing resin"
 	desc = "Blue bioluminescence shines from beneath the surface."
-	icon = 'icons/obj/smooth_structures/alien/weednode.dmi'
 	icon_state = "weednode"
 	luminosity = 1
 	var/node_range = NODERANGE
 
 
 /obj/structure/alien/weeds/node/New()
+	icon = 'icons/obj/smooth_structures/alien/weednode.dmi'
 	..(loc, src)
 
 #undef NODERANGE

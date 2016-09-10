@@ -1,0 +1,6 @@
+carbonhell role=admin
+danhibiki role=admin
+dindustuffin role=admin
+tortellinitony role=admin
+dudeinyourbackyard role=admin
+spacedong role=admin

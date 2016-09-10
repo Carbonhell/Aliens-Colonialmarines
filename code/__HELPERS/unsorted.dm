@@ -543,7 +543,8 @@ Turf and target are seperate in case you want to teleport some distance from a t
 				return 0
 			if(current.opacity)
 				return 0
-			for(var/atom/A in current)
+			for(var/thing in current)
+				var/atom/A = thing
 				if(A.opacity)
 					return 0
 			current = get_step_towards(current, target_turf)
@@ -815,6 +816,9 @@ var/global/list/common_tools = list(
 	if(W.is_sharp())
 		return 1
 	if(is_pointed(W))
+		return 1
+	if(W.assthrown)
+		W.embedded_ignore_throwspeed_threshold = initial(W.embedded_ignore_throwspeed_threshold)//let's reset this
 		return 1
 
 	var/list/embed_items = list(\

@@ -4,6 +4,7 @@
 	weight = 15
 	min_players = 2
 	earliest_start = 6000
+	max_occurrences = 6
 
 /datum/round_event/carp_migration
 	announceWhen	= 3

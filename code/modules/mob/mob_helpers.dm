@@ -81,6 +81,16 @@
 		p++
 	return sanitize(t)
 
+/proc/lisp(message, intensity=100) //Intensity = how hard will the dude be lisped
+	message = prob(intensity) ? replacetext(message, "f", "ph") : message
+	message = prob(intensity) ? replacetext(message, "t", "ph") : message
+	message = prob(intensity) ? replacetext(message, "s", "sh") : message
+	message = prob(intensity) ? replacetext(message, "th", "hh") : message
+	message = prob(intensity) ? replacetext(message, "ck", "gh") : message
+	message = prob(intensity) ? replacetext(message, "c", "gh") : message
+	message = prob(intensity) ? replacetext(message, "k", "gh") : message
+	return message
+
 /proc/slur(n)
 	var/phrase = html_decode(n)
 	var/leng = lentext(phrase)
@@ -453,7 +463,7 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 		poll_message = "[poll_message] Job:[M.mind.assigned_role]."
 	if(M.mind && M.mind.special_role)
 		poll_message = "[poll_message] Status:[M.mind.special_role]."
-	var/list/mob/dead/observer/candidates = pollCandidates(poll_message, "pAI", null, FALSE, 100)
+	var/list/mob/dead/observer/candidates = pollCandidatesForMob(poll_message, "pAI", null, FALSE, 100, M)
 	var/mob/dead/observer/theghost = null
 
 	if(candidates.len)
@@ -467,3 +477,4 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 		M << "There were no ghosts willing to take control."
 		message_admins("No ghosts were willing to take control of [key_name_admin(M)])")
 		return FALSE
+

@@ -718,54 +718,12 @@
 	description = "Fluorosulfuric acid is a an extremely corrosive chemical substance."
 	color = "#5050FF"
 	toxpwr = 2
-	acidpwr = 42
+	acidpwr = 42.0
 
 /datum/reagent/toxin/acid/fluacid/on_mob_life(mob/living/M)
 	M.adjustFireLoss(current_cycle/10, 0) // I rode a tank, held a general's rank
 	. = 1 // When the blitzkrieg raged and the bodies stank
 	..() // Pleased to meet you, hope you guess my name
-
-//alien acid
-/datum/reagent/xenoneuroacid
-	name = "Unknown acid"
-	id = "neuroacid"
-	description = "A weird kind of acid which appears to be in a really low concentration, enough to just make an healthy human fall on the floor due to pain."
-	color = "#86B028"
-	metabolization_rate = 2.5*REAGENTS_METABOLISM
-
-/datum/reagent/xenoneuroacid/reaction_mob(mob/living/carbon/M, method=TOUCH, reac_volume)
-	if(!isalien(M))
-		M.Weaken(4)
-	..()
-
-/datum/reagent/xenoacid
-	name = "Unknown acid"
-	id = "weakacid"
-	description = "A weird kind of acid which appears to be in a low concentration, enough to slightly corrode the human's skin."
-	color = "#86B028"
-	metabolization_rate = 2.5*REAGENTS_METABOLISM
-	var/pwr = 15
-
-/datum/reagent/xenoacid/reaction_mob(mob/living/carbon/M, method=TOUCH, reac_volume)
-	if(!isalien(M))
-		M.adjustFireLoss(pwr)
-	..()
-
-/datum/reagent/xenoacid/medium
-	name = "Unknown acid"
-	id = "mediumacid"
-	color = "#86B028"
-	description = "A weird kind of acid which appears to be in a medium concentration. It can easily melt metal."
-	pwr = 30
-
-/datum/reagent/xenoacid/glob
-	name = "Unknown acid"
-	id = "acidglob"
-	color = "#86B028"
-	description = "A weird kind of acid which appears to be in an high concentration. It can easily melt metal."
-	pwr = 45
-
-
 
 /datum/reagent/toxin/peaceborg/confuse
 	name = "Dizzying Solution"

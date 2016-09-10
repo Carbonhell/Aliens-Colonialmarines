@@ -15,8 +15,16 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/shock_revolver)
 	origin_tech = "combat=4;materials=4;powerstorage=4"
 	can_flashlight = 0
-	pin = null
 	shaded_charge = 1
+
+/obj/item/weapon/gun/energy/stunrevolver
+	name = "stun revolver"
+	desc = "A high-tech revolver that fires internal, reusable taser cartridges in a revolving cylinder. The cartridges can be recharged using conventional rechargers."
+	icon_state = "stunrevolver"
+	item_state = "gun"
+	ammo_type = list(/obj/item/ammo_casing/energy/electrode)
+	can_flashlight = 0
+	ammo_x_offset = 1
 
 /obj/item/weapon/gun/energy/gun/advtaser
 	name = "hybrid taser"

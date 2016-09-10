@@ -162,12 +162,13 @@
 	addtimer(src, "wait_complete", 30)
 
 	var/mob/living/carbon/human/H = new /mob/living/carbon/human(src)
+	H.hardset_dna(ui, se, H.real_name, null, mrace, features)
 
 	if(efficiency > 2)
-		for(var/A in bad_se_blocks)
-			setblock(H.dna.struc_enzymes, A, construct_block(0,2))
+		var/list/unclean_mutations = (not_good_mutations|bad_mutations)
+		H.dna.remove_mutation_group(unclean_mutations)
 	if(efficiency > 5 && prob(20))
-		randmutg(H)
+		randmutvg(H)
 	if(efficiency < 3 && prob(50))
 		var/mob/M = randmutb(H)
 		if(ismob(M))
@@ -182,8 +183,8 @@
 
 	icon_state = "pod_1"
 	//Get the clone body ready
-	H.adjustCloneLoss(CLONE_INITIAL_DAMAGE)     //Yeah, clones start with very low health, not with random, because why would they start with random health
-	H.adjustBrainLoss(CLONE_INITIAL_DAMAGE)
+	H.setCloneLoss(CLONE_INITIAL_DAMAGE)     //Yeah, clones start with very low health, not with random, because why would they start with random health
+	H.setBrainLoss(CLONE_INITIAL_DAMAGE)
 	H.Paralyse(4)
 
 	if(grab_ghost_when == CLONER_FRESH_CLONE)
@@ -197,7 +198,6 @@
 			beginning to regenerate in a cloning pod. You will \
 			become conscious when it is complete.</span>"
 
-	H.hardset_dna(ui, se, H.real_name, null, mrace, features)
 	if(H)
 		H.faction |= factions
 
@@ -231,10 +231,10 @@
 			occupant.Paralyse(4)
 
 			 //Slowly get that clone healed and finished.
-			occupant.adjustCloneLoss(-((speed_coeff/2)))
+			occupant.adjustCloneLoss(-((speed_coeff/2) * config.damage_multiplier))
 
 			//Premature clones may have brain damage.
-			occupant.adjustBrainLoss(-((speed_coeff/2)))
+			occupant.adjustBrainLoss(-((speed_coeff/2) * config.damage_multiplier))
 
 			//So clones don't die of oxyloss in a running pod.
 			if (occupant.reagents.get_reagent_amount("salbutamol") < 30)
@@ -345,7 +345,7 @@
 	occupant.forceMove(T)
 	icon_state = "pod_0"
 	eject_wait = FALSE //If it's still set somehow.
-	occupant.domutcheck() //Waiting until they're out before possible monkeyizing.
+	occupant.domutcheck(1) //Waiting until they're out before possible monkeyizing. The 1 argument forces powers to manifest.
 	occupant = null
 
 /obj/machinery/clonepod/proc/malfunction()

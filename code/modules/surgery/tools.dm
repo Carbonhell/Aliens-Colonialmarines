@@ -88,6 +88,12 @@
 	attack_verb = list("attacked", "slashed", "sawed", "cut")
 	sharpness = IS_SHARP
 
+/obj/item/weapon/circular_saw/weakened
+	name = "bone saw"
+	desc = "Somehow this can cut a bone and yet it can hardly harm you."
+	icon_state = "bonesaw"
+	force = 5
+
 /obj/item/weapon/surgical_drapes
 	name = "surgical drapes"
 	desc = "Nanotrasen brand surgical drapes provide optimal safety and infection control."

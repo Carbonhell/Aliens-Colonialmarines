@@ -146,6 +146,9 @@
 	if((I.flags & NODROP) && !force)
 		return 0
 
+	if(istype(I, /obj/item/organ) && force)//don't want a guy's brain to fall on the floor due to unequipping
+		return 0
+
 	if(I == r_hand)
 		r_hand = null
 		update_inv_r_hand()
@@ -260,14 +263,35 @@
 	M << "<span class='warning'>You are unable to equip that!</span>"
 	return 0
 
-
 /mob/verb/quick_equip()
 	set name = "quick-equip"
 	set hidden = 1
+	fast_equip()
 
+/mob/proc/fast_equip(force = 0)//force will forcefully put it in one of your slots
 	var/obj/item/I = get_active_hand()
-	if (I)
+	if(!I)
+		return 0
+
+	if(!force)
 		I.equip_to_best_slot(src)
+		return 1
+
+	var/list/search = list(slot_w_uniform, slot_belt, slot_wear_id, slot_wear_suit, slot_wear_mask, slot_head, slot_shoes, slot_gloves, slot_ears, slot_glasses, slot_back)
+	for(var/slot in search)
+		var/slotbit = slotdefine2slotbit(slot)
+		if(!(I.slot_flags & slotbit))
+			continue
+		var/obj/item/check = get_item_by_slot(slot)
+		if(check)
+			unEquip(check)
+			equip_to_slot(I, slot, 1)
+			if(!put_in_active_hand(check))
+				check.forceMove(get_turf(src))
+			update_inv_l_hand()
+			update_inv_r_hand()
+			return 1
+	return 0
 
 //used in code for items usable by both carbon and drones, this gives the proper back slot for each mob.(defibrillator, backpack watertank, ...)
 /mob/proc/getBackSlot()

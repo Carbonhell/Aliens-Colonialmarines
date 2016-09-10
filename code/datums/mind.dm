@@ -63,7 +63,6 @@
 	var/datum/mind/soulOwner //who owns the soul.  Under normal circumstances, this will point to src
 
 	var/mob/living/enslaved_to //If this mind's master is another mob (i.e. adamantine golems)
-
 	var/datum/squad/squad //the squad the mob's in,can be null for commanders etc
 
 /datum/mind/New(var/key)
@@ -94,8 +93,6 @@
 
 	if(active || force_key_move)
 		new_character.key = key		//now transfer the key to link the client to our new body
-	if(istype(new_character, /mob/living/carbon/alien/humanoid/queen))
-		queenckeys |= new_character.key
 
 /datum/mind/proc/store_memory(new_text)
 	memory += "[new_text]<BR>"
@@ -242,7 +239,7 @@
 
 	enslaved_to = creator
 
-	current.faction = creator.faction
+	current.faction = creator.faction.Copy()
 
 	if(special_role)
 		message_admins("[key_name_admin(current)](<A HREF='?_src_=holder;adminmoreinfo=\ref[current]'>?</A>) has been created by [key_name_admin(creator)](<A HREF='?_src_=holder;adminmoreinfo=\ref[creator]'>?</A>), an antagonist.")
@@ -1397,6 +1394,7 @@
 		special_role = "Syndicate"
 		ticker.mode.forge_syndicate_objectives(src)
 		ticker.mode.greet_syndicate(src)
+		current.faction |= "syndicate"
 
 		if(spawnloc)
 			current.loc = spawnloc
@@ -1445,7 +1443,6 @@
 		ticker.mode.wizards += src
 		special_role = "Wizard"
 		assigned_role = "Wizard"
-		//ticker.mode.learn_basic_spells(current)
 		if(!wizardstart.len)
 			current.loc = pick(latejoin)
 			current << "HOT INSERTION, GO GO GO"
@@ -1453,8 +1450,6 @@
 			current.loc = pick(wizardstart)
 
 		ticker.mode.equip_wizard(current)
-		for(var/obj/item/weapon/spellbook/S in current.contents)
-			S.op = 0
 		ticker.mode.name_wizard(current)
 		ticker.mode.forge_wizard_objectives(src)
 		ticker.mode.greet_wizard(src)
@@ -1704,7 +1699,16 @@
 		qdel(oldbody)
 
 /datum/mind/proc/make_Survivor()
-
+	var/mob/living/carbon/human/survivor
+	if(current && ishuman(current))
+		survivor = current
+	else
+		survivor = new(pick(survivor_spawn))
+		transfer_to(survivor)
+	if(ticker && ticker.mode)
+		var/datum/game_mode/G = ticker.mode
+		G.survivors += survivor
+		survivor.equipOutfit(pick(subtypesof(/datum/outfit/survivor)))//random outfit
 
 /datum/mind/proc/AddSpell(obj/effect/proc_holder/spell/S)
 	spell_list += S
@@ -1798,17 +1802,17 @@
 	mind.special_role = "Alien"
 	mind.assigned_role = "Alien"
 	//XENO HUMANOID
-/mob/living/carbon/alien/humanoid/big/queen/mind_initialize()
+/mob/living/carbon/alien/humanoid/royal/queen/mind_initialize()
 	..()
 	mind.special_role = "Queen"
 
-/mob/living/carbon/alien/humanoid/big/praetorian/mind_initialize()
+/mob/living/carbon/alien/humanoid/royal/praetorian/mind_initialize()
 	..()
 	mind.special_role = "Praetorian"
 
-/mob/living/carbon/alien/humanoid/warrior/mind_initialize()
+/mob/living/carbon/alien/humanoid/hunter/mind_initialize()
 	..()
-	mind.special_role = "Warrior"
+	mind.special_role = "Hunter"
 
 /mob/living/carbon/alien/humanoid/drone/mind_initialize()
 	..()

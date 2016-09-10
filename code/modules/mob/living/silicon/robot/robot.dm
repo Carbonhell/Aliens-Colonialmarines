@@ -171,6 +171,7 @@
 		modulelist += "Peacekeeper"
 	if(!config.forbid_secborg)
 		modulelist += "Security"
+		modulelist += "Detective"
 
 	designation = input("Please, select a module!", "Robot", null, null) in modulelist
 	var/animation_length = 0
@@ -236,6 +237,15 @@
 			src << "<span class='userdanger'>While you have picked the security module, you still have to follow your laws, NOT Space Law. For Asimov, this means you must follow criminals' orders unless there is a law 1 reason not to.</span>"
 			status_flags &= ~CANPUSH
 			feedback_inc("cyborg_security",1)
+
+		if("Detective")
+			module = new /obj/item/weapon/robot_module/detective(src)
+			hands.icon_state = "security"
+			icon_state = "detborg"
+			animation_length = 0
+			modtype = "Sec"
+			status_flags &= ~CANPUSH
+			feedback_inc("cyborg_detective",1)
 
 		if("Peacekeeper")
 			module = new /obj/item/weapon/robot_module/peacekeeper(src)
@@ -1311,3 +1321,28 @@
 			locked = 1
 		notify_ai(1)
 		. = 1
+
+/mob/living/silicon/robot/proc/ResetModule()
+
+	notify_ai(2)
+
+	uneq_all()
+	hands.icon_state = "nomod"
+	icon_state = "robot"
+	qdel(module)
+	module = null
+
+	modtype = "robot"
+	designation = "Default"
+	updatename("Default")
+
+	update_icons()
+	update_headlamp()
+
+	speed = 0 // Remove upgrades.
+	ionpulse = FALSE
+	magpulse = FALSE
+
+	status_flags |= CANPUSH
+
+	return 1

@@ -37,9 +37,9 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 	load_mode()
 	load_motd()
 	load_admins()
+	load_mentors()
 	if(config.usewhitelist)
 		load_whitelist()
-	appearance_loadbanfile()
 	LoadBans()
 	investigate_reset()
 
@@ -60,8 +60,8 @@ var/global/list/map_transition_config = MAP_TRANSITION_CONFIG
 	spawn(10)
 		Master.Setup()
 
-	process_teleport_locs()			//Sets up the wizard teleport locations
 	SortAreas()						//Build the list of all existing areas and sort it alphabetically
+	process_teleport_locs()
 
 	#ifdef MAP_NAME
 	map_name = "[MAP_NAME]"
@@ -99,8 +99,8 @@ var/last_irc_status = 0
 		if(world.time - last_irc_status < IRC_STATUS_THROTTLE)
 			return
 		var/list/adm = get_admin_counts()
-		var/status = "Admins: [Sum(adm)] (Active: [adm["admins"]] AFK: [adm["afkadmins"]] Stealth: [adm["stealthadmins"]] Skipped: [adm["noflagadmins"]]). "
-		status += "Players: [clients.len] (Active: [get_active_player_count()]). Mode: [master_mode]."
+		var/status = "Admins: [adm["total"]] (Active: [adm["present"]] AFK: [adm["afk"]] Stealth: [adm["stealth"]] Skipped: [adm["noflags"]]). "
+		status += "Players: [clients.len] (Active: [get_active_player_count(0,1,0)]). Mode: [ticker.mode.name]."
 		send2irc("Status", status)
 		last_irc_status = world.time
 
@@ -119,7 +119,18 @@ var/last_irc_status = 0
 		s["revision_date"] = revdata.date
 
 		var/list/adm = get_admin_counts()
+		var/mentors = 0
+		for(var/client/C in clients)
+			var/mentor = mentor_datums[C.ckey]
+			if(mentor)
+				mentors++
+			if(C.holder)
+				if(C.holder.fakekey)
+					continue	//so stealthmins aren't revealed by the hub
+				admins++
+
 		s["admins"] = adm["present"] + adm["afk"] //equivalent to the info gotten from adminwho
+		s["mentors"] = mentors
 		s["gamestate"] = 1
 		if(ticker)
 			s["gamestate"] = ticker.current_state
@@ -169,6 +180,19 @@ var/last_irc_status = 0
 		else
 			return IrcPm(input["adminmsg"],input["msg"],input["sender"])
 
+	else if("namecheck" in input)
+		if(!key_valid)
+			return "Bad Key"
+		else
+			log_admin("IRC Name Check: [input["sender"]] on [input["namecheck"]]")
+			message_admins("IRC name checking on [input["namecheck"]] from [input["sender"]]")
+			return keywords_lookup(input["namecheck"],1)
+
+	else if("adminwho" in input)
+		if(!key_valid)
+			return "Bad Key"
+		else
+			return ircadminwho()
 
 
 /world/Reboot(var/reason, var/feedback_c, var/feedback_r, var/time)

@@ -48,7 +48,7 @@
 
 	var/datum/gas_mixture/breath
 
-	if(health <= config.health_threshold_crit || (pulledby && pulledby.grab_state >= GRAB_KILL && !getorganslot("breathing_tube")))
+	if(health <= HEALTH_THRESHOLD_CRIT || (pulledby && pulledby.grab_state >= GRAB_KILL && !getorganslot("breathing_tube")))
 		losebreath++
 
 	//Suffocate
@@ -311,7 +311,7 @@
 	if(sleeping)
 		handle_dreams()
 		AdjustSleeping(-1)
-		if(prob(10) && health>config.health_threshold_crit)
+		if(prob(10) && health>HEALTH_THRESHOLD_CRIT)
 			emote("snore")
 
 	var/restingpwr = 1 + 4 * resting
@@ -370,6 +370,17 @@
 
 	if(cultslurring)
 		cultslurring = max(cultslurring-1, 0)
+
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		var/obj/item/bodypart/head/O = locate(/obj/item/bodypart/head) in H.bodyparts
+		if(O)
+			if(!O.teeth_list.len || O.get_teeth() <= 0)
+				lisp = 100 //No teeth = full lisp power
+			else
+				lisp = (1 - (O.get_teeth()/O.max_teeth)) * 100 //Less teeth = more lisp
+		else
+			lisp = 0 //No head = no lisp.
 
 	if(silent)
 		silent = max(silent-1, 0)

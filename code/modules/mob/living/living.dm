@@ -1,13 +1,3 @@
-/* I am informed this was added by Giacom to reduce mob-stacking in escape pods.
-It's sorta problematic atm due to the shuttle changes I am trying to do
-Sorry Giacom. Please don't be mad :(
-/mob/living/Life()
-	..()
-	var/area/A = get_area(loc)
-	if(A && A.push_dir)
-		push_mob_back(src, A.push_dir)
-*/
-
 /mob/living/New()
 	. = ..()
 	generateStaticOverlay()
@@ -216,7 +206,7 @@ Sorry Giacom. Please don't be mad :(
 	set hidden = 1
 	if (InCritical())
 		src.attack_log += "[src] has [whispered ? "whispered his final words" : "succumbed to death"] with [round(health, 0.1)] points of health!"
-		src.adjustOxyLoss(src.health - config.health_threshold_dead)
+		src.adjustOxyLoss(src.health - HEALTH_THRESHOLD_DEAD)
 		updatehealth()
 		if(!whispered)
 			src << "<span class='notice'>You have given up life and succumbed to death.</span>"
@@ -272,7 +262,7 @@ Sorry Giacom. Please don't be mad :(
 /mob/living/proc/adjustBruteLoss(amount, updating_health=1)
 	if(status_flags & GODMODE)
 		return 0
-	bruteloss = Clamp(bruteloss + amount, 0, maxHealth*2)
+	bruteloss = Clamp((bruteloss + (amount * config.damage_multiplier)), 0, maxHealth*2)
 	if(updating_health)
 		updatehealth()
 
@@ -282,7 +272,7 @@ Sorry Giacom. Please don't be mad :(
 /mob/living/proc/adjustOxyLoss(amount, updating_health=1)
 	if(status_flags & GODMODE)
 		return 0
-	oxyloss = Clamp(oxyloss + amount, 0, maxHealth*2)
+	oxyloss = Clamp((oxyloss + (amount * config.damage_multiplier)), 0, maxHealth*2)
 	if(updating_health)
 		updatehealth()
 
@@ -299,7 +289,7 @@ Sorry Giacom. Please don't be mad :(
 /mob/living/proc/adjustToxLoss(amount, updating_health=1)
 	if(status_flags & GODMODE)
 		return 0
-	toxloss = Clamp(toxloss + amount, 0, maxHealth*2)
+	toxloss = Clamp((toxloss + (amount * config.damage_multiplier)), 0, maxHealth*2)
 	if(updating_health)
 		updatehealth()
 	return amount
@@ -317,7 +307,7 @@ Sorry Giacom. Please don't be mad :(
 /mob/living/proc/adjustFireLoss(amount, updating_health=1)
 	if(status_flags & GODMODE)
 		return 0
-	fireloss = Clamp(fireloss + amount, 0, maxHealth*2)
+	fireloss = Clamp((fireloss + (amount * config.damage_multiplier)), 0, maxHealth*2)
 	if(updating_health)
 		updatehealth()
 
@@ -327,7 +317,7 @@ Sorry Giacom. Please don't be mad :(
 /mob/living/proc/adjustCloneLoss(amount, updating_health=1)
 	if(status_flags & GODMODE)
 		return 0
-	cloneloss = Clamp(cloneloss + amount, 0, maxHealth*2)
+	cloneloss = Clamp((cloneloss + (amount * config.damage_multiplier)), 0, maxHealth*2)
 	if(updating_health)
 		updatehealth()
 
@@ -344,7 +334,7 @@ Sorry Giacom. Please don't be mad :(
 /mob/living/proc/adjustBrainLoss(amount)
 	if(status_flags & GODMODE)
 		return 0
-	brainloss = Clamp(brainloss + amount, 0, maxHealth*2)
+	brainloss = Clamp((brainloss + (amount * config.damage_multiplier)), 0, maxHealth*2)
 
 /mob/living/proc/setBrainLoss(amount)
 	if(status_flags & GODMODE)
@@ -541,7 +531,7 @@ Sorry Giacom. Please don't be mad :(
 //proc called by revive(), to check if we can actually ressuscitate the mob (we don't want to revive him and have him instantly die again)
 /mob/living/proc/can_be_revived()
 	. = 1
-	if(health <= config.health_threshold_dead)
+	if(health <= HEALTH_THRESHOLD_DEAD)
 		return 0
 
 /mob/living/proc/update_damage_overlays()
@@ -612,7 +602,7 @@ Sorry Giacom. Please don't be mad :(
 			. += config.walk_speed
 
 /mob/living/proc/makeTrail(turf/T)
-	if(!has_gravity(src))
+	if(!has_gravity())
 		return
 	var/blood_exists = 0
 
@@ -778,20 +768,45 @@ Sorry Giacom. Please don't be mad :(
 // The src mob is trying to strip an item from someone
 // Override if a certain type of mob should be behave differently when stripping items (can't, for example)
 /mob/living/stripPanelUnequip(obj/item/what, mob/who, where)
+	var/delay_denominator = 1
+	var/pickpocket = 0
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = usr
+		if(H.gloves && istype(H.gloves,/obj/item/clothing/gloves))
+			var/obj/item/clothing/gloves/G = H.gloves
+			pickpocket = G.pickpocket
+	if(pickpocket)
+		delay_denominator = pickpocket
 	if(what.flags & NODROP)
 		src << "<span class='warning'>You can't remove \the [what.name], it appears to be stuck!</span>"
 		return
-	who.visible_message("<span class='danger'>[src] tries to remove [who]'s [what.name].</span>", \
-					"<span class='userdanger'>[src] tries to remove [who]'s [what.name].</span>")
+	if(!pickpocket)
+		who.visible_message("<span class='danger'>[src] tries to remove [who]'s [what.name].</span>", \
+						"<span class='userdanger'>[src] tries to remove [who]'s [what.name].</span>")
 	what.add_fingerprint(src)
-	if(do_mob(src, who, what.strip_delay))
+	if(do_mob(src, who, what.strip_delay/delay_denominator))
 		if(what && what == who.get_item_by_slot(where) && Adjacent(who))
 			who.unEquip(what)
 			add_logs(src, who, "stripped", addition="of [what]")
+			if(pickpocket)
+				var/mob/living/carbon/human/H = usr
+				if(H.hand) //left active hand
+					H.equip_to_slot_if_possible(what, slot_l_hand, 0, 1)
+				else
+					H.equip_to_slot_if_possible(what, slot_r_hand, 0, 1)
 
 // The src mob is trying to place an item on someone
 // Override if a certain mob should be behave differently when placing items (can't, for example)
 /mob/living/stripPanelEquip(obj/item/what, mob/who, where)
+	var/delay_denominator = 1
+	var/pickpocket = 0
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = usr
+		if(H.gloves && istype(H.gloves,/obj/item/clothing/gloves))
+			var/obj/item/clothing/gloves/G = H.gloves
+			pickpocket = G.pickpocket
+	if(pickpocket)
+		delay_denominator = pickpocket
 	what = src.get_active_hand()
 	if(what && (what.flags & NODROP))
 		src << "<span class='warning'>You can't put \the [what.name] on [who], it's stuck to your hand!</span>"
@@ -800,8 +815,9 @@ Sorry Giacom. Please don't be mad :(
 		if(!what.mob_can_equip(who, src, where, 1))
 			src << "<span class='warning'>\The [what.name] doesn't fit in that place!</span>"
 			return
-		visible_message("<span class='notice'>[src] tries to put [what] on [who].</span>")
-		if(do_mob(src, who, what.put_on_delay))
+		if(!pickpocket)
+			visible_message("<span class='notice'>[src] tries to put [what] on [who].</span>")
+		if(do_mob(src, who, what.put_on_delay/delay_denominator))
 			if(what && Adjacent(who))
 				unEquip(what)
 				who.equip_to_slot_if_possible(what, where, 0, 1)
@@ -883,7 +899,7 @@ Sorry Giacom. Please don't be mad :(
 	for(var/mob/M in viewers(A))
 		if(M.client)
 			viewing |= M.client
-	flick_overlay(I, viewing, 5) // 5 ticks/half a second
+	flick_overlay(I, viewing, 5, ITEM_ATTACK_ANIMATION) // 5 ticks/half a second
 
 	// Scale the icon.
 	I.transform *= 0.75
@@ -1026,7 +1042,7 @@ Sorry Giacom. Please don't be mad :(
 /mob/living/carbon/human/update_stamina()
 	if(staminaloss)
 		var/total_health = (health - staminaloss)
-		if(total_health <= config.health_threshold_crit && !stat)
+		if(total_health <= HEALTH_THRESHOLD_CRIT && !stat)
 			src << "<span class='notice'>You're too exhausted to keep going...</span>"
 			Weaken(5)
 			setStaminaLoss(health - 2)

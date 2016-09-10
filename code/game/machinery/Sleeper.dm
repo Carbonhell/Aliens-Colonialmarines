@@ -18,9 +18,9 @@
 	var/list/available_chems
 	var/controls_inside = FALSE
 	var/list/possible_chems = list(
-		list("epinephrine", "morphine", "salbutamol", "bicaridine", "kelotane"),
-		list("oculine"),
-		list("antitoxin", "mutadone", "mannitol", "pen_acid"),
+		list("epinephrine", "sleeptoxin", "salbutamol", "bicaridine", "kelotane"),
+		list("oculine", "morphine"),
+		list("antitoxin", "mutadone", "mannitol", "pen_acid", "atropine"),
 		list("omnizine")
 	)
 
@@ -135,7 +135,7 @@
 		data["occupant"]["stat"] = occupant.stat
 		data["occupant"]["health"] = occupant.health
 		data["occupant"]["maxHealth"] = occupant.maxHealth
-		data["occupant"]["minHealth"] = config.health_threshold_dead
+		data["occupant"]["minHealth"] = HEALTH_THRESHOLD_DEAD
 		data["occupant"]["bruteLoss"] = occupant.getBruteLoss()
 		data["occupant"]["oxyLoss"] = occupant.getOxyLoss()
 		data["occupant"]["toxLoss"] = occupant.getToxLoss()

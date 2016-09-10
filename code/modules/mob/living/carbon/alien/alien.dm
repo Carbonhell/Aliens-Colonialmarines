@@ -36,6 +36,7 @@ var/queen_died_recently = FALSE
 
 	var/timerGrow = 0
 	var/timerMax = 0
+	var/leaping = 0
 
 	var/caste = ""
 	var/caste_desc = ""

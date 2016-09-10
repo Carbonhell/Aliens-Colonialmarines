@@ -270,11 +270,11 @@
 
 /obj/item/ammo_box/magazine/smgm45
 	name = "SMG magazine (.45)"
-	icon_state = "c20r45-24"
+	icon_state = "c20r45-20"
 	origin_tech = "combat=2"
-	ammo_type = /obj/item/ammo_casing/c45nostamina
+	ammo_type = /obj/item/ammo_casing/c45
 	caliber = ".45"
-	max_ammo = 24
+	max_ammo = 20
 
 /obj/item/ammo_box/magazine/smgm45/update_icon()
 	..()
@@ -359,7 +359,7 @@ obj/item/ammo_box/magazine/tommygunm45
 	icon_state = ".50mag"
 	origin_tech = "combat=6;syndicate=2"
 	ammo_type = /obj/item/ammo_casing/point50
-	max_ammo = 6
+	max_ammo = 5
 	caliber = ".50"
 
 /obj/item/ammo_box/magazine/sniper_rounds/update_icon()
@@ -374,14 +374,14 @@ obj/item/ammo_box/magazine/tommygunm45
 	icon_state = "soporific"
 	origin_tech = "combat=6;syndicate=3"
 	ammo_type = /obj/item/ammo_casing/soporific
-	max_ammo = 3
+	max_ammo = 5
 	caliber = ".50"
 
-/obj/item/ammo_box/magazine/sniper_rounds/haemorrhage
-	name = "sniper rounds (Bleed)"
-	desc = "Haemorrhage sniper rounds, leaves your target in a pool of crimson pain"
+/obj/item/ammo_box/magazine/sniper_rounds/he
+	name = "sniper rounds (high-explosive)"
+	desc = "High explosive rounds deal high ammounts of collateral damage in a 1-tile radius."
 	icon_state = "haemorrhage"
-	ammo_type = /obj/item/ammo_casing/haemorrhage
+	ammo_type = /obj/item/ammo_casing/he
 	max_ammo = 5
 	caliber = ".50"
 
@@ -395,33 +395,13 @@ obj/item/ammo_box/magazine/tommygunm45
 
 //// SAW MAGAZINES
 
-/obj/item/ammo_box/magazine/mm556x45
-	name = "box magazine (5.56x45mm)"
+/obj/item/ammo_box/magazine/m762
+	name = "box magazine (7.62)"
 	icon_state = "a762-50"
 	origin_tech = "combat=2"
-	ammo_type = /obj/item/ammo_casing/mm556x45
-	caliber = "mm55645"
+	ammo_type = /obj/item/ammo_casing/m762
+	caliber = "a762"
 	max_ammo = 50
-
-/obj/item/ammo_box/magazine/mm556x45/bleeding
-	name = "box magazine (Bleeding 5.56x45mm)"
-	origin_tech = "combat=3"
-	ammo_type = /obj/item/ammo_casing/mm556x45/bleeding
-
-/obj/item/ammo_box/magazine/mm556x45/hollow
-	name = "box magazine (Hollow-Point 5.56x45mm)"
-	origin_tech = "combat=3"
-	ammo_type = /obj/item/ammo_casing/mm556x45/hollow
-
-/obj/item/ammo_box/magazine/mm556x45/ap
-	name = "box magazine (Armor Penetrating 5.56x45mm)"
-	origin_tech = "combat=4"
-	ammo_type = /obj/item/ammo_casing/mm556x45/ap
-
-/obj/item/ammo_box/magazine/mm556x45/incen
-	name = "box magazine (Incendiary 5.56x45mm)"
-	origin_tech = "combat=4"
-	ammo_type = /obj/item/ammo_casing/mm556x45/incen
 
 /obj/item/ammo_box/magazine/mm556x45/update_icon()
 	..()

@@ -23,13 +23,13 @@
 	category = list("Firing Pins")
 
 /datum/design/stunrevolver
-	name = "Tesla Revolver"
+	name = "Stun Revolver"
 	desc = "A high-tech revolver that fires internal, reusable shock cartridges in a revolving cylinder. The cartridges can be recharged using conventional rechargers."
 	id = "stunrevolver"
-	req_tech = list("combat" = 4, "materials" = 4, "powerstorage" = 5)
+	req_tech = list("combat" = 3, "materials" = 3, "powerstorage" = 2)
 	build_type = PROTOLATHE
-	materials = list(MAT_METAL = 10000, MAT_GLASS = 10000, MAT_SILVER = 10000)
-	build_path = /obj/item/weapon/gun/energy/shock_revolver
+	materials = list(MAT_METAL = 4000, MAT_GLASS = 1000)
+	/obj/item/weapon/gun/energy/stunrevolver
 	category = list("Weapons")
 
 /datum/design/nuclear_gun
@@ -41,6 +41,7 @@
 	materials = list(MAT_METAL = 10000, MAT_GLASS = 2000, MAT_URANIUM = 3000, MAT_TITANIUM = 1000)
 	build_path = /obj/item/weapon/gun/energy/gun/nuclear
 	category = list("Weapons")
+	locked = 1
 
 /datum/design/tele_shield
 	name = "Telescopic Riot Shield"
@@ -61,6 +62,7 @@
 	materials = list(MAT_METAL = 10000, MAT_GLASS = 3000, MAT_DIAMOND = 3000)
 	build_path = /obj/item/weapon/gun/energy/lasercannon
 	category = list("Weapons")
+	locked = 1
 
 /datum/design/decloner
 	name = "Decloner"
@@ -72,6 +74,7 @@
 	reagents = list("mutagen" = 40)
 	build_path = /obj/item/weapon/gun/energy/decloner
 	category = list("Weapons")
+	locked = 1
 
 /datum/design/rapidsyringe
 	name = "Rapid Syringe Gun"
@@ -92,6 +95,7 @@
 	materials = list(MAT_METAL = 5000, MAT_GLASS = 1500, MAT_URANIUM = 1500, MAT_SILVER = 1500)
 	build_path = /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow/large
 	category = list("Weapons")
+	locked = 1
 
 /datum/design/temp_gun
 	name = "Temperature Gun"
@@ -102,6 +106,7 @@
 	materials = list(MAT_METAL = 5000, MAT_GLASS = 500, MAT_SILVER = 3000)
 	build_path = /obj/item/weapon/gun/energy/temperature
 	category = list("Weapons")
+	locked = 1
 
 /datum/design/flora_gun
 	name = "Floral Somatoray"
@@ -166,6 +171,7 @@
 	materials = list(MAT_GOLD = 5000,MAT_URANIUM = 8000, MAT_METAL = 5000, MAT_TITANIUM = 2000)
 	build_path = /obj/item/weapon/gun/energy/xray
 	category = list("Weapons")
+	locked = 1
 
 /datum/design/ioncarbine
 	name = "Ion Carbine"
@@ -176,6 +182,7 @@
 	materials = list(MAT_SILVER = 6000, MAT_METAL = 8000, MAT_URANIUM = 2000)
 	build_path = /obj/item/weapon/gun/energy/ionrifle/carbine
 	category = list("Weapons")
+	locked = 1
 
 /datum/design/wormhole_projector
 	name = "Bluespace Wormhole Projector"
@@ -186,6 +193,7 @@
 	materials = list(MAT_SILVER = 2000, MAT_METAL = 5000, MAT_DIAMOND = 3000)
 	build_path = /obj/item/weapon/gun/energy/wormhole_projector
 	category = list("Weapons")
+	locked = 1
 
 /datum/design/reciever
 	name = "Modular Receiver"
@@ -269,3 +277,4 @@
 	materials = list(MAT_SILVER = 8000, MAT_GOLD = 8000, MAT_URANIUM = 8000, MAT_GLASS = 12000, MAT_METAL = 12000, MAT_DIAMOND = 3000)
 	build_path = /obj/item/weapon/gun/energy/gravity_gun
 	category = list("Weapons")
+	locked = 1

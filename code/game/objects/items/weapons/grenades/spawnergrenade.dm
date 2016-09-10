@@ -7,15 +7,16 @@
 	origin_tech = "materials=3;magnets=4"
 	var/spawner_type = null // must be an object path
 	var/deliveryamt = 1 // amount of type to deliver
+	var/flash = 1
 
 /obj/item/weapon/grenade/spawnergrenade/prime()			// Prime now just handles the two loops that query for people in lockers and people who can see it.
 	update_mob()
 	if(spawner_type && deliveryamt)
-		// Make a quick flash
 		var/turf/T = get_turf(src)
 		playsound(T, 'sound/effects/phasein.ogg', 100, 1)
-		for(var/mob/living/carbon/C in viewers(T, null))
-			C.flash_eyes()
+		if(flash)// Make a quick flash
+			for(var/mob/living/carbon/C in viewers(T, null))
+				C.flash_eyes()
 
 		for(var/i=1, i<=deliveryamt, i++)
 			var/atom/movable/x = new spawner_type
@@ -44,3 +45,11 @@
 /obj/item/weapon/grenade/spawnergrenade/syndiesoap
 	name = "Mister Scrubby"
 	spawner_type = /obj/item/weapon/soap/syndie
+
+/obj/item/weapon/grenade/spawnergrenade/feral_cats
+	name = "feral cat delivery grenade"
+	desc = "This grenade contains 8 dehydrated feral cats in a similar manner to dehydrated monkeys, which, upon detonation, will be rehydrated by a small reservoir of water contained within the grenade. These cats will then attack anything in sight."
+	spawner_type = /mob/living/simple_animal/hostile/feral_cat
+	deliveryamt = 8
+	flash = 0
+	origin_tech = "materials=3;magnets=4;syndicate=4"

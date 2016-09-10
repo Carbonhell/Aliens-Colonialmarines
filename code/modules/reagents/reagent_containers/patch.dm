@@ -21,11 +21,11 @@
 /obj/item/weapon/reagent_containers/pill/patch/styptic
 	name = "brute patch"
 	desc = "Helps with brute injuries."
-	list_reagents = list("styptic_powder" = 20)
+	list_reagents = list("styptic_powder" = 30)
 	icon_state = "bandaid_brute"
 
 /obj/item/weapon/reagent_containers/pill/patch/silver_sulf
 	name = "burn patch"
 	desc = "Helps with burn injuries."
-	list_reagents = list("silver_sulfadiazine" = 20)
+	list_reagents = list("silver_sulfadiazine" = 30)
 	icon_state = "bandaid_burn"

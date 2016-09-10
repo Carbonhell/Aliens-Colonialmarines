@@ -53,3 +53,10 @@
 	burn_state = FIRE_PROOF
 	armor = list(melee = 15, bullet = 35, laser = 35, energy = 20, bomb = 35, bio = 35, rad = 35) //Not like anything ever hits the arms anyways.
 
+/obj/item/clothing/gloves/pickpocket //These won't be chameleon until we fix chameleon
+	name = "black gloves"
+	desc = "These gloves are fire-resistant."
+	icon_state = "black"
+	item_state = "blackgloves"
+	item_color = null
+	pickpocket = 4

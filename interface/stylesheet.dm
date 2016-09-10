@@ -22,6 +22,9 @@ em						{font-style: normal;	font-weight: bold;}
 .adminobserver			{color: #996600;	font-weight: bold;}
 .admin					{color: #386aff;	font-weight: bold;}
 
+.mentoradmin			{color: #8A2BE2;	font-weight: bold;}
+.mentor					{color: #E236D8;	font-weight: bold;}
+
 .name					{					font-weight: bold;}
 
 .say					{}
@@ -37,10 +40,6 @@ em						{font-style: normal;	font-weight: bold;}
 .syndradio				{color: #6d3f40;}
 .centcomradio			{color: #686868;}
 .aiprivradio			{color: #ff00ff;}
-.alpharadio				{color: #EA0000;}
-.bravoradio				{color: #C68610;}
-.charlieradio			{color: #9632C8;}
-.deltaradio				{color: #007FCF;}
 
 .yell					{					font-weight: bold;}
 
@@ -66,6 +65,7 @@ h1.alert, h2.alert		{color: #000000;}
 .notice					{color: #000099;}
 .boldnotice				{color: #000099;	font-weight: bold;}
 .adminnotice			{color: #0000ff;}
+.mentornotice			{color: #0000CC;}
 .unconscious			{color: #0000ff;	font-weight: bold;}
 .suicide				{color: #ff5050;	font-style: italic;}
 .green					{color: #03ff39;}

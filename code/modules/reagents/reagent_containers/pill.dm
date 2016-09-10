@@ -22,8 +22,31 @@
 /obj/item/weapon/reagent_containers/pill/attack_self(mob/user)
 	return
 
+/obj/item/weapon/reagent_containers/pill/process()
+	if(!istype(loc, /obj/item/weapon/storage/internal/pocket/butt))
+		STOP_PROCESSING(SSobj, src)
+		return
+	var/obj/item/weapon/storage/internal/pocket/butt/inv = loc
+	var/obj/item/organ/internal/butt/B = inv.loc
+	if(!B.owner)
+		STOP_PROCESSING(SSobj, src)
+		return
+	if(reagents.total_volume)
+		sleep(10)
+		reagents.trans_to(B.owner, 1)
+	else
+		STOP_PROCESSING(SSobj, src)
+		qdel(src)
 
 /obj/item/weapon/reagent_containers/pill/attack(mob/M, mob/user, def_zone, self_delay)
+	if(user.zone_selected == "groin" && user.a_intent == "grab")
+		if(ishuman(M))
+			var/mob/living/carbon/human/H = M
+			var/datum/species/S = H.dna.species
+			if(S.spec_attacked_by(src, user, H = M) == 2)
+				START_PROCESSING(SSobj, src)
+			return
+
 	if(!canconsume(M, user))
 		return 0
 
@@ -93,7 +116,7 @@
 	name = "morphine pill"
 	desc = "Commonly used to treat insomnia."
 	icon_state = "pill8"
-	list_reagents = list("morphine" = 30)
+	list_reagents = list("morphine" = 15)
 	roundstart = 1
 /obj/item/weapon/reagent_containers/pill/stimulant
 	name = "stimulant pill"
@@ -111,7 +134,7 @@
 	name = "antitoxin pill"
 	desc = "Neutralizes many common toxins."
 	icon_state = "pill17"
-	list_reagents = list("charcoal" = 50)
+	list_reagents = list("charcoal" = 15)
 	roundstart = 1
 /obj/item/weapon/reagent_containers/pill/epinephrine
 	name = "epinephrine pill"
@@ -123,25 +146,25 @@
 	name = "mannitol pill"
 	desc = "Used to treat brain damage."
 	icon_state = "pill17"
-	list_reagents = list("mannitol" = 50)
+	list_reagents = list("mannitol" = 15)
 	roundstart = 1
 /obj/item/weapon/reagent_containers/pill/mutadone
 	name = "mutadone pill"
 	desc = "Used to treat genetic damage."
 	icon_state = "pill20"
-	list_reagents = list("mutadone" = 50)
+	list_reagents = list("mutadone" = 15)
 	roundstart = 1
-/obj/item/weapon/reagent_containers/pill/salicyclic
-	name = "salicylic acid pill"
+/obj/item/weapon/reagent_containers/pill/bromelain
+	name = "bromelain pill"
 	desc = "Used to dull pain."
 	icon_state = "pill9"
-	list_reagents = list("sal_acid" = 24)
+	list_reagents = list("bromelain" = 15)
 	roundstart = 1
-/obj/item/weapon/reagent_containers/pill/oxandrolone
-	name = "oxandrolone pill"
+/obj/item/weapon/reagent_containers/pill/dermaline
+	name = "dermaline pill"
 	desc = "Used to stimulate burn healing."
 	icon_state = "pill11"
-	list_reagents = list("oxandrolone" = 24)
+	list_reagents = list("dermaline" = 15)
 	roundstart = 1
 
 /obj/item/weapon/reagent_containers/pill/insulin

@@ -1,6 +1,15 @@
 /obj/screen/alien
 	icon = 'icons/mob/screen_alien.dmi'
 
+/obj/screen/alien/leap
+	name = "toggle leap"
+	icon_state = "leap_off"
+
+/obj/screen/alien/leap/Click()
+	if(istype(usr, /mob/living/carbon/alien/humanoid/hunter))
+		var/mob/living/carbon/alien/humanoid/hunter/AH = usr
+		AH.toggle_leap()
+
 /obj/screen/alien/nightvision
 	name = "toggle night-vision"
 	icon_state = "nightvision1"
@@ -70,6 +79,12 @@
 	static_inventory += using
 	action_intent = using
 
+	if(istype(mymob, /mob/living/carbon/alien/humanoid/hunter))
+		var/mob/living/carbon/alien/humanoid/hunter/H = mymob
+		H.leap_icon = new /obj/screen/alien/leap()
+		H.leap_icon.screen_loc = ui_alien_storage_r
+		static_inventory += H.leap_icon
+
 	using = new /obj/screen/drop()
 	using.icon = 'icons/mob/screen_alien.dmi'
 	using.screen_loc = ui_drop_throw
@@ -102,7 +117,7 @@
 	alien_plasma_display = new /obj/screen/alien/plasma_display()
 	infodisplay += alien_plasma_display
 
-	if(!istype(mymob, /mob/living/carbon/alien/humanoid/big/queen))
+	if(!istype(mymob, /mob/living/carbon/alien/humanoid/royal/queen))
 		alien_queen_finder = new /obj/screen/alien/alien_queen_finder
 		infodisplay += alien_queen_finder
 

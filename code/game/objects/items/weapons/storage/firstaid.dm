@@ -44,8 +44,8 @@
 	icon_state = pick("ointment","firefirstaid")
 	for(var/i in 1 to 3)
 		new /obj/item/weapon/reagent_containers/pill/patch/silver_sulf(src)
-	new /obj/item/weapon/reagent_containers/pill/oxandrolone(src)
-	new /obj/item/weapon/reagent_containers/pill/oxandrolone(src)
+	new /obj/item/weapon/reagent_containers/syringe/dermaline(src)
+	new /obj/item/weapon/reagent_containers/syringe/dermaline(src)
 	new /obj/item/weapon/reagent_containers/hypospray/medipen(src)
 	new /obj/item/device/healthanalyzer(src)
 	return
@@ -92,8 +92,9 @@
 /obj/item/weapon/storage/firstaid/brute/New()
 	..()
 	if(empty) return
-	for(var/i in 1 to 4)
+	for(var/i in 1 to 2)
 		new /obj/item/weapon/reagent_containers/pill/patch/styptic(src)
+		new /obj/item/weapon/reagent_containers/syringe/bromelain(src)
 	new /obj/item/stack/medical/gauze(src)
 	new /obj/item/stack/medical/gauze(src)
 	new /obj/item/device/healthanalyzer(src)
@@ -117,6 +118,18 @@
 	new /obj/item/clothing/glasses/hud/health/night(src)
 	return
 
+/obj/item/weapon/storage/firstaid/surgery
+	name = "surgery kit"
+	desc = "How all that stuff fits in there is beyond your comprehension."
+	icon_state = "purplefirstaid"
+	can_hold = list(/obj/item/weapon/retractor, /obj/item/weapon/hemostat, /obj/item/weapon/cautery, /obj/item/weapon/scalpel,
+					/obj/item/weapon/surgicaldrill, /obj/item/weapon/circular_saw/weakened, /obj/item/weapon/surgical_drapes)
+
+/obj/item/weapon/storage/firstaid/surgery/New()
+	..()
+	for(var/i in can_hold)
+		var/obj/item/I = i
+		new I(src)
 
 /*
  * Pill Bottles

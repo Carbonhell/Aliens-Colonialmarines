@@ -21,6 +21,7 @@
 	strip_delay = 70
 	burn_state = FIRE_PROOF
 	pockets = /obj/item/weapon/storage/internal/pocket/shoes
+	stomp = 1
 
 /obj/item/clothing/shoes/combat/swat //overpowered boots for death squads
 	name = "\improper SWAT boots"
@@ -91,6 +92,7 @@
 	put_on_delay = 50
 	burn_state = FIRE_PROOF
 	pockets = /obj/item/weapon/storage/internal/pocket/shoes
+	stomp = 1
 
 /obj/item/clothing/shoes/jackboots/fast
 	slowdown = -1

@@ -33,7 +33,7 @@
 #define LIGHTING_ICON 'icons/effects/alphacolors.dmi'
 #define LIGHTING_ICON_STATE "white"
 #define LIGHTING_TIME 2									//Time to do any lighting change. Actual number pulled out of my ass
-#define LIGHTING_DARKEST_VISIBLE_ALPHA 250					//Anything darker than this is so dark, we'll just consider the whole tile unlit
+#define LIGHTING_DARKEST_VISIBLE_ALPHA 230					//Anything darker than this is so dark, we'll just consider the whole tile unlit
 #define LIGHTING_LUM_FOR_FULL_BRIGHT 6						//Anything who's lum is lower then this starts off less bright.
 #define LIGHTING_MIN_RADIUS 4								//Lowest radius a light source can effect.
 
@@ -252,18 +252,18 @@
 	. = ..()
 	if (T.lighting_object == src)
 		T.lighting_object = null
-	
+
 /atom/movable/light/New()
 	if (!isturf(loc))
 		PutOut()
 		throw EXCEPTION("Invalid light placement: loc must be a turf")
 	var/turf/T = loc
-	
+
 	if (T.lighting_object && T.lighting_object != src)
 		PutOut()
 		throw EXCEPTION("BUG: /atom/movable/light created on a turf that already has one")
 	T.lighting_object = src
-	
+
 /atom/movable/light/proc/PutOut()
 	alpha = 0
 	qdel(src, force = TRUE)
@@ -345,15 +345,15 @@
 	if(lighting_object)
 		var/newalpha
 		if(lighting_lumcount <= 0)
-			newalpha = 255
+			newalpha = LIGHTING_DARKEST_VISIBLE_ALPHA
 		else
 			if(lighting_lumcount < LIGHTING_CAP)
-				var/num = Clamp(lighting_lumcount * LIGHTING_CAP_FRAC, 0, 255)
-				newalpha = 255-num
+				var/num = Clamp(lighting_lumcount * LIGHTING_CAP_FRAC, 0, LIGHTING_DARKEST_VISIBLE_ALPHA)
+				newalpha = LIGHTING_DARKEST_VISIBLE_ALPHA-num
 			else //if(lighting_lumcount >= LIGHTING_CAP)
 				newalpha = 0
 		if(newalpha >= LIGHTING_DARKEST_VISIBLE_ALPHA)
-			newalpha = 255
+			newalpha = LIGHTING_DARKEST_VISIBLE_ALPHA
 		if(lighting_object.alpha != newalpha)
 			if(instantly)
 				lighting_object.alpha = newalpha

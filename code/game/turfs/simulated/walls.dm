@@ -14,7 +14,6 @@
 	var/slicing_duration = 100  //default time taken to slice the wall
 	var/sheet_type = /obj/item/stack/sheet/metal
 	var/obj/item/stack/sheet/builtin_sheet = null
-	var/health = 400
 
 	canSmoothWith = list(
 	/turf/closed/wall,
@@ -25,20 +24,6 @@
 	/turf/closed/wall/r_wall/rust,
 	/turf/closed/wall/clockwork)
 	smooth = SMOOTH_TRUE
-
-/turf/closed/wall/examine(mob/user)
-	..()
-	var/afourth = initial(health)/4
-	if(health == initial(health))
-		return
-	if(health in afourth*3 to afourth*4)//300-400
-		user << "<span class='danger'>It looks slightly damaged.</span>"
-	else if(health in afourth*2 to afourth*3)//200-300
-		user << "<span class='danger'>It looks moderately damaged.</span>"
-	else if(health in afourth to afourth*2)//100-200
-		user << "<span class='userdanger'>It looks heavily damaged!</span>"
-	else if(health <= afourth)//0-100
-		user << "<span class='userdanger'>It looks about to crumble in pieces!</span>"
 
 /turf/closed/wall/New()
 	..()

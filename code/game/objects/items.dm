@@ -57,6 +57,8 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/list/materials = list()
 	var/origin_tech = null	//Used by R&D to determine what research bonuses it grants.
 	var/needs_permit = 0			//Used by security bots to determine if this item is safe for public use.
+	var/assthrown = 0 //set to 1 to make the item 100% embed into an user when superfarted
+	var/itemstorevalue = 0 // for w class stuff related to asses
 
 	var/list/attack_verb = list() //Used in attackby() to say how something was attacked "[x] has been [z.attack_verb] by [y] with [z]"
 	var/list/species_exception = null	// list() of species types, if a species cannot put items in a certain slot, but species type is in list, it will be able to wear that item
@@ -78,6 +80,9 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	var/embedded_impact_pain_multiplier = EMBEDDED_IMPACT_PAIN_MULTIPLIER //The coefficient of multiplication for the damage this item does when first embedded (this*w_class)
 	var/embedded_unsafe_removal_pain_multiplier = EMBEDDED_UNSAFE_REMOVAL_PAIN_MULTIPLIER //The coefficient of multiplication for the damage removing this without surgery causes (this*w_class)
 	var/embedded_unsafe_removal_time = EMBEDDED_UNSAFE_REMOVAL_TIME //A time in ticks, multiplied by the w_class.
+	var/embedded_ignore_throwspeed_threshold = FALSE
+
+	var/alternate_screams = list() // This is used to add alternate scream sounds to mobs when equipped
 
 	var/flags_cover = 0 //for flags such as GLASSESCOVERSEYES
 	var/heat = 0
@@ -93,6 +98,7 @@ var/global/image/fire_overlay = image("icon" = 'icons/effects/fire.dmi', "icon_s
 	// Needs to be in /obj/item because corgis can wear a lot of
 	// non-clothing items
 	var/datum/dog_fashion/dog_fashion = null
+	var/no_direct_insertion = 0 //items that require MouseDrop() to be inserted in a storage item. e.g. packageWrap
 
 
 /obj/item/proc/check_allowed_items(atom/target, not_inside, target_self)
@@ -535,6 +541,10 @@ obj/item/proc/item_action_slot_check(slot, mob/user)
 	var/itempush = 1
 	if(w_class < 4)
 		itempush = 0 //too light to push anything
+	if(assthrown)
+		embed_chance = 100//you must embed!
+		embedded_ignore_throwspeed_threshold = 1
+		throw_range = initial(throw_range)
 	return A.hitby(src, 0, itempush)
 
 /obj/item/throw_at(atom/target, range, speed, mob/thrower, spin=1)

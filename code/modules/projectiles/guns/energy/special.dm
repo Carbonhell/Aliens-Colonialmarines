@@ -22,7 +22,6 @@
 	icon_state = "ioncarbine"
 	w_class = 3
 	slot_flags = SLOT_BELT
-	pin = null
 	ammo_x_offset = 2
 	flight_x_offset = 18
 	flight_y_offset = 11
@@ -33,7 +32,6 @@
 	icon_state = "decloner"
 	origin_tech = "combat=4;materials=4;biotech=5;plasmatech=6"
 	ammo_type = list(/obj/item/ammo_casing/energy/declone)
-	pin = null
 	ammo_x_offset = 1
 
 /obj/item/weapon/gun/energy/decloner/update_icon()
@@ -108,7 +106,6 @@
 	origin_tech = "combat=4;magnets=4;syndicate=2"
 	suppressed = 0
 	ammo_type = list(/obj/item/ammo_casing/energy/bolt/large)
-	pin = null
 
 /obj/item/weapon/gun/energy/kinetic_accelerator/suicide_act(mob/user)
 	if(!suppressed)
@@ -232,7 +229,6 @@
 	origin_tech = "combat=4;materials=4;powerstorage=3;magnets=2"
 	ammo_type = list(/obj/item/ammo_casing/energy/temp, /obj/item/ammo_casing/energy/temp/hot)
 	cell_type = "/obj/item/weapon/stock_parts/cell/high"
-	pin = null
 
 /obj/item/weapon/gun/energy/temperature/security
 	name = "security temperature gun"

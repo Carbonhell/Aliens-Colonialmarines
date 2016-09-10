@@ -43,7 +43,7 @@
 	lefthand_file = 'icons/mob/inhands/guns_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/guns_righthand.dmi'
 
-	var/obj/item/device/firing_pin/pin = /obj/item/device/firing_pin //standard firing pin for most guns
+	var/obj/item/device/firing_pin/pin = /obj/item/device/firing_pin //standard firing pin for ALL guns -Carbonhell
 
 	var/obj/item/device/flashlight/F = null
 	var/can_flashlight = 0
@@ -270,9 +270,10 @@ obj/item/weapon/gun/proc/newshot()
 /obj/item/weapon/gun/attack(mob/M as mob, mob/user)
 	if(user.a_intent == "harm") //Flogging
 		..()
+	else if(user.zone_selected == "groin" && user.a_intent == "grab")
+		..()
 	else
 		return
-
 /obj/item/weapon/gun/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/device/flashlight/seclite))
 		var/obj/item/device/flashlight/seclite/S = I
@@ -319,8 +320,6 @@ obj/item/weapon/gun/proc/newshot()
 		return
 
 	var/mob/living/carbon/human/user = usr
-	if(!isturf(user.loc))
-		user << "<span class='warning'>You cannot turn the light on while in this [user.loc]!</span>"
 	F.on = !F.on
 	user << "<span class='notice'>You toggle the gunlight [F.on ? "on":"off"].</span>"
 

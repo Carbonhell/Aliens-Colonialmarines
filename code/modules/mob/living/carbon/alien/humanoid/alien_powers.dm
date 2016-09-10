@@ -118,7 +118,7 @@ Doesn't work on other aliens/AI.*/
 		add_ranged_ability(user, message)
 		user.update_icons()
 
-/obj/effect/proc_holder/alien/pounce/InterceptClickOn(mob/living/carbon/user, params, atom/target)
+/obj/effect/proc_holder/alien/pounce/InterceptClickOn(mob/living/carbon/alien/user, params, atom/target)
 	if(..())
 		return
 	var/obj/item/organ/alien/muscles/M = user.getorgan(organcheck)

@@ -46,6 +46,7 @@
 	var/stuttering = 0		//Carbon
 	var/slurring = 0		//Carbon
 	var/cultslurring = 0	//Carbon
+	var/lisp = 0
 	var/real_name = null
 	var/druggy = 0			//Carbon
 	var/confused = 0		//Carbon

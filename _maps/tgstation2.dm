@@ -2,23 +2,15 @@
 
 		#define TITLESCREEN "title" //Add an image in misc/fullscreen.dmi, and set this define to the icon_state, to set a custom titlescreen for your map
 
-		#define MINETYPE "lavaland"
+		#define MINETYPE "mining"
 
-        #include "map_files\TgStation\tgstation.2.1.3.dmm"
+        #include "map_files\CM\sulaco.dmm"
+        #include "map_files\CM\unk379.dmm"
         #include "map_files\generic\z2.dmm"
-        #include "map_files\generic\z3.dmm"
-        #include "map_files\generic\z4.dmm"
-        #include "map_files\generic\lavaland.dmm"
-        #include "map_files\generic\z6.dmm"
-        #include "map_files\generic\z7.dmm"
-        #include "map_files\generic\z8.dmm"
-		#include "map_files\generic\z9.dmm"
-		#include "map_files\generic\z10.dmm"
-		#include "map_files\generic\z11.dmm"
 
-		#define MAP_PATH "map_files/TgStation"
-        #define MAP_FILE "tgstation.2.1.3.dmm"
-        #define MAP_NAME "Box Station"
+		#define MAP_PATH "map_files/CM"
+        #define MAP_FILE "sulaco.dmm"
+        #define MAP_NAME "Sulaco"
 
 		#define MAP_TRANSITION_CONFIG DEFAULT_MAP_TRANSITION_CONFIG
 

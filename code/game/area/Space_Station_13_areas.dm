@@ -67,12 +67,14 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 var/list/teleportlocs = list()
 
 /proc/process_teleport_locs()
-	for(var/area/AR in world)
-		if(istype(AR, /area/shuttle) || istype(AR, /area/wizard_station) || AR.noteleport) continue
-		if(teleportlocs.Find(AR.name)) continue
+	for(var/V in sortedAreas)
+		var/area/AR = V
+		if(istype(AR, /area/shuttle) || istype(AR, /area/wizard_station) || AR.noteleport)
+			continue
+		if(teleportlocs[AR.name])
+			continue
 		var/turf/picked = safepick(get_area_turfs(AR.type))
 		if (picked && (picked.z == ZLEVEL_STATION))
-			teleportlocs += AR.name
 			teleportlocs[AR.name] = AR
 
 	sortTim(teleportlocs, /proc/cmp_text_dsc)
@@ -858,6 +860,14 @@ var/list/teleportlocs = list()
 /area/security/transfer
 	name = "Transfer Centre"
 	icon_state = "armory"
+
+/area/security/lockers
+	name = "Security Lockers"
+	icon_state = "firingrange"
+
+/area/security/isolation
+	name = "Isolation"
+	icon_state = "sec_prison"
 
 /*
 /area/security/transfer/New()

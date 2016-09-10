@@ -634,7 +634,7 @@
 	if(!client)
 		return
 
-	if(stat == UNCONSCIOUS && health <= config.health_threshold_crit)
+	if(stat == UNCONSCIOUS && health <= HEALTH_THRESHOLD_CRIT)
 		var/severity = 0
 		switch(health)
 			if(-20 to -10) severity = 1
@@ -712,10 +712,10 @@
 	if(status_flags & GODMODE)
 		return
 	if(stat != DEAD)
-		if(health<= config.health_threshold_dead || !getorgan(/obj/item/organ/brain))
+		if(health<= HEALTH_THRESHOLD_DEAD || !getorgan(/obj/item/organ/brain))
 			death()
 			return
-		if(paralysis || sleeping || getOxyLoss() > 50 || (status_flags & FAKEDEATH) || health <= config.health_threshold_crit)
+		if(paralysis || sleeping || getOxyLoss() > 50 || (status_flags & FAKEDEATH) || health <= HEALTH_THRESHOLD_CRIT)
 			if(stat == CONSCIOUS)
 				stat = UNCONSCIOUS
 				blind_eyes(1)
@@ -795,3 +795,20 @@
 /mob/living/carbon/fakefireextinguish()
 	remove_overlay(FIRE_LAYER)
 
+/mob/living/carbon/proc/add_screams(var/list/screams)
+	if(!screams || screams.len == 0)
+		return
+
+	for(var/S in screams)
+		alternate_screams |= S
+
+/mob/living/carbon/proc/reindex_screams()
+	src.alternate_screams = list()
+
+	// Check equipped items for alternate screams
+	if(head)
+		add_screams(head.alternate_screams)
+	if(wear_mask)
+		add_screams(wear_mask.alternate_screams)
+	if(back)
+		add_screams(back.alternate_screams)

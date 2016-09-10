@@ -23,6 +23,7 @@
 	var/log_access = 0					// log login/logout
 	var/log_say = 0						// log client say
 	var/log_admin = 0					// log admin actions
+	var/log_mentor = 0					// log admin actions
 	var/log_game = 0					// log game events
 	var/log_vote = 0					// log voting
 	var/log_whisper = 0					// log client whisper
@@ -70,12 +71,17 @@
 	var/forbid_singulo_possession = 0
 	var/useircbot = 0
 
+	var/check_randomizer = 0
+
 	//IP Intel vars
 	var/ipintel_email
 	var/ipintel_rating_bad = 1
 	var/ipintel_save_good = 12
 	var/ipintel_save_bad = 1
 	var/ipintel_domain = "check.getipintel.net"
+
+	var/mentors_mobname_only = 0		// Only display mob name to mentors in mentorhelps
+	var/mentor_legacy_system = 0	// Whether to use the legacy mentor system (flat file) instead of SQL
 
 	var/admin_legacy_system = 0	//Defines whether the server uses the legacy admin system with admins.txt or the SQL system. Config option in config.txt
 	var/ban_legacy_system = 0	//Defines whether the server uses the legacy banning system with the files in /data or the SQL system. Config option in config.txt
@@ -137,9 +143,6 @@
 	var/alert_desc_red_downto = "The station's destruction has been averted. There is still however an immediate serious threat to the station. Security may have weapons unholstered at all times, random searches are allowed and advised."
 	var/alert_desc_delta = "Destruction of the station is imminent. All crew are instructed to obey all instructions given by heads of staff. Any violations of these orders can be punished by death. This is not a drill."
 
-	var/health_threshold_crit = 0
-	var/health_threshold_dead = -100
-
 	var/revival_pod_plants = 1
 	var/revival_cloning = 1
 	var/revival_brain_life = -1
@@ -166,6 +169,8 @@
 
 	var/silent_ai = 0
 	var/silent_borg = 0
+
+	var/damage_multiplier = 1 //Modifier for damage to all mobs. Impacts healing as well.
 
 	var/allowwebclient = 0
 	var/webclientmembersonly = 0
@@ -213,6 +218,7 @@
 	var/client_error_message = "Your version of byond is too old, may have issues, and is blocked from accessing this server."
 
 	var/cross_name = "Other server"
+	var/showircname = 0
 
 /datum/configuration/New()
 	var/list/L = subtypesof(/datum/game_mode)
@@ -277,6 +283,8 @@
 				if("log_say")
 					config.log_say = 1
 				if("log_admin")
+					config.log_admin = 1
+				if("log_mentor")
 					config.log_admin = 1
 				if("log_prayer")
 					config.log_prayer = 1
@@ -380,6 +388,8 @@
 					global.medal_hub = value
 				if("medal_hub_password")
 					global.medal_pass = value
+				if("show_irc_name")
+					config.showircname = 1
 				if("see_own_notes")
 					config.see_own_notes = 1
 				if("soft_popcap")
@@ -400,6 +410,8 @@
 					config.notify_new_player_age = text2num(value)
 				if("irc_first_connection_alert")
 					config.irc_first_connection_alert = 1
+				if("check_randomizer")
+					config.check_randomizer = 1
 				if("ipintel_email")
 					if (value != "ch@nge.me")
 						config.ipintel_email = value
@@ -452,10 +464,8 @@
 
 		else if(type == "game_options")
 			switch(name)
-				if("health_threshold_crit")
-					config.health_threshold_crit	= text2num(value)
-				if("health_threshold_dead")
-					config.health_threshold_dead	= text2num(value)
+				if("damage_multiplier")
+					config.damage_multiplier		= text2num(value)
 				if("revival_pod_plants")
 					config.revival_pod_plants		= text2num(value)
 				if("revival_cloning")

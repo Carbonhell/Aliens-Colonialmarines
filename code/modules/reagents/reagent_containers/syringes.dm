@@ -176,6 +176,16 @@
 	desc = "Contains charcoal."
 	list_reagents = list("charcoal" = 15)
 
+/obj/item/weapon/reagent_containers/syringe/bromelain
+	name = "syringe (bromelain)"
+	desc = "Contains bromelain. A single injection is enough to heal most bruises."
+	list_reagents = list("bromelain" = 15)
+
+/obj/item/weapon/reagent_containers/syringe/dermaline
+	name = "syringe (dermaline)"
+	desc = "Contains dermaline. A single injection is enough to heal most burns."
+	list_reagents = list("dermaline" = 15)
+
 /obj/item/weapon/reagent_containers/syringe/antiviral
 	name = "syringe (spaceacillin)"
 	desc = "Contains antiviral agents."

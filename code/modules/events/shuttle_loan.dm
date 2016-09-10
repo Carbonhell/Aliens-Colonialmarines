@@ -8,6 +8,7 @@
 /datum/round_event_control/shuttle_loan
 	name = "Shuttle loan"
 	typepath = /datum/round_event/shuttle_loan
+	max_occurrences = 1
 	earliest_start = 4000
 
 /datum/round_event/shuttle_loan

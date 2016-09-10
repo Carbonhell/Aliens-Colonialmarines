@@ -12,6 +12,10 @@
 #define isabductor(A) (is_species(A, /datum/species/abductor))
 #define isgolem(A) (is_species(A, /datum/species/golem))
 #define islizard(A) (is_species(A, /datum/species/lizard))
+#define ismoth(A) (is_species(A, /datum/species/moth))
+#define istarajan(A) (is_species(A, /datum/species/cat))
+#define isavian(A) (is_species(A, /datum/species/bird))
+#define isipc(A) (is_species(A, /datum/species/bot))
 #define isplasmaman(A) (is_species(A, /datum/species/plasmaman))
 #define ispodperson(A) (is_species(A, /datum/species/podperson))
 #define isflyperson(A) (is_species(A, /datum/species/fly))
@@ -46,6 +50,8 @@
 #define isconstruct(A) (istype(A, /mob/living/simple_animal/hostile/construct))
 
 #define isclockmob(A) (istype(A, /mob/living/simple_animal/hostile/clockwork))
+
+#define ismegafauna(A) (istype(A, /mob/living/simple_animal/hostile/megafauna))
 
 #define isshade(A) (istype(A, /mob/living/simple_animal/shade))
 

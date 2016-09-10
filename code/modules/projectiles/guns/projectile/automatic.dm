@@ -13,10 +13,6 @@
 	desc = "A prototype three-round burst 9mm submachine gun, designated 'SABR'. Has a threaded barrel for suppressors."
 	icon_state = "saber"
 	mag_type = /obj/item/ammo_box/magazine/smgm9mm
-	pin = null
-
-/obj/item/weapon/gun/projectile/automatic/proto/unrestricted
-	pin = /obj/item/device/firing_pin
 
 /obj/item/weapon/gun/projectile/automatic/update_icon()
 	..()
@@ -83,18 +79,14 @@
 
 /obj/item/weapon/gun/projectile/automatic/c20r
 	name = "\improper C-20r SMG"
-	desc = "A bullpup two-round burst .45 SMG, designated 'C-20r'. Has a 'Scarborough Arms - Per falcis, per pravitas' buttstamp."
+	desc = "A bullpup three-round burst .45 SMG, designated 'C-20r'. Has a 'Scarborough Arms - Per falcis, per pravitas' buttstamp."
 	icon_state = "c20r"
 	item_state = "c20r"
 	origin_tech = "combat=5;materials=2;syndicate=6"
 	mag_type = /obj/item/ammo_box/magazine/smgm45
 	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
 	fire_delay = 2
-	burst_size = 2
-	pin = /obj/item/device/firing_pin/implant/pindicate
-
-/obj/item/weapon/gun/projectile/automatic/c20r/unrestricted
-	pin = /obj/item/device/firing_pin
+	burst_size = 3
 
 /obj/item/weapon/gun/projectile/automatic/c20r/New()
 	..()
@@ -133,9 +125,9 @@
 	mag_type = /obj/item/ammo_box/magazine/uzim9mm
 	burst_size = 2
 
-/obj/item/weapon/gun/projectile/automatic/m90
-	name = "\improper M-90gl Carbine"
-	desc = "A three-round burst 5.56 toploading carbine, designated 'M-90gl'. Has an attached underbarrel grenade launcher which can be toggled on and off."
+/obj/item/weapon/gun/projectile/automatic/c90
+	name = "\improper C-90gl Carbine"
+	desc = "A three-round burst 5.56 toploading carbine, designated 'C-90gl'. Has an attached underbarrel grenade launcher which can be toggled on and off."
 	icon_state = "m90"
 	item_state = "m90"
 	origin_tech = "combat=5;materials=2;syndicate=6"
@@ -145,37 +137,27 @@
 	var/obj/item/weapon/gun/projectile/revolver/grenadelauncher/underbarrel
 	burst_size = 3
 	fire_delay = 2
-	pin = /obj/item/device/firing_pin/implant/pindicate
 
-/obj/item/weapon/gun/projectile/automatic/m90/New()
+/obj/item/weapon/gun/projectile/automatic/c90/New()
 	..()
 	underbarrel = new /obj/item/weapon/gun/projectile/revolver/grenadelauncher(src)
 	update_icon()
 	return
 
-/obj/item/weapon/gun/projectile/automatic/m90/unrestricted
-	pin = /obj/item/device/firing_pin
-
-/obj/item/weapon/gun/projectile/automatic/m90/unrestricted/New()
-	..()
-	underbarrel = new /obj/item/weapon/gun/projectile/revolver/grenadelauncher/unrestricted(src)
-	update_icon()
-	return
-
-/obj/item/weapon/gun/projectile/automatic/m90/afterattack(atom/target, mob/living/user, flag, params)
+/obj/item/weapon/gun/projectile/automatic/c90/afterattack(atom/target, mob/living/user, flag, params)
 	if(select == 2)
 		underbarrel.afterattack(target, user, flag, params)
 	else
 		..()
 		return
-/obj/item/weapon/gun/projectile/automatic/m90/attackby(obj/item/A, mob/user, params)
+/obj/item/weapon/gun/projectile/automatic/c90/attackby(obj/item/A, mob/user, params)
 	if(istype(A, /obj/item/ammo_casing))
 		if(istype(A, underbarrel.magazine.ammo_type))
 			underbarrel.attack_self()
 			underbarrel.attackby(A, user, params)
 	else
 		..()
-/obj/item/weapon/gun/projectile/automatic/m90/update_icon()
+/obj/item/weapon/gun/projectile/automatic/c90/update_icon()
 	..()
 	cut_overlays()
 	switch(select)
@@ -187,7 +169,7 @@
 			add_overlay("[initial(icon_state)]gren")
 	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
 	return
-/obj/item/weapon/gun/projectile/automatic/m90/burst_select()
+/obj/item/weapon/gun/projectile/automatic/c90/burst_select()
 	var/mob/living/carbon/human/user = usr
 	switch(select)
 		if(0)
@@ -250,11 +232,7 @@
 	can_suppress = 0
 	burst_size = 1
 	fire_delay = 0
-	pin = /obj/item/device/firing_pin/implant/pindicate
 	actions_types = list()
-
-/obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/unrestricted
-	pin = /obj/item/device/firing_pin
 
 /obj/item/weapon/gun/projectile/automatic/shotgun/bulldog/New()
 	..()
@@ -283,24 +261,19 @@
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw
 	name = "\improper L6 SAW"
-	desc = "A heavily modified 5.56x45mm light machine gun, designated 'L6 SAW'. Has 'Aussec Armoury - 2531' engraved on the receiver below the designation."
+	desc = "A heavily modified 7.62 light machine gun, designated 'L6 SAW'. Has 'Aussec Armoury - 2531' engraved on the receiver below the designation."
 	icon_state = "l6closed100"
 	item_state = "l6closedmag"
 	w_class = 5
 	slot_flags = 0
 	origin_tech = "combat=6;engineering=3;syndicate=6"
-	mag_type = /obj/item/ammo_box/magazine/mm556x45
+	mag_type = /obj/item/ammo_box/magazine/m762
 	weapon_weight = WEAPON_MEDIUM
 	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
 	var/cover_open = 0
 	can_suppress = 0
 	burst_size = 3
 	fire_delay = 1
-	pin = /obj/item/device/firing_pin/implant/pindicate
-
-/obj/item/weapon/gun/projectile/automatic/l6_saw/unrestricted
-	pin = /obj/item/device/firing_pin
-
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw/attack_self(mob/user)
 	cover_open = !cover_open
@@ -380,7 +353,6 @@
 /obj/item/weapon/gun/projectile/automatic/sniper_rifle/syndicate
 	name = "syndicate sniper rifle"
 	desc = "Syndicate flavoured sniper rifle, it packs quite a punch, a punch to your face"
-	pin = /obj/item/device/firing_pin/implant/pindicate
 	origin_tech = "combat=7;syndicate=6"
 
 

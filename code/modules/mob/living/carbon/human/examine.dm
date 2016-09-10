@@ -288,6 +288,10 @@
 			if(91.01 to INFINITY)
 				msg += "[t_He] is a shitfaced, slobbering wreck.\n"
 
+	var/obj/item/bodypart/head/O = locate(/obj/item/bodypart/head) in bodyparts
+	if(O && O.get_teeth() < O.max_teeth)
+		msg += "[O.get_teeth() <= 0 ? "All" : "[O.max_teeth - O.get_teeth()]"] of [t_his] teeth are missing!\n"
+
 	msg += "</span>"
 
 	if(!appears_dead)

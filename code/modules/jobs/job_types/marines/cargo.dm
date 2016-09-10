@@ -53,5 +53,5 @@ Cargo Technician
 	belt = /obj/item/device/pda/cargo
 	ears = /obj/item/device/radio/headset/headset_cargo
 	uniform = /obj/item/clothing/under/rank/cargotech
-	backpack_contents = list(/obj/item/modular_computer/tablet/preset/cheap=1)
+	backpack_contents = list(/obj/item/device/modular_computer/tablet/preset/cheap=1)
 

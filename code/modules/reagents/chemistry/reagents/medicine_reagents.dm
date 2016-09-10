@@ -31,6 +31,7 @@
 	id = "adminordrazine"
 	description = "It's magic. We don't have to explain it."
 	color = "#C8A5DC" // rgb: 200, 165, 220
+	can_synth = 0
 
 /datum/reagent/medicine/adminordrazine/on_mob_life(mob/living/carbon/M)
 	M.reagents.remove_all_type(/datum/reagent/toxin, 5*REM, 0, 1)
@@ -120,20 +121,12 @@
 /datum/reagent/medicine/cryoxadone
 	name = "Cryoxadone"
 	id = "cryoxadone"
-	description = "A chemical mixture with almost magical healing powers. Its main limitation is that the patient's body temperature must be under 270K for it to metabolise correctly."
+	description = "A chemical mixture with almost magical healing powers. Its main limitation is that the patient's body temperature must be under 250K for it to metabolise correctly."
 	color = "#0000C8"
 
 /datum/reagent/medicine/cryoxadone/on_mob_life(mob/living/M)
 	switch(M.bodytemperature) // Low temperatures are required to take effect.
-		if(0 to 100) // At extreme temperatures (upgraded cryo) the effect is greatly increased.
-			M.status_flags &= ~DISFIGURED
-			M.adjustCloneLoss(-7, 0)
-			M.adjustOxyLoss(-9, 0)
-			M.adjustBruteLoss(-5, 0)
-			M.adjustFireLoss(-5, 0)
-			M.adjustToxLoss(-5, 0)
-			. = 1
-		if(100 to 225) // At lower temperatures (cryo) the full effect is boosted
+		if(0 to 200) // At lower temperatures (cryo) the full effect is boosted
 			M.status_flags &= ~DISFIGURED
 			M.adjustCloneLoss(-2, 0)
 			M.adjustOxyLoss(-7, 0)
@@ -141,7 +134,7 @@
 			M.adjustFireLoss(-3, 0)
 			M.adjustToxLoss(-3, 0)
 			. = 1
-		if(225 to T0C)
+		if(200 to 250)
 			M.status_flags &= ~DISFIGURED
 			M.adjustCloneLoss(-1, 0)
 			M.adjustOxyLoss(-5, 0)
@@ -151,6 +144,23 @@
 			. = 1
 	..()
 
+/datum/reagent/medicine/clonexadone
+	name = "Clonexadone"
+	id = "clonexadone"
+	description = "A stronger version of Cryoxadone that only metabolizes in extremely low temperatures below 150K."
+	color = "#0000C8"
+
+/datum/reagent/medicine/clonexadone/on_mob_life(mob/living/M)
+	switch(M.bodytemperature) // Low temperatures are required to take effect.
+		if(0 to 150) // At extreme temperatures (upgraded cryo) the effect is greatly increased.
+			M.status_flags &= ~DISFIGURED
+			M.adjustCloneLoss(-7, 0)
+			M.adjustOxyLoss(-9, 0)
+			M.adjustBruteLoss(-5, 0)
+			M.adjustFireLoss(-5, 0)
+			M.adjustToxLoss(-5, 0)
+			. = 1
+	..()
 
 /datum/reagent/medicine/rezadone
 	name = "Rezadone"
@@ -196,16 +206,11 @@
 			if(show_message)
 				M << "<span class='warning'>You don't feel so good...</span>"
 		else if(M.getFireLoss())
-			M.adjustFireLoss(-reac_volume)
+			M.adjustFireLoss(max(-reac_volume, -30))
 			if(show_message)
 				M << "<span class='danger'>You feel your burns healing! It stings like hell!</span>"
 			M.emote("scream")
 	..()
-
-/datum/reagent/medicine/silver_sulfadiazine/on_mob_life(mob/living/M)
-	M.adjustFireLoss(-2*REM, 0)
-	..()
-	. = 1
 
 /datum/reagent/medicine/oxandrolone
 	name = "Oxandrolone"
@@ -244,17 +249,11 @@
 			if(show_message)
 				M << "<span class='warning'>You don't feel so good...</span>"
 		else if(M.getBruteLoss())
-			M.adjustBruteLoss(-reac_volume)
+			M.adjustBruteLoss(max(-reac_volume, -30))
 			if(show_message)
 				M << "<span class='danger'>You feel your bruises healing! It stings like hell!</span>"
 			M.emote("scream")
 	..()
-
-
-/datum/reagent/medicine/styptic_powder/on_mob_life(mob/living/M)
-	M.adjustBruteLoss(-2*REM, 0)
-	..()
-	. = 1
 
 /datum/reagent/medicine/salglu_solution
 	name = "Saline-Glucose Solution"
@@ -262,13 +261,12 @@
 	description = "Has a 33% chance per metabolism cycle to heal brute and burn damage.  Can be used as a blood substitute on an IV drip."
 	reagent_state = LIQUID
 	color = "#DCDCDC"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	metabolization_rate = 0.75 * REAGENTS_METABOLISM
 
 /datum/reagent/medicine/salglu_solution/on_mob_life(mob/living/M)
-	if(prob(33))
-		M.adjustBruteLoss(-0.5*REM, 0)
-		M.adjustFireLoss(-0.5*REM, 0)
-		. = 1
+	M.adjustBruteLoss(-0.5*REM, 0)
+	M.adjustFireLoss(-0.5*REM, 0)
+	. = 1
 	..()
 
 /datum/reagent/medicine/salglu_solution/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
@@ -301,8 +299,7 @@
 /datum/reagent/medicine/mine_salve/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
 	if(iscarbon(M) && M.stat != DEAD)
 		if(method in list(INGEST, VAPOR, INJECT))
-			M.Stun(4)
-			M.Weaken(4)
+			M.adjustStaminaLoss(3*reac_volume)
 			if(show_message)
 				M << "<span class='warning'>Your stomach agonizingly cramps!</span>"
 		else
@@ -332,8 +329,9 @@
 /datum/reagent/medicine/synthflesh/reaction_mob(mob/living/M, method=TOUCH, reac_volume,show_message = 1)
 	if(iscarbon(M) && M.stat != DEAD)
 		if(method in list(PATCH, TOUCH))
-			M.adjustBruteLoss(-1.25 * reac_volume)
-			M.adjustFireLoss(-1.25 * reac_volume)
+			M.adjustBruteLoss(-1 * reac_volume)
+			M.adjustFireLoss(-1 * reac_volume)
+			M.adjustStaminaLoss(1.5 * reac_volume)
 			if(show_message)
 				M << "<span class='danger'>You feel your burns and bruises healing! It stings like hell!</span>"
 	..()
@@ -492,15 +490,15 @@
 	reagent_state = LIQUID
 	color = "#D2FFFA"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = 45
+	overdose_threshold = 30
 	addiction_threshold = 30
+	stun_threshold = 6
+	stun_resist = 4
+	speedboost = FAST
 
 /datum/reagent/medicine/ephedrine/on_mob_life(mob/living/M)
-	M.status_flags |= GOTTAGOFAST
-	M.AdjustParalysis(-1, 0)
-	M.AdjustStunned(-1, 0)
-	M.AdjustWeakened(-1, 0)
-	M.adjustStaminaLoss(-1*REM, 0)
+	M.adjustStaminaLoss(-1, 0)
+	stun_resist_act(M)
 	..()
 	. = 1
 
@@ -509,6 +507,10 @@
 		M.adjustToxLoss(0.5*REM, 0)
 		M.losebreath++
 		. = 1
+	if(prob(12))
+		var/obj/item/I = M.get_active_hand()
+		if(I)
+			M.drop_item()
 	..()
 
 /datum/reagent/medicine/ephedrine/addiction_act_stage1(mob/living/M)
@@ -554,26 +556,47 @@
 	M.reagents.remove_reagent("histamine",3)
 	..()
 
+/datum/reagent/medicine/sleeptoxin
+	name = "Sleep Toxin"
+	id = "sleeptoxin"
+	description = "A weak yet nontoxic sedative that can be used to safely put a patient to sleep."
+	reagent_state = LIQUID
+	color = "#C8A5DC"
+	metabolization_rate = REAGENTS_METABOLISM
+
+/datum/reagent/medicine/sleeptoxin/on_mob_life(mob/living/M)
+	switch(current_cycle)
+		if(7)
+			M << "<span class='warning'>You start to feel tired...</span>" //Warning when the victim is starting to pass out
+		if(8 to 14)
+			M.drowsyness += 1
+		if(15 to INFINITY)
+			M.sleeping += 1
+	..()
+	. = 1
+
 /datum/reagent/medicine/morphine
 	name = "Morphine"
 	id = "morphine"
-	description = "A painkiller that allows the patient to move at full speed even in bulky objects. Causes drowsiness and eventually unconsciousness in high doses. Overdose will cause a variety of effects, ranging from minor to lethal."
+	description = "A painkiller that allows the patient to move at full speed, regardless of injury or clothing. However, it will make you drowsy, drains faster on severe injuries and reduces the effectiveness of stun-resisting chemicals. Overdose will cause a variety of effects, ranging from minor to lethal."
 	reagent_state = LIQUID
 	color = "#A9FBFB"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	metabolization_rate = 1.5 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 	addiction_threshold = 25
+	speedboost = IGNORE_SLOWDOWN
 
 /datum/reagent/medicine/morphine/on_mob_life(mob/living/M)
-	M.status_flags |= IGNORESLOWDOWN
-	switch(current_cycle)
-		if(11)
-			M << "<span class='warning'>You start to feel tired...</span>" //Warning when the victim is starting to pass out
-		if(12 to 24)
-			M.drowsyness += 1
-		if(24 to INFINITY)
-			M.Sleeping(2, 0)
-			. = 1
+	if(iscarbon(M))
+		var/mob/living/carbon/N = M
+		N.hal_screwyhud = 5
+	for(var/datum/reagent/R in M.reagents.reagent_list)
+		R.stun_timer = max(0, stun_timer - 0.5)
+	if(current_cycle >= 10)
+		M.drowsyness += 1
+		if(M.health <= 30)
+			M.sleeping += 1
+	. = 1
 	..()
 
 /datum/reagent/medicine/morphine/overdose_process(mob/living/M)
@@ -803,18 +826,17 @@
 	color = "#78008C"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 60
+	stun_threshold = 4
+	stun_resist = 4
+	speedboost = FAST
 
 /datum/reagent/medicine/stimulants/on_mob_life(mob/living/M)
-	M.status_flags |= GOTTAGOFAST
 	if(M.health < 50 && M.health > 0)
 		M.adjustOxyLoss(-1*REM, 0)
 		M.adjustToxLoss(-1*REM, 0)
 		M.adjustBruteLoss(-1*REM, 0)
 		M.adjustFireLoss(-1*REM, 0)
-	M.AdjustParalysis(-3, 0)
-	M.AdjustStunned(-3, 0)
-	M.AdjustWeakened(-3, 0)
-	M.adjustStaminaLoss(-5*REM, 0)
+	M.adjustStaminaLoss(-3*REM, 0)
 	..()
 	. = 1
 
@@ -894,7 +916,8 @@ datum/reagent/medicine/bicaridine/on_mob_life(mob/living/M)
 	. = 1
 
 datum/reagent/medicine/bicaridine/overdose_process(mob/living/M)
-	M.adjustBruteLoss(4*REM, 0)
+	M.adjustBruteLoss(3*REM, 0)
+	metabolization_rate = 4 * REAGENTS_METABOLISM
 	..()
 	. = 1
 
@@ -912,7 +935,8 @@ datum/reagent/medicine/dexalin/on_mob_life(mob/living/M)
 	. = 1
 
 datum/reagent/medicine/dexalin/overdose_process(mob/living/M)
-	M.adjustOxyLoss(4*REM, 0)
+	M.adjustOxyLoss(3*REM, 0)
+	metabolization_rate = 4 * REAGENTS_METABOLISM
 	..()
 	. = 1
 
@@ -930,7 +954,57 @@ datum/reagent/medicine/kelotane/on_mob_life(mob/living/M)
 	. = 1
 
 datum/reagent/medicine/kelotane/overdose_process(mob/living/M)
-	M.adjustFireLoss(4*REM, 0)
+	M.adjustFireLoss(3*REM, 0)
+	metabolization_rate = 4 * REAGENTS_METABOLISM
+	..()
+	. = 1
+
+datum/reagent/medicine/bromelain
+	name = "Bromelain"
+	id = "bromelain"
+	description = "Effective at healing severe brusing and very efficient but acts somewhat slowly."
+	reagent_state = LIQUID
+	color = "#E0BCD6"
+	overdose_threshold = 30
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+
+datum/reagent/medicine/bromelain/on_mob_life(mob/living/M)
+	M.adjustBruteLoss(-2*REM, 0)
+	if(M.getBruteLoss() < 30)
+		metabolization_rate = REAGENTS_METABOLISM
+	else
+		metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	..()
+	. = 1
+
+datum/reagent/medicine/bromelain/overdose_process(mob/living/M)
+	M.adjustBruteLoss(3*REM, 0)
+	metabolization_rate = 2 * REAGENTS_METABOLISM
+	..()
+	. = 1
+
+datum/reagent/medicine/dermaline
+	name = "Dermaline"
+	id = "dermaline"
+	description = "Effective at healing severe burns and very efficient but acts somewhat slowly."
+	reagent_state = LIQUID
+	color = "#E0D8BC"
+	overdose_threshold = 30
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+
+datum/reagent/medicine/dermaline/on_mob_life(mob/living/M)
+	M.adjustFireLoss(-2*REM, 0)
+	if(M.getFireLoss() < 30)
+		metabolization_rate = REAGENTS_METABOLISM
+	else
+		metabolization_rate = 0.5 * REAGENTS_METABOLISM
+
+	..()
+	. = 1
+
+datum/reagent/medicine/dermaline/overdose_process(mob/living/M)
+	M.adjustFireLoss(3*REM, 0)
+	metabolization_rate = 2 * REAGENTS_METABOLISM
 	..()
 	. = 1
 
@@ -951,7 +1025,8 @@ datum/reagent/medicine/antitoxin/on_mob_life(mob/living/M)
 	. = 1
 
 datum/reagent/medicine/antitoxin/overdose_process(mob/living/M)
-	M.adjustToxLoss(4*REM, 0) // End result is 2 toxin loss taken, because it heals 2 and then removes 4.
+	M.adjustToxLoss(3*REM, 0)
+	metabolization_rate = 4 * REAGENTS_METABOLISM
 	..()
 	. = 1
 
@@ -1066,10 +1141,7 @@ datum/reagent/medicine/syndicate_nanites/on_mob_life(mob/living/M)
 	overdose_threshold = 30
 
 /datum/reagent/medicine/changelingAdrenaline/on_mob_life(mob/living/M as mob)
-	M.AdjustParalysis(-1, 0)
-	M.AdjustStunned(-1, 0)
-	M.AdjustWeakened(-1, 0)
-	M.adjustStaminaLoss(-1, 0)
+	stun_resist_act(M)
 	. = 1
 	..()
 
@@ -1083,10 +1155,12 @@ datum/reagent/medicine/syndicate_nanites/on_mob_life(mob/living/M)
 	id = "changelingAdrenaline2"
 	description = "Drastically increases movement speed."
 	color = "#C8A5DC"
-	metabolization_rate = 1
+	metabolization_rate = 2.5* REAGENTS_METABOLISM
+	speedboost = VERY_FAST
+	stun_resist = 4
+	stun_threshold = 4
 
 /datum/reagent/medicine/changelingAdrenaline2/on_mob_life(mob/living/M as mob)
-	M.status_flags |= GOTTAGOREALLYFAST
 	M.adjustToxLoss(2, 0)
 	. = 1
 	..()

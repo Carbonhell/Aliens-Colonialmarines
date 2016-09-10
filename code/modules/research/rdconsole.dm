@@ -394,6 +394,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 				linked_lathe.reagents.remove_reagent(R, being_built.reagents[R]*coeff)
 
 		var/P = being_built.build_path //lets save these values before the spawn() just in case. Nobody likes runtimes.
+		var/O = being_built.locked
 		spawn(32*coeff*amount**0.8)
 			if(linked_lathe)
 				if(g2g) //And if we only fail the material requirements, we still spend time and power
@@ -404,7 +405,12 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 							new_item.investigate_log("built by [key]","singulo")
 						if(!istype(new_item, /obj/item/stack/sheet)) // To avoid materials dupe glitches
 							new_item.materials = efficient_mats.Copy()
-						new_item.loc = linked_lathe.loc
+						if(O)
+							var/obj/item/weapon/storage/lockbox/L = new/obj/item/weapon/storage/lockbox(linked_lathe.loc)
+							new_item.loc = L
+							L.name += " ([new_item.name])"
+						else
+							new_item.loc = linked_lathe.loc
 						if(!already_logged)
 							feedback_add_details("item_printed","[new_item.type]|[amount]")
 							already_logged = 1
@@ -843,13 +849,14 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 				var/temp_material
 				var/c = 50
 				var/t
-				for(var/M in D.materials)
+				var/all_materials = D.materials + D.reagents
+				for(var/M in all_materials)
 					t = linked_lathe.check_mat(D, M)
 					temp_material += " | "
 					if (t < 1)
-						temp_material += "<span class='bad'>[D.materials[M]*coeff] [CallMaterialName(M)]</span>"
+						temp_material += "<span class='bad'>[all_materials[M]*coeff] [CallMaterialName(M)]</span>"
 					else
-						temp_material += " [D.materials[M]*coeff] [CallMaterialName(M)]"
+						temp_material += " [all_materials[M]*coeff] [CallMaterialName(M)]"
 					c = min(c,t)
 
 				if (c >= 1)
@@ -953,13 +960,14 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 			for(var/datum/design/D in matching_designs)
 				var/temp_materials
 				var/check_materials = 1
-				for(var/M in D.materials)
+				var/all_materials = D.materials + D.reagents
+				for(var/M in all_materials)
 					temp_materials += " | "
 					if (!linked_imprinter.check_mat(D, M))
 						check_materials = 0
-						temp_materials += " <span class='bad'>[D.materials[M]/coeff] [CallMaterialName(M)]</span>"
+						temp_materials += " <span class='bad'>[all_materials[M]/coeff] [CallMaterialName(M)]</span>"
 					else
-						temp_materials += " [D.materials[M]/coeff] [CallMaterialName(M)]"
+						temp_materials += " [all_materials[M]/coeff] [CallMaterialName(M)]"
 				if (check_materials)
 					dat += "<A href='?src=\ref[src];imprint=[D.id]'>[D.name]</A>[temp_materials]<BR>"
 				else

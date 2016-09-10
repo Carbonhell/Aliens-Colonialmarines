@@ -272,6 +272,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(updatedir)
 		setDir(direct )//only update dir if we actually need it, so overlays won't spin on base sprites that don't have directions of their own
 	if(NewLoc)
+		update_client_hook(NewLoc)//Move was overwritten from the default Atom stuff, *SCREAM*
 		loc = NewLoc
 		for(var/obj/effect/step_trigger/S in NewLoc)
 			S.Crossed(src)
@@ -289,6 +290,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	for(var/obj/effect/step_trigger/S in locate(x, y, z))	//<-- this is dumb
 		S.Crossed(src)
+	update_client_hook(loc)
 
 /mob/dead/observer/is_active()
 	return 0
@@ -541,7 +543,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(!target)
 		return 0
 
-	if(istype (target, /mob/living/simple_animal/hostile/megafauna))
+	if(ismegafauna(target))
 		src << "<span class='warning'>This creature is too powerful for you to possess!</span>"
 		return 0
 
