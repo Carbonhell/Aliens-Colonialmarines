@@ -14,7 +14,6 @@
 	name = "Portal Storm: Constructs"
 	typepath = /datum/round_event/portal_storm/portal_storm_narsie
 	weight = 0
-	max_occurrences = 0
 
 /datum/round_event/portal_storm/portal_storm_narsie
 	boss_types = list(/mob/living/simple_animal/hostile/construct/builder = 6)

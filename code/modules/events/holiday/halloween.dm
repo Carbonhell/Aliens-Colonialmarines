@@ -3,7 +3,6 @@
 	holidayID = HALLOWEEN
 	typepath = /datum/round_event/spooky
 	weight = -1							//forces it to be called, regardless of weight
-	max_occurrences = 1
 	earliest_start = 0
 
 /datum/round_event/spooky/start()
@@ -41,7 +40,6 @@
 	typepath = /datum/round_event/meteor_wave/spooky
 	holidayID = HALLOWEEN
 	weight = 20
-	max_occurrences = 2
 
 /datum/round_event/meteor_wave/spooky
 	endWhen	= 40

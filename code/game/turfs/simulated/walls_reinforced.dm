@@ -5,6 +5,7 @@
 	icon_state = "r_wall"
 	opacity = 1
 	density = 1
+	health = 2000
 
 	walltype = "rwall"
 

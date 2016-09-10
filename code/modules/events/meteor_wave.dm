@@ -5,7 +5,6 @@
 	typepath = /datum/round_event/meteor_wave
 	weight = 4
 	min_players = 5
-	max_occurrences = 3
 
 /datum/round_event/meteor_wave
 	startWhen		= 6
@@ -52,7 +51,6 @@
 	typepath = /datum/round_event/meteor_wave/threatening
 	weight = 2
 	min_players = 5
-	max_occurrences = 3
 
 /datum/round_event/meteor_wave/threatening
 	wave_name = "threatening"
@@ -62,7 +60,6 @@
 	typepath = /datum/round_event/meteor_wave/catastrophic
 	weight = 1
 	min_players = 5
-	max_occurrences = 3
 
 /datum/round_event/meteor_wave/catastrophic
 	wave_name = "catastrophic"

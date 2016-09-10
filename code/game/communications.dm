@@ -170,10 +170,10 @@ var/const/ENG_FREQ = 1357 //engineering, coloured orange in chat window
 var/const/SEC_FREQ = 1359 //security, coloured red in chat window
 var/const/CENTCOM_FREQ = 1337 //centcom frequency, coloured grey in chat window
 var/const/AIPRIV_FREQ = 1447 //AI private, colored magenta in chat window
-var/const/ALPHA_FREQ = 123.5
-var/const/BRAVO_FREQ = 124.5
-var/const/CHARLIE_FREQ = 125.5
-var/const/DELTA_FREQ = 126.5
+var/const/ALPHA_FREQ = 1235
+var/const/BRAVO_FREQ = 1245
+var/const/CHARLIE_FREQ = 1255
+var/const/DELTA_FREQ = 1265
 
 
 #define TRANSMISSION_WIRE	0

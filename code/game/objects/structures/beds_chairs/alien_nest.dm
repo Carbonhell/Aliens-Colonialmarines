@@ -11,7 +11,9 @@
 	canSmoothWith = null
 	buildstacktype = null
 	flags = NODECONSTRUCT
+	var/static/list/recently_nested = list() //used to avoid shitlords de-nesting and re-nesting poor guys
 	var/image/nest_overlay
+	var/ready_to_free = FALSE
 
 /obj/structure/bed/nest/New()
 	nest_overlay = image('icons/mob/alien.dmi', "nestoverlay", layer=LYING_MOB_LAYER)
@@ -22,7 +24,7 @@
 		for(var/buck in buckled_mobs) //breaking a nest releases all the buckled mobs, because the nest isn't holding them down anymore
 			var/mob/living/M = buck
 
-			if(user.getorgan(/obj/item/organ/alien/plasmavessel))
+			if(user.getorgan(/obj/item/organ/alien/resinspinner))
 				unbuckle_mob(M)
 				add_fingerprint(user)
 				return
@@ -32,6 +34,10 @@
 					"[user.name] pulls [M.name] free from the sticky nest!",\
 					"<span class='notice'>[user.name] pulls you free from the gelatinous resin.</span>",\
 					"<span class='italics'>You hear squelching...</span>")
+				recently_nested |= M
+				addtimer(src, "reset_nest_delay", 300, TRUE, M)
+				unbuckle_mob(M)
+				add_fingerprint(user)
 			else
 				M.visible_message(\
 					"<span class='warning'>[M.name] struggles to break free from the gelatinous resin!</span>",\
@@ -41,23 +47,35 @@
 					if(M && M.buckled)
 						M << "<span class='warning'>You fail to unbuckle yourself!</span>"
 					return
-				if(!M.buckled)
-					return
-				M.visible_message(\
-					"<span class='warning'>[M.name] breaks free from the gelatinous resin!</span>",\
-					"<span class='notice'>You break free from the gelatinous resin!</span>",\
-					"<span class='italics'>You hear squelching...</span>")
+				else
+					M << "<span class='warning'>You are ready to break free!Resist again to do so.</span>"
+					ready_to_free = TRUE
+				if(ready_to_free)
+					if(!M.buckled)
+						return
+					M.visible_message(\
+						"<span class='warning'>[M.name] breaks free from the gelatinous resin!</span>",\
+						"<span class='notice'>You break free from the gelatinous resin!</span>",\
+						"<span class='italics'>You hear squelching...</span>")
+					unbuckle_mob(M)
+					add_fingerprint(user)
 
-			unbuckle_mob(M)
-			add_fingerprint(user)
+/obj/structure/bed/nest/proc/reset_nest_delay(mob/user)
+	if(!user)
+		return
+	if(user in recently_nested)
+		recently_nested -= user
 
 /obj/structure/bed/nest/user_buckle_mob(mob/living/M, mob/living/user)
 	if ( !ismob(M) || (get_dist(src, user) > 1) || (M.loc != src.loc) || user.incapacitated() || M.buckled )
 		return
 
-	if(M.getorgan(/obj/item/organ/alien/plasmavessel))
+	if(isalien(M))
 		return
-	if(!user.getorgan(/obj/item/organ/alien/plasmavessel))
+	if(!user.getorgan(/obj/item/organ/alien/resinspinner))
+		return
+	if(M in recently_nested)
+		user << "<span class='danger'>[M.name] was recently recently unbuckled. Wait a bit.</span>"
 		return
 
 	if(has_buckled_mobs())
@@ -100,3 +118,9 @@
 		density = 0
 		qdel(src)
 
+/obj/structure/bed/nest/attack_alien(mob/living/carbon/alien/humanoid/M)
+	if(M.a_intent == "harm")
+		M << "<span class='danger'>You start clawing the [name] down...</span>"
+		if(do_after(M, 50, src))
+			M << "<span class='danger'>You claw the [name] down.</span>"
+			qdel(src)

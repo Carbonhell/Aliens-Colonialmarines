@@ -4,7 +4,6 @@
 	weight = 5
 
 	min_players = 10
-	max_occurrences = 1
 
 /datum/round_event/ghost_role/alien_infestation
 	announceWhen	= 400
