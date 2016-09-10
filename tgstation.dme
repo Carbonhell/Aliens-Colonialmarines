@@ -15,6 +15,10 @@
 // BEGIN_INCLUDE
 #include "_maps\__MAP_DEFINES.dm"
 #include "_maps\tgstation2.dm"
+#include "_maps\unk379.dm"
+#include "_maps\colonial marines\sulaco.dmm"
+#include "_maps\colonial marines\unk379.dmm"
+#include "_maps\map_files\TgStation\tgstation.2.1.3.dmm"
 #include "code\_compile_options.dm"
 #include "code\hub.dm"
 #include "code\outfits.dm"

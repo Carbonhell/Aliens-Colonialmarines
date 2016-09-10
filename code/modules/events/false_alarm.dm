@@ -2,7 +2,6 @@
 	name 			= "False Alarm"
 	typepath 		= /datum/round_event/falsealarm
 	weight			= 20
-	max_occurrences = 0
 
 /datum/round_event/falsealarm
 	announceWhen	= 0

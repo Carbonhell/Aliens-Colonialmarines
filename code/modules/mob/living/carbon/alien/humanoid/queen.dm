@@ -21,9 +21,11 @@ var/global/list/queenckeys = list()
 	is_intelligent = TRUE
 	caste_desc = "The one, the queen, the biggest. This lady controls everything, with an iron fist. Well, claw."
 
-/mob/living/carbon/alien/humanoid/big/queen/death()
+/mob/living/carbon/alien/humanoid/big/queen/death(gibbed, corpse = FALSE)
 	if(stat == DEAD)
 		return
+	if(corpse)
+		return ..()//just a mapped corpse
 	if(!queen_died_recently)//just to be sure
 		queen_died_recently = TRUE
 		addtimer(GLOBAL_PROC, "reset_queendeath", 3000)

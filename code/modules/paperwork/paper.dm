@@ -396,6 +396,10 @@
 	name = "paper scrap"
 	icon_state = "scrap"
 
+/obj/item/weapon/paper/crumpled/report
+	name = "paper- 'Weyland-Yutani announcement'"
+	info = "<FONT size = 3><B>Weyland-Yutani Update</B> Weird bioscan signal:</FONT><HR><B> We have recently noticed a weird signal through the bioscan, coming from Virology. Investigate and clear it.</B><HR>"
+
 /obj/item/weapon/paper/crumpled/update_icon()
 	return
 

@@ -62,7 +62,7 @@
 			xeno_spawn += loc
 			qdel(src)
 			return
-		if("survivor_spawn")
+		if("surv_spawn")
 			survivor_spawn += loc
 			qdel(src)
 			return

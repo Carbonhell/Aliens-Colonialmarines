@@ -30,6 +30,8 @@
 		M.make_Alien()//defaults to larva
 		M.current << "You are an alien! Reproduce and make a new home out of this place. Speak in the hivemind with :a (Like ':a Hello fellow sisters!')"
 	for(var/survy in survivor_candidates)
+		if(isemptylist(survivor_spawn))
+			break
 		var/datum/mind/S = survy
 		var/mob/living/carbon/human/H = new(pick(survivor_spawn))
 		S.transfer_to(H, 1)

@@ -359,6 +359,7 @@ var/datum/subsystem/job/SSjob
 	var/datum/job/job = GetJob(rank)
 
 	H.job = rank
+	H.faction += job.faction
 
 	//If we joined at roundstart we should be positioned at our workstation
 	if(!joined_late)

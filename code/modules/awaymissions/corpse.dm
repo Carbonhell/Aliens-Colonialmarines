@@ -65,7 +65,7 @@
 /obj/effect/mob_spawn/proc/equip(mob/M)
 	return
 
-/obj/effect/mob_spawn/proc/create(ckey)
+/obj/effect/mob_spawn/proc/create(ckey, specialdeath = FALSE)
 	var/mob/living/M = new mob_type(get_turf(src)) //living mobs only
 	if(!random)
 		M.real_name = mob_name ? mob_name : M.name
@@ -75,7 +75,10 @@
 	if(faction)
 		M.faction = list(faction)
 	if(death)
-		M.death(1) //Kills the new mob
+		if(specialdeath)
+			M.death(1, 1)
+		else
+			M.death(1) //Kills the new mob
 
 	M.adjustOxyLoss(oxy_damage)
 	M.adjustBruteLoss(brute_damage)
@@ -243,6 +246,45 @@
 	mob_gender = FEMALE
 	icon = 'icons/obj/Cryogenic2.dmi'
 	icon_state = "sleeper"
+
+//Alien spawners
+/obj/effect/mob_spawn/xenomorph
+	mob_type = /mob/living/carbon/alien/larva
+	random = TRUE//what does this even do ayyy lmao
+	var/keep_organs = FALSE
+
+/obj/effect/mob_spawn/xenomorph/special(mob/living/carbon/alien/xeno)
+	if(!keep_organs && isalien(xeno))
+		for(var/obj/item/organ/O in xeno.internal_organs)
+			O.Remove()
+			qdel(O)
+
+/obj/effect/mob_spawn/xenomorph/crusher
+	mob_type = /mob/living/carbon/alien/humanoid/big/crusher
+
+/obj/effect/mob_spawn/xenomorph/drone
+	mob_type = /mob/living/carbon/alien/humanoid/drone
+
+/obj/effect/mob_spawn/xenomorph/praetorian
+	mob_type = /mob/living/carbon/alien/humanoid/big/praetorian
+
+/obj/effect/mob_spawn/xenomorph/ravager
+	mob_type = /mob/living/carbon/alien/humanoid/big/ravager
+
+/obj/effect/mob_spawn/xenomorph/sentinel
+	mob_type = /mob/living/carbon/alien/humanoid/sentinel
+
+/obj/effect/mob_spawn/xenomorph/warrior
+	mob_type = /mob/living/carbon/alien/humanoid/warrior
+
+/obj/effect/mob_spawn/xenomorph/queen
+	mob_type = /mob/living/carbon/alien/humanoid/big/queen
+
+/obj/effect/mob_spawn/xenomorph/queen/create(ckey, specialdeath = TRUE)
+	..()
+
+/obj/effect/mob_spawn/xenomorph/queen
+	mob_type = /mob/living/carbon/alien/humanoid/big/queen
 
 // I'll work on making a list of corpses people request for maps, or that I think will be commonly used. Syndicate operatives for example.
 
