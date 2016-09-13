@@ -1,5 +1,5 @@
 /mob/living/simple_animal/hostile/alien
-	name = "alien hunter"
+	name = "alien warrior"
 	desc = "Hiss!"
 	icon = 'icons/mob/alien.dmi'
 	icon_state = "alienh_s"

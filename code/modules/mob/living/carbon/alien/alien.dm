@@ -300,7 +300,7 @@ Des: Removes all infected images from the alien.
 	switch(tier)
 		if(0)//larva wants to evolve
 			return 1//larvas can always evolve.
-		if(1)//hunter/drone/sentinels wanna evolve.
+		if(1)//warrior/drone/sentinels wanna evolve.
 			var/high_caste_num = 0//number of tier 2 aliens already existing
 			for(var/i in aliens)
 				var/mob/living/carbon/alien/A = i

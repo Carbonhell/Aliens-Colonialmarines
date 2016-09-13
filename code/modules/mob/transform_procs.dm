@@ -373,15 +373,23 @@
 	for(var/t in bodyparts)
 		qdel(t)
 
-	var/alien_caste = pick("Hunter","Sentinel","Drone")
+	var/alien_caste = pick("Warrior","Sentinel","Drone","Corroder","Ravager","Crusher","Praetorian")
 	var/mob/living/carbon/alien/humanoid/new_xeno
 	switch(alien_caste)
-		if("Hunter")
-			new_xeno = new /mob/living/carbon/alien/humanoid/hunter(loc)
+		if("Warrior")
+			new_xeno = new /mob/living/carbon/alien/humanoid/warrior(loc)
 		if("Sentinel")
 			new_xeno = new /mob/living/carbon/alien/humanoid/sentinel(loc)
 		if("Drone")
 			new_xeno = new /mob/living/carbon/alien/humanoid/drone(loc)
+		if("Corroder")
+			new_xeno = new /mob/living/carbon/alien/humanoid/big/corroder(loc)
+		if("Ravager")
+			new_xeno = new /mob/living/carbon/alien/humanoid/big/ravager(loc)
+		if("Crusher")
+			new_xeno = new /mob/living/carbon/alien/humanoid/big/crusher(loc)
+		if("Praetorian")
+			new_xeno = new /mob/living/carbon/alien/humanoid/big/praetorian(loc)
 
 	new_xeno.a_intent = "harm"
 	new_xeno.key = key

@@ -187,6 +187,11 @@ var/list/science_positions = list(
 	"Researcher"
 )
 
+var/list/security_positions = list(
+	"Military Police"
+)
+
+
 var/list/marine_squad_positions = list(
 	"Squad Leader",
 	"Squad Medic",

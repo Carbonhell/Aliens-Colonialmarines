@@ -410,7 +410,7 @@ var/datum/subsystem/job/SSjob
 
 
 /datum/subsystem/job/proc/setup_officer_positions()
-	var/datum/job/J = SSjob.GetJob("Security Officer")
+	var/datum/job/J = SSjob.GetJob("Military Police")
 	if(!J)
 		throw EXCEPTION("setup_officer_positions(): Security officer job is missing")
 

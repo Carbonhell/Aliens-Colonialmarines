@@ -99,8 +99,6 @@
 /obj/item/organ/alien/plasmavessel/on_life()
 	if(!owner)
 		return
-	if(!isalien(owner))
-		return
 	var/mob/living/carbon/alien/A = owner
 	if("recovery" in A.active_pheromones)
 		affected_by_pheromone = TRUE

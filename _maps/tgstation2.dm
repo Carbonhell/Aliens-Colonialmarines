@@ -5,8 +5,8 @@
 		#define MINETYPE "mining"
 
         #include "map_files\CM\sulaco.dmm"
-        #include "map_files\CM\unk379.dmm"
         #include "map_files\generic\z2.dmm"
+        #include "map_files\CM\unk379.dmm"
 
 		#define MAP_PATH "map_files/CM"
         #define MAP_FILE "sulaco.dmm"

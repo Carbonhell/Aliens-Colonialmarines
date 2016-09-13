@@ -230,7 +230,7 @@
 	if(!istext(ckey))
 		return 0
 
-	var/alien_caste = input(usr, "Please choose which caste to spawn.","Pick a caste",null) as null|anything in list("Queen","Praetorian","Hunter","Sentinel","Drone","Larva", "Boiler", "Crusher", "Ravager")
+	var/alien_caste = input(usr, "Please choose which caste to spawn.","Pick a caste",null) as null|anything in list("Queen","Praetorian","Warrior","Sentinel","Drone","Larva", "Boiler", "Crusher", "Ravager")
 	var/obj/effect/landmark/spawn_here = xeno_spawn.len ? pick(xeno_spawn) : pick(latejoin)
 	var/mob/living/carbon/alien/new_xeno
 	switch(alien_caste)
@@ -297,8 +297,8 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 				var/mob/living/carbon/alien/new_xeno
 				switch(G_found.mind.special_role)//If they have a mind, we can determine which caste they were.
-					if("Hunter")
-						new_xeno = new /mob/living/carbon/alien/humanoid/hunter(T)
+					if("Warrior")
+						new_xeno = new /mob/living/carbon/alien/humanoid/warrior(T)
 					if("Sentinel")
 						new_xeno = new /mob/living/carbon/alien/humanoid/sentinel(T)
 					if("Drone")

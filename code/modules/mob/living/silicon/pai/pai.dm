@@ -48,6 +48,7 @@
 	var/hackprogress = 0				// Possible values: 0 - 100, >= 100 means the hack is complete and will be reset upon next check
 
 	var/obj/item/radio/integrated/signal/sradio // AI's signaller
+	var/obj/machinery/porta_turret/syndicate/marine/turret //Turret controlled by the pAI
 
 
 /mob/living/silicon/pai/New(var/obj/item/device/paicard/P)
@@ -165,3 +166,13 @@
 	card.setPersonality(pai)
 
 */
+/mob/living/silicon/pai/ClickOn(atom/A, params)
+	..()
+	world << "Click:Called"
+	if(turret)//we're controlling a turret,let's shoot towards our target
+		world << "Turret found"
+		if(A && !turret.manual_override)
+			world << "Check passed"
+			if(turret.shootAt(A))
+				world << "Bullet created"
+			return

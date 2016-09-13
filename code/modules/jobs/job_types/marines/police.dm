@@ -1,3 +1,9 @@
+//Warden and regular officers add this result to their get_access()
+/datum/job/proc/check_config_for_sec_maint()
+	if(config.jobs_have_maint_access & SECURITY_HAS_MAINT_ACCESS)
+		return list(access_maint_tunnels)
+	return list()
+
 /*
 Military police
 */
@@ -37,3 +43,15 @@ Military police
 	satchel = /obj/item/weapon/storage/backpack/satchel/sec
 	dufflebag = /obj/item/weapon/storage/backpack/dufflebag/sec
 	box = /obj/item/weapon/storage/box/security
+
+/datum/outfit/job/police/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	..()
+
+	if(visualsOnly)
+		return
+
+	var/obj/item/weapon/implant/mindshield/L = new/obj/item/weapon/implant/mindshield(H)
+	L.imp_in = H
+	L.implanted = 1
+	H.sec_hud_set_implants()
+

@@ -215,6 +215,10 @@
 /turf/open/floor/plating/beach/sea
 	icon_state = "seashallow"
 
+/turf/closed/mineral/planet
+	baseturf = /turf/open/floor/plating/desert
+	turf_type = /turf/open/floor/plating/desert
+
 //SERVER
 /obj/machinery/telecomms/server/presets/alpha
 	id = "Alpha Server"

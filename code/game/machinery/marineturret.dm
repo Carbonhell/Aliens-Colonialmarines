@@ -1,8 +1,8 @@
 /obj/machinery/porta_turret/syndicate/marine
 	name = "machine gun"
 	desc = "A smart machine gun capable of avoiding friendly fire and dealing huge amount of damage."
-	icon_state = "turretOff"
-	base_icon_state = "turret"
+	icon_state = "sentryOff"
+	base_icon_state = "sentry"
 	density = 1
 	anchored = 1
 	unacidable = 1
@@ -17,7 +17,7 @@
 	var/ammo = 300
 	var/max_ammo = 300
 	var/obj/item/weapon/stock_parts/cell/cell
-	var/mob/living/silicon/pai/pai
+	var/obj/item/device/paicard/pai
 
 /obj/machinery/porta_turret/syndicate/marine/New()
 	..()
@@ -49,8 +49,9 @@
 		dat += "360 Degree Rotation<br>"
 	if(cell)
 		dat += "Power Cell: [cell.charge] / [cell.maxcharge]<BR>"
-	dat += "<A href='?src=\ref[src];op=burst'>Burst Fire</a>: [burst_fire ? "<b>ON</b>/OFF" : "ON/<b>OFF</b>"]<br>"
-	dat += "AI Logic: <A href='?src=\ref[src];op=manual_override'>[manual_override ? "<b>ON</b>" : "OVERRIDE"]</a>"
+	dat += "Burst Fire: [burst_fire ? "<b>ON</b>" : "<A href='?src=\ref[src];op=burst'>ON</a>"]/[burst_fire ? "<A href='?src=\ref[src];op=burst'>OFF</a>" : "<b>OFF</b>"]<br>"
+	dat += "AI Logic: <A href='?src=\ref[src];op=manual_override'>[manual_override ? "<b>ON</b>" : "OVERRIDE"]</a><br>"
+	dat += "pAI: [pai ? "<A href='?src=\ref[src];op=ejectpai'>EJECT</a>" : "NONE"]."
 	user.set_machine(src)
 	user << browse(dat, "window=turret;size=300x400")
 	onclose(user, "turret")
@@ -89,6 +90,13 @@
 			manual_override = !manual_override
 			dir_lock = 1//must be on
 			usr << "<span class='notice'>You turn the manual override [manual_override ? "on" : "off"].</span>"
+		if("ejectpai")
+			if(pai)
+				pai.forceMove(loc)
+				var/obj/item/device/paicard/card = pai
+				var/mob/living/silicon/pai/P = card.pai
+				P.turret = null
+				pai = null
 	updateUsrDialog()
 
 /obj/machinery/porta_turret/syndicate/marine/attackby(obj/item/I, mob/user, params)
@@ -142,11 +150,22 @@
 		qdel(src)
 
 /obj/machinery/porta_turret/syndicate/marine/target(atom/movable/target)
+	if(manual_override || pai)
+		return
 	if(!dir_lock)
-		..()
+		shootAt(target)
 	else
-		if(abs(get_dir(src, target) - dir) in cardinal)
+		if(is_B_faced_by_A(src, target))
+			shootAt(target)
+
+/obj/machinery/porta_turret/syndicate/marine/shootAt(atom/movable/target)
+	..()
+	if(burst_fire)
+		shot_delay = 0
+		for(var/i in 1 to 2)
 			..()
+			sleep(1)
+		shot_delay = initial(shot_delay)
 
 /obj/machinery/porta_turret/syndicate/marine/process()
 	if(!on)
@@ -183,8 +202,8 @@
 
 /obj/machinery/porta_turret/syndicate/marine/update_icon()
 	if(stat & BROKEN)
-		icon_state = "turretBroken"
+		icon_state = "[base_icon_state]Broken"
 	else if(pai)
-		icon_state = "turret_pai"
+		base_icon_state = "sentryPAI"
 	else
-		icon_state = "turret[on == 1 ? "Bullet" : "Off"]"
+		icon_state = "[base_icon_state][on == 1 ? "Bullet" : "Off"]"

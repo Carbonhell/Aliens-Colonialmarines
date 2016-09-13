@@ -138,3 +138,13 @@
 		pai.emp_act(severity)
 	..()
 
+/obj/item/device/paicard/afterattack(atom/target, mob/user, proximity)
+	if(!proximity)
+		return
+	if(istype(target, /obj/machinery/porta_turret/syndicate/marine) && pai)
+		if(!user.unEquip(src))
+			return
+		var/obj/machinery/porta_turret/syndicate/marine/M = target
+		pai.turret = M
+		M.pai = src
+		forceMove(M)

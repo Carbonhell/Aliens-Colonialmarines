@@ -22,10 +22,10 @@ var/datum/subsystem/mapping/SSmapping
 	if (mining_type == "lavaland")
 		seedRuins(list(5), config.lavaland_budget, /area/lavaland/surface/outdoors, lava_ruins_templates)
 		spawn_rivers()
-	else
+	else if(mining_type == "mining")
 		make_mining_asteroid_secrets()
 
-	// deep space ruins
+/*	// deep space ruins,disabled....for now
 	var/space_zlevels = list()
 	for(var/i in ZLEVEL_SPACEMIN to ZLEVEL_SPACEMAX)
 		switch(i)
@@ -35,7 +35,7 @@ var/datum/subsystem/mapping/SSmapping
 				space_zlevels += i
 
 	seedRuins(space_zlevels, rand(8,16), /area/space, space_ruins_templates)
-
+*/
 	// Set up Z-level transistions.
 	setup_map_transitions()
 	..()

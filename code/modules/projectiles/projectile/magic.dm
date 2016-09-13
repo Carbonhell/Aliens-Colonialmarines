@@ -204,7 +204,7 @@
 			new_mob = new /mob/living/simple_animal/slime/random(M.loc)
 		if("xeno")
 			if(prob(50))
-				new_mob = new /mob/living/carbon/alien/humanoid/hunter(M.loc)
+				new_mob = new /mob/living/carbon/alien/humanoid/warrior(M.loc)
 			else
 				new_mob = new /mob/living/carbon/alien/humanoid/sentinel(M.loc)
 

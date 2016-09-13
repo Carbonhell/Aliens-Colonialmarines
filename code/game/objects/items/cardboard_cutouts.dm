@@ -137,7 +137,7 @@
 			desc = "A cardboard cutout of a shadowling."
 			icon_state = "cutout_shadowling"
 		if("Xenomorph")
-			name = "alien hunter ([rand(1, 999)])"
+			name = "alien warrior ([rand(1, 999)])"
 			desc = "A cardboard cutout of a xenomorph."
 			icon_state = "cutout_fukken_xeno"
 			if(prob(25))

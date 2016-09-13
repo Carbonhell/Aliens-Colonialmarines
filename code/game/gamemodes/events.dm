@@ -1,7 +1,7 @@
 /proc/power_failure()
 	priority_announce("Abnormal activity detected in [station_name()]'s powernet. As a precautionary measure, the station's power will be shut off for an indeterminate duration.", "Critical Power Failure", 'sound/AI/poweroff.ogg')
 	for(var/obj/machinery/power/smes/S in machines)
-		if(istype(get_area(S), /area/turret_protected) || S.z != ZLEVEL_STATION)
+		if(istype(get_area(S), /area/turret_protected) || S.z != ZLEVEL_STATION || S.z != ZLEVEL_PLANET)
 			continue
 		S.charge = 0
 		S.output_level = 0

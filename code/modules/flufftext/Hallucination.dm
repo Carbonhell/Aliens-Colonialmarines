@@ -171,7 +171,7 @@ Gunshots/explosions/opening doors/less rare audio (done)
 
 /obj/effect/hallucination/simple/xeno/New(loc,var/mob/living/carbon/T)
 	..()
-	name = "alien hunter ([rand(1, 1000)])"
+	name = "alien warrior ([rand(1, 1000)])"
 
 /obj/effect/hallucination/simple/xeno/throw_impact(A)
 	update_icon("alienh_pounce")

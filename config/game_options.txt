@@ -58,12 +58,12 @@ ANIMAL_DELAY 0
 
 
 ### ALERT LEVELS ###
-ALERT_GREEN All threats to the station have passed. Security may not have weapons visible, privacy laws are once again fully enforced.
-ALERT_BLUE_UPTO The station has received reliable information about possible hostile activity on the station. Security staff may have weapons visible, random searches are permitted.
-ALERT_BLUE_DOWNTO The immediate threat has passed. Security may no longer have weapons drawn at all times, but may continue to have them visible. Random searches are still allowed.
-ALERT_RED_UPTO There is an immediate serious threat to the station. Security may have weapons unholstered at all times. Random searches are allowed and advised.
-ALERT_RED_DOWNTO The station's destruction has been averted. There is still however an immediate serious threat to the station. Security may have weapons unholstered at all times, random searches are allowed and advised.
-ALERT_DELTA Destruction of the station is imminent. All crew are instructed to obey all instructions given by heads of staff. Any violations of these orders can be punished by death. This is not a drill.
+ALERT_GREEN All threats to the ship have passed. Non-marine personnel may not have weapons visible, normal laws are once again fully enforced.
+ALERT_BLUE_UPTO The ship has received reliable information about possible hostile activity on the distress signal. Marine personnel may have weapons visible.
+ALERT_BLUE_DOWNTO The immediate threat has passed. Marines have to return on the ship for debriefing.
+ALERT_RED_UPTO There is an immediate serious threat to the ship. All personnel may have weapons unholstered at all times.
+ALERT_RED_DOWNTO The ship's destruction has been averted. There is still however an immediate serious threat. All personnel may have weapons unholstered at all times.
+ALERT_DELTA Destruction of the ship is imminent. All crew are instructed to obey all instructions given by the command staff. Any violations of these orders can and will be punished by death. This is not a drill.
 
 
 
@@ -76,25 +76,26 @@ ALERT_DELTA Destruction of the station is imminent. All crew are instructed to o
 ## Default probablity is 1, increase to make that mode more likely to be picked.
 ## Set to 0 to disable that mode.
 
-PROBABILITY TRAITOR 5
-PROBABILITY TRAITORCHAN 4
-PROBABILITY DOUBLE_AGENTS 3
-PROBABILITY KING_DISK 4
-PROBABILITY NUCLEAR 2
-PROBABILITY REVOLUTION 2
-PROBABILITY SHADOWLING 2
-PROBABILITY GANG 2
-PROBABILITY CULT 2
-PROBABILITY CHANGELING 2
-PROBABILITY WIZARD 4
-PROBABILITY MALFUNCTION 1
-PROBABILITY BLOB 2
-PROBABILITY RAGINMAGES 2
+PROBABILITY TRAITOR 0
+PROBABILITY TRAITORCHAN 0
+PROBABILITY DOUBLE_AGENTS 0
+PROBABILITY KING_DISK 0
+PROBABILITY NUCLEAR 0
+PROBABILITY REVOLUTION 0
+PROBABILITY SHADOWLING 0
+PROBABILITY GANG 0
+PROBABILITY CULT 0
+PROBABILITY CHANGELING 0
+PROBABILITY WIZARD 0
+PROBABILITY MALFUNCTION 0
+PROBABILITY BLOB 0
+PROBABILITY RAGINMAGES 0
 PROBABILITY MONKEY 0
 PROBABILITY METEOR 0
 PROBABILITY EXTENDED 0
 PROBABILITY DEVIL 0
 PROBABILITY DEVIL_AGENTS 0
+PROBABILITY COLONIAL_MARINES 1
 
 ## You probably want to keep sandbox off by default for secret and random.
 PROBABILITY SANDBOX 0
@@ -174,7 +175,7 @@ TRAITOR_OBJECTIVES_AMOUNT 2
 ENFORCE_HUMAN_AUTHORITY
 
 ## If late-joining players have a chance to become a traitor/changeling
-ALLOW_LATEJOIN_ANTAGONISTS
+#ALLOW_LATEJOIN_ANTAGONISTS
 
 ## Uncomment to allow players to see the set odds of different rounds in secret/random in the get server revision screen. This will NOT tell the current roundtype.
 #SHOW_GAME_TYPE_ODDS
@@ -278,11 +279,11 @@ JOIN_WITH_MUTANT_RACE
 ROUNDSTART_RACES human
 
 ## Races that are strictly worse than humans that could probably be turned on without balance concerns
-ROUNDSTART_RACES lizard
-ROUNDSTART_RACES moth
-ROUNDSTART_RACES ipc
-ROUNDSTART_RACES avian
-ROUNDSTART_RACES tarajan
+#ROUNDSTART_RACES lizard
+#ROUNDSTART_RACES moth
+#ROUNDSTART_RACES ipc
+#ROUNDSTART_RACES avian
+#ROUNDSTART_RACES tarajan
 #ROUNDSTART_RACES fly
 #ROUNDSTART_RACES plasmaman
 #ROUNDSTART_RACES shadow
@@ -361,4 +362,4 @@ BOMBCAP 20
 # a less lootfilled or smaller or less round effecting ruin costs less to
 # spawn, while the converse is true. Alter this number to affect the amount
 # of ruins.
-LAVALAND_BUDGET 60
+LAVALAND_BUDGET 0

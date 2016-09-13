@@ -1006,6 +1006,24 @@ var/list/WALLITEMS_INVERSE = list(
 		return 1
 	return 0
 
+//Compare A's dir, the clockwise dir of A and the anticlockwise dir of A
+//To the dir returned by get_dir(A,B)
+//If one of them is a match, then B is faced by A
+/proc/is_B_faced_by_A(atom/A,atom/B)
+	if(!istype(A) || !istype(B))
+		return 0
+	if(istype(A, /mob/living))
+		var/mob/living/LA = A
+		if(LA.lying)
+			return 0
+	var/goal_dir = get_dir(A, B)
+	var/clockwise_A_dir = get_clockwise_dir(A.dir)
+	var/anticlockwise_A_dir = get_anticlockwise_dir(B.dir)
+
+	if(A.dir == goal_dir || clockwise_A_dir == goal_dir || anticlockwise_A_dir == goal_dir)
+		return 1
+	return 0
+
 
 /*
 rough example of the "cone" made by the 3 dirs checked
