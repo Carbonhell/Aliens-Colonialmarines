@@ -9,26 +9,28 @@
 	item_state = "backpack"
 	slot_flags = SLOT_BACK
 	w_class = 5
-	var/obj/item/weapon/gun/projectile/minigun/gun = null
+	var/obj/item/weapon/gun/projectile/minigun/gun = /obj/item/weapon/gun/projectile/minigun
 	var/armed = 0 //whether the gun is attached, 0 is attached, 1 is the gun is wielded.
 	var/overheat = 0
 	var/overheat_max = 40
 	var/heat_diffusion = 1
 
 /obj/item/weapon/minigunpack/New()
-	gun = new(src)
-	START_PROCESSING(SSobj, src)
+	gun = new gun(src)
+	if(overheat_max)
+		START_PROCESSING(SSobj, src)
 	..()
 
 /obj/item/weapon/minigunpack/Destroy()
-	STOP_PROCESSING(SSobj, src)
+	if(overheat_max)
+		STOP_PROCESSING(SSobj, src)
 	..()
 
 /obj/item/weapon/minigunpack/process()
 	overheat = max(0, overheat - heat_diffusion)
 
-/obj/item/weapon/minigunpack/attack_hand(var/mob/living/carbon/user)
-	if(src.loc == user)
+/obj/item/weapon/minigunpack/attack_hand(mob/living/carbon/user)
+	if(loc == user)
 		if(!armed)
 			if(user.get_item_by_slot(slot_back) == src)
 				armed = 1
@@ -82,18 +84,33 @@
 	else
 		icon_state = "holstered"
 
-/obj/item/weapon/minigunpack/proc/attach_gun(var/mob/user)
-	if(!gun)
-		gun = new(src)
+/obj/item/weapon/minigunpack/proc/attach_gun(mob/user)
+	if(ispath(gun))
+		gun = new gun(src)
 	gun.forceMove(src)
 	armed = 0
 	if(user)
 		user << "<span class='notice'>You attach the [gun.name] to the [name].</span>"
 	else
-		src.visible_message("<span class='warning'>The [gun.name] snaps back onto the [name]!</span>")
+		visible_message("<span class='warning'>The [gun.name] snaps back onto the [name]!</span>")
 	update_icon()
 	user.update_inv_back()
 
+/obj/item/weapon/minigunpack/smartgun
+	name = "m56 breastplate"
+	desc = "The holder for the M56 processor and ammo."
+	gun = /obj/item/weapon/gun/projectile/minigun/smartgun
+	actions_types = list(/datum/action/item_action/reload_smartgun)
+	overheat_max = 0
+	var/obj/item/ammo_box/smartgun/box = new /obj/item/ammo_box/smartgun
+
+/obj/item/weapon/minigunpack/smartgun/ui_action_click(mob/user)
+	if(!gun || ispath(gun) || !gun.magazine)
+		return//just how
+	user.visible_message("[user] begins to reload \the [gun]...", "You begin to reload \the [gun]...")
+	if(do_after(user, 30, target = src))
+		user.visible_message("[user] reloads \the [gun]!", "You reload \the [gun]!")
+		gun.magazine.attackby(box, user, silent = 1)
 
 /obj/item/weapon/gun/projectile/minigun
 	name = "laser gatling gun"
@@ -126,6 +143,8 @@
 
 /obj/item/weapon/gun/projectile/minigun/process_fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, message = 1, params, zone_override)
 	if(ammo_pack)
+		if(!ammo_pack.overheat_max)//overheat system disabled
+			return ..()
 		if(ammo_pack.overheat < ammo_pack.overheat_max)
 			ammo_pack.overheat += burst_size
 			..()
@@ -151,3 +170,13 @@
 /obj/item/weapon/gun/projectile/minigun/process_chamber(eject_casing = 0, empty_chamber = 1)
 	..()
 
+
+/obj/item/weapon/gun/projectile/minigun/smartgun
+	name = "M56 smartgun"
+	desc = "The marine's best friend, the M56 has an electronic device able to stop friendly fire."
+	icon_state = "m56"
+	item_state = "m56-w"
+	slowdown = 0//fuck slowdown
+	fire_sound = "gunshot"
+	burst_size = 1
+	mag_type = /obj/item/ammo_box/magazine/internal/smartgun

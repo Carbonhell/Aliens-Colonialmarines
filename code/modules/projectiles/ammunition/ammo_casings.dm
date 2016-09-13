@@ -95,7 +95,6 @@
 	projectile_type = /obj/item/projectile/bullet/a40mm
 
 
-
 /////SNIPER ROUNDS
 
 /obj/item/ammo_casing/point50
@@ -307,6 +306,13 @@
 	caliber = "75"
 	icon_state = "s-casing-live"
 	projectile_type = /obj/item/projectile/bullet/gyro
+
+
+/obj/item/ammo_casing/caseless/smartgun
+	name = "smart bullet"
+	desc = "A 10x28mm bullet casing."
+	caliber = "10x28"
+	projectile_type = /obj/item/projectile/bullet/smart
 
 /obj/item/ammo_casing/caseless/magspear
 	name = "magnetic spear"

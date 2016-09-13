@@ -67,3 +67,9 @@
 /obj/item/ammo_box/foambox/riot
 	icon_state = "foambox_riot"
 	ammo_type = /obj/item/ammo_casing/caseless/foam_dart/riot
+
+/obj/item/ammo_box/smartgun
+	name = "internal m56 breastplate ammobox"
+	desc = "If you're examining me, something went horribly wrong."
+	ammo_type = /obj/item/ammo_casing/caseless/smartgun
+	max_ammo = 500

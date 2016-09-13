@@ -152,6 +152,9 @@
 /datum/action/item_action/toggle_firemode
 	name = "Toggle Firemode"
 
+/datum/action/item_action/reload_smartgun
+	name = "Reload M56"
+
 /datum/action/item_action/startchainsaw
 	name = "Pull The Starting Cord"
 

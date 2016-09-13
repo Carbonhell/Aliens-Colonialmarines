@@ -286,3 +286,15 @@
 /obj/item/projectile/bullet/saw
 	damage = 60
 	armour_penetration = 10
+
+/obj/item/projectile/bullet/smart
+	name = "smart bullet"
+	var/faction = "Marine"
+
+/obj/item/projectile/bullet/smart/Bump(atom/A, yes)
+	if(ismob(A))
+		var/mob/M = A
+		if(faction in M.faction)
+			forceMove(get_turf(A))
+			return 0
+	..()

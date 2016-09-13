@@ -11,6 +11,8 @@
 	scan_range = 7//viewrange
 	health = 200
 	on = 0
+	projectile = /obj/item/projectile/bullet/smart
+	eprojectile = /obj/item/projectile/bullet/smart
 	var/dir_lock = 0
 	var/manual_override = 0
 	var/burst_fire = 0
@@ -97,6 +99,7 @@
 				var/mob/living/silicon/pai/P = card.pai
 				P.turret = null
 				pai = null
+				update_icon()
 	updateUsrDialog()
 
 /obj/machinery/porta_turret/syndicate/marine/attackby(obj/item/I, mob/user, params)
@@ -133,6 +136,15 @@
 		if(do_after(user, 20/W.toolspeed, target = src))
 			user << "<span class='notice'>You fix some dents on \the [src]."
 			health = min(initial(health), health+30)
+	else if(istype(I, /obj/item/device/paicard))
+		var/obj/item/device/paicard/P = I
+		if(!user.unEquip(P))
+			return
+		var/mob/living/silicon/pai/paitoinsert = P.pai
+		paitoinsert.turret = src
+		pai = P
+		P.forceMove(src)
+		update_icon()
 	else
 		..()
 
@@ -146,6 +158,11 @@
 			var/list/possibledirs = list(NORTH,SOUTH,EAST,WEST) - dir
 			dir = pick(possibledirs)
 	explosion(get_turf(src), 1, 2, 3, 4)//nice values eh?
+	if(pai)
+		var/mob/living/silicon/pai/paitoremove = pai.pai
+		paitoremove.turret = null
+		pai.forceMove(get_turf(src))
+		pai = null
 	if(src)
 		qdel(src)
 
@@ -203,7 +220,7 @@
 /obj/machinery/porta_turret/syndicate/marine/update_icon()
 	if(stat & BROKEN)
 		icon_state = "[base_icon_state]Broken"
+		return
 	else if(pai)
 		base_icon_state = "sentryPAI"
-	else
-		icon_state = "[base_icon_state][on == 1 ? "Bullet" : "Off"]"
+	icon_state = "[base_icon_state][on == 1 ? "Bullet" : "Off"]"
