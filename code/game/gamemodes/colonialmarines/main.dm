@@ -11,17 +11,19 @@
 	announce_span = "green"
 	announce_text = "USCM has been hired by Weyland-Yutani to investigate a distress signal sent by one of their research facilities.\
 					Follow your orders and find out what exactly happened down there."
-	required_players = 1
+	required_players = 2
 	required_enemies = 1
 	round_ends_with_antag_death = 1
 
 /datum/game_mode/colonialmarines/can_start()
 	var/ready_players = num_players()
-	recommended_enemies = min(round(ready_players/5), 10)
-	max_surv_amt = min(round(ready_players/7), 10)//might need to move some stuff to pre_setup, we'll see
+	recommended_enemies = min(Ceiling(ready_players/5), 10)
+	max_surv_amt = min(round(ready_players/7), 10)
 	if(!..())
-		return
+		return 0
 	survivor_candidates = get_players_for_role(ROLE_SURVIVOR)//even if this is empty,it's fine.
+	if(survivor_candidates.len > max_surv_amt)
+		survivor_candidates.Cut(max_surv_amt+1)//remove the excess survivors
 	return 1
 
 /datum/game_mode/colonialmarines/post_setup()

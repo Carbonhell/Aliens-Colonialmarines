@@ -93,6 +93,7 @@
 	name = "tiny plasma vessel"
 	icon_state = "plasma_tiny"
 	w_class = 1
+	storedPlasma = 100
 	max_plasma = 100
 	alien_powers = list(/obj/effect/proc_holder/alien/transfer)
 
