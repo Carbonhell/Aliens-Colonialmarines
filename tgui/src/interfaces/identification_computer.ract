@@ -151,10 +151,7 @@
 	  <div id="all-value.jobs">
 		<table>
 		  <tr>
-			<th></th><th>Command</th>
-		  </tr>
-		  <tr>
-			<th>Special</th>
+			<th>Command</th>
 			<td>
 			  {{#each data.command_jobs}}
 				<ui-button action='PRG_assign' params='{"assign_target" : "{{job}}"}' state='{{data.id_rank == job ? "selected" : null}}'>{{display_name}}</ui-button>

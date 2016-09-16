@@ -5,7 +5,7 @@ var/list/existing_squads = list()
 	var/name = "Squad name"
 	var/list/squad_comrades = list()		//list of the current squad members minds, should not be edited
 	var/list/special_access = list()		//eventual extra access, such as the main four squad's prep rooms
-	var/radio_frequency	    = 149.1			//radio frequency
+	var/radio_frequency	    = 1491			//radio frequency
 	var/list/orders			= list()		//list of orders given by Command. There can be as many as command wants.
 	var/start_squad 		= FALSE			//Is this a roundstart squad(alpha,bravo,charlie,delta)
 
@@ -20,25 +20,25 @@ var/list/existing_squads = list()
 /datum/squad/alpha
 	name = "Alpha"
 	special_access = list(access_squad_alpha)
-	radio_frequency = 123.5
+	radio_frequency = 1235
 	start_squad = TRUE
 
 /datum/squad/bravo
 	name = "Bravo"
 	special_access = list(access_squad_bravo)
-	radio_frequency = 124.5
+	radio_frequency = 1245
 	start_squad = TRUE
 
 /datum/squad/charlie
 	name = "Charlie"
 	special_access = list(access_squad_charlie)
-	radio_frequency = 125.5
+	radio_frequency = 1255
 	start_squad = TRUE
 
 /datum/squad/delta
 	name = "Delta"
 	special_access = list(access_squad_delta)
-	radio_frequency = 126.5
+	radio_frequency = 1265
 	start_squad = TRUE
 
 /datum/squad/proc/set_special_vars(mob/living/carbon/human/user)
@@ -73,6 +73,9 @@ var/list/existing_squads = list()
 			var/datum/squad/oldsquad = M.squad
 			oldsquad.squad_comrades -= M
 		var/datum/squad/newsquad = squadtext2datum(squadname)
+		if(!newsquad)
+			M.squad = null
+			return
 		newsquad.squad_comrades += M
 		M.squad = newsquad
 

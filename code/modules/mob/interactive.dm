@@ -270,7 +270,7 @@
 /mob/living/carbon/human/interactive/proc/doSetup()
 	Path_ID = new /obj/item/weapon/card/id(src)
 
-	var/datum/job/captain/C = new/datum/job/captain
+	var/datum/job/commander/C = new/datum/job/commander
 	Path_ID.access = C.get_access()
 
 	MYID = new(src)

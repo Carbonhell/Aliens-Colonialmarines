@@ -477,7 +477,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 
 	//For giving the bot temporary all-access.
 	var/obj/item/weapon/card/id/all_access = new /obj/item/weapon/card/id
-	var/datum/job/captain/All = new/datum/job/captain
+	var/datum/job/commander/All = new/datum/job/commander
 	all_access.access = All.get_access()
 
 	path = get_path_to(src, waypoint, /turf/proc/Distance_cardinal, 0, 200, id=all_access)

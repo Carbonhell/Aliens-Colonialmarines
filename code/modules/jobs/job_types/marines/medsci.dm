@@ -40,7 +40,7 @@ Chief Medical Officer
 Medical Doctor
 */
 /datum/job/doctor
-	title = "Medical Doctor"
+	title = "Doctor"
 	flag = SULDOC
 	department_head = list("Chief Medical Officer")
 	department_flag = MEDSCI

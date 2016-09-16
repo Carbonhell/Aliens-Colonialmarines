@@ -120,6 +120,7 @@
 /var/const/access_sulaco_cargo = 230
 /var/const/access_sulaco_maint = 231
 /var/const/access_marine_leader = 232
+/var/const/access_sulaco_change_ids = 233
 
 /obj/var/list/req_access = null
 /obj/var/req_access_txt = "0"
@@ -270,10 +271,10 @@
 	            access_squad_bravo, access_squad_charlie, access_squad_delta, access_sulaco_bridge, access_sulaco_chemistry, access_sulaco_cargo)
 
 /proc/get_all_marine_accesses()
-	return list(access_sulaco_commander, access_change_ids, access_sulaco_executive, access_sulaco_brig, access_sulaco_armory, access_sulaco_CMO,
+	return list(access_sulaco_commander, access_sulaco_executive, access_sulaco_brig, access_sulaco_armory, access_sulaco_CMO,
 			access_sulaco_CE, access_sulaco_engineering, access_sulaco_medbay, access_marine_prep, access_marine_medprep, access_marine_engprep,
 			access_marine_leaderprep, access_marine_specprep, access_sulaco_research, access_squad_alpha, access_squad_bravo,
-			access_squad_charlie, access_squad_delta, access_sulaco_bridge, access_sulaco_chemistry, access_sulaco_cargo)
+			access_squad_charlie, access_squad_delta, access_sulaco_bridge, access_sulaco_chemistry, access_sulaco_cargo, access_sulaco_change_ids)
 
 /proc/get_all_centcom_access()
 	return list(access_cent_general, access_cent_thunder, access_cent_specops, access_cent_medical, access_cent_living, access_cent_storage, access_cent_teleporter, access_cent_captain)
@@ -298,28 +299,28 @@
 /proc/get_region_accesses(code)
 	switch(code)
 		if(0)
-			return get_all_accesses()
+			return get_all_marine_accesses()
 		if(1) //station general
-			return list(access_kitchen,access_bar, access_hydroponics, access_janitor, access_chapel_office, access_crematorium, access_library, access_theatre, access_lawyer)
+			return list(access_marine_prep,access_marine_medprep, access_marine_engprep, access_marine_leaderprep, access_marine_specprep, access_squad_alpha, access_squad_bravo, access_squad_charlie, access_squad_delta)
 		if(2) //security
-			return list(access_sec_doors, access_weapons, access_security, access_brig, access_armory, access_forensics_lockers, access_court, access_hos)
+			return list(access_sulaco_brig)
 		if(3) //medbay
-			return list(access_medical, access_genetics, access_morgue, access_chemistry, access_virology, access_surgery, access_cmo)
+			return list(access_sulaco_CMO, access_sulaco_medbay, access_sulaco_chemistry)
 		if(4) //research
-			return list(access_research, access_tox, access_tox_storage, access_genetics, access_robotics, access_xenobiology, access_minisat, access_rd, access_network)
+			return list(access_sulaco_research)
 		if(5) //engineering and maintenance
-			return list(access_construction, access_maint_tunnels, access_engine, access_engine_equip, access_external_airlocks, access_tech_storage, access_atmospherics, access_tcomsat, access_minisat, access_ce)
+			return list(access_sulaco_CE, access_sulaco_engineering)
 		if(6) //supply
-			return list(access_mailsorting, access_mining, access_mining_station, access_mineral_storeroom, access_cargo, access_qm)
+			return list(access_sulaco_cargo)
 		if(7) //command
-			return list(access_heads, access_RC_announce, access_keycard_auth, access_change_ids, access_ai_upload, access_teleporter, access_eva, access_gateway, access_all_personal_lockers, access_heads_vault, access_hop, access_captain)
+			return list(access_sulaco_change_ids, access_sulaco_commander, access_sulaco_executive, access_sulaco_CMO, access_sulaco_CE, access_sulaco_bridge)
 
 /proc/get_region_accesses_name(code)
 	switch(code)
 		if(0)
 			return "All"
 		if(1) //station general
-			return "General"
+			return "Preparation Rooms"
 		if(2) //security
 			return "Security"
 		if(3) //medbay

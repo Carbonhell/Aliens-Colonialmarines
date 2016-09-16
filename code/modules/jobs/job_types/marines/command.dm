@@ -17,7 +17,7 @@
 	access = list() 			//See get_access()
 	minimal_access = list() 	//See get_access()
 
-/datum/job/captain/get_access()
+/datum/job/commander/get_access()
 	return get_all_marine_accesses()
 
 
@@ -38,7 +38,7 @@
 	satchel = /obj/item/weapon/storage/backpack/satchel/cap
 	dufflebag = /obj/item/weapon/storage/backpack/dufflebag/captain
 
-/datum/outfit/job/captain/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/commander/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 
 	var/obj/item/clothing/under/U = H.w_uniform
@@ -75,7 +75,7 @@
 	minimal_access = list() 	//See get_access()
 
 /datum/job/xo/get_access()
-	return get_all_marine_accesses()
+	return get_all_marine_accesses() - access_sulaco_commander
 
 
 /datum/outfit/job/xo
@@ -118,7 +118,7 @@
 
 	outfit = /datum/outfit/job/bo
 
-	access = list(access_change_ids, access_sulaco_bridge, access_sulaco_brig)
+	access = list(access_sulaco_change_ids, access_sulaco_bridge, access_sulaco_brig)
 	minimal_access = list(access_change_ids, access_sulaco_bridge, access_sulaco_brig)
 
 /datum/outfit/job/bo
@@ -161,8 +161,8 @@
 
 	outfit = /datum/outfit/job/liaison
 
-	access = list(access_sulaco_bridge, access_change_ids, access_sulaco_research, access_sulaco_maint)
-	minimal_access = list(access_sulaco_bridge, access_change_ids, access_sulaco_research, access_sulaco_maint)
+	access = list(access_sulaco_bridge, access_sulaco_change_ids, access_sulaco_research, access_sulaco_maint)
+	minimal_access = list(access_sulaco_bridge, access_sulaco_change_ids, access_sulaco_research, access_sulaco_maint)
 
 
 /datum/outfit/job/liaison

@@ -3,7 +3,7 @@
 	filedesc = "ID card modification program"
 	program_icon_state = "id"
 	extended_desc = "Program for programming employee ID cards to access parts of the station."
-	transfer_access = access_change_ids
+	transfer_access = access_sulaco_change_ids
 	requires_ntnet = 0
 	size = 8
 	var/mod_mode = 1
@@ -19,15 +19,8 @@
 	//Jobs you cannot open new positions for
 	var/list/blacklisted = list(
 		"AI",
-		"Assistant",
 		"Cyborg",
-		"Captain",
-		"Head of Personnel",
-		"Head of Security",
-		"Chief Engineer",
-		"Research Director",
-		"Chief Medical Officer",
-		"Chaplain")
+		)
 
 	//The scaling factor of max total positions in relation to the total amount of people on board the station in %
 	var/max_relative_positions = 30 //30%: Seems reasonable, limit of 6 @ 20 players
@@ -192,7 +185,7 @@
 								I.forceMove(computer)
 								computer.card_slot.stored_card2 = I
 		if("PRG_terminate")
-			if(computer && ((id_card.assignment in head_subordinates) || id_card.assignment == "Assistant"))
+			if(computer && ((id_card.assignment in head_subordinates) || id_card.assignment == "Squad Marine"))
 				id_card.assignment = "Unassigned"
 				remove_nt_access(id_card)
 
@@ -221,7 +214,7 @@
 						access = get_centcom_access(t1)
 					else
 						var/datum/job/jobdatum
-						for(var/jobtype in typesof(/datum/job))
+						for(var/jobtype in subtypesof(/datum/job))
 							var/datum/job/J = new jobtype
 							if(ckey(J.title) == ckey(t1))
 								jobdatum = J
@@ -240,7 +233,7 @@
 			if(params["allowed"] && computer && authorized())
 				var/access_type = text2num(params["access_target"])
 				var/access_allowed = text2num(params["allowed"])
-				if(access_type in (is_centcom ? get_all_centcom_access() : get_all_accesses()))
+				if(access_type in (is_centcom ? get_all_centcom_access() : get_all_marine_accesses()))
 					id_card.access -= access_type
 					if(!access_allowed)
 						id_card.access += access_type
@@ -282,7 +275,7 @@
 	return 1
 
 /datum/computer_file/program/card_mod/proc/remove_nt_access(obj/item/weapon/card/id/id_card)
-	id_card.access -= get_all_accesses()
+	id_card.access -= get_all_marine_accesses()
 	id_card.access -= get_all_centcom_access()
 
 /datum/computer_file/program/card_mod/proc/apply_access(obj/item/weapon/card/id/id_card, list/accesses)
@@ -440,20 +433,14 @@
 					authenticated = 1
 					return 1
 				else
-					if((access_hop in auth_card.access) && ((target_dept==1) || !target_dept))
+					if((access_sulaco_bridge in auth_card.access) && ((target_dept==1) || !target_dept))
 						region_access |= 1
 						region_access |= 6
-						get_subordinates("Head of Personnel")
-					if((access_hos in auth_card.access) && ((target_dept==2) || !target_dept))
-						region_access |= 2
-						get_subordinates("Head of Security")
-					if((access_cmo in auth_card.access) && ((target_dept==3) || !target_dept))
+						get_subordinates("Bridge Officer")
+					if((access_sulaco_CMO in auth_card.access) && ((target_dept==3) || !target_dept))
 						region_access |= 3
 						get_subordinates("Chief Medical Officer")
-					if((access_rd in auth_card.access) && ((target_dept==4) || !target_dept))
-						region_access |= 4
-						get_subordinates("Research Director")
-					if((access_ce in auth_card.access) && ((target_dept==5) || !target_dept))
+					if((access_sulaco_CE in auth_card.access) && ((target_dept==5) || !target_dept))
 						region_access |= 5
 						get_subordinates("Chief Engineer")
 					if(region_access)
