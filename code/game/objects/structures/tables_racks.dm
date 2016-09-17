@@ -30,6 +30,7 @@
 	var/framestackamount = 2
 	var/deconstruction_ready = 1
 	var/health = 100
+	var/flipped = 0//-1=can't flip,0=not flipped, 1=flipped
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/obj/structure/table, /obj/structure/table/reinforced)
 
@@ -39,7 +40,42 @@
 		if(T != src)
 			qdel(T)
 
-/obj/structure/table/update_icon()
+/obj/structure/table/update_icon(ignore_table = null)
+	if(flipped)
+		icon_state = "flipped[dir]"
+		layer = ABOVE_MOB_LAYER
+		smooth = SMOOTH_FALSE
+		clear_smooth_overlays()
+		flags |= ON_BORDER
+		for(var/D in list(turn(dir, 90), turn(dir, -90)))
+			var/obj/structure/table/T = locate() in get_step(src,D)
+			if(!T)
+				continue
+			if(T.type != type)
+				continue//strict typecheck
+			if(ignore_table != T)
+				T.flipped = !T.flipped
+				T.dir = dir
+				T.update_icon(ignore_table = src)
+			if(get_dir(src, T) == turn(dir, 90))
+				icon_state += "[turn(dir, 90)]"
+			if(get_dir(src, T) == turn(dir, -90))
+				icon_state += "[turn(dir, -90)]"
+	else
+		flags &= ~ON_BORDER
+		layer = initial(layer)
+		icon_state = ""
+		smooth = SMOOTH_TRUE
+		for(var/D in list(turn(dir, 90), turn(dir, -90)))
+			var/obj/structure/table/T = locate() in get_step(src,D)
+			if(!T)
+				continue
+			if(T.type != type)
+				continue//strict typecheck
+			if(ignore_table != T)
+				T.flipped = !T.flipped
+				T.dir = dir
+				T.update_icon(ignore_table = src)
 	if(smooth)
 		queue_smooth(src)
 		queue_smooth_neighbors(src)
@@ -102,7 +138,7 @@
 	return 1
 
 /obj/structure/table/attack_hand(mob/living/user)
-	if(user.a_intent == "grab" && user.pulling && isliving(user.pulling))
+	if(user.a_intent == "grab" && user.pulling && isliving(user.pulling) && !flipped)
 		var/mob/living/pushed_mob = user.pulling
 		if(pushed_mob.buckled)
 			user << "<span class='warning'>[pushed_mob] is buckled to [pushed_mob.buckled]!</span>"
@@ -123,6 +159,11 @@
 	take_damage(P.damage, P.damage_type, 0)
 
 /obj/structure/table/CanPass(atom/movable/mover, turf/target, height=0)
+	if(flipped)
+		if(get_dir(src, target) == dir)
+			return 0
+		else
+			return 1
 	if(height==0)
 		return 1
 	if(istype(mover) && mover.checkpass(PASSTABLE))
@@ -133,6 +174,11 @@
 		return 1
 	else
 		return !density
+
+/obj/structure/table/CheckExit(atom/movable/O as mob|obj, target)
+	if((get_dir(O.loc, target) == dir) && flipped)
+		return 0
+	return 1
 
 /obj/structure/table/CanAStarPass(ID, dir, caller)
 	. = !density
@@ -158,7 +204,7 @@
 			table_deconstruct(user, 0)
 			return
 
-	if(istype(I, /obj/item/weapon/storage/bag/tray))
+	if(istype(I, /obj/item/weapon/storage/bag/tray) && !flipped)
 		var/obj/item/weapon/storage/bag/tray/T = I
 		if(T.contents.len > 0) // If the tray isn't empty
 			var/list/obj/item/oldContents = T.contents.Copy()
@@ -171,7 +217,7 @@
 			return
 		// If the tray IS empty, continue on (tray will be placed on the table like other items)
 
-	if(user.a_intent != "harm" && !(I.flags & ABSTRACT))
+	if(user.a_intent != "harm" && !(I.flags & ABSTRACT) && !flipped)
 		if(user.drop_item())
 			I.Move(loc)
 			var/list/click_params = params2list(params)
@@ -240,6 +286,27 @@
 			playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
 			table_destroy()
 
+/obj/structure/table/verb/flip()
+	set name = "Flip table"
+	set category = "Object"
+	set src in oview(1)
+
+	if(usr.stat || !usr.canmove || usr.restrained())
+		return
+	if(flipped == -1)
+		usr << "<span class='danger'>It won't budge!</span>"
+		return
+	if(!flipped)//let's do some checks
+		for(var/D in list(usr.dir, turn(usr.dir, 180)))
+			var/obj/structure/table/T = locate() in get_step(src,D)
+			if(T)
+				usr << "<span class='danger'>It won't budge!</span>"
+				return
+	flipped = !flipped
+	if(flipped)
+		dir = usr.dir
+	update_icon()
+	return
 
 /*
  * Glass tables
@@ -252,6 +319,7 @@
 	buildstack = /obj/item/stack/sheet/glass
 	canSmoothWith = null
 	health = 50
+	flipped = -1
 	var/list/debris = list()
 
 /obj/structure/table/glass/New()
@@ -364,6 +432,7 @@
 	buildstack = /obj/item/stack/sheet/plasteel
 	canSmoothWith = list(/obj/structure/table/reinforced, /obj/structure/table)
 	health = 200
+	flipped = -1
 
 /obj/structure/table/reinforced/attackby(obj/item/weapon/W, mob/user, params)
 	if(istype(W, /obj/item/weapon/weldingtool))
@@ -423,6 +492,7 @@
 	can_buckle = 1
 	buckle_lying = 1
 	buckle_requires_restraints = 1
+	flipped = -1
 	var/mob/living/carbon/human/patient = null
 	var/obj/machinery/computer/operating/computer = null
 
