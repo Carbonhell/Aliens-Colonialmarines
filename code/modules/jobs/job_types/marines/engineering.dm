@@ -45,8 +45,8 @@
 	department_head = list("Chief Engineer")
 	department_flag = ENGI
 	faction = "Marine"
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 2
+	spawn_positions = 2
 	supervisors = "the Chief Engineer"
 	selection_color = "#ffeeaa"
 	req_admin_notify = 1

@@ -5,8 +5,8 @@ Squad leader
 	title = "Squad Leader"
 	flag = SQUADLE
 	department_head = list("Commander")
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 4
+	spawn_positions = 4
 	supervisors = "the commander and the bridge officers"
 	selection_color = "#ffeeee"
 
@@ -19,8 +19,8 @@ Squad engineer
 /datum/job/marine/sqengie
 	title = "Squad Engineer"
 	flag = SQUADEN
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 8
+	spawn_positions = 8
 
 	access = list(access_marine_prep, access_marine_engprep, access_sulaco_engineering)
 	minimal_access = list(access_marine_prep, access_marine_engprep, access_sulaco_engineering)
@@ -31,8 +31,8 @@ Squad medic
 /datum/job/marine/sqmedic
 	title = "Squad Medic"
 	flag = SQUADME
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 8
+	spawn_positions = 8
 
 	access = list(access_marine_prep, access_marine_medprep, access_sulaco_medbay)
 	minimal_access = list(access_marine_prep, access_marine_medprep, access_sulaco_medbay)
@@ -43,8 +43,8 @@ Squad specialist
 /datum/job/marine/sqspc
 	title = "Squad Specialist"
 	flag = SQUADSP
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 8
+	spawn_positions = 8
 
 	access = list(access_marine_prep, access_marine_specprep)
 	minimal_access = list(access_marine_prep, access_marine_specprep)
