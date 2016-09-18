@@ -27,7 +27,6 @@
 
 	var/list/castepaths = subtypesof(/mob/living/carbon/alien/humanoid)
 	for(var/A in castepaths)
-		world << A
 		var/mob/living/carbon/alien/humanoid/ALIUM = A
 		if(chosen_caste == initial(ALIUM.caste))
 			alien_path = ALIUM

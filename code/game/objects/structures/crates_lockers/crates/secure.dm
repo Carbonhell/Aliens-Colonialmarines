@@ -39,3 +39,27 @@
 	desc = "A crate with a lock on it, painted in the scheme of the station's engineers."
 	name = "secure engineering crate"
 	icon_state = "engi_secure_crate"
+
+/obj/structure/closet/crate/secure/military
+	desc = "A military crate."
+	name = "secure military crate"
+	icon_state = "securemilitary"
+
+/obj/structure/closet/crate/secure/military/update_icon()
+	..()
+	if(broken)
+		add_overlay("securemilitaryemag")
+	else if(locked)
+		add_overlay("securemilitaryr")
+	else
+		add_overlay("securemilitaryg")
+
+/obj/structure/closet/crate/secure/military/medical
+	name = "medical military crate"
+	desc = "A secure military crate with medical supplies."
+	icon_state = "medicmilitary"
+
+/obj/structure/closet/crate/secure/military/engineering
+	name = "engineering medical crate"
+	desc = "A secure military crate with engineering supplies."
+	icon_state = "engimilitary"

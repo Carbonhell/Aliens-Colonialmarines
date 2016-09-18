@@ -41,7 +41,7 @@
 			qdel(T)
 
 /obj/structure/table/update_icon(ignore_table = null)
-	if(flipped)
+	if(flipped == 1)
 		icon_state = "flipped[dir]"
 		layer = ABOVE_MOB_LAYER
 		smooth = SMOOTH_FALSE
@@ -159,7 +159,7 @@
 	take_damage(P.damage, P.damage_type, 0)
 
 /obj/structure/table/CanPass(atom/movable/mover, turf/target, height=0)
-	if(flipped)
+	if(flipped == 1)
 		if(get_dir(src, target) == dir)
 			return 0
 		else
@@ -176,7 +176,7 @@
 		return !density
 
 /obj/structure/table/CheckExit(atom/movable/O as mob|obj, target)
-	if((get_dir(O.loc, target) == dir) && flipped)
+	if((get_dir(O.loc, target) == dir) && flipped == 1)
 		return 0
 	return 1
 

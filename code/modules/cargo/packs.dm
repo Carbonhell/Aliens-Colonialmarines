@@ -7,7 +7,7 @@
 	var/access = FALSE
 	var/list/contains = null
 	var/crate_name = "crate"
-	var/crate_type = /obj/structure/closet/crate
+	var/crate_type = /obj/structure/closet/crate/military
 	var/dangerous = FALSE // Should we message admins?
 
 /datum/supply_pack/proc/generate(turf/T)

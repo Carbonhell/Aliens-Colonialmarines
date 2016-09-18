@@ -20,6 +20,25 @@
 		return
 	crewmonitor.show(user)
 
+/obj/machinery/computer/squadmonitor
+	name = "squad monitoring console"
+	desc = "Drive your troops towards victory!"
+	icon_screen = "tcboss"
+	icon_keyboard = "syndie_key"
+	circuit = /obj/item/weapon/circuitboard/computer/crew/squad
+
+/obj/machinery/computer/squadmonitor/attack_ai(mob/user)
+	if(stat & (BROKEN|NOPOWER))
+		return
+	crewmonitor.show(user, ZLEVEL_PLANET)
+
+/obj/machinery/computer/squadmonitor/attack_hand(mob/user)
+	if(..())
+		return
+	if(stat & (BROKEN|NOPOWER))
+		return
+	crewmonitor.show(user, ZLEVEL_PLANET)
+
 var/global/datum/crewmonitor/crewmonitor = new
 
 /datum/crewmonitor
@@ -31,45 +50,36 @@ var/global/datum/crewmonitor/crewmonitor = new
 	. = ..()
 
 	var/list/jobs = new/list()
-	jobs["Captain"] = 00
-	jobs["Head of Personnel"] = 50
-	jobs["Head of Security"] = 10
-	jobs["Warden"] = 11
-	jobs["Security Officer"] = 12
-	jobs["Detective"] = 13
-	jobs["Chief Medical Officer"] = 20
-	jobs["Chemist"] = 21
-	jobs["Geneticist"] = 22
-	jobs["Virologist"] = 23
-	jobs["Medical Doctor"] = 24
-	jobs["Research Director"] = 30
-	jobs["Scientist"] = 31
-	jobs["Roboticist"] = 32
-	jobs["Chief Engineer"] = 40
-	jobs["Station Engineer"] = 41
-	jobs["Atmospheric Technician"] = 42
-	jobs["Quartermaster"] = 51
-	jobs["Shaft Miner"] = 52
-	jobs["Cargo Technician"] = 53
-	jobs["Bartender"] = 61
-	jobs["Cook"] = 62
-	jobs["Botanist"] = 63
-	jobs["Librarian"] = 64
-	jobs["Chaplain"] = 65
-	jobs["Clown"] = 66
-	jobs["Mime"] = 67
-	jobs["Janitor"] = 68
-	jobs["Lawyer"] = 69
-	jobs["Admiral"] = 200
-	jobs["Centcom Commander"] = 210
-	jobs["Custodian"] = 211
-	jobs["Medical Officer"] = 212
-	jobs["Research Officer"] = 213
-	jobs["Emergency Response Team Commander"] = 220
-	jobs["Security Response Officer"] = 221
-	jobs["Engineer Response Officer"] = 222
-	jobs["Medical Response Officer"] = 223
-	jobs["Assistant"] = 999 //Unknowns/custom jobs should appear after civilians, and before assistants
+	jobs["Commander"] = 0
+	jobs["Executive Officer"] = 10
+	jobs["Bridge Officer"] = 11
+	jobs["Corporate Liaison"] = 12
+	jobs["Military Police"] = 13
+	jobs["Requisitions Officer"] = 14
+	jobs["Cargo Technician"] = 15
+	jobs["Chief Engineer"] = 16
+	jobs["Engineer"] = 17
+	jobs["Alpha Squad Leader"] = 18
+	jobs["Bravo Squad Leader"] = 19
+	jobs["Charlie Squad Leader"] = 20
+	jobs["Delta Squad Leader"] = 21
+	jobs["Alpha Squad Engineer"] = 22
+	jobs["Bravo Squad Engineer"] = 23
+	jobs["Charlie Squad Engineer"] = 24
+	jobs["Delta Squad Engineer"] = 25
+	jobs["Alpha Squad Medic"] = 26
+	jobs["Bravo Squad Medic"] = 27
+	jobs["Charlie Squad Medic"] = 28
+	jobs["Delta Squad Medic"] = 29
+	jobs["Alpha Squad Specialist"] = 30
+	jobs["Bravo Squad Specialist"] = 31
+	jobs["Charlie Squad Specialist"] = 32
+	jobs["Delta Squad Specialist"] = 33
+	jobs["Alpha Squad Marine"] = 34
+	jobs["Bravo Squad Marine"] = 35
+	jobs["Charlie Squad Marine"] = 36
+	jobs["Delta Squad Marine"] = 37
+
 
 	src.jobs = jobs
 	src.interfaces = list()
@@ -94,7 +104,7 @@ var/global/datum/crewmonitor/crewmonitor = new
 		var/datum/html_interface/hi
 
 		if (!src.interfaces["[z]"])
-			src.interfaces["[z]"] = new/datum/html_interface/nanotrasen(src, "Crew Monitoring", 900, 540, "<link rel=\"stylesheet\" type=\"text/css\" href=\"crewmonitor.css\" /><script type=\"text/javascript\">var z = [z]; var tile_size = [world.icon_size]; var maxx = [world.maxx]; var maxy = [world.maxy];</script><script type=\"text/javascript\" src=\"crewmonitor.js\"></script>")
+			src.interfaces["[z]"] = new/datum/html_interface/nanotrasen(src, "Bio Scan", 900, 540, "<link rel=\"stylesheet\" type=\"text/css\" href=\"crewmonitor.css\" /><script type=\"text/javascript\">var z = [z]; var tile_size = [world.icon_size]; var maxx = [world.maxx]; var maxy = [world.maxy];</script><script type=\"text/javascript\" src=\"crewmonitor.js\"></script>")
 
 			hi = src.interfaces["[z]"]
 

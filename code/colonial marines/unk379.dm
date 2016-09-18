@@ -476,7 +476,7 @@
 /obj/structure/closet/secure_closet/security/marine
 	name = "standard marine locker"
 	req_access = list(access_marine_prep)
-	icon_state = "squad_alpha"
+	icon_state = "squad"
 
 /obj/structure/closet/secure_closet/CMO/marine
 	name = "combat medic locker"

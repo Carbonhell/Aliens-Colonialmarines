@@ -301,6 +301,10 @@
 	name = "circuit board (Crew Monitoring Console)"
 	build_path = /obj/machinery/computer/crew
 	origin_tech = "programming=2;biotech=2"
+/obj/item/weapon/circuitboard/computer/crew/squad
+	name = "circuit board (Squad Monitoring Console)"
+	build_path = /obj/machinery/computer/squadmonitor
+	origin_tech = "programming=3;biotech=3"
 /obj/item/weapon/circuitboard/computer/mech_bay_power_console
 	name = "circuit board (Mech Bay Power Control Console)"
 	build_path = /obj/machinery/computer/mech_bay_power_console

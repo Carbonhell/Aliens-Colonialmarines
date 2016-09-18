@@ -1,12 +1,7 @@
-//MAKE A FUGGING PROGRAM THAT TAKES DATA FROM DATA_CORE
-//AND DIVIDES EACH CREWMEMBER AND PUTS HIM IN A LIST AFTER FILTERING OUT JOBS WHICH DO NOT REQUIRE SQUADS
-//DO YOUR JOB NIGGER
-//DO IT NOW
-
 /datum/computer_file/program/squadeditor
 	filename = "squadeditor"
 	filedesc = "Squad Database Access Panel"
-	program_icon_state = "syndishuttle"
+	program_icon_state = "hostile"
 	extended_desc = "This program connects to the station's protected database and lets you change the squad of the marines listed in the crew roaster."
 	required_access = access_sulaco_change_ids
 	requires_ntnet = 0
