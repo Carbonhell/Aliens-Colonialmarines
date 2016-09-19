@@ -123,17 +123,9 @@
 				add_overlay(image(icon = icon, icon_state = iconState, pixel_x = ammo_x_offset * (i -1)))
 		else
 			add_overlay(image(icon = icon, icon_state = "[icon_state]_charge[ratio]"))
-	if(F && can_flashlight)
-		var/iconF = "flight"
-		if(F.on)
-			iconF = "flight_on"
-		add_overlay(image(icon = icon, icon_state = iconF, pixel_x = flight_x_offset, pixel_y = flight_y_offset))
 	if(itemState)
 		itemState += "[ratio]"
 		item_state = itemState
-
-/obj/item/weapon/gun/energy/ui_action_click()
-	toggle_gunlight()
 
 /obj/item/weapon/gun/energy/suicide_act(mob/user)
 	if (src.can_shoot())

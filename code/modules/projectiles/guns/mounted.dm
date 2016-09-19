@@ -6,7 +6,6 @@
 	item_state = "armcannonstun4"
 	force = 5
 	selfcharge = 1
-	can_flashlight = 0
 	trigger_guard = TRIGGER_GUARD_ALLOW_ALL // Has no trigger at all, uses neural signals instead
 
 /obj/item/weapon/gun/energy/gun/advtaser/mounted/dropped()//if somebody manages to drop this somehow...

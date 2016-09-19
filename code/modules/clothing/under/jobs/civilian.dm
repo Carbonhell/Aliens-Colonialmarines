@@ -141,7 +141,7 @@
 
 /obj/item/clothing/under/lawyer/blacksuit
 	name = "black suit"
-	desc = "A professional black suit. Nanotrasen Investigation Bureau approved!"
+	desc = "A professional black suit."
 	icon_state = "blacksuit"
 	item_state = "bar_suit"
 	item_color = "blacksuit"

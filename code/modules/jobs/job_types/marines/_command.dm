@@ -29,7 +29,7 @@
 	glasses = /obj/item/clothing/glasses/sunglasses
 	ears = /obj/item/device/radio/headset/heads/captain/alt
 	gloves = /obj/item/clothing/gloves/color/captain
-	uniform =  /obj/item/clothing/under/rank/captain
+	uniform =  /obj/item/clothing/under/rank/commander
 	shoes = /obj/item/clothing/shoes/laceup
 	head = /obj/item/clothing/head/caphat
 	backpack_contents = list(/obj/item/weapon/melee/classic_baton/telescopic=1)
@@ -84,7 +84,7 @@
 	id = /obj/item/weapon/card/id/silver
 	belt = /obj/item/device/pda/heads/hop
 	ears = /obj/item/device/radio/headset/heads/hop
-	uniform = /obj/item/clothing/under/rank/head_of_personnel
+	uniform = /obj/item/clothing/under/rank/xo
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	head = /obj/item/clothing/head/hopcap
 	backpack_contents = list(/obj/item/weapon/storage/box/ids=1,\
@@ -127,7 +127,7 @@
 	id = /obj/item/weapon/card/id/silver
 	belt = /obj/item/device/pda/heads/hop
 	ears = /obj/item/device/radio/headset/heads/hop
-	uniform = /obj/item/clothing/under/bo
+	uniform = /obj/item/clothing/under/rank/bo
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	head = /obj/item/clothing/head/hopcap
 	backpack_contents = list(/obj/item/weapon/storage/box/ids=1,\
@@ -168,7 +168,7 @@
 /datum/outfit/job/liaison
 	name = "Corporate Liaison"
 
-	uniform = /obj/item/clothing/under/rank/centcom_officer
+	uniform = /obj/item/clothing/under/lawyer/blacksuit
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	gloves = /obj/item/clothing/gloves/color/black
 	ears = /obj/item/device/radio/headset/headset_cent
@@ -188,11 +188,3 @@
 	L.imp_in = H
 	L.implanted = 1
 	H.sec_hud_set_implants()
-
-/obj/item/clothing/under/bo//PLACEHOLDER
-	name = "bridge officer's uniform"
-	desc = "A nice uniform, which appears to be kept pretty clean."
-	icon = 'icons/uniformmarine.dmi'
-	lefthand_file = 'icons/uniformmarine.dmi'
-	righthand_file = 'icons/uniformmarine.dmi'
-	icon_state = "BO_jumpsuit_s"

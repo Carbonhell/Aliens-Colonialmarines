@@ -6,7 +6,6 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/laser)
 	origin_tech = "combat=4;magnets=3"
 	modifystate = 2
-	can_flashlight = 1
 	ammo_x_offset = 3
 	flight_x_offset = 15
 	flight_y_offset = 10
@@ -20,16 +19,6 @@
 	cell_type = /obj/item/weapon/stock_parts/cell{charge = 600; maxcharge = 600}
 	ammo_x_offset = 2
 	charge_sections = 3
-	can_flashlight = 0 // Can't attach or detach the flashlight, and override it's icon update
-
-/obj/item/weapon/gun/energy/gun/mini/New()
-	F = new /obj/item/device/flashlight/seclite(src)
-	..()
-
-/obj/item/weapon/gun/energy/gun/mini/update_icon()
-	..()
-	if(F && F.on)
-		add_overlay("mini-light")
 
 /obj/item/weapon/gun/energy/gun/hos
 	name = "\improper X-01 MultiPhase Energy Gun"
@@ -46,7 +35,6 @@
 	icon_state = "dragnet"
 	origin_tech = "combat=4;magnets=3;bluespace=4"
 	ammo_type = list(/obj/item/ammo_casing/energy/net, /obj/item/ammo_casing/energy/trap)
-	can_flashlight = 0
 	ammo_x_offset = 1
 
 /obj/item/weapon/gun/energy/gun/dragnet/snare
@@ -63,7 +51,6 @@
 	w_class = 5
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/laser)
 	weapon_weight = WEAPON_MEDIUM
-	can_flashlight = 0
 	trigger_guard = TRIGGER_GUARD_NONE
 	ammo_x_offset = 2
 

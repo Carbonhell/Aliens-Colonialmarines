@@ -45,10 +45,8 @@
 
 	var/obj/item/device/firing_pin/pin = /obj/item/device/firing_pin //standard firing pin for ALL guns -Carbonhell
 
-	var/obj/item/device/flashlight/F = null
-	var/can_flashlight = 0
-
-	var/list/upgrades = list()
+	var/attachments_flags = BARREL|GRIP|OPTICS|UNDERBARREL|PAINT //by default guns can accept any attachment.
+	var/list/attachments = list()//list of attachments on the gun. Syntax's reference = flag, like bayonet ref = BARREL
 
 	var/ammo_x_offset = 0 //used for positioning ammo count overlay on sprite
 	var/ammo_y_offset = 0
@@ -66,9 +64,6 @@
 	..()
 	if(pin)
 		pin = new pin(src)
-	if(F)
-		verbs += /obj/item/weapon/gun/proc/toggle_gunlight
-		new /datum/action/item_action/toggle_gunlight(src)
 	build_zooming()
 
 
@@ -92,6 +87,11 @@
 		user << "<span class='notice'>Alt-click it to reskin it.</span>"
 	if(unique_rename)
 		user << "<span class='notice'>Use a pen on it to rename it.</span>"
+	if(attachments.len)
+		user << "<span class='notice'>You can see the following attachments:</span>"
+		for(var/i in attachments)
+			var/obj/item/I = i
+			user << "<span class='notice'>\icon[I] \the [I.name].</span>"
 
 
 /obj/item/weapon/gun/proc/process_chamber()
@@ -274,97 +274,42 @@ obj/item/weapon/gun/proc/newshot()
 		..()
 	else
 		return
+
 /obj/item/weapon/gun/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/device/flashlight/seclite))
-		var/obj/item/device/flashlight/seclite/S = I
-		if(can_flashlight)
-			if(!F)
-				if(!user.unEquip(I))
-					return
-				user << "<span class='notice'>You click [S] into place on [src].</span>"
-				if(S.on)
-					SetLuminosity(0)
-				F = S
-				I.loc = src
-				update_icon()
-				update_gunlight(user)
-				verbs += /obj/item/weapon/gun/proc/toggle_gunlight
-				var/datum/action/A = new /datum/action/item_action/toggle_gunlight(src)
-				if(loc == user)
-					A.Grant(user)
-
-	if(istype(I, /obj/item/weapon/screwdriver))
-		if(F && can_flashlight)
-			for(var/obj/item/device/flashlight/seclite/S in src)
-				user << "<span class='notice'>You unscrew the seclite from [src].</span>"
-				F = null
-				S.loc = get_turf(user)
-				update_gunlight(user)
-				S.update_brightness(user)
-				update_icon()
-				verbs -= /obj/item/weapon/gun/proc/toggle_gunlight
-			for(var/datum/action/item_action/toggle_gunlight/TGL in actions)
-				qdel(TGL)
-
 	if(unique_rename)
 		if(istype(I, /obj/item/weapon/pen))
 			rename_gun(user)
+	if(istype(I, /obj/item/gun_attachment))
+		switch(can_be_attached(I))
+			if(0)
+				return//what happened?
+			if(-1)
+				user << "<span class='notice'>\The [I] won't fit!</span>"
+				return
+			if(-2)
+				user << "<span class='notice'>There's already an attachment of that type on \the [name]!</span>"
+				return
+			else
+				user << "<span class='notice'>You start attaching \the [I] to \the [name]...</span>"
+				if(do_after(user, 20, target = src) && do_after(user, 20, target = I))
+					user << "<span class='notice'>You attach \the [I] to \the [name].</span>"
+					attach_attachment(I, user)
+					return
+	if(istype(I, /obj/item/weapon/screwdriver))
+		var/choice = input(user, "Remove attachment", "Choose the attachment to remove:") in attachments as obj|null
+		if(choice && choice in attachments)
+			user << "<span class='notice'>You remove \the [choice] from \the [name].</span>"
+			remove_attachment(choice)
+			return
 	..()
-
-/obj/item/weapon/gun/proc/toggle_gunlight()
-	set name = "Toggle Gunlight"
-	set category = "Object"
-	set desc = "Click to toggle your weapon's attached flashlight."
-
-	if(!F)
-		return
-
-	var/mob/living/carbon/human/user = usr
-	F.on = !F.on
-	user << "<span class='notice'>You toggle the gunlight [F.on ? "on":"off"].</span>"
-
-	playsound(user, 'sound/weapons/empty.ogg', 100, 1)
-	update_gunlight(user)
-	return
-
-/obj/item/weapon/gun/proc/update_gunlight(mob/user = null)
-	if(F)
-		if(F.on)
-			if(loc == user)
-				user.AddLuminosity(F.brightness_on)
-			else if(isturf(loc))
-				SetLuminosity(F.brightness_on)
-		else
-			if(loc == user)
-				user.AddLuminosity(-F.brightness_on)
-			else if(isturf(loc))
-				SetLuminosity(0)
-		update_icon()
-	else
-		if(loc == user)
-			user.AddLuminosity(-5)
-		else if(isturf(loc))
-			SetLuminosity(0)
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon()
-
 
 /obj/item/weapon/gun/pickup(mob/user)
 	..()
-	if(F)
-		if(F.on)
-			user.AddLuminosity(F.brightness_on)
-			SetLuminosity(0)
 	if(azoom)
 		azoom.Grant(user)
 
 /obj/item/weapon/gun/dropped(mob/user)
 	..()
-	if(F)
-		if(F.on)
-			user.AddLuminosity(-F.brightness_on)
-			SetLuminosity(F.brightness_on)
 	zoom(user,FALSE)
 	if(azoom)
 		azoom.Remove(user)
@@ -507,3 +452,38 @@ obj/item/weapon/gun/proc/newshot()
 	if(pin)
 		qdel(pin)
 	.=..()
+
+//attachment procs.
+
+//can_be_attached(attachment)
+//Returns 0 if the attachment doesn't exist anymore
+//Returns -1 if the attachment's not compatible to the gun
+//Returns -2 if there's already an attachment of the same type
+//Otherwise it returns 1
+/obj/item/weapon/gun/proc/can_be_attached(obj/item/gun_attachment/A)
+	if(!A)
+		return 0
+	if(!(A.gun_flag & attachments_flags))//gun doesn't support this attachment,sorry lad
+		return -1
+	for(var/i in attachments)
+		var/obj/item/gun_attachment/G = i
+		if(A.gun_flag & G.gun_flag)//slot's already occupied.
+			return -2
+	return 1
+
+/obj/item/weapon/gun/proc/attach_attachment(obj/item/gun_attachment/A, mob/user)//This proc handles putting the attachment on the gun.Does NOT handle checks.
+	attachments += A
+	A.gun = src
+	A.forceMove(src)
+	A.on_insert(user)
+	add_overlay(A.overlay, priority = 1)
+
+/obj/item/weapon/gun/proc/remove_attachment(obj/item/gun_attachment/A, mob/user)
+	if(!A)
+		return 0
+	attachments -= A
+	A.gun = null
+	A.forceMove(get_turf(src))
+	A.on_remove()
+	priority_overlays -= A.overlay
+	overlays -= A.overlay

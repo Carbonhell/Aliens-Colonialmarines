@@ -44,7 +44,6 @@
 	icon_state = "pulse_carbine"
 	item_state = "pulse"
 	cell_type = "/obj/item/weapon/stock_parts/cell/pulse/carbine"
-	can_flashlight = 1
 	flight_x_offset = 18
 	flight_y_offset = 12
 

@@ -9,7 +9,6 @@
 	unique_rename = 1
 	origin_tech = "combat=3;powerstorage=3;engineering=3"
 	weapon_weight = WEAPON_LIGHT
-	can_flashlight = 1
 	flight_x_offset = 15
 	flight_y_offset = 9
 	var/overheat_time = 16
@@ -125,13 +124,6 @@
 	cut_overlays()
 	if(!can_shoot())
 		add_overlay("kineticgun_empty")
-
-	if(F && can_flashlight)
-		var/iconF = "flight"
-		if(F.on)
-			iconF = "flight_on"
-		add_overlay(image(icon = icon, icon_state = iconF, pixel_x = flight_x_offset, pixel_y = flight_y_offset))
-
 
 //Casing
 /obj/item/ammo_casing/energy/kinetic

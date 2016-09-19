@@ -4,7 +4,6 @@
 	icon_state = "ionrifle"
 	item_state = null	//so the human update icon uses the icon_state instead.
 	origin_tech = "combat=4;magnets=4"
-	can_flashlight = 1
 	w_class = 5
 	flags =  CONDUCT
 	slot_flags = SLOT_BACK
@@ -95,7 +94,6 @@
 	overheat_time = 20
 	holds_charge = TRUE
 	unique_frequency = TRUE
-	can_flashlight = 0
 
 /obj/item/weapon/gun/energy/kinetic_accelerator/crossbow/large
 	name = "energy crossbow"

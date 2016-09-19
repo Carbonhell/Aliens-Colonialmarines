@@ -14,7 +14,6 @@
 	item_state = "tesla"
 	ammo_type = list(/obj/item/ammo_casing/energy/shock_revolver)
 	origin_tech = "combat=4;materials=4;powerstorage=4"
-	can_flashlight = 0
 	shaded_charge = 1
 
 /obj/item/weapon/gun/energy/stunrevolver
@@ -23,7 +22,6 @@
 	icon_state = "stunrevolver"
 	item_state = "gun"
 	ammo_type = list(/obj/item/ammo_casing/energy/electrode)
-	can_flashlight = 0
 	ammo_x_offset = 1
 
 /obj/item/weapon/gun/energy/gun/advtaser
@@ -37,7 +35,6 @@
 /obj/item/weapon/gun/energy/gun/advtaser/cyborg
 	name = "cyborg taser"
 	desc = "An integrated hybrid taser that draws directly from a cyborg's power cell. The weapon contains a limiter to prevent the cyborg's power cell from overheating."
-	can_flashlight = 0
 	can_charge = 0
 
 /obj/item/weapon/gun/energy/gun/advtaser/cyborg/newshot()
