@@ -46,7 +46,7 @@
 		var/obj/item/ammo_casing/CB
 		CB = magazine.get_round(0)
 		if(CB)
-			CB.loc = get_turf(src.loc)
+			CB.loc = get_turf(src)
 			CB.SpinAnimation(10, 1)
 			CB.update_icon()
 			num_unloaded++

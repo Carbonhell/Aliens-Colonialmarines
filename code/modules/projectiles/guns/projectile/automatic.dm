@@ -46,8 +46,10 @@
 			update_icon()
 			return 1
 
-/obj/item/weapon/gun/projectile/automatic/ui_action_click()
-	burst_select()
+/obj/item/weapon/gun/projectile/automatic/ui_action_click(mob/user, actiontype)
+	if(actiontype == /datum/action/item_action/toggle_firemode)
+		burst_select()
+	..()
 
 /obj/item/weapon/gun/projectile/automatic/proc/burst_select()
 	var/mob/living/carbon/human/user = usr
@@ -87,6 +89,8 @@
 	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
 	fire_delay = 2
 	burst_size = 3
+	attachment_x_offsets = list("barrel" = 31, "optics" = 7, "underbarrel" = 25, "stock" = 0, "paint" = 0)
+	attachment_y_offsets = list("barrel" = 1, "optics" = 4, "underbarrel" = 0, "stock" = 0, "paint" = 0)
 
 /obj/item/weapon/gun/projectile/automatic/c20r/New()
 	..()
@@ -337,8 +341,6 @@
 	can_unsuppress = 1
 	can_suppress = 1
 	w_class = 3
-	zoomable = TRUE
-	zoom_amt = 7 //Long range, enough to see in front of you, but no tiles behind you.
 	slot_flags = SLOT_BACK
 	actions_types = list()
 

@@ -1,7 +1,6 @@
 //Attachment defines
 #define BARREL				1
-#define GRIP				2
-#define OPTICS				4
-#define UNDERBARREL			8
-#define STOCK				16
-#define PAINT				32
+#define OPTICS				2
+#define UNDERBARREL			4
+#define STOCK				8
+#define PAINT				16

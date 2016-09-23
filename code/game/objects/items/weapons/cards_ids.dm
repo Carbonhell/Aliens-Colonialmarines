@@ -115,16 +115,21 @@ update_label("John Doe", "Clowny")
 
 	name = "[(!registered_name)	? "identification card"	: "[registered_name]'s ID Card"][(!assignment) ? "" : " ([assignment])"]"
 
+/obj/item/weapon/card/id/marine
+	name = "marine dog tag"
+	desc = "Tags for the commander's personal attack dogs."
+	icon_state = "marine"
+
 /obj/item/weapon/card/id/silver
 	name = "silver identification card"
-	desc = "A silver card which shows honour and dedication."
-	icon_state = "silver"
+	desc = "A dog tag that shows honor and dedication."
+	icon_state = "official"
 	item_state = "silver_id"
 
 /obj/item/weapon/card/id/gold
 	name = "gold identification card"
-	desc = "A golden card which shows power and might."
-	icon_state = "gold"
+	desc = "A dog tag which shows power and might."
+	icon_state = "commander"
 	item_state = "gold_id"
 
 /obj/item/weapon/card/id/syndicate

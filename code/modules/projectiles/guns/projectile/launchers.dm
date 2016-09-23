@@ -10,11 +10,6 @@
 	fire_sound = 'sound/weapons/grenadelaunch.ogg'
 	w_class = 3
 
-/obj/item/weapon/gun/projectile/revolver/grenadelauncher/attackby(obj/item/A, mob/user, params)
-	..()
-	if(istype(A, /obj/item/ammo_box) || istype(A, /obj/item/ammo_casing))
-		chamber_round()
-
 /obj/item/weapon/gun/projectile/revolver/grenadelauncher/cyborg
 	desc = "A 6-shot grenade launcher."
 	name = "multi grenade launcher"

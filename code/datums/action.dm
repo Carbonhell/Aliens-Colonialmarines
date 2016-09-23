@@ -113,12 +113,15 @@
 
 /datum/action/item_action/New(Target)
 	..()
+	if(!Target)
+		return
 	var/obj/item/I = target
 	I.actions += src
 
 /datum/action/item_action/Destroy()
-	var/obj/item/I = target
-	I.actions -= src
+	if(target)
+		var/obj/item/I = target
+		I.actions -= src
 	return ..()
 
 /datum/action/item_action/Trigger()

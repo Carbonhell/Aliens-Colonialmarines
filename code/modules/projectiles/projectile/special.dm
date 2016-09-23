@@ -39,7 +39,7 @@
 
 /obj/item/projectile/bullet/a40mm/on_hit(atom/target, blocked = 0)
 	..()
-	explosion(target, -1, 2, 3, 1, 0, flame_range = 3)
+	explosion(target, -1, -1, 2, 1, 0, flame_range = 3)
 	return 1
 
 /obj/item/projectile/temp

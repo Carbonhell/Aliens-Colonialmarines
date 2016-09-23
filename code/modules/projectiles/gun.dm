@@ -45,27 +45,21 @@
 
 	var/obj/item/device/firing_pin/pin = /obj/item/device/firing_pin //standard firing pin for ALL guns -Carbonhell
 
-	var/attachments_flags = BARREL|GRIP|OPTICS|UNDERBARREL|PAINT //by default guns can accept any attachment.
+	var/attachments_flags = BARREL|OPTICS|UNDERBARREL|STOCK|PAINT //by default guns can accept any attachment.
 	var/list/attachments = list()//list of attachments on the gun. Syntax's reference = flag, like bayonet ref = BARREL
+	var/obj/item/gun_attachment/attachment_afterattack = null//if set to the attachment ref, the next afterattack will be the attachment's one and not the gun's one
 
 	var/ammo_x_offset = 0 //used for positioning ammo count overlay on sprite
 	var/ammo_y_offset = 0
 	var/flight_x_offset = 0
 	var/flight_y_offset = 0
-
-	//Zooming
-	var/zoomable = FALSE //whether the gun generates a Zoom action on creation
-	var/zoomed = FALSE //Zoom toggle
-	var/zoom_amt = 3 //Distance in TURFs to move the user's screen forward (the "zoom" effect)
-	var/datum/action/toggle_scope_zoom/azoom
-
+	var/attachment_x_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)
+	var/attachment_y_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)
 
 /obj/item/weapon/gun/New()
 	..()
 	if(pin)
 		pin = new pin(src)
-	build_zooming()
-
 
 /obj/item/weapon/gun/CheckParts(list/parts_list)
 	..()
@@ -110,13 +104,14 @@
 
 
 /obj/item/weapon/gun/proc/shoot_live_shot(mob/living/user as mob|obj, pointblank = 0, mob/pbtarget = null, message = 1)
-	if(recoil)
+	if(recoil > 0)
 		shake_camera(user, recoil + 1, recoil)
 
 	if(suppressed)
 		playsound(user, fire_sound, 10, 1)
 	else
-		playsound(user, fire_sound, 50, 1)
+		if(fire_sound)
+			playsound(user, fire_sound, 50, 1)
 		if(!message)
 			return
 		if(pointblank)
@@ -138,6 +133,8 @@
 /obj/item/weapon/gun/afterattack(atom/target, mob/living/user, flag, params)
 	if(firing_burst)
 		return
+	if(attachment_afterattack)
+		return attachment_afterattack.afterattack(target, user, flag, params)
 	if(flag) //It's adjacent, is the user, or is on the user's person
 		if(target in user.contents) //can't shoot stuff inside us.
 			return
@@ -276,6 +273,11 @@ obj/item/weapon/gun/proc/newshot()
 		return
 
 /obj/item/weapon/gun/attackby(obj/item/I, mob/user, params)
+	for(var/i in attachments)
+		var/obj/item/gun_attachment/G = i
+		if(G.special_attackby)
+			if(G.attackby(I, user, params))
+				return
 	if(unique_rename)
 		if(istype(I, /obj/item/weapon/pen))
 			rename_gun(user)
@@ -291,7 +293,7 @@ obj/item/weapon/gun/proc/newshot()
 				return
 			else
 				user << "<span class='notice'>You start attaching \the [I] to \the [name]...</span>"
-				if(do_after(user, 20, target = src) && do_after(user, 20, target = I))
+				if(do_after(user, 20, target = src))
 					user << "<span class='notice'>You attach \the [I] to \the [name].</span>"
 					attach_attachment(I, user)
 					return
@@ -299,21 +301,15 @@ obj/item/weapon/gun/proc/newshot()
 		var/choice = input(user, "Remove attachment", "Choose the attachment to remove:") in attachments as obj|null
 		if(choice && choice in attachments)
 			user << "<span class='notice'>You remove \the [choice] from \the [name].</span>"
-			remove_attachment(choice)
+			remove_attachment(choice, user)
 			return
 	..()
 
-/obj/item/weapon/gun/pickup(mob/user)
+/obj/item/weapon/gun/equipped(mob/user, slot)
 	..()
-	if(azoom)
-		azoom.Grant(user)
-
-/obj/item/weapon/gun/dropped(mob/user)
-	..()
-	zoom(user,FALSE)
-	if(azoom)
-		azoom.Remove(user)
-
+	for(var/i in actions)
+		var/datum/action/A = i
+		A.UpdateButtonIcon()
 
 /obj/item/weapon/gun/AltClick(mob/user)
 	..()
@@ -323,6 +319,13 @@ obj/item/weapon/gun/proc/newshot()
 	if(unique_reskin && !current_skin && loc == user)
 		reskin_gun(user)
 
+/obj/item/weapon/gun/ui_action_click(mob/user, actiontype)
+	if(actiontype == /datum/action/item_action/attachment/nadelauncher)
+		if(attachment_afterattack)
+			attachment_afterattack = null
+		else
+			attachment_afterattack = locate(/obj/item/gun_attachment/underbarrel/nadelauncher) in attachments
+		user << "<span class='notice'>You will now use the [attachment_afterattack ? "grenade launcher" : "gun"] when shooting.</span>"
 
 /obj/item/weapon/gun/proc/reskin_gun(mob/M)
 	var/choice = input(M,"Warning, you can only reskin your weapon once!","Reskin Gun") in options
@@ -383,71 +386,6 @@ obj/item/weapon/gun/proc/newshot()
 		qdel(pin)
 	pin = new /obj/item/device/firing_pin
 
-/////////////
-// ZOOMING //
-/////////////
-
-/datum/action/toggle_scope_zoom
-	name = "Toggle Scope"
-	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_RESTRAINED|AB_CHECK_STUNNED|AB_CHECK_LYING
-	button_icon_state = "sniper_zoom"
-	var/obj/item/weapon/gun/gun = null
-
-/datum/action/toggle_scope_zoom/Trigger()
-	gun.zoom(owner)
-
-/datum/action/toggle_scope_zoom/IsAvailable()
-	. = ..()
-	if(!. && gun)
-		gun.zoom(owner, FALSE)
-
-/datum/action/toggle_scope_zoom/Remove(mob/living/L)
-	gun.zoom(L, FALSE)
-	..()
-
-
-/obj/item/weapon/gun/proc/zoom(mob/living/user, forced_zoom)
-	if(!user || !user.client)
-		return
-
-	switch(forced_zoom)
-		if(FALSE)
-			zoomed = FALSE
-		if(TRUE)
-			zoomed = TRUE
-		else
-			zoomed = !zoomed
-
-	if(zoomed)
-		var/_x = 0
-		var/_y = 0
-		switch(user.dir)
-			if(NORTH)
-				_y = zoom_amt
-			if(EAST)
-				_x = zoom_amt
-			if(SOUTH)
-				_y = -zoom_amt
-			if(WEST)
-				_x = -zoom_amt
-
-		user.client.pixel_x = world.icon_size*_x
-		user.client.pixel_y = world.icon_size*_y
-	else
-		user.client.pixel_x = 0
-		user.client.pixel_y = 0
-
-
-//Proc, so that gun accessories/scopes/etc. can easily add zooming.
-/obj/item/weapon/gun/proc/build_zooming()
-	if(azoom)
-		return
-
-	if(zoomable)
-		azoom = new()
-		azoom.gun = src
-
-
 /obj/item/weapon/gun/burn()
 	if(pin)
 		qdel(pin)
@@ -474,16 +412,39 @@ obj/item/weapon/gun/proc/newshot()
 /obj/item/weapon/gun/proc/attach_attachment(obj/item/gun_attachment/A, mob/user)//This proc handles putting the attachment on the gun.Does NOT handle checks.
 	attachments += A
 	A.gun = src
+	if(A.loc == user)
+		user.unEquip(A)
 	A.forceMove(src)
 	A.on_insert(user)
+	//first offset, aka the gun offsets
+	A.overlay.pixel_x = attachment_x_offsets[gunflag2text(A.gun_flag)]
+	A.overlay.pixel_y = attachment_y_offsets[gunflag2text(A.gun_flag)]
+	//second offset, aka the attachment offset(default is 0 so nothing happens
+	A.overlay.pixel_x += A.overlay_x_offset
+	A.overlay.pixel_y += A.overlay_y_offset
 	add_overlay(A.overlay, priority = 1)
 
 /obj/item/weapon/gun/proc/remove_attachment(obj/item/gun_attachment/A, mob/user)
 	if(!A)
 		return 0
 	attachments -= A
+	A.on_remove()
 	A.gun = null
 	A.forceMove(get_turf(src))
-	A.on_remove()
+	attachment_afterattack = null
 	priority_overlays -= A.overlay
-	overlays -= A.overlay
+	overlays.Cut()
+	update_icon()
+
+/proc/gunflag2text(flag)
+	switch(flag)
+		if(BARREL)
+			return "barrel"
+		if(OPTICS)
+			return "optics"
+		if(UNDERBARREL)
+			return "underbarrel"
+		if(STOCK)
+			return "stock"
+		if(PAINT)
+			return "paint"

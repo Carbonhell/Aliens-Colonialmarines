@@ -71,6 +71,9 @@ Squad marine
 /datum/outfit/job/marine
 	name = "Squad Marine"
 
+	id = /obj/item/weapon/card/id/marine
+	uniform = /obj/item/clothing/under/rank/marine_pajama
+
 /datum/outfit/job/marine/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	assign_to_weakest_squad(H)
