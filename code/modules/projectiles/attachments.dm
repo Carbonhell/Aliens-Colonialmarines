@@ -14,6 +14,7 @@
 	var/special_afterattack = FALSE //turn to true if your attachment has an afterattack,like the underbarrel grenade launcher shooting
 	var/list/special_effects = list()//special effects, such as an underslug grenade launcher shooting its nade and the likes
 //OVERLAY VARS
+	var/has_overlay = TRUE//False for paint.
 	var/image/overlay
 	var/overlay_x_offset = 0//THOSE TWO OFFSETS SHOULD BE USED ONLY IF NECESSARY. Pratically,if you need the attachment to have a special offset instead of
 	var/overlay_y_offset = 0//the default one,set those vars. Keep in mind,those vars are the last to be set with pixel_x/y += overlay_x/y_offset.
@@ -40,7 +41,6 @@
 		A.target = gun
 		if(gun.loc == user)
 			A.Grant(user)
-		A.UpdateButtonIcon()
 	return
 
 /obj/item/gun_attachment/proc/on_remove(mob/user)
@@ -77,6 +77,24 @@
 
 /obj/item/gun_attachment/paint
 	gun_flag = PAINT
+	has_overlay = FALSE//Because it's dealt in a special way.
+	var/paint_icon_state = "americanflag"//icon's attachments.dmi
+	var/gun_icon
+	var/gun_icon_state
+
+/obj/item/gun_attachment/paint/on_insert(mob/user)
+	..()
+	gun_icon = gun.icon//Save the icon for removal purposes.
+	gun_icon_state = gun.icon_state//^
+	var/icon/I = getFlatIcon(gun)
+	I.MapColors(arglist(color_matrix_saturation(0.1)))//makes a greyscale icon of the gun...Or does it?Jesus i hope this works.
+	I.Blend(icon(icon, paint_icon_state), ICON_MULTIPLY)//HOPEFULLY blends the paint overlay on the greyscale gun icon
+	gun.icon = I//and finally we apply this fucking abomination of an icon jesus h christ
+
+/obj/item/gun_attachment/paint/on_remove(mob/user)
+	gun.icon = gun_icon
+	gun.icon_state = gun_icon_state
+	..()
 
 //BARREL
 /obj/item/gun_attachment/barrel/suppressor
@@ -163,7 +181,81 @@
 	if(gun)
 		return G.afterattack(target, user, flag, params)
 
+//I am very sorry to whoever is gonna read this. I tried my best but lighting code's just fucking retarded for me.
+/obj/item/gun_attachment/underbarrel/flashlight
+	name = "flashlight"
+	desc = "A nice underbarrel flashlight."
+	icon_state = "flashlight"
+	item_state = "flashlight"
+	special_effects = list(/datum/action/item_action/attachment/toggle_light)
+	var/on = FALSE
+	var/brightness_on = 4
+
+/obj/item/gun_attachment/underbarrel/flashlight/attack_self(mob/user)
+	..()
+	on = !on
+	if(on)
+		if(loc == user)
+			user.AddLuminosity(brightness_on)
+		else if(isturf(loc))
+			SetLuminosity(brightness_on)
+		icon_state += "-on"
+		overlay.icon_state += "-on"
+	else
+		if(loc == user)
+			user.AddLuminosity(-brightness_on)
+		else if(isturf(loc))
+			SetLuminosity(0)
+		icon_state = initial(icon_state)
+		overlay.icon_state = initial(icon_state)
+	if(gun)
+		gun.update_icon()
+		gun.update_gunlight(user)
+
+/obj/item/gun_attachment/underbarrel/flashlight/pickup(mob/user)
+	..()
+	if(on)
+		user.AddLuminosity(brightness_on)
+		SetLuminosity(0)
+
+
+/obj/item/gun_attachment/underbarrel/flashlight/dropped(mob/user)
+	..()
+	if(on)
+		user.AddLuminosity(-brightness_on)
+		SetLuminosity(brightness_on)
+
+/obj/item/gun_attachment/underbarrel/flashlight/on_insert(mob/user)
+	..()
+	gun.update_gunlight(user)
+
+/obj/item/gun_attachment/underbarrel/flashlight/on_remove(mob/user)
+	if(on)
+		gun.SetLuminosity(0)
+		user.AddLuminosity(-brightness_on)
+	..()
 //STOCK
+/obj/item/gun_attachment/stock/re93
+	name = "RE93 Absorbing Stock"
+	desc = "A spring loaded, shock-absorbing rifle stock that allows you to wield the gun with a single hand. Although, it decreases accuracy. Useless on guns that are already one-handed."
+	var/spreadoffset = 20
+	var/reset_weight = FALSE
+
+/obj/item/gun_attachment/stock/re93/on_insert(mob/user)
+	..()
+	gun.spread += spreadoffset
+	if(gun.weapon_weight == WEAPON_HEAVY)
+		gun.weapon_weight = WEAPON_LIGHT
+		gun.on_varedit("weapon_weight")
+		reset_weight = TRUE
+
+/obj/item/gun_attachment/stock/re93/on_remove(mob/user)
+	gun.spread -= spreadoffset
+	if(reset_weight == TRUE)
+		gun.weapon_weight = WEAPON_HEAVY
+		gun.on_varedit("weapon_weight")
+		reset_weight = FALSE
+	..()
 //PAINT
 
 //ACTIONS
@@ -291,3 +383,17 @@
 		Z.old_seeindark = null
 		owner.update_sight()
 	..()
+
+/datum/action/item_action/attachment/toggle_light
+	name = "Toggle underbarrel flashlight"
+
+/datum/action/item_action/attachment/toggle_light/Trigger()
+	if(!..())
+		return
+	var/obj/item/weapon/gun/G = target
+	if(!istype(G))
+		return 0
+	var/obj/item/gun_attachment/underbarrel/flashlight/F = locate() in G.attachments
+	if(!istype(F))
+		return 0
+	F.attack_self(owner)

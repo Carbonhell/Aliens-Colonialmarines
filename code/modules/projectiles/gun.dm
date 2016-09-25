@@ -31,6 +31,7 @@
 	var/firing_burst = 0				//Prevent the weapon from firing again while already firing
 	var/semicd = 0						//cooldown handler
 	var/weapon_weight = WEAPON_LIGHT
+	var/wielded = FALSE
 
 	var/spread = 0						//Spread induced by the gun itself.
 	var/randomspread = 1				//Set to 0 for shotguns. This is used for weapons that don't fire all their bullets at once.
@@ -60,6 +61,8 @@
 	..()
 	if(pin)
 		pin = new pin(src)
+	if(weapon_weight > WEAPON_MEDIUM)
+		actions += new /datum/action/item_action/wield(src)
 
 /obj/item/weapon/gun/CheckParts(list/parts_list)
 	..()
@@ -119,12 +122,6 @@
 		else
 			user.visible_message("<span class='danger'>[user] fires [src]!</span>", "<span class='danger'>You fire [src]!</span>", "You hear a [istype(src, /obj/item/weapon/gun/energy) ? "laser blast" : "gunshot"]!")
 
-	if(weapon_weight >= WEAPON_MEDIUM)
-		if(user.get_inactive_hand())
-			if(prob(15))
-				if(user.drop_item())
-					user.visible_message("<span class='danger'>[src] flies out of [user]'s hands!</span>", "<span class='userdanger'>[src] kicks out of your grip!</span>")
-
 /obj/item/weapon/gun/emp_act(severity)
 	for(var/obj/O in contents)
 		O.emp_act(severity)
@@ -168,7 +165,7 @@
 				user.drop_item()
 				return
 
-	if(weapon_weight == WEAPON_HEAVY && user.get_inactive_hand())
+	if(weapon_weight == WEAPON_HEAVY && !wielded)
 		user << "<span class='userdanger'>You need both hands free to fire \the [src]!</span>"
 		return
 
@@ -204,7 +201,7 @@ obj/item/weapon/gun/proc/newshot()
 		return
 
 	if(weapon_weight)
-		if(user.get_inactive_hand())
+		if(user.get_inactive_hand() && !wielded)
 			recoil = 4 //one-handed kick
 		else
 			recoil = initial(recoil)
@@ -391,6 +388,70 @@ obj/item/weapon/gun/proc/newshot()
 		qdel(pin)
 	.=..()
 
+/obj/item/weapon/gun/update_icon()
+	..()
+	cut_overlays()
+	if(iscarbon(loc))
+		var/mob/living/carbon/C = loc
+		C.update_inv_l_hand()
+		C.update_inv_r_hand()
+
+/obj/item/weapon/gun/proc/update_gunlight(mob/user = null)
+	var/obj/item/gun_attachment/underbarrel/flashlight/F = locate() in attachments
+	if(F)
+		if(F.on)
+			if(loc == user)
+				user.AddLuminosity(F.brightness_on)
+			else if(isturf(loc))
+				SetLuminosity(F.brightness_on)
+		else
+			if(loc == user)
+				user.AddLuminosity(-F.brightness_on)
+			else if(isturf(loc))
+				SetLuminosity(0)
+		update_icon()
+	else
+		if(loc == user)
+			user.AddLuminosity(-initial(F.brightness_on))
+		else if(isturf(loc))
+			SetLuminosity(0)
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.UpdateButtonIcon()
+
+/obj/item/weapon/gun/pickup(mob/user)
+	..()
+	var/obj/item/gun_attachment/underbarrel/flashlight/F = locate() in attachments
+	if(F)
+		if(F.on)
+			user.AddLuminosity(F.brightness_on)
+			SetLuminosity(0)
+
+/obj/item/weapon/gun/dropped(mob/user)
+	..()
+	var/obj/item/gun_attachment/underbarrel/flashlight/F = locate() in attachments
+	if(F)
+		if(F.on)
+			user.AddLuminosity(-F.brightness_on)
+			SetLuminosity(F.brightness_on)
+	if(user)
+		var/obj/item/weapon/twohanded/O = user.get_inactive_hand()
+		if(istype(O))
+			O.unwield(user)
+
+/obj/item/weapon/gun/on_varedit(modified_var)
+	if(modified_var == "weapon_weight")
+		if(weapon_weight == WEAPON_HEAVY)
+			var/datum/action/item_action/wield/W = new(src)
+			actions += W
+			if(ismob(loc))
+				W.Grant(loc)
+		else
+			for(var/i in actions)
+				if(istype(i, /datum/action/item_action/wield))
+					actions -= i
+					qdel(i)
+					break
 //attachment procs.
 
 //can_be_attached(attachment)
@@ -416,25 +477,33 @@ obj/item/weapon/gun/proc/newshot()
 		user.unEquip(A)
 	A.forceMove(src)
 	A.on_insert(user)
-	//first offset, aka the gun offsets
-	A.overlay.pixel_x = attachment_x_offsets[gunflag2text(A.gun_flag)]
-	A.overlay.pixel_y = attachment_y_offsets[gunflag2text(A.gun_flag)]
-	//second offset, aka the attachment offset(default is 0 so nothing happens
-	A.overlay.pixel_x += A.overlay_x_offset
-	A.overlay.pixel_y += A.overlay_y_offset
-	add_overlay(A.overlay, priority = 1)
+	if(A.has_overlay)
+		//first offset, aka the gun offsets
+		A.overlay.pixel_x = attachment_x_offsets[gunflag2text(A.gun_flag)]
+		A.overlay.pixel_y = attachment_y_offsets[gunflag2text(A.gun_flag)]
+		//second offset, aka the attachment offset(default is 0 so nothing happens
+		A.overlay.pixel_x += A.overlay_x_offset
+		A.overlay.pixel_y += A.overlay_y_offset
+		add_overlay(A.overlay, priority = 1)
+	for(var/i in actions)
+		var/datum/action/action = i
+		action.UpdateButtonIcon()
 
 /obj/item/weapon/gun/proc/remove_attachment(obj/item/gun_attachment/A, mob/user)
 	if(!A)
 		return 0
 	attachments -= A
-	A.on_remove()
+	A.on_remove(user)
 	A.gun = null
 	A.forceMove(get_turf(src))
 	attachment_afterattack = null
-	priority_overlays -= A.overlay
-	overlays.Cut()
+	if(A.has_overlay)
+		priority_overlays -= A.overlay
+	cut_overlays()
 	update_icon()
+	for(var/i in actions)
+		var/datum/action/action = i
+		action.UpdateButtonIcon()
 
 /proc/gunflag2text(flag)
 	switch(flag)
@@ -448,3 +517,55 @@ obj/item/weapon/gun/proc/newshot()
 			return "stock"
 		if(PAINT)
 			return "paint"
+
+/datum/action/item_action/wield
+	name = "Wield or unwield your gun"
+
+/datum/action/item_action/wield/Trigger()
+	if(target && owner)
+		var/obj/item/weapon/gun/G = target
+		if(!G.wielded)//If we're gonna wield it,let's do some checks first
+			var/check = FALSE
+			if(isnull(owner.l_hand))
+				check = TRUE
+			if(!check)
+				if(!isnull(owner.r_hand))
+					owner << "<span class='danger'>You need to grab the weapon with both hands!(Use the action button top-left)</span>"
+					return
+			if(owner.get_num_arms() < 2)
+				owner << "<span class='warning'>You don't have enough hands.</span>"
+				return
+		G.wielded = !G.wielded
+		var/obj/item/weapon/twohanded/offhand/gun/O
+		if(G.wielded)
+			owner << "<span class='notice'>You grab the [G.name] with both hands.</span>"
+			O = new(owner)
+			O.name = "[name] - offhand"
+			O.desc = "Your second grip on the [name]"
+			O.gun = G
+			owner.put_in_hands(O)
+			G.item_state += "-w"
+			G.update_icon()
+		else
+			O = owner.get_inactive_hand()
+			if(!istype(O))
+				O = owner.get_active_hand()
+			if(!istype(O))
+				return//something fucked up,let's jettison outta here.
+			O.unwield()
+
+/obj/item/weapon/twohanded/offhand/gun//special offhand with a variable linking to the gun.
+	var/obj/item/weapon/gun/gun
+
+/obj/item/weapon/twohanded/offhand/gun/unwield()
+	if(gun)
+		gun.wielded = FALSE
+		gun.item_state = initial(gun.item_state)
+		gun.update_icon()
+	..()
+
+/obj/item/weapon/twohanded/offhand/gun/wield()
+	if(gun)
+		gun.wielded = FALSE
+		gun.item_state = initial(gun.item_state)
+	..()

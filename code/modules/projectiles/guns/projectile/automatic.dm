@@ -324,6 +324,18 @@
 	..()
 
 
+/obj/item/weapon/gun/projectile/automatic/m41a
+	name = "M41A pulse rifle MK2"
+	desc = "The Armat M41A Pulse Rifle MK2 is an American-made pulse-action assault rifle chambered for 10x24mm Caseless ammunition."
+	icon_state = "m41a"
+	item_state = "m41a"
+	weapon_weight = WEAPON_HEAVY
+	mag_type = /obj/item/ammo_box/magazine/smgm45/m41a
+
+/obj/item/weapon/gun/projectile/automatic/m41a/update_icon()
+	..()
+	icon_state = "m41a[magazine ? "" : "-0"]"
+
 
 // SNIPER //
 

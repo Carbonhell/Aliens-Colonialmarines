@@ -314,6 +314,12 @@
 	caliber = "10x28"
 	projectile_type = /obj/item/projectile/bullet/smart
 
+/obj/item/ammo_casing/caseless/m41a
+	name = "10x24mm bullet casing"
+	desc = "A 10x24mm bullet casing."
+	caliber = "10x24"
+	projectile_type = /obj/item/projectile/bullet/midbullet3
+
 /obj/item/ammo_casing/caseless/magspear
 	name = "magnetic spear"
 	desc = "A reusable spear that is typically loaded into kinetic spearguns."

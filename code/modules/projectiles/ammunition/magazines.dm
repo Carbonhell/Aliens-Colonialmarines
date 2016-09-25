@@ -284,7 +284,7 @@
 	..()
 	icon_state = "c20r45-[round(ammo_count(),2)]"
 
-obj/item/ammo_box/magazine/tommygunm45
+/obj/item/ammo_box/magazine/tommygunm45
 	name = "drum magazine (.45)"
 	icon_state = "drum45"
 	ammo_type = /obj/item/ammo_casing/c45
@@ -355,6 +355,11 @@ obj/item/ammo_box/magazine/tommygunm45
 	icon_state = "m12gbc"
 	ammo_type = /obj/item/ammo_casing/shotgun/breaching
 
+/obj/item/ammo_box/magazine/smgm45/m41a
+	name = "M41A magazine (10x24mm Caseless)"
+	ammo_type = /obj/item/ammo_casing/caseless/m41a
+	caliber = "10x24"
+	max_ammo = 20
 
 //// SNIPER MAGAZINES
 
