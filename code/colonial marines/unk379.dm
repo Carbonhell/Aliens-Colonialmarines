@@ -74,6 +74,32 @@
 	name = "Commander"
 	icon_state = "captain"
 
+/area/sulaco/engineering
+	name = "Engineering"
+	icon_state = "engine"
+
+/area/sulaco/engineering/control
+	name = "Engineering Control"
+	icon_state = "engine_control"
+
+/area/sulaco/engineering/storage
+	name = "Engineering Storage"
+	icon_state = "engine_storage"
+
+/area/sulaco/engineering/engine
+	name = "Supermatter Engine"
+
+/area/sulaco/engineering/chief
+	name = "Chief Engineer's Office"
+
+/area/sulaco/engineering/power
+	name = "Power Storage"
+	icon_state = "engine_smes"
+
+/area/sulaco/engineering/atmospherics
+	name = "Atmospherics"
+	icon_state = "atmos"
+
 /area/sulaco/conference
 	name = "Conference"
 	icon_state = "conference"
