@@ -40,9 +40,9 @@
       {{#each .}}
 	    <div class='itemContentWide'>
 	      <div class='average'>
-            <ui-button action='squadleft' params='{"ref":"{{ref}}"}'><i class='fa fa-arrow-left'></i></ui-button>
+            <ui-button action='squadleft' params='{"name":"{{name}}"}'><i class='fa fa-arrow-left'></i></ui-button>
 		    {{name}}
-		    <ui-button action='squadright' params='{"ref":"{{ref}}"}'><i class='fa fa-arrow-right'></i></ui-button>
+		    <ui-button action='squadright' params='{"name":"{{name}}"}'><i class='fa fa-arrow-right'></i></ui-button>
           </div>
 		</div>
 	  {{/each}}

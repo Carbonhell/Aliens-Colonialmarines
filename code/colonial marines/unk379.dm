@@ -1,3 +1,6 @@
+//Shit here needs to be moved in the proper files. Consider this Carbonhell Code's Limbo (CCL®)
+
+
 //Areas
 /area/wasteland
 	name = "Wasteland"

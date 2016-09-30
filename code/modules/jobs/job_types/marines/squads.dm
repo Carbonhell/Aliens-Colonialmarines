@@ -8,6 +8,7 @@ var/list/existing_squads = list()
 	var/radio_frequency	    = 1491			//radio frequency
 	var/list/orders			= list()		//list of orders given by Command. There can be as many as command wants.
 	var/start_squad 		= FALSE			//Is this a roundstart squad(alpha,bravo,charlie,delta)
+	var/list/beacons		= list()//list of supply beacons. May include other types of beacons such as orbital strike ones in the future.
 
 /datum/squad/New()
 	..()

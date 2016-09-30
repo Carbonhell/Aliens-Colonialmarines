@@ -38,9 +38,8 @@
 			var/datum/mind/marinemind = M.mind
 			if(!(marinemind.assigned_role in jobs_whitelist))
 				continue
-			var/list/person = list("name", "ref")
+			var/list/person = list()
 			person["name"] = M.real_name
-			person["ref"] = "\ref[M]"
 			if(marinemind.squad)
 				var/datum/squad/marinesquad = marinemind.squad
 				crewmembers[marinesquad.name] += list(person)
@@ -53,9 +52,13 @@
 
 /datum/computer_file/program/squadeditor/ui_act(action, params)
 	if(..())
-		return 1
-	var/mob/M = locate(params["ref"])
-	if(!M || !M.mind)
+		return
+	var/mob/living/carbon/human/M
+	for(var/V in data_core.locked)
+		var/datum/data/record/R = V
+		if(R.fields["name"] == params["name"])
+			M = locate(R.fields["reference"])
+	if(!istype(M) || !M.mind)
 		return
 	var/datum/mind/mobmind = M.mind
 	var/datum/squad/mobsquad = mobmind.squad

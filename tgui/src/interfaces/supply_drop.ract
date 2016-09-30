@@ -1,0 +1,31 @@
+<ui-display title='Supply Drop'>
+  <ui-section label='Fire'>
+	 <ui-bar min='0' max='{{data.max_timer}}' value='{{adata.timer}}'
+        state='"good"'>{{(data.max_timer - adata.timer)/10}}</ui-bar>
+	 <ui-button icon='refresh' state='{{data.supply && data.max_timer == data.timer ? null : "disabled"}}' action='fire'>Fire</ui-button><br/>
+  </ui-section>
+  {{#if data.supply}}
+	<ui-section label='Loaded'>
+	  <ui-button icon='eject' action='eject'>{{data.supply.name}}</ui-button>
+	  <br>
+	  {{#each data.supply.contents}}
+	    {{.}}
+		<br>
+	  {{/each}}
+	</ui-section>
+  {{/if}}
+</ui-display>
+<ui-display title='Beacons'>
+  <div class='item' style='width: 100%'>
+    {{#each data.squads}}
+      <div style='float: left; width: 175px'>
+        {{name}}
+        {{#each beacons}}
+		  <br>
+          <ui-button icon='{{data.current_beacon == identifier ? "star" : null}}' state='{{data.current_beacon == identifier ? "toggle" : null}}' action='setbeacon' params='{"identifier" : {{identifier}}}'>{{name}}</ui-button>
+		  Coordinates: {{x}}, {{y}}, {{z}}.
+        {{/each}}
+      </div>
+    {{/each}}
+  </div>
+</ui-display>
