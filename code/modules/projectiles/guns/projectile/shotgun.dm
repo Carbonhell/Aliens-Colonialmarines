@@ -169,6 +169,19 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/com
 	w_class = 5
 
+/obj/item/weapon/gun/projectile/shotgun/automatic/combat/mk221
+	name = "MK221 tactical shotgun"
+	desc = "The Weyland-Yutani MK221 Tactical Shotgun is a self-loading semi-automatic shotgun used primarily by the United States Colonial Marine Corps."
+	icon_state = "mk221"
+	item_state = "mk221"
+	weapon_weight = WEAPON_HEAVY
+	attachment_x_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
+	attachment_y_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
+
+/obj/item/weapon/gun/projectile/shotgun/automatic/combat/mk221/update_icon()
+	item_state = "mk221[wielded ? "-w" : ""]"
+	..()
+
 //Dual Feed Shotgun
 
 /obj/item/weapon/gun/projectile/shotgun/automatic/dual_tube

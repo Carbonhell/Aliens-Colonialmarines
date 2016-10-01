@@ -130,7 +130,10 @@
 	name = "grenade launcher internal magazine"
 	ammo_type = /obj/item/ammo_casing/a40mm
 	caliber = "40mm"
-	max_ammo = 1
+	max_ammo = 4
+
+/obj/item/ammo_box/magazine/internal/grenadelauncher/arc
+	ammo_type = /obj/item/ammo_casing/a21sarc
 
 /obj/item/ammo_box/magazine/internal/speargun
 	name = "speargun internal magazine"
@@ -359,7 +362,20 @@
 	name = "M41A magazine (10x24mm Caseless)"
 	ammo_type = /obj/item/ammo_casing/caseless/m41a
 	caliber = "10x24"
-	max_ammo = 20
+	max_ammo = 40
+
+/obj/item/ammo_box/magazine/m39
+	name = "M39 magazine (7.62mm Caseless)"
+	icon_state = "smg9mm-42"
+	ammo_type = /obj/item/ammo_casing/caseless/m39
+	caliber = "m762"
+	max_ammo = 48
+
+/obj/item/ammo_box/magazine/m39/update_icon()
+	if(ammo_count())
+		icon_state = "smg9mm-42"
+	else
+		icon_state = "smg9mm-0"
 
 //// SNIPER MAGAZINES
 

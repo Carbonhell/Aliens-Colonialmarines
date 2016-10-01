@@ -15,6 +15,7 @@
 	origin_tech = "combat=1"
 	needs_permit = 1
 	attack_verb = list("struck", "hit", "bashed")
+	actions_types = list(/datum/action/item_action/wield)
 
 	var/fire_sound = "gunshot"
 	var/suppressed = 0					//whether or not a message is displayed when fired
@@ -33,7 +34,8 @@
 	var/weapon_weight = WEAPON_LIGHT
 	var/wielded = FALSE
 
-	var/spread = 0						//Spread induced by the gun itself.
+	var/spread = 10						//Spread induced by the gun itself.
+	var/base_spread = 0					//Synced to spread on new, used to edit spread value temporarily with stuff like wielding the gun,for easy resetting
 	var/randomspread = 1				//Set to 0 for shotguns. This is used for weapons that don't fire all their bullets at once.
 
 	var/unique_rename = 0 //allows renaming with a pen
@@ -48,6 +50,7 @@
 
 	var/attachments_flags = BARREL|OPTICS|UNDERBARREL|STOCK|PAINT //by default guns can accept any attachment.
 	var/list/attachments = list()//list of attachments on the gun. Syntax's reference = flag, like bayonet ref = BARREL
+	var/list/attachments_onnew = list()//list of attachments newed alongside with the gun
 	var/obj/item/gun_attachment/attachment_afterattack = null//if set to the attachment ref, the next afterattack will be the attachment's one and not the gun's one
 
 	var/ammo_x_offset = 0 //used for positioning ammo count overlay on sprite
@@ -59,10 +62,19 @@
 
 /obj/item/weapon/gun/New()
 	..()
+	for(var/i in attachments_onnew)
+		var/obj/item/gun_attachment/G = new i()
+		attach_attachment(G, null)
+	switch(weapon_weight)
+		if(WEAPON_LIGHT)
+			spread = 10
+		if(WEAPON_MEDIUM)
+			spread = 15
+		if(WEAPON_HEAVY)
+			spread = 20
+	base_spread = spread
 	if(pin)
 		pin = new pin(src)
-	if(weapon_weight > WEAPON_MEDIUM)
-		actions += new /datum/action/item_action/wield(src)
 
 /obj/item/weapon/gun/CheckParts(list/parts_list)
 	..()
@@ -166,7 +178,7 @@
 				return
 
 	if(weapon_weight == WEAPON_HEAVY && !wielded)
-		user << "<span class='userdanger'>You need both hands free to fire \the [src]!</span>"
+		user << "<span class='userdanger'>You need both hands free to fire \the [src]!(Use the action button top-left)</span>"
 		return
 
 	process_fire(target,user,1,params)
@@ -206,40 +218,22 @@ obj/item/weapon/gun/proc/newshot()
 		else
 			recoil = initial(recoil)
 
-	if(burst_size > 1)
-		firing_burst = 1
-		for(var/i = 1 to burst_size)
-			if(!user)
+	firing_burst = 1
+	for(var/i in 1 to burst_size)
+		if(!user)
+			break
+		if(!issilicon(user))
+			if( i>1 && !(src in get_both_hands(user))) //for burst firing
 				break
-			if(!issilicon(user))
-				if( i>1 && !(src in get_both_hands(user))) //for burst firing
-					break
-			if(chambered)
-				var/sprd = 0
-				if(randomspread)
-					sprd = round((rand() - 0.5) * spread)
-				else //Smart spread
-					sprd = round((i / burst_size - 0.5) * spread)
-				if(!chambered.fire(target, user, params, ,suppressed, zone_override, sprd))
-					shoot_with_empty_chamber(user)
-					break
-				else
-					if(get_dist(user, target) <= 1) //Making sure whether the target is in vicinity for the pointblank shot
-						shoot_live_shot(user, 1, target, message)
-					else
-						shoot_live_shot(user, 0, target, message)
-			else
-				shoot_with_empty_chamber(user)
-				break
-			process_chamber()
-			update_icon()
-			sleep(fire_delay)
-		firing_burst = 0
-	else
 		if(chambered)
-			if(!chambered.fire(target, user, params, , suppressed, zone_override, spread))
+			var/sprd = 0
+			if(randomspread)
+				sprd = round((rand() - 0.5) * spread)
+			else //Smart spread
+				sprd = round((i / burst_size - 0.5) * spread)
+			if(!chambered.fire(target, user, params, ,suppressed, zone_override, sprd))
 				shoot_with_empty_chamber(user)
-				return
+				break
 			else
 				if(get_dist(user, target) <= 1) //Making sure whether the target is in vicinity for the pointblank shot
 					shoot_live_shot(user, 1, target, message)
@@ -247,12 +241,11 @@ obj/item/weapon/gun/proc/newshot()
 					shoot_live_shot(user, 0, target, message)
 		else
 			shoot_with_empty_chamber(user)
-			return
+			break
 		process_chamber()
 		update_icon()
-		semicd = 1
-		spawn(fire_delay)
-			semicd = 0
+		sleep(fire_delay)
+	firing_burst = 0
 
 	if(user)
 		if(user.hand)
@@ -435,23 +428,13 @@ obj/item/weapon/gun/proc/newshot()
 			user.AddLuminosity(-F.brightness_on)
 			SetLuminosity(F.brightness_on)
 	if(user)
-		var/obj/item/weapon/twohanded/O = user.get_inactive_hand()
+		var/obj/item/weapon/twohanded/offhand/O = user.get_inactive_hand()
 		if(istype(O))
 			O.unwield(user)
 
-/obj/item/weapon/gun/on_varedit(modified_var)
-	if(modified_var == "weapon_weight")
-		if(weapon_weight == WEAPON_HEAVY)
-			var/datum/action/item_action/wield/W = new(src)
-			actions += W
-			if(ismob(loc))
-				W.Grant(loc)
-		else
-			for(var/i in actions)
-				if(istype(i, /datum/action/item_action/wield))
-					actions -= i
-					qdel(i)
-					break
+/obj/item/weapon/gun/on_varedit(edited_var)
+	if(edited_var == "spread")
+		base_spread = spread
 //attachment procs.
 
 //can_be_attached(attachment)
@@ -473,7 +456,7 @@ obj/item/weapon/gun/proc/newshot()
 /obj/item/weapon/gun/proc/attach_attachment(obj/item/gun_attachment/A, mob/user)//This proc handles putting the attachment on the gun.Does NOT handle checks.
 	attachments += A
 	A.gun = src
-	if(A.loc == user)
+	if(user && (A.loc == user))
 		user.unEquip(A)
 	A.forceMove(src)
 	A.on_insert(user)
@@ -522,6 +505,8 @@ obj/item/weapon/gun/proc/newshot()
 	name = "Wield or unwield your gun"
 
 /datum/action/item_action/wield/Trigger()
+	if(!..())
+		return 0
 	if(target && owner)
 		var/obj/item/weapon/gun/G = target
 		if(!G.wielded)//If we're gonna wield it,let's do some checks first
@@ -530,7 +515,7 @@ obj/item/weapon/gun/proc/newshot()
 				check = TRUE
 			if(!check)
 				if(!isnull(owner.r_hand))
-					owner << "<span class='danger'>You need to grab the weapon with both hands!(Use the action button top-left)</span>"
+					owner << "<span class='danger'>You need to grab the weapon with both hands!</span>"
 					return
 			if(owner.get_num_arms() < 2)
 				owner << "<span class='warning'>You don't have enough hands.</span>"
@@ -544,8 +529,8 @@ obj/item/weapon/gun/proc/newshot()
 			O.desc = "Your second grip on the [name]"
 			O.gun = G
 			owner.put_in_hands(O)
-			G.item_state += "-w"
 			G.update_icon()
+			G.spread = G.base_spread - 10
 		else
 			O = owner.get_inactive_hand()
 			if(!istype(O))
@@ -560,6 +545,7 @@ obj/item/weapon/gun/proc/newshot()
 /obj/item/weapon/twohanded/offhand/gun/unwield()
 	if(gun)
 		gun.wielded = FALSE
+		gun.spread = gun.base_spread
 		gun.item_state = initial(gun.item_state)
 		gun.update_icon()
 	..()
@@ -567,5 +553,7 @@ obj/item/weapon/gun/proc/newshot()
 /obj/item/weapon/twohanded/offhand/gun/wield()
 	if(gun)
 		gun.wielded = FALSE
+		gun.spread = gun.base_spread
 		gun.item_state = initial(gun.item_state)
+		gun.update_icon()
 	..()

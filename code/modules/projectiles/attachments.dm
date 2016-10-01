@@ -34,6 +34,8 @@
 	qdel(overlay)
 	..()
 
+
+//Remember,in on_remove and on_insert,user CAN be null for on new attachments!! Always check if user exists before using it.
 /obj/item/gun_attachment/proc/on_insert(mob/user)//Special action when the attachment's inserted,such as increasing damage, accuracy, and the likes.
 	for(var/i in special_effects)
 		var/datum/action/A = i
@@ -160,15 +162,15 @@
 
 
 /obj/item/gun_attachment/underbarrel/nadelauncher
-	name = "underslung grenade launcher"
+	name = "U1 grenade launcher"
 	desc = "All the perks of a grenade launcher on your primary gun!What else would you ask for?"
 	icon_state = "grenade"
 	special_effects = list(/datum/action/item_action/attachment/nadelauncher)
 	special_attackby = TRUE
-	var/obj/item/weapon/gun/projectile/revolver/grenadelauncher/G
+	var/obj/item/weapon/gun/projectile/revolver/grenadelauncher/G = /obj/item/weapon/gun/projectile/revolver/grenadelauncher
 
 /obj/item/gun_attachment/underbarrel/nadelauncher/New()
-	G = new(src)
+	G = new G(src)
 	..()
 
 /obj/item/gun_attachment/underbarrel/nadelauncher/attackby(obj/item/I, mob/user, params)
@@ -180,6 +182,9 @@
 /obj/item/gun_attachment/underbarrel/nadelauncher/afterattack(atom/target, mob/living/user, flag, params)
 	if(gun)
 		return G.afterattack(target, user, flag, params)
+
+/obj/item/gun_attachment/underbarrel/nadelauncher/arcloaded
+	G = /obj/item/weapon/gun/projectile/revolver/grenadelauncher/arc
 
 //I am very sorry to whoever is gonna read this. I tried my best but lighting code's just fucking retarded for me.
 /obj/item/gun_attachment/underbarrel/flashlight
@@ -232,12 +237,13 @@
 /obj/item/gun_attachment/underbarrel/flashlight/on_remove(mob/user)
 	if(on)
 		gun.SetLuminosity(0)
-		user.AddLuminosity(-brightness_on)
+		if(user)
+			user.AddLuminosity(-brightness_on)
 	..()
 //STOCK
 /obj/item/gun_attachment/stock/re93
 	name = "RE93 Absorbing Stock"
-	desc = "A spring loaded, shock-absorbing rifle stock that allows you to wield the gun with a single hand. Although, it decreases accuracy. Useless on guns that are already one-handed."
+	desc = "A spring loaded, shock-absorbing rifle stock that allows you to wield the gun with a single hand without recoil. Although, it decreases accuracy. Useless on guns that are already one-handed."
 	var/spreadoffset = 20
 	var/reset_weight = FALSE
 
@@ -246,14 +252,12 @@
 	gun.spread += spreadoffset
 	if(gun.weapon_weight == WEAPON_HEAVY)
 		gun.weapon_weight = WEAPON_LIGHT
-		gun.on_varedit("weapon_weight")
 		reset_weight = TRUE
 
 /obj/item/gun_attachment/stock/re93/on_remove(mob/user)
 	gun.spread -= spreadoffset
 	if(reset_weight == TRUE)
 		gun.weapon_weight = WEAPON_HEAVY
-		gun.on_varedit("weapon_weight")
 		reset_weight = FALSE
 	..()
 //PAINT

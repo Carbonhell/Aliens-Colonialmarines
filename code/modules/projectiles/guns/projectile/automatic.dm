@@ -6,7 +6,7 @@
 	can_suppress = 1
 	burst_size = 3
 	fire_delay = 2
-	actions_types = list(/datum/action/item_action/toggle_firemode)
+	actions_types = list(/datum/action/item_action/toggle_firemode, /datum/action/item_action/wield)
 
 /obj/item/weapon/gun/projectile/automatic/proto
 	name = "\improper NanoTrasen Saber SMG"
@@ -14,14 +14,15 @@
 	icon_state = "saber"
 	mag_type = /obj/item/ammo_box/magazine/smgm9mm
 
-/obj/item/weapon/gun/projectile/automatic/update_icon()
+/obj/item/weapon/gun/projectile/automatic/update_icon(ammobased_iconstate = TRUE)
 	..()
-	cut_overlays()
-	if(!select)
-		add_overlay("[initial(icon_state)]semi")
-	if(select == 1)
-		add_overlay("[initial(icon_state)]burst")
-	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
+	if(ammobased_iconstate)
+		cut_overlays()
+		if(!select)
+			add_overlay("[initial(icon_state)]semi")
+		if(select == 1)
+			add_overlay("[initial(icon_state)]burst")
+		icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
 
 /obj/item/weapon/gun/projectile/automatic/attackby(obj/item/A, mob/user, params)
 	. = ..()
@@ -331,17 +332,50 @@
 	item_state = "m41a"
 	weapon_weight = WEAPON_HEAVY
 	mag_type = /obj/item/ammo_box/magazine/smgm45/m41a
+	fire_delay = 5
+	attachment_x_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
+	attachment_y_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
 
-/obj/item/weapon/gun/projectile/automatic/m41a/update_icon()
+/obj/item/weapon/gun/projectile/automatic/m41a/update_icon(ammobased_iconstate = FALSE)
+	icon_state = "m41a[magazine ? "" : "-0"][wielded ? "-w" : ""]"
+	item_state = "m41a[magazine ? "" : "-0"][wielded ? "-w" : ""]"
 	..()
-	icon_state = "m41a[magazine ? "" : "-0"]"
 
+/obj/item/weapon/gun/projectile/automatic/m39
+	name = "M39 submachine gun"
+	desc = "The M39 is an American-made submachine gun used primarily by the United States Colonial Marine Corps as their standard issue SMG."
+	icon_state = "m39"
+	item_state = "m39"
+	weapon_weight = WEAPON_LIGHT
+	mag_type = /obj/item/ammo_box/magazine/m39
+	attachment_x_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
+	attachment_y_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
 
+/obj/item/weapon/gun/projectile/automatic/m39/update_icon(ammobased_iconstate = FALSE)
+	icon_state = "m39[magazine ? "" : "-0"]"
+	item_state = "m39[magazine ? "" : "-0"][wielded ? "-w" : ""]"
+	..()
+
+/obj/item/weapon/gun/projectile/automatic/nsg23
+	name = "NSG 23 assault rifle"
+	desc = "The NSG 23 Assault Rifle is a three-round burst assault rifle used primarily by the United States Colonial Marine Corps and Weyland-Yutani PMCs."
+	icon_state = "nsg23"
+	item_state = "nsg23"
+	weapon_weight = WEAPON_LIGHT
+	mag_type = /obj/item/ammo_box/magazine/m39
+	attachment_x_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
+	attachment_y_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
+
+/obj/item/weapon/gun/projectile/automatic/nsg23/update_icon(ammobased_iconstate = FALSE)
+	icon_state = "nsg23[magazine ? "" : "-0"]"
+	item_state = "nsg23[magazine ? "" : "-0"][wielded ? "-w" : ""]"
+	..()
 // SNIPER //
 
 /obj/item/weapon/gun/projectile/automatic/sniper_rifle
 	name = "sniper rifle"
 	desc = "The kind of gun that will leave you crying for mummy before you even realise your leg's missing"
+	icon_state
 	icon_state = "sniper"
 	item_state = "sniper"
 	recoil = 2

@@ -10,6 +10,9 @@
 	fire_sound = 'sound/weapons/grenadelaunch.ogg'
 	w_class = 3
 
+/obj/item/weapon/gun/projectile/revolver/grenadelauncher/arc
+	mag_type = /obj/item/ammo_box/magazine/internal/grenadelauncher/arc
+
 /obj/item/weapon/gun/projectile/revolver/grenadelauncher/cyborg
 	desc = "A 6-shot grenade launcher."
 	name = "multi grenade launcher"

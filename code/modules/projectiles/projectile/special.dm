@@ -42,6 +42,19 @@
 	explosion(target, -1, -1, 2, 1, 0, flame_range = 3)
 	return 1
 
+/obj/item/projectile/bullet/a21sarc
+	name = "21S arc round"
+	desc = "wew lad get zapped"
+	icon_state = "bolter"
+	damage = 30
+	damage_type = BURN//a wholly 60 damage to xenos,pretty fucking op imo
+
+/obj/item/projectile/bullet/a21sarc/on_hit(atom/target, blocked = 0)
+	..()
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
+	s.set_up(2, 2, target)
+	s.start()
+
 /obj/item/projectile/temp
 	name = "freeze beam"
 	icon_state = "ice_2"

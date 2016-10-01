@@ -94,6 +94,13 @@
 	icon_state = "40mmHE"
 	projectile_type = /obj/item/projectile/bullet/a40mm
 
+/obj/item/ammo_casing/a21sarc
+	name = "21S arc round"
+	desc = "The 21S Arc Round is an electrically charged shotgun slug manufactured by Weyland-Yutani for use with an underbarrel attachment."
+	caliber = "40mm"
+	icon_state = "40mmHE"
+	projectile_type = /obj/item/projectile/bullet/a21sarc
+
 
 /////SNIPER ROUNDS
 
@@ -291,8 +298,8 @@
 
 
 /obj/item/ammo_casing/caseless/fire(atom/target as mob|obj|turf, mob/living/user as mob|obj, params, distro, quiet)
-	if (..())
-		loc = null
+	if(..())
+		qdel(src)
 		return 1
 	else
 		return 0
@@ -318,7 +325,14 @@
 	name = "10x24mm bullet casing"
 	desc = "A 10x24mm bullet casing."
 	caliber = "10x24"
-	projectile_type = /obj/item/projectile/bullet/midbullet3
+	projectile_type = /obj/item/projectile/bullet/heavybullet
+
+/obj/item/ammo_casing/caseless/m39
+	name = "7.62mm bullet casing"
+	desc = "A 7.62mm bullet casing."
+	icon_state = "762-casing"
+	caliber = "m762"
+	projectile_type = /obj/item/projectile/bullet/weakbullet4
 
 /obj/item/ammo_casing/caseless/magspear
 	name = "magnetic spear"

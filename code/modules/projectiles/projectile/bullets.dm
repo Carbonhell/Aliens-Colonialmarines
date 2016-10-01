@@ -19,6 +19,9 @@
 /obj/item/projectile/bullet/weakbullet3
 	damage = 20
 
+/obj/item/projectile/bullet/weakbullet4
+	damage = 15
+
 /obj/item/projectile/bullet/toxinbullet
 	damage = 15
 	damage_type = TOX
