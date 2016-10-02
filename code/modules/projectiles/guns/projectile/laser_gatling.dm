@@ -87,6 +87,8 @@
 /obj/item/weapon/minigunpack/proc/attach_gun(mob/user)
 	if(ispath(gun))
 		gun = new gun(src)
+	if(gun.loc == user)
+		user.unEquip(gun)
 	gun.forceMove(src)
 	armed = 0
 	if(user)
@@ -99,6 +101,8 @@
 /obj/item/weapon/minigunpack/smartgun
 	name = "m56 breastplate"
 	desc = "The holder for the M56 processor and ammo."
+	icon_state = "m56-holstered"
+	item_state = "m56-holstered"
 	gun = /obj/item/weapon/gun/projectile/minigun/smartgun
 	actions_types = list(/datum/action/item_action/reload_smartgun)
 	overheat_max = 0
@@ -111,6 +115,20 @@
 	if(do_after(user, 30, target = src))
 		user.visible_message("[user] reloads \the [gun]!", "You reload \the [gun]!")
 		gun.magazine.attackby(box, user, silent = 1)
+		gun.chamber_round()
+
+/obj/item/weapon/minigunpack/smartgun/update_icon()
+	..()
+	if(!armed)
+		icon_state = "m56-holstered"
+		item_state = "m56-holstered"
+	else
+		icon_state = "m56-notholstered"
+		item_state = "m56-notholstered"
+
+/obj/item/weapon/minigunpack/smartgun/examine(mob/user)
+	..()
+	user << "Has [box.stored_ammo.len] round\s remaining."
 
 /obj/item/weapon/gun/projectile/minigun
 	name = "laser gatling gun"
@@ -136,6 +154,7 @@
 	return
 
 /obj/item/weapon/gun/projectile/minigun/dropped(mob/user)
+	..()
 	if(ammo_pack)
 		ammo_pack.attach_gun(user)
 	else
@@ -157,19 +176,12 @@
 	..()
 
 /obj/item/weapon/gun/projectile/minigun/New()
+	..()
 	if(!ammo_pack)
 		if(istype(loc,/obj/item/weapon/minigunpack)) //We should spawn inside a ammo pack so let's use that one.
 			ammo_pack = loc
-			..()
 		else
 			qdel(src)//No pack, no gun
-
-/obj/item/weapon/gun/projectile/minigun/dropped(mob/living/user)
-	ammo_pack.attach_gun(user)
-
-/obj/item/weapon/gun/projectile/minigun/process_chamber(eject_casing = 0, empty_chamber = 1)
-	..()
-
 
 /obj/item/weapon/gun/projectile/minigun/smartgun
 	name = "M56 smartgun"
@@ -179,4 +191,6 @@
 	slowdown = 0//fuck slowdown
 	fire_sound = "gunshot"
 	burst_size = 1
+	fire_delay = 1
+	automatic = 1
 	mag_type = /obj/item/ammo_box/magazine/internal/smartgun

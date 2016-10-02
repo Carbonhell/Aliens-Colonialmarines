@@ -613,3 +613,130 @@
 
 /obj/effect/mob_spawn/xenomorph/queen
 	mob_type = /mob/living/carbon/alien/humanoid/big/queen
+
+/obj/item/clothing/tie/armband/squad
+	item_color = ""
+
+/obj/item/clothing/tie/armband/squad/alpha
+	name = "alpha armband"
+	desc = "A red armband with the letter A on it."
+	icon_state = "alpha"
+	item_state = "alpha"
+
+/obj/item/clothing/tie/armband/squad/bravo
+	name = "bravo armband"
+	desc = "A yellow armband with the letter B on it."
+	icon_state = "bravo"
+	item_state = "bravo"
+
+/obj/item/clothing/tie/armband/squad/charlie
+	name = "charlie armband"
+	desc = "A purple armband with the letter C on it."
+	icon_state = "charlie"
+	item_state = "charlie"
+
+/obj/item/clothing/tie/armband/squad/delta
+	name = "delta armband"
+	desc = "A blue armband with the letter D on it."
+	icon_state = "delta"
+	item_state = "delta"
+
+/obj/item/clothing/suit/armor/vest/marine
+	name = "M3 pattern personal armor"
+	desc = "Standard USCM armor. It's equipped with a toggleable flashlight."
+	icon_state = "marine"
+	item_state = "marine"
+	body_parts_covered = CHEST|GROIN|LEGS
+	actions_types = list(/datum/action/item_action/toggle_armor_lamp)
+	var/on = FALSE
+	var/brightness_on = 4 //luminosity when on
+	var/image/lamp
+
+/obj/item/clothing/suit/armor/vest/marine/New()
+	..()
+	lamp = image(icon = icon, icon_state = "lamp-0")
+	add_overlay(lamp, 1)
+
+/obj/item/clothing/suit/armor/vest/marine/ui_action_click(mob/user, actiontype)
+	if(actiontype == /datum/action/item_action/toggle_armor_lamp)
+		on = !on
+		user << "<span class='notice'>You turn the lamp [on ? "on" : "off"].</span>"
+		on ? (lamp.icon_state = "lamp-1") : (lamp.icon_state = "lamp-0")
+		cut_overlays()
+		add_overlay(lamp, 1)
+		user.update_inv_wear_suit()
+		if(on)
+			user.AddLuminosity(brightness_on)
+		else
+			user.AddLuminosity(-brightness_on)
+		for(var/X in actions)
+			var/datum/action/A = X
+			A.UpdateButtonIcon()
+
+/obj/item/clothing/suit/armor/vest/marine/worn_overlays(isinhands = FALSE)
+	. = ..()
+	if(lamp && !isinhands)
+		var/image/tI = image("icon"='icons/mob/suit.dmi', "icon_state"=lamp.icon_state)
+		. += tI
+
+/obj/item/clothing/suit/armor/vest/marine/pickup(mob/user)
+	..()
+	if(on)
+		user.AddLuminosity(brightness_on)
+		SetLuminosity(0)
+
+/obj/item/clothing/suit/armor/vest/marine/dropped(mob/user)
+	..()
+	if(on)
+		user.AddLuminosity(-brightness_on)
+		SetLuminosity(brightness_on)
+
+/obj/item/clothing/suit/armor/vest/marine/item_action_slot_check(slot)
+	if(slot == slot_wear_suit)
+		return 1
+
+/obj/item/clothing/suit/armor/vest/marine/nolegs
+	icon_state = "marine_nolegs"
+	item_state = "marine_nolegs"
+
+/obj/item/clothing/suit/armor/vest/marine/noshoulders
+	icon_state = "marine_noshoulders"
+	item_state = "marine_noshoulders"
+
+/obj/item/clothing/suit/armor/vest/marine/nostomach
+	icon_state = "marine_nostomach"
+	item_state = "marine_nostomach"
+
+/obj/item/clothing/suit/armor/vest/marine/leader
+	name = "M3 pattern leader armor"
+	desc = "A slightly modified model of the M3 pattern personal armor. This model has golden stripes."
+	icon_state = "marine_leader"
+	item_state = "marine_leader"
+
+/obj/item/clothing/suit/armor/vest/marine/engineer
+	name = "M3 pattern engineer armor"
+	desc = "A slightly modified model of the M3 pattern personal armor. This model has yellow-painted shoulders."
+	icon_state = "marine_engineer"
+	item_state = "marine_engineer"
+
+/obj/item/clothing/suit/armor/vest/marine/medic
+	name = "M3 pattern medic armor"
+	desc = "A slightly modified model of the M3 pattern personal armor. This model has white-painted shoulders and a red cross on the center."
+	icon_state = "marine_medic"
+	item_state = "marine_medic"
+
+/obj/item/clothing/suit/armor/vest/marine/sniper
+	name = "M3 pattern sniper armor"
+	desc = "A slightly modified model of the M3 pattern personal armor. This model lacks shoulder protection."
+	icon_state = "marine_sniper"
+	item_state = "marine_sniper"
+
+/obj/item/clothing/suit/armor/vest/marine/police
+	name = "M3 pattern police armor"
+	desc = "A slightly modified model of the M3 pattern personal armor. This model has is painted in red, and is generally used between military police teams."
+	icon_state = "marine_police"
+	item_state = "marine_police"
+
+/datum/action/item_action/toggle_armor_lamp
+	name = "Toggle Armor Lamp"
+

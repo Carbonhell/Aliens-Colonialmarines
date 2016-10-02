@@ -181,7 +181,7 @@
 /obj/item/ammo_box/magazine/internal/smartgun
 	name = "smartgun internal ammo holder"
 	ammo_type = /obj/item/ammo_casing/caseless/smartgun
-	max_ammo = 200
+	max_ammo = 300
 	caliber = "10x28"
 
 ///////////EXTERNAL MAGAZINES////////////////

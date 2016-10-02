@@ -52,7 +52,7 @@
 	return
 
 /obj/item/weapon/gun/projectile/can_shoot()
-	if(!magazine || !magazine.ammo_count(0))
+	if(!chambered && (!magazine || !magazine.ammo_count(0)))
 		return 0
 	return 1
 
