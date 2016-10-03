@@ -1,6 +1,6 @@
 /mob/living/carbon/alien/humanoid/sentinel
 	name = "alien sentinel"
-	caste = "s"
+	caste = "sentinel"
 	maxHealth = 130
 	health = 130
 	tier = 1

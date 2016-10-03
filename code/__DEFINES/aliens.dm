@@ -7,6 +7,3 @@
 
 
 #define TIERTWOLIMIT			5 //if(aliens.len/TIERTWOLIMIT <= high_caste_num),this means a new slot is unlocked every multiple of 5
-
-#define MAX_ALIEN_LEAP_DIST		7
-#define MAX_ALIEN_CHARGE_DIST	4

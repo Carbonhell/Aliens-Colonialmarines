@@ -94,61 +94,6 @@ Doesn't work on other aliens/AI.*/
 	playsound(loc, 'sound/effects/splat.ogg', 30, 1)
 	return 1
 
-/obj/effect/proc_holder/alien/pounce
-	name = "Pounce"
-	desc = "Pounce on someone."
-	plasma_cost = 10
-	charge_max = 30
-	action_icon_state = "leap_0"
-	active = FALSE
-	var/organcheck = /obj/item/organ/alien/muscles
-
-/obj/effect/proc_holder/alien/pounce/update_icon()
-	action.button_icon_state = "leap_[active]"
-	action.UpdateButtonIcon()
-
-/obj/effect/proc_holder/alien/pounce/fire(mob/living/carbon/user)
-	var/message
-	if(active)
-		message = "<span class='notice'>You relax your muscles.</span>"
-		remove_ranged_ability(user, message)
-		user.update_icons()
-	else
-		message = "<span class='notice'>You prepare your muscles to [lowertext(name)]. <B>Left-click to [lowertext(name)] at a target!</B></span>"
-		add_ranged_ability(user, message)
-		user.update_icons()
-
-/obj/effect/proc_holder/alien/pounce/InterceptClickOn(mob/living/carbon/alien/user, params, atom/target)
-	if(..())
-		return
-	var/obj/item/organ/alien/muscles/M = user.getorgan(organcheck)
-	if(!M)
-		return //shouldn't even happen but eh.
-
-	user.face_atom(target)
-	if(user.leaping || user.stat || user.buckled || user.lying)
-		return
-	user.leaping = 1
-	user.weather_immunities += "lava"
-	user.update_icons()
-	user.throw_at(target,MAX_ALIEN_LEAP_DIST,1, spin=0, diagonals_first = 1)
-	user.leaping = 0
-	user.weather_immunities -= "lava"
-	user.update_icons()
-	active = !active
-	update_icon()
-
-/obj/effect/proc_holder/alien/pounce/charge
-	name = "Charge"
-	desc = "Charge towards someone."
-	plasma_cost = 20
-	action_icon_state = "alien_charge_0"
-	organcheck = /obj/item/organ/alien/legmuscles/ravager
-
-/obj/effect/proc_holder/alien/pounce/charge/update_icon()
-	action.button_icon_state = "alien_charge_[active]"
-	action.UpdateButtonIcon()
-
 /obj/effect/proc_holder/alien/whisper
 	name = "Whisper"
 	desc = "Whisper to someone"
@@ -213,12 +158,6 @@ Doesn't work on other aliens/AI.*/
 	plasma_cost = 200
 	action_icon_state = "alien_acid"
 
-/obj/effect/proc_holder/alien/acid/on_gain(mob/living/carbon/user)
-	user.verbs.Add(/mob/living/carbon/proc/corrosive_acid)
-
-/obj/effect/proc_holder/alien/acid/on_lose(mob/living/carbon/user)
-	user.verbs.Remove(/mob/living/carbon/proc/corrosive_acid)
-
 /obj/effect/proc_holder/alien/acid/proc/corrode(target,mob/living/carbon/user = usr)
 	var/obj/item/organ/alien/acid/A = user.getorgan(/obj/item/organ/alien/acid)
 	if(!A)
@@ -253,21 +192,29 @@ Doesn't work on other aliens/AI.*/
 
 
 /obj/effect/proc_holder/alien/acid/fire(mob/living/carbon/alien/user)
-	var/O = input("Select what to dissolve:","Dissolve",null) as obj|turf in oview(1,user)
-	if(!O) return 0
-	return corrode(O,user)
+	var/message
+	var/obj/item/organ/alien/acid/B = user.getorgan(/obj/item/organ/alien/acid)
 
-/mob/living/carbon/proc/corrosive_acid(O as obj|turf in oview(1)) // right click menu verb ugh
-	set name = "Corrossive Acid"
+	if(active)
+		message = "<span class='notice'>You empty your [B].</span>"
+		remove_ranged_ability(user, message)
+	else
+		message = "<span class='notice'>You prepare your [B]. <B>Left-click to fire at a target!</B></span>"
+		add_ranged_ability(user, message)
 
-	if(!iscarbon(usr))
+/obj/effect/proc_holder/alien/acid/update_icon()
+	action.button_icon_state = "alien_acid_[active]"
+	action.UpdateButtonIcon()
+
+/obj/effect/proc_holder/alien/acid/InterceptClickOn(mob/living/carbon/user, params, atom/target)
+	if(..())
 		return
-	var/mob/living/carbon/user = usr
-	var/obj/effect/proc_holder/alien/acid/A = locate() in user.abilities
-	if(!A) return
-	if(user.getPlasma() > A.plasma_cost && A.corrode(O))
-		user.adjustPlasma(-A.plasma_cost)
-
+	var/obj/item/organ/alien/acid/N = user.getorgan(/obj/item/organ/alien/acid)
+	if(!N || !target)
+		return
+	if(isobj(target) || istype(target, /turf/closed))
+		remove_ranged_ability(user)
+		return corrode(target, user)
 
 /obj/effect/proc_holder/alien/neurotoxin
 	name = "Spit Neurotoxin"
@@ -486,7 +433,6 @@ Doesn't work on other aliens/AI.*/
 	else
 		message = "<span class='notice'>You prepare your [B]. <B>Left-click to fire at a target!</B></span>"
 		add_ranged_ability(user, message)
-	active = !active
 
 /obj/effect/proc_holder/alien/sprayacid/update_icon()
 	action.button_icon_state = "alien_sprayacid_[active]"
@@ -499,14 +445,16 @@ Doesn't work on other aliens/AI.*/
 	var/list/turf_list = getline(user, target)
 	var/turfsleft = range
 	for(var/turf/T in turf_list)
+		if(T == get_turf(user))
+			continue
 		if(!turfsleft)
+			world << "error 1"
 			break
 		if(T.density)
 			break
-		if(is_blocked_turf(T))
-			break
 		turfsleft--
-		PoolOrNew(/obj/effect/sprayed_acid, T)
+		new /obj/effect/sprayed_acid(T)
+		sleep(2)
 	return TRUE
 
 /obj/effect/proc_holder/alien/zoom

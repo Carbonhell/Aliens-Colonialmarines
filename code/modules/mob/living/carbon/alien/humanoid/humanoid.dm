@@ -3,6 +3,7 @@
 	icon_state = "alien_s"
 	butcher_results = list(/obj/item/weapon/reagent_containers/food/snacks/meat/slab/xeno = 5, /obj/item/stack/sheet/animalhide/xeno = 1)
 	limb_destroyer = 1
+	tier = 1
 	var/obj/item/r_store = null
 	var/obj/item/l_store = null
 	var/alt_icon = 'icons/mob/alienleap.dmi' //used to switch between the two alien icon files.
@@ -12,7 +13,9 @@
 	var/leap_on_click = 0
 	var/pounce_cooldown = 0
 	var/pounce_cooldown_time = 30
-	tier = 1
+	var/leap_range = 0
+	var/obj/screen/leap_icon = null//because not just the warrior needs it
+	var/can_leap = FALSE
 
 //This is fine right now, if we're adding organ specific damage this needs to be updated
 /mob/living/carbon/alien/humanoid/New()
@@ -125,3 +128,51 @@
 			stat(null, "You are affected by a pheromone of [i].")
 		if(hive_orders)
 			stat(null,"Hive Orders: [hive_orders]")
+
+/mob/living/carbon/alien/humanoid/ClickOn(atom/A, params)
+	face_atom(A)
+	if(leap_on_click)
+		leap_at(A)
+	else
+		..()
+
+/mob/living/carbon/alien/humanoid/proc/leap_at(atom/A)
+	if(pounce_cooldown)
+		src << "<span class='alertalien'>You are too fatigued to pounce right now!</span>"
+		toggle_leap(0)
+		return
+
+	if(leaping || stat || buckled || lying)
+		return
+
+	if(!has_gravity() || !A.has_gravity())
+		src << "<span class='alertalien'>It is unsafe to leap without gravity!</span>"
+		toggle_leap(0)
+		//It's also extremely buggy visually, so it's balance+bugfix
+		return
+	if(!usePlasma(-10))
+		src << "<span class='alertalien'>You have not enough plasma to pounce right now!</span>"
+		toggle_leap(0)
+		return
+	else
+		leaping = 1
+		weather_immunities += "lava"
+		update_icons()
+		throw_at(A,leap_range,1, spin=0, diagonals_first = 1)//this defines the effect of each leap.
+		leaping = 0
+		weather_immunities -= "lava"
+		update_icons()
+
+/mob/living/carbon/alien/humanoid/proc/toggle_leap(message = 1)
+	leap_on_click = !leap_on_click
+	leap_icon.icon_state = "leap_[leap_on_click ? "on":"off"]"
+	update_icons()
+	if(message)
+		src << "<span class='noticealien'>You will now [leap_on_click ? "leap at":"slash at"] enemies!</span>"
+	else
+		return
+
+/mob/living/carbon/alien/humanoid/float(on)
+	if(leaping)
+		return
+	..()

@@ -74,7 +74,7 @@
 /obj/item/weapon/card/id
 	name = "identification card"
 	desc = "A card used to provide ID and determine access across the station."
-	icon_state = "id"
+	icon_state = "civilian"
 	item_state = "card-id"
 	slot_flags = SLOT_ID
 	var/mining_points = 0 //For redeeming at mining equipment vendors

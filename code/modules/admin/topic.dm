@@ -393,7 +393,7 @@
 				M.change_mob_type( /mob/living/carbon/alien/humanoid/big/praetorian , null, null, delmob )
 			if("sentinel")
 				M.change_mob_type( /mob/living/carbon/alien/humanoid/sentinel , null, null, delmob )
-			if("boiler")
+			if("corroder")
 				M.change_mob_type( /mob/living/carbon/alien/humanoid/big/corroder , null, null, delmob )
 			if("crusher")
 				M.change_mob_type( /mob/living/carbon/alien/humanoid/big/crusher , null, null, delmob )

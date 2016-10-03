@@ -10,10 +10,11 @@
 	melee_protection = 2//double the normal
 	evolves_to = list("crusher","ravager")
 	caste_desc = "The warrior, known to find his prey alone and snatching it without alarming the enemies."
+	can_leap = TRUE
+	leap_range = 7
 
 /mob/living/carbon/alien/humanoid/warrior/New()
 	internal_organs += new /obj/item/organ/alien/plasmavessel/small
-	internal_organs += new /obj/item/organ/alien/muscles
 	AddAbility(new /obj/effect/proc_holder/alien/sneak)
 	..()
 
@@ -50,9 +51,3 @@
 			leaping = 0
 			update_icons()
 			update_canmove()
-
-
-/mob/living/carbon/alien/humanoid/float(on)
-	if(leaping)
-		return
-	..()

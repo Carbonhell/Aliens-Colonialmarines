@@ -7,10 +7,11 @@
 	melee_protection = 2
 	caste_desc = "The core of the xenomorphic offense power. This guy can destroy defenses in a whim. Aswell as people."
 	move_delay_add = -1
+	can_leap = TRUE
+	leap_range = 4
 
 /mob/living/carbon/alien/humanoid/big/ravager/New()
 	internal_organs += new /obj/item/organ/alien/plasmavessel/small
-	internal_organs += new /obj/item/organ/alien/legmuscles/ravager
 	..()
 
 /mob/living/carbon/alien/humanoid/big/ravager/throw_impact(atom/A)
@@ -34,6 +35,7 @@
 				for(var/i in 1 to 3)
 					if(!step(L, dir))
 						break
+					sleep(1)
 
 		else if(A.density && !A.CanPass(src))
 			visible_message("<span class ='danger'>[src] smashes into [A]!</span>", "<span class ='alertalien'>[src] smashes into [A]!</span>")

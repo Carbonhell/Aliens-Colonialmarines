@@ -138,7 +138,7 @@ var/global/BSACooldown = 0
 			body += "<A href='?_src_=holder;simplemake=sentinel;mob=\ref[M]'>Sentinel</A>, "
 			body += "<A href='?_src_=holder;simplemake=praetorian;mob=\ref[M]'>Praetorian</A>, "
 			body += "<A href='?_src_=holder;simplemake=corroder;mob=\ref[M]'>Corroder</A>, "
-			body += "<A href='?_src_=holder;simplemake=Ravager;mob=\ref[M]'>Ravager</A>, "
+			body += "<A href='?_src_=holder;simplemake=ravager;mob=\ref[M]'>Ravager</A>, "
 			body += "<A href='?_src_=holder;simplemake=crusher;mob=\ref[M]'>Crusher</A>, "
 			body += "<A href='?_src_=holder;simplemake=queen;mob=\ref[M]'>Queen</A>, "
 			body += "<A href='?_src_=holder;simplemake=larva;mob=\ref[M]'>Larva</A> \] "

@@ -333,6 +333,7 @@
 	weapon_weight = WEAPON_HEAVY
 	mag_type = /obj/item/ammo_box/magazine/smgm45/m41a
 	fire_delay = 5
+	attachments_onnew = list(/obj/item/gun_attachment/underbarrel/nadelauncher)
 	attachment_x_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
 	attachment_y_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
 

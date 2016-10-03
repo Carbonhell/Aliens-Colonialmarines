@@ -439,9 +439,9 @@
 	desc = "Weapons for weapons."
 	icon_state = "liberationstation"
 	req_access_txt = "218"
-	products = list(/obj/item/weapon/gun/projectile/automatic/wt550 = 4, /obj/item/ammo_box/magazine/wt550m9 = 10,
-					/obj/item/weapon/gun/projectile/automatic/pistol = 4, /obj/item/ammo_box/magazine/m10mm = 10,
-					/obj/item/weapon/gun/projectile/shotgun/automatic/combat = 4, /obj/item/ammo_box/magazine/m12g/slug = 10)
+	products = list(/obj/item/weapon/gun/projectile/automatic/m41a = 4, /obj/item/ammo_box/magazine/smgm45/m41a = 20,
+					/obj/item/weapon/gun/projectile/automatic/m39 = 4, /obj/item/ammo_box/magazine/m39 = 30,
+					/obj/item/weapon/gun/projectile/shotgun/automatic/combat/mk221 = 4, /obj/item/ammo_box/magazine/m12g/slug = 10)
 
 /obj/machinery/vending/snack/marine
 	name = "MRE storage unit"

@@ -13,7 +13,7 @@
 
 	else if((stat == UNCONSCIOUS && !sleeping) || weakened)
 		icon_state = "alien[caste]_unconscious"
-	else if(istype(ranged_ability, /obj/effect/proc_holder/alien/pounce))
+	else if(leap_on_click)
 		icon_state = "alien[caste]_pounce"
 
 	else if(lying || resting || sleeping)

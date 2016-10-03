@@ -215,17 +215,6 @@
 	origin_tech = "biotech=6"
 	alien_powers = list(/obj/effect/proc_holder/alien/lay_egg)
 
-/obj/item/organ/alien/muscles
-	name = "muscles"
-	icon_state = "alien_muscle"
-	zone = "chest"
-	slot = "muscles"
-	w_class = 4
-	origin_tech = "biotech=5;combat=4"
-	alien_powers = list(/obj/effect/proc_holder/alien/pounce)
-	var/range = 6
-	var/power = 1
-
 /obj/item/organ/alien/legmuscles
 	name = "legs muscles"
 	icon_state = "alien_muscle"
@@ -234,10 +223,6 @@
 	w_class = 4
 	origin_tech = "biotech=5;combat=6"
 	alien_powers = list(/obj/effect/proc_holder/alien/stomp)
-
-/obj/item/organ/alien/legmuscles/ravager
-	name = "enhanced leg muscles"
-	alien_powers = list(/obj/effect/proc_holder/alien/pounce/charge)
 
 /obj/item/organ/alien/pheromone
 	name = "pheromones gland"
