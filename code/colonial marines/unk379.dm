@@ -456,30 +456,57 @@
 	premium = list(/obj/item/weapon/gun/projectile/automatic/shotgun/bulldog = 1, /obj/item/weapon/gun/projectile/automatic/l6_saw = 1,
 					/obj/item/weapon/gun/projectile/automatic/sniper_rifle = 1)//to be changed with kits filled with ammo aswell.
 
-/obj/structure/closet/secure_closet/security/alpha
+/obj/structure/closet/secure_closet/marine
+	name = "standard marine locker"
+	req_access = list(access_marine_prep)
+	icon_state = "squad"
+	var/list/armors = list(/obj/item/clothing/suit/armor/vest/marine, /obj/item/clothing/suit/armor/vest/marine/nolegs, /obj/item/clothing/suit/armor/vest/marine/noshoulders, /obj/item/clothing/suit/armor/vest/marine/nostomach)
+
+/obj/structure/closet/secure_closet/marine/New()
+	..()
+	new /obj/item/clothing/under/rank/marine(src)
+	var/armorpath = pick(armors)
+	new armorpath(src)
+	new /obj/item/clothing/shoes/combat(src)
+	new /obj/item/clothing/gloves/combat(src)
+	new /obj/item/device/radio/headset(src)
+	new /obj/item/weapon/storage/belt/military/assault(src)
+
+/obj/structure/closet/secure_closet/marine/alpha
 	name = "alpha locker"
 	req_access = list(access_squad_alpha)
 	icon_state = "squad_alpha"
 
-/obj/structure/closet/secure_closet/security/bravo
+/obj/structure/closet/secure_closet/marine/alpha/New()
+	..()
+	new /obj/item/clothing/tie/armband/squad/alpha(src)
+
+/obj/structure/closet/secure_closet/marine/bravo
 	name = "bravo locker"
 	req_access = list(access_squad_bravo)
 	icon_state = "squad_bravo"
 
-/obj/structure/closet/secure_closet/security/charlie
+/obj/structure/closet/secure_closet/marine/bravo/New()
+	..()
+	new /obj/item/clothing/tie/armband/squad/bravo(src)
+
+/obj/structure/closet/secure_closet/marine/charlie
 	name = "charlie locker"
 	req_access = list(access_squad_charlie)
 	icon_state = "squad_charlie"
 
-/obj/structure/closet/secure_closet/security/delta
+/obj/structure/closet/secure_closet/marine/charlie/New()
+	..()
+	new /obj/item/clothing/tie/armband/squad/charlie(src)
+
+/obj/structure/closet/secure_closet/marine/delta
 	name = "delta locker"
 	req_access = list(access_squad_delta)
 	icon_state = "squad_delta"
 
-/obj/structure/closet/secure_closet/security/marine
-	name = "standard marine locker"
-	req_access = list(access_marine_prep)
-	icon_state = "squad"
+/obj/structure/closet/secure_closet/marine/delta/New()
+	..()
+	new /obj/item/clothing/tie/armband/squad/delta(src)
 
 /obj/structure/closet/secure_closet/CMO/marine
 	name = "combat medic locker"

@@ -173,7 +173,7 @@
 /datum/supply_pack/security
 	group = "Security"
 	access = access_security
-	crate_type = /obj/structure/closet/crate/secure/gear
+	crate_type = /obj/structure/closet/crate/military
 
 /datum/supply_pack/security/supplies
 	name = "Security Supplies Crate"
@@ -216,14 +216,6 @@
 					/obj/item/weapon/storage/box/wall_flash,
 					/obj/item/weapon/storage/box/wall_flash)
 	crate_name = "wall-mounted flash crate"
-
-/datum/supply_pack/security/laser
-	name = "Lasers Crate"
-	cost = 1500
-	contains = list(/obj/item/weapon/gun/energy/laser,
-					/obj/item/weapon/gun/energy/laser,
-					/obj/item/weapon/gun/energy/laser)
-	crate_name = "laser crate"
 
 /datum/supply_pack/security/taser
 	name = "Taser Crate"
@@ -319,56 +311,6 @@
 	crate_name = "reflector vest crate"
 	crate_type = /obj/structure/closet/crate/secure/plasma
 
-/datum/supply_pack/security/armory/ballistic
-	name = "Combat Shotguns Crate"
-	cost = 2000
-	contains = list(/obj/item/weapon/gun/projectile/shotgun/automatic/combat,
-					/obj/item/weapon/gun/projectile/shotgun/automatic/combat,
-					/obj/item/weapon/gun/projectile/shotgun/automatic/combat,
-					/obj/item/weapon/storage/belt/bandolier,
-					/obj/item/weapon/storage/belt/bandolier,
-					/obj/item/weapon/storage/belt/bandolier)
-	crate_name = "combat shotguns crate"
-
-/datum/supply_pack/security/armory/energy
-	name = "Energy Guns Crate"
-	cost = 2500
-	contains = list(/obj/item/weapon/gun/energy/gun,
-					/obj/item/weapon/gun/energy/gun)
-	crate_name = "energy gun crate"
-	crate_type = /obj/structure/closet/crate/secure/plasma
-
-/datum/supply_pack/security/armory/fire
-	name = "Incendiary Weapons Crate"
-	cost = 1500
-	access = access_heads
-	contains = list(/obj/item/weapon/flamethrower/full,
-					/obj/item/weapon/tank/internals/plasma,
-					/obj/item/weapon/tank/internals/plasma,
-					/obj/item/weapon/tank/internals/plasma,
-					/obj/item/weapon/grenade/chem_grenade/incendiary,
-					/obj/item/weapon/grenade/chem_grenade/incendiary,
-					/obj/item/weapon/grenade/chem_grenade/incendiary)
-	crate_name = "incendiary weapons crate"
-	crate_type = /obj/structure/closet/crate/secure/plasma
-	dangerous = TRUE
-
-/datum/supply_pack/security/armory/wt550
-	name = "WT-550 Auto Rifle Crate"
-	cost = 3500
-	contains = list(/obj/item/weapon/gun/projectile/automatic/wt550,
-					/obj/item/weapon/gun/projectile/automatic/wt550)
-	crate_name = "auto rifle crate"
-
-/datum/supply_pack/security/armory/wt550ammo
-	name = "WT-550 Auto Rifle Ammo Crate"
-	cost = 3000
-	contains = list(/obj/item/ammo_box/magazine/wt550m9,
-					/obj/item/ammo_box/magazine/wt550m9,
-					/obj/item/ammo_box/magazine/wt550m9,
-					/obj/item/ammo_box/magazine/wt550m9)
-	crate_name = "auto rifle ammo crate"
-
 /datum/supply_pack/security/armory/mindshield
 	name = "mindshield implants Crate"
 	cost = 4000
@@ -402,13 +344,6 @@
 	cost = 2000
 	crate_name = "security barriers crate"
 
-/datum/supply_pack/security/firingpins
-	name = "Standard Firing Pins Crate"
-	cost = 1000
-	contains = list(/obj/item/weapon/storage/box/firingpins,
-					/obj/item/weapon/storage/box/firingpins)
-	crate_name = "firing pins crate"
-
 /datum/supply_pack/security/securityclothes
 	name = "Security Clothing Crate"
 	cost = 3000
@@ -426,6 +361,71 @@
 					/obj/item/clothing/head/beret/sec/navyhos)
 	crate_name = "security clothing crate"
 
+/datum/supply_pack/security/m41a
+	name = "M41A crate"
+	contains = list(/obj/item/weapon/gun/projectile/automatic/m41a,
+					/obj/item/weapon/gun/projectile/automatic/m41a,
+					/obj/item/ammo_box/magazine/smgm45/m41a,
+					/obj/item/ammo_box/magazine/smgm45/m41a,
+					/obj/item/ammo_box/magazine/smgm45/m41a,
+					/obj/item/ammo_box/magazine/smgm45/m41a,
+					/obj/item/ammo_box/magazine/smgm45/m41a,
+					/obj/item/ammo_box/magazine/smgm45/m41a)
+	cost = 5000
+	crate_name = "m41a crate"
+
+/datum/supply_pack/security/m39
+	name = "M39 Crate"
+	contains = list(/obj/item/weapon/gun/projectile/automatic/m39,
+					/obj/item/weapon/gun/projectile/automatic/m39,
+					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/m39)
+	cost = 4000
+	crate_name = "m39 crate"
+
+/datum/supply_pack/security/nsg23
+	name = "NSG23 Crate"
+	contains = list(/obj/item/weapon/gun/projectile/automatic/nsg23,
+					/obj/item/weapon/gun/projectile/automatic/nsg23,
+					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/m39)
+	cost = 4000
+	crate_name = "nsg23 crate"
+
+/datum/supply_pack/security/mk221
+	name = "MK221 Crate"
+	contains = list(/obj/item/weapon/gun/projectile/shotgun/automatic/combat/mk221,
+					/obj/item/weapon/gun/projectile/shotgun/automatic/combat/mk221,
+					/obj/item/ammo_box/magazine/m12g/slug,
+					/obj/item/ammo_box/magazine/m12g/slug,
+					/obj/item/ammo_box/magazine/m12g/slug,
+					/obj/item/ammo_box/magazine/m12g/slug,
+					/obj/item/ammo_box/magazine/m12g/slug,
+					/obj/item/ammo_box/magazine/m12g/slug)
+	cost = 8000
+	crate_name = "mk221 crate"
+
+/datum/supply_pack/security/mixedammo
+	name = "Mixed Ammo Crate"
+	contains = list(/obj/item/ammo_box/magazine/smgm45/m41a,
+					/obj/item/ammo_box/magazine/smgm45/m41a,
+					/obj/item/ammo_box/magazine/smgm45/m41a,
+					/obj/item/ammo_box/magazine/smgm45/m41a,
+					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/m12g/slug,
+					/obj/item/ammo_box/magazine/m12g/slug)
+	cost = 3000
+	crate_name = "mixed ammo crate"
+
 /datum/supply_pack/security/justiceinbound
 	name = "Standard Justice Enforcer Crate"
 	cost = 6000 //justice comes at a price. An expensive, noisy price.
@@ -440,7 +440,7 @@
 
 /datum/supply_pack/engineering
 	group = "Engineering"
-	crate_type = /obj/structure/closet/crate/engineering
+	crate_type = /obj/structure/closet/crate/secure/military/engineering
 
 /datum/supply_pack/engineering/fueltank
 	name = "Fuel Tank Crate"
@@ -627,7 +627,7 @@
 
 /datum/supply_pack/medical
 	group = "Medical"
-	crate_type = /obj/structure/closet/crate/medical
+	crate_type = /obj/structure/closet/crate/secure/military/medical
 
 /datum/supply_pack/medical/supplies
 	name = "Medical Supplies Crate"
@@ -765,25 +765,6 @@
 					/obj/item/weapon/stock_parts/cell/high,
 					/obj/item/weapon/stock_parts/cell/high)
 	crate_name = "robotics assembly crate"
-	crate_type = /obj/structure/closet/crate/secure
-
-/datum/supply_pack/science/robotics/mecha_ripley
-	name = "Circuit Crate (Ripley APLU)"
-	cost = 3000
-	access = access_robotics
-	contains = list(/obj/item/weapon/book/manual/ripley_build_and_repair,
-					/obj/item/weapon/circuitboard/mecha/ripley/main,
-					/obj/item/weapon/circuitboard/mecha/ripley/peripherals)
-	crate_name = "\improper APLU Ripley circuit crate"
-	crate_type = /obj/structure/closet/crate/secure
-
-/datum/supply_pack/science/robotics/mecha_odysseus
-	name = "Circuit Crate (Odysseus)"
-	cost = 2500
-	access = access_robotics
-	contains = list(/obj/item/weapon/circuitboard/mecha/odysseus/peripherals,
-					/obj/item/weapon/circuitboard/mecha/odysseus/main)
-	crate_name = "\improper Odysseus circuit crate"
 	crate_type = /obj/structure/closet/crate/secure
 
 /datum/supply_pack/science/plasma
@@ -1220,21 +1201,6 @@
 					/obj/item/clothing/head/helmet/bluetaghelm,
 					/obj/item/clothing/head/helmet/bluetaghelm)
 	crate_name = "laser tag crate"
-
-/datum/supply_pack/misc/lasertag/pins
-	name = "Laser Tag Firing Pins Crate"
-	cost = 2000
-	contraband = TRUE
-	contains = list(/obj/item/weapon/storage/box/lasertagpins)
-	crate_name = "laser tag crate"
-
-/datum/supply_pack/misc/clownpin
-	name = "Hilarious Firing Pin Crate"
-	cost = 5000
-	contraband = TRUE
-	contains = list(/obj/item/device/firing_pin/clown)
-	// It's /technically/ a toy. For the clown, at least.
-	crate_name = "toy crate"
 
 /datum/supply_pack/misc/religious_supplies
 	name = "Religious Supplies Crate"
