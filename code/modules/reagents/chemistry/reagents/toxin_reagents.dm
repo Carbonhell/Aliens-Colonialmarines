@@ -734,7 +734,7 @@
 	color = "#86B028"
 	metabolization_rate = 2.5*REAGENTS_METABOLISM
 
-/datum/reagent/xenoneuroacid/reaction_mob(mob/living/carbon/M, method=TOUCH, reac_volume)
+/datum/reagent/xenoneuroacid/on_mob_life(mob/living/M)
 	if(!isalien(M))
 		M.Weaken(4)
 	..()
@@ -745,11 +745,12 @@
 	description = "A weird kind of acid which appears to be in a low concentration, enough to slightly corrode the human's skin."
 	color = "#86B028"
 	metabolization_rate = 2.5*REAGENTS_METABOLISM
-	var/pwr = 15
+	var/pwr = 0.6
 
-/datum/reagent/xenoacid/reaction_mob(mob/living/carbon/M, method=TOUCH, reac_volume)
+/datum/reagent/xenoacid/on_mob_life(mob/living/M)
 	if(!isalien(M))
 		M.adjustFireLoss(pwr)
+		M.emote("scream")
 	..()
 
 /datum/reagent/xenoacid/medium
@@ -757,15 +758,14 @@
 	id = "mediumacid"
 	color = "#86B028"
 	description = "A weird kind of acid which appears to be in a medium concentration. It can easily melt metal."
-	pwr = 30
+	pwr = 1.2
 
 /datum/reagent/xenoacid/glob
 	name = "Unknown acid"
 	id = "acidglob"
 	color = "#86B028"
-	description = "A weird kind of acid which appears to be in an high concentration. It can easily melt metal."
-	pwr = 45
-
+	description = "A weird kind of acid which appears to be in an high concentration. It can easily melt metal in a few seconds, hot damn.."
+	pwr = 3
 
 /datum/reagent/toxin/peaceborg/confuse
 	name = "Dizzying Solution"

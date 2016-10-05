@@ -34,13 +34,10 @@ Doesn't work on other aliens/AI.*/
 	if(cost_check(check_turf,user))
 		if(fire(user) && user) // Second check to prevent runtimes when evolving
 			user.adjustPlasma(-plasma_cost)
-			if(charge_max)
-				charge_counter = 0
-				spawn(0)
-					start_recharge()
 	return 1
 
 /obj/effect/proc_holder/alien/proc/start_recharge()
+	charge_counter = 0
 	if(action)
 		action.UpdateButtonIcon()
 	while(charge_counter < charge_max && !qdeleted(src))
@@ -58,6 +55,12 @@ Doesn't work on other aliens/AI.*/
 /obj/effect/proc_holder/alien/proc/fire(mob/living/carbon/user)
 	return 1
 
+/obj/effect/proc_holder/alien/InterceptClickOn(mob/living/carbon/user, params, atom/target)
+	if(..())
+		return 1
+	if(!cost_check(0, user, 0))
+		return 1
+
 /obj/effect/proc_holder/alien/proc/cost_check(check_turf=0,mob/living/carbon/user,silent = 0)
 	if(user.stat)
 		if(!silent)
@@ -65,7 +68,8 @@ Doesn't work on other aliens/AI.*/
 		return 0
 	if(charge_max)
 		if(charge_counter < charge_max)
-			user << "<span class='noticealien'>You're not ready to do that yet.</span>"
+			if(!silent)
+				user << "<span class='noticealien'>You're not ready to do that yet.</span>"
 			return 0
 	if(user.getPlasma() < plasma_cost)
 		if(!silent)
@@ -241,7 +245,7 @@ Doesn't work on other aliens/AI.*/
 
 /obj/effect/proc_holder/alien/neurotoxin/InterceptClickOn(mob/living/carbon/user, params, atom/target)
 	if(..())
-		return
+		return 1
 	var/obj/item/organ/alien/neurotoxin/N = user.getorgan(/obj/item/organ/alien/neurotoxin)
 	if(!N)
 		return
@@ -250,36 +254,36 @@ Doesn't work on other aliens/AI.*/
 		remove_ranged_ability(user)
 		return
 
-	if(user.getPlasma() < p_cost)
+	if(!user.usePlasma(p_cost))
 		user << "<span class='warning'>You need at least [p_cost] plasma to spit.</span>"
 		remove_ranged_ability(user)
 		return
 
-	var/turf/T = user.loc
+	var/turf/T = get_turf(user)
 	var/turf/U = get_step(user, user.dir) // Get the tile infront of the move, based on their direction
 	if(!isturf(U) || !isturf(T))
 		return FALSE
 
-	user.visible_message("<span class='danger'>[user] spits [initial(N.name)]!", "<span class='alertalien'>You spit [initial(N.name)].</span>")
 	var/path = N.ammo_list[N.chosenammo]
-	var/obj/item/projectile/bullet/neurotoxin/A = new path(user.loc)
+	if(istext(path))
+		path = text2path(path)//i want to varedit an alien neurotoxin gland and let him spit bullets ok fuck you ur not my dad
+	var/obj/item/projectile/bullet/A = new path(user.loc)
+	user.visible_message("<span class='danger'>[user] spits \the [A.name]!", "<span class='alertalien'>You spit \the [A.name].</span>")
 	A.current = U
+	A.firer = user//logging purposes
 	A.preparePixelProjectile(target, get_turf(target), user, params)
 	A.fire()
 	var/soundspit = pick("sound/voice/alien_spitacid.ogg","sound/voice/alien_spitacid2.ogg")
 	playsound(user.loc, soundspit, 50, 1, 1)
 	user.newtonian_move(get_dir(U, T))
-	user.usePlasma(p_cost)
-
-	return TRUE
+	spawn(0)
+		charge_max = initial(charge_max) * N.chosenammo
+		start_recharge()
+	return
 
 /obj/effect/proc_holder/alien/neurotoxin/on_lose(mob/living/carbon/user)
 	if(user.ranged_ability == src)
 		user.ranged_ability = null
-
-/obj/effect/proc_holder/alien/neurotoxin/bombard
-	charge_max = 100
-	p_cost = 200
 
 /obj/effect/proc_holder/alien/neurotoxinchange
 	name = "Toggle Spit Type"
@@ -300,7 +304,10 @@ Doesn't work on other aliens/AI.*/
 	if(N.chosenammo > N.ammo_list.len)
 		N.chosenammo = 1
 	var/obj/item/projectile/path = N.ammo_list[N.chosenammo]
-	user << "<span class='notice'>You doubled the concentration of your spit. It will now spit [initial(path.name)]."
+	user << "<span class='notice'>You modified the concentration of your spit. It will now spit [initial(path.name)]s."
+	var/obj/effect/proc_holder/alien/neurotoxin/action = locate() in user.actions
+	if(action)
+		action.charge_max = initial(action.charge_max) * N.chosenammo
 	update_icon()
 	return 1
 
@@ -442,13 +449,14 @@ Doesn't work on other aliens/AI.*/
 	if(..())
 		return
 	user << "<span class='danger'>You spray several globs of acid towards \the [target]!</span>"
+	spawn(0)
+		start_recharge()
 	var/list/turf_list = getline(user, target)
 	var/turfsleft = range
 	for(var/turf/T in turf_list)
 		if(T == get_turf(user))
 			continue
 		if(!turfsleft)
-			world << "error 1"
 			break
 		if(T.density)
 			break
@@ -545,6 +553,8 @@ Doesn't work on other aliens/AI.*/
 		M.adjustEarDamage(stuntime*2,stuntime*2)
 		playsound(user.loc, 'sound/voice/alien_queen_screech.ogg', 50, 1, 1)
 		M << "<span class='danger'>An ear-splitting guttural roar shakes the ground beneath your feet!</span>"
+	spawn(0)
+		start_recharge()
 
 /mob/living/carbon/proc/getPlasma()
 	var/obj/item/organ/alien/plasmavessel/vessel = getorgan(/obj/item/organ/alien/plasmavessel)

@@ -145,7 +145,6 @@
 	slot = "hivenode"
 	origin_tech = "biotech=5;magnets=4;bluespace=3"
 	w_class = 1
-	var/recent_queen_death = 0 //Indicates if the queen died recently, aliens are heavily weakened while this is active.
 	alien_powers = list(/obj/effect/proc_holder/alien/whisper)
 
 /obj/item/organ/alien/hivenode/Insert(mob/living/carbon/M, special = 0)
@@ -186,17 +185,17 @@
 	origin_tech = "biotech=5;combat=5"
 	alien_powers = list(/obj/effect/proc_holder/alien/neurotoxin, /obj/effect/proc_holder/alien/neurotoxinchange)
 	var/chosenammo = 1
-	var/list/ammo_list = list(/obj/item/projectile/bullet/neurotoxin, /obj/item/projectile/bullet/neurotoxin/weakacid)//list of possible ammo types
+	var/list/ammo_list = list(/obj/item/projectile/bullet/acid/neuro, /obj/item/projectile/bullet/acid/weak)//list of possible ammo types
 
 /obj/item/organ/alien/neurotoxin/spitter
 	name = "medium spitting gland"
-	ammo_list = list(/obj/item/projectile/bullet/neurotoxin, /obj/item/projectile/bullet/neurotoxin/mediumacid)
+	ammo_list = list(/obj/item/projectile/bullet/acid/neuro, /obj/item/projectile/bullet/acid)
 
 /obj/item/organ/alien/neurotoxin/bombard
 	name = "enhanced spitting gland"
 	origin_tech = "biotech=7;combat=8"//if you get this somehow, you're getting it from a corroder, you're robust man
 	alien_powers = list(/obj/effect/proc_holder/alien/neurotoxin, /obj/effect/proc_holder/alien/neurotoxinchange, /obj/effect/proc_holder/alien/zoom)
-	ammo_list = list(/obj/item/projectile/bullet/weakbombard, /obj/item/projectile/bullet/weakbombard/notweak)
+	ammo_list = list(/obj/item/projectile/bullet/acid/neuro, /obj/item/projectile/bullet/acid, /obj/item/projectile/bullet/acid/bombard, /obj/item/projectile/bullet/acid/bombard/lethal)
 
 /obj/item/organ/alien/acidspray
 	name = "enormous spitting gland"
