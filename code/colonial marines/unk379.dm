@@ -89,6 +89,14 @@
 	name = "Secure Storage"
 	icon_state = "storage"
 
+/area/sulaco/cafeteria
+	name = "Cafeteria"
+	icon_state = "cafeteria"
+
+/area/sulaco/vault
+	name = "Vault"
+	icon_state = "nuke_storage"
+
 /area/bridge/sulaco
 
 /area/crew_quarters/sulaco
@@ -279,25 +287,30 @@
 	id = "Bus 1"
 	network = "sulaconet"
 	freq_listening = list(ALPHA_FREQ, SCI_FREQ, MED_FREQ)
-	autolinkers = list("mprocessor1", "alpha", "science", "medical")
+	autolinkers = list("mprocessor1", "alpha", "mscience", "mmedical")
 
 /obj/machinery/telecomms/bus/preset_bravo
 	id = "Bus 2"
 	network = "sulaconet"
 	freq_listening = list(BRAVO_FREQ, SUPP_FREQ, SEC_FREQ)
-	autolinkers = list("mprocessor2", "bravo", "supply", "security")
+	autolinkers = list("mprocessor2", "bravo", "msupply", "msecurity")
 
 /obj/machinery/telecomms/bus/preset_charlie
 	id = "Bus 3"
 	network = "sulaconet"
 	freq_listening = list(CHARLIE_FREQ, COMM_FREQ, ENG_FREQ)
-	autolinkers = list("mprocessor3", "charlie", "command", "engineering")
+	autolinkers = list("mprocessor3", "charlie", "mcommand", "mengineering")
 
 /obj/machinery/telecomms/bus/preset_delta
 	id = "Bus 4"
 	network = "sulaconet"
 	freq_listening = list(DELTA_FREQ)
-	autolinkers = list("mprocessor4", "delta", "common")
+	autolinkers = list("mprocessor4", "delta", "mcommon")
+
+/obj/machinery/telecomms/bus/preset_delta/New()
+	for(var/i in 1441 to 1489 step 2)
+		freq_listening |= i
+	..()
 
 //Receivers
 //--PRESET LEFT--//
@@ -315,8 +328,12 @@
 	id = "Receiver B"
 	network = "sulaconet"
 	autolinkers = list("mreceiverB") // link to relay
-	freq_listening = list(MED_FREQ, ENG_FREQ, SEC_FREQ, COMM_FREQ, SUPP_FREQ, SCI_FREQ, 1459)//1459 is common
+	freq_listening = list(MED_FREQ, ENG_FREQ, SEC_FREQ, COMM_FREQ, SUPP_FREQ, SCI_FREQ)
 
+/obj/machinery/telecomms/receiver/marine_right/New()
+	for(var/i in 1441 to 1489 step 2)
+		freq_listening |= i
+	..()
 
 //Processor
 /obj/machinery/telecomms/processor/preset_one/marine
@@ -372,36 +389,43 @@
 //Servers
 /obj/machinery/telecomms/server/presets/mcommand
 	id = "Command Server"
+	network = "sulaconet"
 	freq_listening = list(COMM_FREQ)
 	autolinkers = list("mcommand")
 
 /obj/machinery/telecomms/server/presets/mpolice
 	id = "Police Server"
+	network = "sulaconet"
 	freq_listening = list(SEC_FREQ)
 	autolinkers = list("mpolice")
 
 /obj/machinery/telecomms/server/presets/mengi
 	id = "Engineering Server"
+	network = "sulaconet"
 	freq_listening = list(ENG_FREQ)
 	autolinkers = list("mengineering")
 
 /obj/machinery/telecomms/server/presets/msupply
 	id = "Supply Server"
+	network = "sulaconet"
 	freq_listening = list(SUPP_FREQ)
 	autolinkers = list("msupply")
 
 /obj/machinery/telecomms/server/presets/mmedical
 	id = "Medical Server"
+	network = "sulaconet"
 	freq_listening = list(MED_FREQ)
 	autolinkers = list("mmedical")
 
 /obj/machinery/telecomms/server/presets/mscience
 	id = "Research Server"
+	network = "sulaconet"
 	freq_listening = list(SCI_FREQ)
 	autolinkers = list("mscience")
 
 /obj/machinery/telecomms/server/presets/common/mcommon
 	id = "Common Server"
+	network = "sulaconet"
 	autolinkers = list("mcommon")
 
 //Objects
@@ -413,53 +437,27 @@
 	density = 1
 	anchored = 1
 	unacidable = 1
-	var/occupied
+	var/obj/item/clothing/mask/facehugger/occupied
 
 /obj/structure/displaycase/alien/New()
 	..()
-	if(prob(99))
-		switch(rand(1,3))
-			if(1)
-				occupied = "alien"
-			if(2)
-				occupied = "hugger"
-			if(3)
-				occupied = "larva"
+	if(prob(70))
+		occupied = new(src)
 	else
 		destroyed = 1
 	update_icon()
 
 /obj/structure/displaycase/alien/update_icon()
 	if(destroyed)
-		src.icon_state = "tank_broken"
+		icon_state = "tank_broken"
 	else
 		icon_state = "tank_[occupied]"
-	return
-
-/obj/structure/displaycase/alien/proc/Break()
-	if(occupied)
-		if(occupied == "alien")
-			if(prob(1))
-				new /mob/living/simple_animal/hostile/alien/queen( src.loc )
-			else
-				switch(rand(1,3))
-					if(1)
-						new /mob/living/simple_animal/hostile/alien/drone( src.loc )
-					if(2)
-						new /mob/living/simple_animal/hostile/alien/sentinel( src.loc )
-					if(3)
-						new /mob/living/simple_animal/hostile/alien( src.loc )
-		else if(occupied == "hugger")
-			var/obj/item/clothing/mask/facehugger/A = new /obj/item/clothing/mask/facehugger( src.loc )
-			A.name = "Lamarr" //Don't ask >_<
-		else if(occupied == "larva")
-			new /mob/living/carbon/alien/larva( src.loc )
-		occupied = 0
-	update_icon()
-	return
 
 /obj/structure/displaycase/alien/dump()
-	Break()
+	if(occupied)
+		occupied.forceMove(get_turf(src))
+		occupied = null
+	update_icon()
 
 /obj/machinery/vending/marine/ammunition
 	name = "weapon rack"
@@ -551,33 +549,33 @@
 
 /obj/item/device/encryptionkey/bravo
 	name = "bravo encryption key"
-	desc = "An encryption key for a radio headset.  To access the bravo channel, use :r."
+	desc = "An encryption key for a radio headset.  To access the bravo channel, use :f."
 	icon_state = "ce_cypherkey"
 	channels = list("Bravo" = 1)
 
 /obj/item/device/encryptionkey/bravo/leader
 	channels = list("Bravo" = 1, "Command" = 1)
-	desc = "An encryption key for a radio headset.  To access the bravo channel, use :r. For command, :c."
+	desc = "An encryption key for a radio headset.  To access the bravo channel, use :f. For command, :c."
 
 /obj/item/device/encryptionkey/charlie
 	name = "charlie encryption key"
-	desc = "An encryption key for a radio headset.  To access the charlie channel, use :t."
+	desc = "An encryption key for a radio headset.  To access the charlie channel, use :j."
 	icon_state = "sci_cypherkey"
 	channels = list("Charlie" = 1)
 
 /obj/item/device/encryptionkey/charlie/leader
 	channels = list("Charlie" = 1, "Command" = 1)
-	desc = "An encryption key for a radio headset.  To access the charlie channel, use :t. For command, :c."
+	desc = "An encryption key for a radio headset.  To access the charlie channel, use :j. For command, :c."
 
 /obj/item/device/encryptionkey/delta
 	name = "delta encryption key"
-	desc = "An encryption key for a radio headset.  To access the delta channel, use :w."
+	desc = "An encryption key for a radio headset.  To access the delta channel, use :d."
 	icon_state = "srv_cypherkey"
 	channels = list("Delta" = 1)
 
 /obj/item/device/encryptionkey/delta/leader
 	channels = list("Delta" = 1, "Command" = 1)
-	desc = "An encryption key for a radio headset.  To access the delta channel, use :w. For command, :c."
+	desc = "An encryption key for a radio headset.  To access the delta channel, use :d. For command, :c."
 
 /obj/item/device/radio/headset/alpha
 	name = "alpha radio headset"
@@ -591,32 +589,32 @@
 
 /obj/item/device/radio/headset/bravo
 	name = "bravo radio headset"
-	desc = "A headset used by the Bravo team. \nTo access the bravo channel, use :r"
+	desc = "A headset used by the Bravo team. \nTo access the bravo channel, use :f"
 	icon_state = "eng_headset"
 	keyslot = new /obj/item/device/encryptionkey/bravo
 
 /obj/item/device/radio/headset/bravo/leader
-	desc = "A headset used by the Bravo team. \nTo access the bravo channel, use :r. For command, :c."
+	desc = "A headset used by the Bravo team. \nTo access the bravo channel, use :f. For command, :c."
 	keyslot = new /obj/item/device/encryptionkey/bravo/leader
 
 /obj/item/device/radio/headset/charlie
 	name = "charlie radio headset"
-	desc = "A headset used by the Charlie team. \nTo access the charlie channel, use :t."
+	desc = "A headset used by the Charlie team. \nTo access the charlie channel, use :j."
 	icon_state = "sci_headset"
 	keyslot = new /obj/item/device/encryptionkey/charlie
 
 /obj/item/device/radio/headset/charlie/leader
-	desc = "A headset used by the Charlie team. \nTo access the charlie channel, use :t. For command, :c."
+	desc = "A headset used by the Charlie team. \nTo access the charlie channel, use :j. For command, :c."
 	keyslot = new /obj/item/device/encryptionkey/charlie/leader
 
 /obj/item/device/radio/headset/delta
 	name = "delta radio headset"
-	desc = "A headset used by the Delta team. \nTo access the delta channel, use :w."
+	desc = "A headset used by the Delta team. \nTo access the delta channel, use :d."
 	icon_state = "headset"
 	keyslot = new /obj/item/device/encryptionkey/delta
 
 /obj/item/device/radio/headset/delta/leader
-	desc = "A headset used by the Delta team. \nTo access the delta channel, use :w. For command, :c."
+	desc = "A headset used by the Delta team. \nTo access the delta channel, use :d. For command, :c."
 	keyslot = new /obj/item/device/encryptionkey/delta/leader
 
 /obj/item/weapon/storage/box/explosive_mines

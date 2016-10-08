@@ -71,7 +71,7 @@
 	name = "\proper the captain's encryption key"
 	desc = "An encryption key for a radio headset.  Channels are as follows: :c - command, :s - security, :e - engineering, :u - supply, :v - service, :m - medical, :n - science."
 	icon_state = "cap_cypherkey"
-	channels = list("Command" = 1, "Security" = 1, "Engineering" = 0, "Science" = 0, "Medical" = 0, "Supply" = 0, "Service" = 0)
+	channels = list("Command" = 1, "Security" = 1, "Engineering" = 0, "Science" = 0, "Medical" = 0, "Supply" = 0, "Service" = 0, "Alpha" = 0, "Bravo" = 0, "Charlie" = 0, "Delta" = 0)
 
 /obj/item/device/encryptionkey/heads/rd
 	name = "\proper the research director's encryption key"

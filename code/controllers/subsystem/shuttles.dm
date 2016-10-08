@@ -29,7 +29,7 @@ var/datum/subsystem/shuttle/SSshuttle
 		//supply shuttle stuff
 	var/obj/docking_port/mobile/supply/supply
 	var/ordernum = 1					//order number given to next order
-	var/points = 5000					//number of trade-points we have
+	var/points = 20000					//number of trade-points we have
 	var/centcom_message = ""			//Remarks from Centcom on how well you checked the last order.
 	var/list/discoveredPlants = list()	//Typepaths for unusual plants we've already sent CentComm, associated with their potencies
 

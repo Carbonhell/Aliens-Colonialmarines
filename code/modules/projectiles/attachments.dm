@@ -41,7 +41,7 @@
 		var/datum/action/A = i
 		gun.actions += A
 		A.target = gun
-		if(gun.loc == user)
+		if(user && (gun.loc == user))
 			A.Grant(user)
 	return
 

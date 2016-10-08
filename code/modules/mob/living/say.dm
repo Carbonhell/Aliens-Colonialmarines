@@ -17,6 +17,10 @@ var/list/department_radio_keys = list(
 	  ":o" = "AI Private",	"#o" = "AI Private",	".o" = "AI Private",
 	  ":g" = "changeling",	"#g" = "changeling",	".g" = "changeling",
 	  ":y" = "Centcom",		"#y" = "Centcom",		".y" = "Centcom",
+	  ":q" = "Alpha",		"#q" = "Alpha",			".q" = "Alpha",
+	  ":f" = "Bravo",		"#f" = "Bravo",			".f" = "Bravo",
+	  ":j" = "Charlie",		"#j" = "Charlie",		".j" = "Charlie",
+	  ":d" = "Delta",		"#d" = "Delta",			".d" = "Delta",
 
 	  ":R" = "right hand",	"#R" = "right hand",	".R" = "right hand",
 	  ":L" = "left hand",	"#L" = "left hand",		".L" = "left hand",
@@ -36,6 +40,10 @@ var/list/department_radio_keys = list(
 	  ":O" = "AI Private",	"#O" = "AI Private",	".O" = "AI Private",
 	  ":G" = "changeling",	"#G" = "changeling",	".G" = "changeling",
 	  ":Y" = "Centcom",		"#Y" = "Centcom",		".Y" = "Centcom",
+	  ":Q" = "Alpha",		"#Q" = "Alpha",			".Q" = "Alpha",
+	  ":F" = "Bravo",		"#F" = "Bravo",			".F" = "Bravo",
+	  ":J" = "Charlie",		"#J" = "Charlie",		".J" = "Charlie",
+	  ":D" = "Delta",		"#D" = "Delta",			".D" = "Delta",
 
 	  //kinda localization -- rastaf0
 	  //same keys as above, but on russian keyboard layout. This file uses cp1251 as encoding.

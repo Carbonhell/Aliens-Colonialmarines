@@ -40,6 +40,10 @@ em						{font-style: normal;	font-weight: bold;}
 .syndradio				{color: #6d3f40;}
 .centcomradio			{color: #686868;}
 .aiprivradio			{color: #ff00ff;}
+.alpharadio				{color: #ff0000;}
+.bravoradio				{color: #cccc00;}
+.charlieradio			{color: #6600ff;}
+.deltaradio				{color: #000066;}
 
 .yell					{					font-weight: bold;}
 

@@ -4320,7 +4320,7 @@
 "bFd" = (/obj/structure/shuttle/engine/propulsion{icon_state = "burst_l"},/turf/open/floor/plating/airless,/area/shuttle/supply)
 "bFe" = (/obj/structure/shuttle/engine/propulsion,/turf/open/floor/plating/airless,/area/shuttle/supply)
 "bFf" = (/obj/structure/shuttle/engine/propulsion{icon_state = "burst_r"},/turf/open/floor/plating/airless,/area/shuttle/supply)
-"bFg" = (/obj/machinery/computer/security/mining,/obj/machinery/camera{c_tag = "Quartermaster's Office"; dir = 4},/obj/item/device/radio/intercom{name = "Station Intercom (General)"; pixel_y = -35},/obj/machinery/status_display{density = 0; pixel_x = -32; pixel_y = 0; supply_display = 1},/turf/open/floor/plasteel/brown{dir = 10},/area/quartermaster/qm)
+"bFg" = (/obj/machinery/computer/security/mining,/obj/machinery/camera{c_tag = "Quartermaster's Office"; dir = 4},/obj/item/device/radio/intercom{name = "Station Intercom (General)"; pixel_y = -35},/obj/machinery/status_display{density = 0; pixel_x = 0; pixel_y = 0; supply_display = 1},/turf/open/floor/plasteel/brown{dir = 10},/area/quartermaster/qm)
 "bFh" = (/obj/machinery/atmospherics/components/unary/vent_scrubber{dir = 4; on = 1; scrub_N2O = 0; scrub_Toxins = 0},/turf/open/floor/plasteel/brown{dir = 2},/area/quartermaster/qm)
 "bFi" = (/obj/structure/table,/obj/item/weapon/paper_bin{pixel_x = -3; pixel_y = 7},/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/turf/open/floor/plasteel/brown{dir = 2},/area/quartermaster/qm)
 "bFj" = (/obj/structure/table,/obj/item/weapon/folder/yellow,/obj/item/weapon/pen{pixel_x = 4; pixel_y = 4},/obj/item/weapon/pen/red,/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{dir = 4},/turf/open/floor/plasteel/brown{dir = 2},/area/quartermaster/qm)
