@@ -184,6 +184,12 @@
 	max_ammo = 300
 	caliber = "10x28"
 
+/obj/item/ammo_box/magazine/internal/sadar
+	name = "SADAR tube"
+	ammo_type = /obj/item/ammo_casing/caseless/rocket
+	max_ammo = 1
+	caliber = "missile"
+
 ///////////EXTERNAL MAGAZINES////////////////
 
 /obj/item/ammo_box/magazine/m10mm
@@ -285,7 +291,7 @@
 
 /obj/item/ammo_box/magazine/smgm45/update_icon()
 	..()
-	icon_state = "c20r45-[round(ammo_count(),2)]"
+	icon_state = "c20r45-[min(round(ammo_count(),2), 20)]"
 
 /obj/item/ammo_box/magazine/tommygunm45
 	name = "drum magazine (.45)"

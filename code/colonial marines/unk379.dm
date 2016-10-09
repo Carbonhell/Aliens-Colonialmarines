@@ -580,7 +580,8 @@
 /obj/item/device/radio/headset/alpha
 	name = "alpha radio headset"
 	desc = "A headset used by the Alpha team. \nTo access the alpha channel, use :q."
-	icon_state = "sec_headset"
+	icon_state = "headset_alpha"
+	item_state = "headset_alpha"
 	keyslot = new /obj/item/device/encryptionkey/alpha
 
 /obj/item/device/radio/headset/alpha/leader
@@ -590,7 +591,8 @@
 /obj/item/device/radio/headset/bravo
 	name = "bravo radio headset"
 	desc = "A headset used by the Bravo team. \nTo access the bravo channel, use :f"
-	icon_state = "eng_headset"
+	icon_state = "headset_bravo"
+	item_state = "headset_bravo"
 	keyslot = new /obj/item/device/encryptionkey/bravo
 
 /obj/item/device/radio/headset/bravo/leader
@@ -600,7 +602,8 @@
 /obj/item/device/radio/headset/charlie
 	name = "charlie radio headset"
 	desc = "A headset used by the Charlie team. \nTo access the charlie channel, use :j."
-	icon_state = "sci_headset"
+	icon_state = "headset_charlie"
+	item_state = "headset_charlie"
 	keyslot = new /obj/item/device/encryptionkey/charlie
 
 /obj/item/device/radio/headset/charlie/leader
@@ -610,7 +613,8 @@
 /obj/item/device/radio/headset/delta
 	name = "delta radio headset"
 	desc = "A headset used by the Delta team. \nTo access the delta channel, use :d."
-	icon_state = "headset"
+	icon_state = "headset_delta"
+	item_state = "headset_delta"
 	keyslot = new /obj/item/device/encryptionkey/delta
 
 /obj/item/device/radio/headset/delta/leader
@@ -792,3 +796,28 @@
 /datum/action/item_action/toggle_armor_lamp
 	name = "Toggle Armor Lamp"
 
+/obj/item/clothing/head/helmet/marine
+	name = "M10 pattern ballistic helmet"
+	desc = "An helmet often used in conjunction with the M3 pattern personal armor."
+	icon_state = "marine"
+	item_state = "marine"
+
+/obj/item/clothing/head/helmet/marine/medic
+	icon_state = "marine_medic"
+	item_state = "marine_medic"
+
+/obj/item/clothing/head/helmet/marine/specialist
+	icon_state = "marine_spec"
+	item_state = "marine_spec"
+
+/obj/item/clothing/head/helmet/marine/police
+	name = "military beret"
+	desc = "Despite its aspect, it can pack up a bunch of hits like an helmet thanks to kevlar."
+	icon_state = "marine_police"
+	item_state = "marine_police"
+
+/obj/item/clothing/head/band
+	name = "red band"
+	desc = "A normal red band."
+	icon_state = "redband"
+	item_state = "redband"

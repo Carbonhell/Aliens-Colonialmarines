@@ -375,28 +375,31 @@
 
 /obj/item/weapon/gun/projectile/automatic/sniper_rifle
 	name = "sniper rifle"
-	desc = "The kind of gun that will leave you crying for mummy before you even realise your leg's missing"
-	icon_state
+	desc = "The kind of gun that will leave you crying for mummy before you even realise your leg's missing."
 	icon_state = "sniper"
 	item_state = "sniper"
 	recoil = 2
-	weapon_weight = WEAPON_MEDIUM
+	weapon_weight = WEAPON_HEAVY
 	mag_type = /obj/item/ammo_box/magazine/sniper_rounds
 	fire_delay = 40
 	burst_size = 1
 	origin_tech = "combat=7"
-	can_unsuppress = 1
-	can_suppress = 1
 	w_class = 3
 	slot_flags = SLOT_BACK
-	actions_types = list()
+	actions_types = list(/datum/action/item_action/wield)
+	attachments_onnew = list(/obj/item/gun_attachment/optics/sniper)
 
+/obj/item/weapon/gun/projectile/automatic/sniper_rifle/New()
+	..()
+	spread = 0
+	base_spread = 0//it's a sniper rifle,it's supposed to be accurate
 
-/obj/item/weapon/gun/projectile/automatic/sniper_rifle/update_icon()
+/obj/item/weapon/gun/projectile/automatic/sniper_rifle/update_icon(ammobased_iconstate = FALSE)
 	if(magazine)
 		icon_state = "sniper-mag"
 	else
 		icon_state = "sniper"
+	..()
 
 
 /obj/item/weapon/gun/projectile/automatic/sniper_rifle/syndicate
@@ -404,8 +407,13 @@
 	desc = "Syndicate flavoured sniper rifle, it packs quite a punch, a punch to your face"
 	origin_tech = "combat=7;syndicate=6"
 
+/obj/item/weapon/gun/projectile/automatic/sniper_rifle/wy102
+	name = "WY102"
+	desc = "A weapon designed for great ranges, often used for long range fire support and assassination."
+	icon_state = "wy102"
 
-
+/obj/item/weapon/gun/projectile/automatic/sniper_rifle/update_icon()
+	icon_state = "wy102[magazine ? "" : "-0"]"
 
 // Laser rifle (rechargeable magazine) //
 

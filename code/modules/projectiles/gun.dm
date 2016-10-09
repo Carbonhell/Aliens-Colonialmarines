@@ -530,7 +530,7 @@ obj/item/weapon/gun/proc/newshot()
 			O.gun = G
 			owner.put_in_hands(O)
 			G.update_icon()
-			G.spread = G.base_spread - 10
+			G.spread = max(0, G.base_spread - 10)
 		else
 			O = owner.get_inactive_hand()
 			if(!istype(O))

@@ -23,10 +23,20 @@
 
 /obj/item/projectile/bullet/gyro
 	name ="explosive bolt"
-	icon_state= "bolter"
+	icon_state = "bolter"
 	damage = 50
 
 /obj/item/projectile/bullet/gyro/on_hit(atom/target, blocked = 0)
+	..()
+	explosion(target, -1, 0, 2)
+	return 1
+
+/obj/item/projectile/bullet/rocket
+	name = "rocket"
+	icon_state = "rocket"
+	damage = 50
+
+/obj/item/projectile/bullet/rocket/on_hit(atom/target, blocked = 0)
 	..()
 	explosion(target, -1, 0, 2)
 	return 1

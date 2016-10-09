@@ -1,8 +1,8 @@
 /obj/item/device/radio/headset
 	name = "radio headset"
 	desc = "An updated, modular intercom that fits over the head. Takes encryption keys. \nTo speak on the general radio frequency, use ; before speaking."
-	icon_state = "headset"
-	item_state = "headset"
+	icon_state = "headset_marine"
+	item_state = "headset_marine"
 	materials = list(MAT_METAL=75)
 	subspace_transmission = 1
 	canhear_range = 0 // can't hear headsets from very far away

@@ -314,6 +314,11 @@
 	icon_state = "s-casing-live"
 	projectile_type = /obj/item/projectile/bullet/gyro
 
+/obj/item/ammo_casing/caseless/rocket
+	name = "A rocket. Pretty heavy, huh."
+	caliber = "missile"
+	icon_state = "rocket"
+	projectile_type = /obj/item/projectile/bullet/rocket
 
 /obj/item/ammo_casing/caseless/smartgun
 	name = "smart bullet"

@@ -72,3 +72,14 @@
 		user << "<span class='notice'>You load [num_loaded] spear\s into \the [src].</span>"
 		update_icon()
 		chamber_round()
+
+/obj/item/weapon/gun/projectile/automatic/sadar
+	name = "M83A2 SADAR"
+	desc = "The M83A2 SADAR (Shoulder-launched Active-homing Disposable Anti-tank Rocket) is a lightweight one-shot anti-armor weapon capable of engaging enemy vehicles at ranges up to 1,000 m."
+	icon_state = "sadar"
+	item_state = "sadar"
+	w_class = 4
+	fire_sound = 'sound/weapons/grenadelaunch.ogg'
+	burst_size = 1
+	mag_type = /obj/item/ammo_box/magazine/internal/sadar
+	actions_types = list(/datum/action/item_action/wield)

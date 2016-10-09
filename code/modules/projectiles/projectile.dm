@@ -50,6 +50,7 @@
 	var/jitter = 0
 	var/forcedodge = 0 //to pass through everything
 	var/dismemberment = 0 //The higher the number, the greater the bonus to dismembering. 0 will not dismember at all.
+	var/knockback = 0 //Knockback value in tile numbers. 1->mob will be pushed towards the projectile's dir by 1 tile, if possible.
 
 /obj/item/projectile/New()
 	permutated = list()
@@ -80,6 +81,10 @@
 				playsound(loc, hitsound, volume, 1, -1)
 			L.visible_message("<span class='danger'>[L] is hit by \a [src][organ_hit_text]!</span>", \
 								"<span class='userdanger'>[L] is hit by \a [src][organ_hit_text]!</span>")	//X has fired Y is now given by the guns so you cant tell who shot you if you could not see the shooter
+		if(knockback)
+			if(istype(target, /atom/movable))
+				var/atom/movable/M = target
+				M.throw_at_fast(get_step(M, dir), knockback, knockback, spin = 0)
 		L.on_hit(type)
 
 	var/reagent_note

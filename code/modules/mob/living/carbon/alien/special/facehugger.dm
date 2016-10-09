@@ -104,12 +104,8 @@ var/const/MAX_ACTIVE_TIME = 200
 		qdel(src)
 		return
 
-/obj/item/clothing/mask/facehugger/attack_alien(mob/user) //can be picked up by aliens
-	attack_hand(user)
-	return
-
 /obj/item/clothing/mask/facehugger/attack_hand(mob/user)
-	if((stat == CONSCIOUS && !sterile) && !isalien(user))
+	if((stat == CONSCIOUS && !sterile))
 		if(Attach(user))
 			return
 	..()
@@ -320,6 +316,10 @@ var/const/MAX_ACTIVE_TIME = 200
 		return 0
 	if(M.getorgan(/obj/item/organ/body_egg/alien_embryo))
 		return 0
+	if(iscarbon(M))
+		var/mob/living/carbon/C = M
+		if(istype(C.wear_mask, /obj/item/clothing/mask/facehugger))
+			return 0
 
 	if(iscorgi(M) || ismonkey(M))
 		return 1
