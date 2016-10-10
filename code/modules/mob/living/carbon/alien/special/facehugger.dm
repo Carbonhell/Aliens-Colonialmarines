@@ -42,7 +42,6 @@ var/const/MAX_ACTIVE_TIME = 200
 /obj/item/clothing/mask/facehugger/proc/findtarget()
 	if(!real)
 		return
-	target = null
 	for(var/mob/living/carbon/T in hearers(4, src))
 		if(!ishuman(T) && !ismonkey(T))
 			continue
@@ -64,23 +63,23 @@ var/const/MAX_ACTIVE_TIME = 200
 		nextwalk = world.time + walk_speed
 		var/dist = get_dist(loc, target.loc)
 		if(dist > 4)
+			target = null
 			return //We'll let the facehugger do nothing for a bit, since it's fucking up.
 		if(target.wear_mask && istype(target.wear_mask, /obj/item/clothing/mask/facehugger))
 			var/obj/item/clothing/mask/facehugger/F = target.wear_mask
 			if(F.sterile) // Toy's won't prevent real huggers
 				findtarget()
 				return
-		else
-			step_towards(src, target, 0)
-			if(dist <= 1)
-				if(CanHug(target))
-					Attach(target)
-					return
-				else
-					target = null
-					walk(src,0)
-					findtarget()
-					return
+		step_towards(src, target, 0)
+		if(dist <= 1)
+			if(CanHug(target))
+				Attach(target)
+				return
+			else
+				target = null
+				walk(src,0)
+				findtarget()
+				return
 
 //</vg>
 
@@ -202,6 +201,11 @@ var/const/MAX_ACTIVE_TIME = 200
 			if(D.anti_hug)
 				H.visible_message("<span class='userdanger'>[src] smashes against [H]'s [D] and [D.anti_hug == 1 ? "rips it off!" : "bounces off!"]</span>")
 				D.anti_hug--
+				if(!D.anti_hug)
+					H.unEquip(D)
+					D.forceMove(get_turf(H))
+					D.name = "scratched [D.name]"
+					D.desc += "It appears damaged and slightly burnt."
 				if(prob(50))
 					Die()
 				else
