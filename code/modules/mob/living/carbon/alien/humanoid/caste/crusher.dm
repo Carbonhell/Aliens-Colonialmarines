@@ -64,7 +64,7 @@
 					var/direction = prob(50) ? 90 : 270
 					var/tempdir = turn(O.dir, direction)
 					step(O, tempdir)
-		visible_message("<B>[src] rams into [A]!</b>","<B>You ram into [A]!</B>")
+		visible_message("<B>[src] rams into [A]!</B>","<B>You ram into [A]!</B>")
 		momentum = 0
 		speed = 0
 
