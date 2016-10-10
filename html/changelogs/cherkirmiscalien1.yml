@@ -1,0 +1,9 @@
+ 
+author: Cherkir
+
+delete-after: True
+
+changes: 
+  - tweak: "Changed some typos in Xeno descriptions and added new Xeno descriptions."
+  - tweak: "Added a message when Xenos get knocked off of a shield."
+  - tweak: "Removed stupid Xeno emotes."
