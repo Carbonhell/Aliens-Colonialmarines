@@ -16,6 +16,7 @@
 					playsound(loc, 'sound/voice/alien_growl_large.ogg', 30, 1, 1)
 				else
 					playsound(loc, 'sound/voice/alien_growl_small.ogg', 30, 1, 1)
+
 		if ("gnarl","gnarls")
 			if (!muzzled)
 				message = "<span class='name'>[src]</span> gnarls and shows its teeth.."
@@ -34,9 +35,6 @@
 			..()
 			return
 
-		if ("moan","moans")
-			message = "<span class='name'>[src]</span> moans!"
-			m_type = 2
 
 		if ("roar","roars")
 			if (!muzzled)
@@ -47,29 +45,10 @@
 					playsound(loc, 'sound/voice/alien_roar_small.ogg', 100, 1, 1)
 				m_type = 2
 
-		if ("roll","rolls")
-			if (!src.restrained())
-				message = "<span class='name'>[src]</span> rolls."
-				m_type = 1
-
-		if ("scratch","scratches")
-			if (!src.restrained())
-				message = "<span class='name'>[src]</span> scratches."
-				m_type = 1
-
 		if ("screech","screeches")
 			if (!muzzled)
 				message = "<span class='name'>[src]</span> screeches."
 				m_type = 2
-
-		if ("shiver","shivers")
-			message = "<span class='name'>[src]</span> shivers."
-			m_type = 2
-
-		if ("sign","signs")
-			if (!src.restrained())
-				message = text("<span class='name'>[src]</span> signs[].", (text2num(param) ? text(" the number []", text2num(param)) : null))
-				m_type = 1
 
 		if ("tail")
 			message = "<span class='name'>[src]</span> lashes its tail."

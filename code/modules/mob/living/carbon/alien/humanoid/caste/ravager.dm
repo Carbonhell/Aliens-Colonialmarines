@@ -1,11 +1,12 @@
 /mob/living/carbon/alien/humanoid/big/ravager
 	name = "alien ravager"
+	desc = "A huge alien with massive claws."
 	caste = "ravager"
 	maxHealth = 180
 	health = 180
 	icon_state = "alienravager"
 	melee_protection = 2
-	caste_desc = "The core of the xenomorphic offense power. This guy can destroy defenses in a whim. Aswell as people."
+	caste_desc = "The core of the xenomorphic offense power. This guy can destroy defenses in a whim. As well as people."
 	move_delay_add = -1
 	can_leap = TRUE
 	leap_range = 4
@@ -36,6 +37,8 @@
 					if(!step(L, dir))
 						break
 					sleep(1)
+			else
+				L.visible_message("<span class ='danger'>[src] is blocked by [L]'s shield!</span>")
 
 		else if(A.density && !A.CanPass(src))
 			visible_message("<span class ='danger'>[src] smashes into [A]!</span>", "<span class ='alertalien'>[src] smashes into [A]!</span>")
