@@ -70,4 +70,5 @@
 				AA.display_to(list(src))
 
 	update_client_colour()
-	client.click_intercept = null
+	if(client)//for some reasons it can be null at this point,the fuck?
+		client.click_intercept = null

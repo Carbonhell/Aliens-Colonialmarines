@@ -13,7 +13,6 @@
 					Follow your orders and find out what exactly happened down there."
 	required_players = 2
 	required_enemies = 1
-	round_ends_with_antag_death = 1
 
 /datum/game_mode/colonialmarines/can_start()
 	var/ready_players = num_players()
@@ -29,7 +28,7 @@
 /datum/game_mode/colonialmarines/post_setup()
 	for(var/i in antag_candidates)
 		var/datum/mind/M = i//less lag than typechecking in the for loop!
-		M.make_Alien()//defaults to larva
+		M.make_Alien(spawnpoint = pick(xeno_spawn))//defaults to larva
 		M.current << "You are an alien! Reproduce and make a new home out of this place. Speak in the hivemind with :a (Like ':a Hello fellow sisters!')"
 	for(var/survy in survivor_candidates)
 		if(isemptylist(survivor_spawn))

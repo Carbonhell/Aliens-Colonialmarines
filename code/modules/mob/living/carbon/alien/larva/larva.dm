@@ -8,8 +8,8 @@
 	tier = 0
 	caste = "larva"
 
-	maxHealth = 35
-	health = 35
+	maxHealth = 100
+	health = 100
 
 	var/amount_grown = 0
 	var/max_grown = 100

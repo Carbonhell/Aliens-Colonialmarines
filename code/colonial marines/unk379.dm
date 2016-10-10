@@ -486,6 +486,8 @@
 	req_access = list(access_marine_prep)
 	icon_state = "squad"
 	var/list/armors = list(/obj/item/clothing/suit/armor/vest/marine, /obj/item/clothing/suit/armor/vest/marine/nolegs, /obj/item/clothing/suit/armor/vest/marine/noshoulders, /obj/item/clothing/suit/armor/vest/marine/nostomach)
+	var/list/helmets = list(/obj/item/clothing/head/helmet/marine)
+	var/headset = /obj/item/device/radio/headset
 
 /obj/structure/closet/secure_closet/marine/New()
 	..()
@@ -494,44 +496,104 @@
 	new armorpath(src)
 	new /obj/item/clothing/shoes/combat(src)
 	new /obj/item/clothing/gloves/combat(src)
-	new /obj/item/device/radio/headset(src)
+	new headset(src)
 	new /obj/item/weapon/storage/belt/military/assault(src)
 
 /obj/structure/closet/secure_closet/marine/alpha
 	name = "alpha locker"
 	req_access = list(access_squad_alpha)
 	icon_state = "squad_alpha"
+	headset = /obj/item/device/radio/headset/alpha
 
 /obj/structure/closet/secure_closet/marine/alpha/New()
 	..()
 	new /obj/item/clothing/tie/armband/squad/alpha(src)
 
+/obj/structure/closet/secure_closet/marine/alpha/engineer
+	armors = list(/obj/item/clothing/suit/armor/vest/marine/engineer)
+
+/obj/structure/closet/secure_closet/marine/alpha/medic
+	armors = list(/obj/item/clothing/suit/armor/vest/marine/medic)
+	helmets = list(/obj/item/clothing/head/helmet/marine/medic)
+
+/obj/structure/closet/secure_closet/marine/alpha/specialist
+	helmets = list(/obj/item/clothing/head/helmet/marine/specialist)
+
+/obj/structure/closet/secure_closet/marine/alpha/leader
+	armors = list(/obj/item/clothing/suit/armor/vest/marine/leader)
+	headset = /obj/item/device/radio/headset/alpha/leader
+
 /obj/structure/closet/secure_closet/marine/bravo
 	name = "bravo locker"
 	req_access = list(access_squad_bravo)
 	icon_state = "squad_bravo"
+	headset = /obj/item/device/radio/headset/bravo
 
 /obj/structure/closet/secure_closet/marine/bravo/New()
 	..()
 	new /obj/item/clothing/tie/armband/squad/bravo(src)
 
+/obj/structure/closet/secure_closet/marine/bravo/engineer
+	armors = list(/obj/item/clothing/suit/armor/vest/marine/engineer)
+
+/obj/structure/closet/secure_closet/marine/bravo/medic
+	armors = list(/obj/item/clothing/suit/armor/vest/marine/medic)
+	helmets = list(/obj/item/clothing/head/helmet/marine/medic)
+
+/obj/structure/closet/secure_closet/marine/bravo/specialist
+	helmets = list(/obj/item/clothing/head/helmet/marine/specialist)
+
+/obj/structure/closet/secure_closet/marine/bravo/leader
+	armors = list(/obj/item/clothing/suit/armor/vest/marine/leader)
+	headset = /obj/item/device/radio/headset/bravo/leader
+
 /obj/structure/closet/secure_closet/marine/charlie
 	name = "charlie locker"
 	req_access = list(access_squad_charlie)
 	icon_state = "squad_charlie"
+	headset = /obj/item/device/radio/headset/charlie
 
 /obj/structure/closet/secure_closet/marine/charlie/New()
 	..()
 	new /obj/item/clothing/tie/armband/squad/charlie(src)
 
+/obj/structure/closet/secure_closet/marine/charlie/engineer
+	armors = list(/obj/item/clothing/suit/armor/vest/marine/engineer)
+
+/obj/structure/closet/secure_closet/marine/charlie/medic
+	armors = list(/obj/item/clothing/suit/armor/vest/marine/medic)
+	helmets = list(/obj/item/clothing/head/helmet/marine/medic)
+
+/obj/structure/closet/secure_closet/marine/charlie/specialist
+	helmets = list(/obj/item/clothing/head/helmet/marine/specialist)
+
+/obj/structure/closet/secure_closet/marine/charlie/leader
+	armors = list(/obj/item/clothing/suit/armor/vest/marine/leader)
+	headset = /obj/item/device/radio/headset/charlie/leader
+
 /obj/structure/closet/secure_closet/marine/delta
 	name = "delta locker"
 	req_access = list(access_squad_delta)
 	icon_state = "squad_delta"
+	headset = /obj/item/device/radio/headset/delta
 
 /obj/structure/closet/secure_closet/marine/delta/New()
 	..()
 	new /obj/item/clothing/tie/armband/squad/delta(src)
+
+/obj/structure/closet/secure_closet/marine/delta/engineer
+	armors = list(/obj/item/clothing/suit/armor/vest/marine/engineer)
+
+/obj/structure/closet/secure_closet/marine/delta/medic
+	armors = list(/obj/item/clothing/suit/armor/vest/marine/medic)
+	helmets = list(/obj/item/clothing/head/helmet/marine/medic)
+
+/obj/structure/closet/secure_closet/marine/delta/specialist
+	helmets = list(/obj/item/clothing/head/helmet/marine/specialist)
+
+/obj/structure/closet/secure_closet/marine/delta/leader
+	armors = list(/obj/item/clothing/suit/armor/vest/marine/leader)
+	headset = /obj/item/device/radio/headset/delta/leader
 
 /obj/structure/closet/secure_closet/CMO/marine
 	name = "combat medic locker"
@@ -816,7 +878,7 @@
 	icon_state = "marine_police"
 	item_state = "marine_police"
 
-/obj/item/clothing/head/band
+/obj/item/clothing/head/redband
 	name = "red band"
 	desc = "A normal red band."
 	icon_state = "redband"

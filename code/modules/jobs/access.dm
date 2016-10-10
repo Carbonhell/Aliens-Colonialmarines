@@ -119,8 +119,7 @@
 /var/const/access_sulaco_chemistry = 229
 /var/const/access_sulaco_cargo = 230
 /var/const/access_sulaco_maint = 231
-/var/const/access_marine_leader = 232
-/var/const/access_sulaco_change_ids = 233
+/var/const/access_sulaco_change_ids = 232
 
 /obj/var/list/req_access = null
 /obj/var/req_access_txt = "0"

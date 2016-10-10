@@ -28,7 +28,7 @@ var/queen_died_recently = FALSE
 
 	var/obj/item/weapon/card/id/wear_id = null // Fix for station bounced radios -- Skie
 	var/has_fine_manipulation = 0
-	var/move_delay_add = 0 // movement delay to add
+	var/move_delay_add = -1 // movement delay to add
 
 	var/heat_protection = 1.5//x1.5 heat dmg
 	var/melee_protection = 1 // default, pratically does nothing. formula is amount/melee_protection, so the higher this is,the lower amt will be
@@ -78,7 +78,6 @@ var/queen_died_recently = FALSE
 	if("frenzy" in active_pheromones)
 		. = round(. /FRENZYPOWERUP)
 	. += mob_size
-	. += move_delay_add
 
 /mob/living/carbon/alien/assess_threat() // beepsky won't hunt aliums
 	return -10

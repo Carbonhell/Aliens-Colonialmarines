@@ -6,7 +6,7 @@
 	density = 1
 	anchored = 1
 	unacidable = 1
-	req_one_access = list(access_sulaco_engineering,access_marine_leader)
+	req_one_access = list(access_sulaco_engineering,access_marine_leaderprep)
 	faction = "Marine"
 	scan_range = 7//viewrange
 	health = 200

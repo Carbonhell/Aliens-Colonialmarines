@@ -26,7 +26,7 @@ var/const/MAX_ACTIVE_TIME = 200
 	var/sterile = 0
 	var/real = 1 //0 for the toy, 1 for real. Sure I could istype, but fuck that.
 	var/strength = 5
-	var/walk_speed = 1
+	var/walk_speed = 0
 	var/mob/living/carbon/target
 	var/nextwalk = 0
 
@@ -42,6 +42,7 @@ var/const/MAX_ACTIVE_TIME = 200
 /obj/item/clothing/mask/facehugger/proc/findtarget()
 	if(!real)
 		return
+	target = null
 	for(var/mob/living/carbon/T in hearers(4, src))
 		if(!ishuman(T) && !ismonkey(T))
 			continue
@@ -194,29 +195,23 @@ var/const/MAX_ACTIVE_TIME = 200
 						"<span class='userdanger'>[src] leaps at [M]'s face!</span>")
 	if(iscarbon(M))
 		var/mob/living/carbon/H = M
-		var/obj/item/clothing/D = H.head
-		if(!D)
-			D = H.wear_mask
-		if(D)
+		var/succeed = TRUE
+		for(var/obj/item/clothing/D in H.contents)
 			if(D.flags & NODROP)
-				return 0
-			if(istype(D))
-				if(D.anti_hug)
-					H.visible_message("<span class='userdanger'>[src] smashes against [H]'s [D] and [D.anti_hug == 1 ? "rips it off!" : "bounces off!"]</span>")
-					D.anti_hug--
-					if(prob(50))
-						Die()
-					else
-						GoIdle()
-					if(!D.anti_hug)
-						H.unEquip(D)
-					return 0
-			H.visible_message("<span class='danger'>[src] smashes against [H]'s [D]!</span>", \
-								"<span class='userdanger'>[src] smashes against [H]'s [D]!</span>")
-			Die()
-			return 0
+				continue
+			if(D.anti_hug)
+				H.visible_message("<span class='userdanger'>[src] smashes against [H]'s [D] and [D.anti_hug == 1 ? "rips it off!" : "bounces off!"]</span>")
+				D.anti_hug--
+				if(prob(50))
+					Die()
+				else
+					GoIdle()
+				succeed = FALSE
+				break
+		if(!succeed)
+			return
 
-		loc = H
+		forceMove(H)
 		H.equip_to_slot(src, slot_wear_mask)
 		if(!sterile)
 			M.Paralyse(MAX_IMPREGNATION_TIME/12)
@@ -227,7 +222,7 @@ var/const/MAX_ACTIVE_TIME = 200
 				playsound(loc, 'sound/misc/facehugged_female.ogg', 50, 0)
 	else if (iscorgi(M))
 		var/mob/living/simple_animal/pet/dog/corgi/C = M
-		loc = C
+		forceMove(C)
 		C.facehugger = src
 		C.regenerate_icons()
 

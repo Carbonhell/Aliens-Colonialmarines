@@ -10,8 +10,8 @@ Squad leader
 	supervisors = "the commander and the bridge officers"
 	selection_color = "#ffeeee"
 
-	access = list(access_marine_prep, access_marine_leader)
-	minimal_access = list(access_marine_prep, access_marine_leader)
+	access = list(access_marine_prep, access_marine_leaderprep)
+	minimal_access = list(access_marine_prep, access_marine_leaderprep)
 
 /*
 Squad engineer
@@ -45,9 +45,17 @@ Squad specialist
 	flag = SQUADSP
 	total_positions = 8
 	spawn_positions = 8
+	outfit = /datum/outfit/job/marine/sqspc
 
 	access = list(access_marine_prep, access_marine_specprep)
 	minimal_access = list(access_marine_prep, access_marine_specprep)
+
+/datum/outfit/job/marine/sqspc
+	name = "Squad Specialist"
+
+	id = /obj/item/weapon/card/id/marine
+	uniform = /obj/item/clothing/under/rank/marine_pajama
+	head = /obj/item/clothing/head/redband
 
 /*
 Squad marine

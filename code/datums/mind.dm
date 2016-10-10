@@ -1676,7 +1676,7 @@
 //	ticker.mode.greet_hog_follower(src,colour)
 	return 1
 
-/datum/mind/proc/make_Alien(caste = "larva")
+/datum/mind/proc/make_Alien(caste = "larva", turf/spawnpoint)
 	var/list/possible_castes = list("larva","big/boiler","big/crusher","drone","warrior","big/praetorian","ravager","sentinel")//intentionally didn't put queen
 	if(!caste)
 		caste = input("Which caste?","Caste") in possible_castes
@@ -1686,10 +1686,11 @@
 	if(caste == "larva")
 		textedpath = "/mob/living/carbon/alien/larva"
 	var/path = text2path(textedpath)
-	var/turf/T
-	var/mob/oldbody
+	var/turf/T = spawnpoint
+	var/mob/oldbody = current
 	if(current)
-		T = get_turf(current)
+		if(!spawnpoint)
+			T = get_turf(current)
 		oldbody = current
 	else
 		T = pick(xeno_spawn)

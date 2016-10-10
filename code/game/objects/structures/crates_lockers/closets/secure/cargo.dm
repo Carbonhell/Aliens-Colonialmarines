@@ -17,3 +17,7 @@
 	new /obj/item/clothing/head/soft(src)
 	new /obj/item/device/export_scanner(src)
 	new /obj/item/weapon/door_remote/quartermaster(src)
+
+/obj/structure/closet/secure_closet/quartermaster/sulaco
+	name = "requisitions officer's locker"
+	req_access = list(access_sulaco_cargo)

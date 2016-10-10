@@ -20,7 +20,7 @@
 
 /mob/living/carbon/alien/humanoid/big/crusher/Stat()
 	..()
-	stat(null, "Momentum: [momentum]")
+	stat(null, "Momentum: [momentum == -1 ? "OFF" : momentum]")
 
 /mob/living/carbon/alien/humanoid/big/crusher/movement_delay()
 	. = ..()
@@ -41,7 +41,7 @@
 
 /mob/living/carbon/alien/humanoid/big/crusher/Bump(atom/A)
 	..()
-	if(momentum <= 0)//either disabled or empty
+	if(momentum <= 18)//either disabled, empty or too low to even matter.
 		return
 	if(ismob(A))
 		var/direction = prob(50) ? 90 : 270
@@ -53,7 +53,11 @@
 			if("health" in A.vars)
 				A:health -= momentum*3//colon safe to use cause we know this var exists
 				if(A:health <= 0)
-					qdel(A)
+					if(isturf(A))
+						var/turf/T = A
+						T.ChangeTurf(/turf/open/floor/plating)
+					else
+						qdel(A)
 			else if(isobj(A))
 				var/obj/O = A
 				if(!O.anchored)
@@ -85,5 +89,5 @@
 	..()
 	if(dir == olddir)
 		timeout++
-	if(timeout == 5)
+	if(timeout >= 5)
 		momentum = 0
