@@ -6,7 +6,7 @@
 	maxHealth = 200
 	health = 200
 	caste_desc = "An huge alien capable of packing a bunch of lead in his head. Althrough, this makes the back defenseless."
-	melee_protection = 3
+	melee_protection = 2
 	var/momentum = 0
 	var/speed = 0
 	var/olddir
