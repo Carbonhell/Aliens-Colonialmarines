@@ -182,6 +182,10 @@
 	item_state = "mk221[wielded ? "-w" : ""]"
 	..()
 
+/obj/item/weapon/gun/projectile/shotgun/automatic/combat/mk221/riot
+	desc = "A normal mk221 loaded with beanbag shells, for use of the Military Police."
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/com/beanbag
+
 //Dual Feed Shotgun
 
 /obj/item/weapon/gun/projectile/shotgun/automatic/dual_tube

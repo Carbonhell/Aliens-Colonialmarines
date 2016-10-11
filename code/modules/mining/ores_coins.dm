@@ -333,6 +333,9 @@
 	icon_state = "coin_mythril_heads"
 	value = 3000
 
+/obj/item/weapon/coin/mythril/attack_self(mob/user)
+	return//ya can't trick WY you little insolent bastard
+
 /obj/item/weapon/coin/twoheaded
 	cmineral = "iron"
 	icon_state = "coin_iron_heads"

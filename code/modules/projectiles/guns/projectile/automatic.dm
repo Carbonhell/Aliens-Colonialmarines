@@ -378,6 +378,7 @@
 	desc = "The kind of gun that will leave you crying for mummy before you even realise your leg's missing."
 	icon_state = "sniper"
 	item_state = "sniper"
+	var/base_state = "sniper"//fuck this whole icon bullshit,i'll rewrite you somewhen.
 	recoil = 2
 	weapon_weight = WEAPON_HEAVY
 	mag_type = /obj/item/ammo_box/magazine/sniper_rounds
@@ -396,9 +397,9 @@
 
 /obj/item/weapon/gun/projectile/automatic/sniper_rifle/update_icon(ammobased_iconstate = FALSE)
 	if(magazine)
-		icon_state = "sniper-mag"
+		icon_state = "[base_state]"
 	else
-		icon_state = "sniper"
+		icon_state = "[base_state]-0"
 	..()
 
 
@@ -411,9 +412,7 @@
 	name = "WY102"
 	desc = "A weapon designed for great ranges, often used for long range fire support and assassination."
 	icon_state = "wy102"
-
-/obj/item/weapon/gun/projectile/automatic/sniper_rifle/update_icon()
-	icon_state = "wy102[magazine ? "" : "-0"]"
+	base_state = "wy102"
 
 // Laser rifle (rechargeable magazine) //
 

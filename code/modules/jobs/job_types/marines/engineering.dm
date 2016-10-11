@@ -14,8 +14,8 @@
 
 	outfit = /datum/outfit/job/sulce
 
-	access = list(access_sulaco_CE, access_sulaco_engineering, access_sulaco_bridge, access_sulaco_maint)
-	minimal_access = list(access_sulaco_CE, access_sulaco_engineering, access_sulaco_bridge, access_sulaco_maint)
+	access = list(access_sulaco_CE, access_sulaco_engineering, access_sulaco_bridge, access_sulaco_maint, access_network)
+	minimal_access = list(access_sulaco_CE, access_sulaco_engineering, access_sulaco_bridge, access_sulaco_maint, access_network)
 
 /datum/outfit/job/sulce
 	name = "Chief Engineer"
@@ -54,8 +54,8 @@
 
 	outfit = /datum/outfit/job/sulengi
 
-	access = list(access_sulaco_engineering, access_sulaco_maint)
-	minimal_access = list(access_sulaco_engineering, access_sulaco_maint)
+	access = list(access_sulaco_engineering, access_sulaco_maint, access_network)
+	minimal_access = list(access_sulaco_engineering, access_sulaco_maint, access_network)
 
 /datum/outfit/job/sulengi
 	name = "Engineer"

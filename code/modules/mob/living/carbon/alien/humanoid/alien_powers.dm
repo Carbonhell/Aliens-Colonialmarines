@@ -518,7 +518,7 @@ Doesn't work on other aliens/AI.*/
 /obj/effect/proc_holder/alien/stomp
 	name = "Stomp"
 	desc = "Stomp the floor to create a mini-earthquake and make your enemies fall on the ground."
-	action_icon_state = "stomp"
+	action_icon_state = "alien_stomp"
 	var/range = 5
 
 /obj/effect/proc_holder/alien/stomp/fire(mob/living/carbon/user)

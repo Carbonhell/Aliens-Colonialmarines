@@ -473,13 +473,46 @@
 	desc = "A food vendor. The food tastes like shit, but it's something, I guess."
 	req_access_txt = "218"
 
-/obj/machinery/vending/special
+/obj/machinery/vending/special//Todo: make an actual different machine to dispense a single specialist kit instead of this coin bs
 	name = "specialist vendor"
 	desc = "For the real men."
 	req_access_txt = "222"
-	products = list()
-	premium = list(/obj/item/weapon/gun/projectile/automatic/shotgun/bulldog = 1, /obj/item/weapon/gun/projectile/automatic/l6_saw = 1,
-					/obj/item/weapon/gun/projectile/automatic/sniper_rifle = 1)//to be changed with kits filled with ammo aswell.
+	products = list(/obj/item/weapon/coin/mythril = 1)
+	premium = list(/obj/item/weapon/storage/lockbox/speckit/sadar = 1, /obj/item/weapon/storage/lockbox/speckit/smartgun = 1,
+					/obj/item/weapon/storage/lockbox/speckit/sniper = 1)//to be changed with kits filled with ammo aswell.
+
+/obj/item/weapon/storage/lockbox/speckit
+	name = "specialist kit"
+	req_access = list(access_marine_specprep)
+
+/obj/item/weapon/storage/lockbox/speckit/sadar
+	name = "SADAR kit"
+	desc = "An huge lockbox containing a SADAR, along with some rockets."
+
+/obj/item/weapon/storage/lockbox/speckit/sadar/New()
+	..()
+	new /obj/item/weapon/gun/projectile/automatic/sadar(src)
+	for(var/i in 1 to 3)
+		new /obj/item/ammo_casing/caseless/rocket(src)
+
+/obj/item/weapon/storage/lockbox/speckit/sniper
+	name = "WY102 kit"
+	desc = "An huge lockbox containing a WY102 sniper rifle, along with some ammo."
+
+/obj/item/weapon/storage/lockbox/speckit/sniper/New()
+	..()
+	new /obj/item/weapon/gun/projectile/automatic/sniper_rifle/wy102(src)
+	new /obj/item/clothing/suit/armor/vest/marine/sniper(src)
+	for(var/i in 1 to 3)
+		new /obj/item/ammo_box/magazine/sniper_rounds(src)
+
+/obj/item/weapon/storage/lockbox/speckit/smartgun
+	name = "M56 smartgun kit"
+	desc = "An huge lockbox containing a M56 smartgun system."
+
+/obj/item/weapon/storage/lockbox/speckit/smartgun/New()
+	..()
+	new /obj/item/weapon/minigunpack/smartgun(src)
 
 /obj/structure/closet/secure_closet/marine
 	name = "standard marine locker"
@@ -598,6 +631,25 @@
 /obj/structure/closet/secure_closet/CMO/marine
 	name = "combat medic locker"
 	desc = "Tear and heal, tear and heal."
+	req_access = list(access_sulaco_medbay)
+
+/obj/structure/closet/secure_closet/mp
+	name = "military police locker"
+	desc = "In space, noone can see you beat that fucker up..."
+	req_access = list(access_sulaco_brig)
+	icon_state = "sec"
+
+/obj/structure/closet/secure_closet/mp/New()
+	..()
+	new /obj/item/device/radio/headset/headset_sec/alt(src)
+	new /obj/item/clothing/under/rank/security(src)
+	new /obj/item/clothing/gloves/color/black(src)
+	new /obj/item/clothing/head/helmet/sec(src)
+	new /obj/item/clothing/suit/armor/vest/alt(src)
+	new /obj/item/clothing/shoes/jackboots(src)
+	new /obj/item/device/assembly/flash/handheld(src)
+	new /obj/item/weapon/gun/energy/gun/advtaser(src)
+	new /obj/item/weapon/melee/baton/loaded(src)
 
 /obj/item/device/encryptionkey/alpha
 	name = "alpha encryption key"

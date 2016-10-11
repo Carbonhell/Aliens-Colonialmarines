@@ -110,7 +110,7 @@ var/const/ALIEN_AFK_BRACKET = 450 // 45 seconds
 			owner.death()
 		else
 			owner.adjustBruteLoss(40)
-			owner.overlays -= overlay
+		owner.overlays -= overlay
 		qdel(src)
 
 
