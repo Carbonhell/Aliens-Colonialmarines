@@ -1,5 +1,6 @@
 /mob/living/carbon/alien/humanoid/warrior
 	name = "alien warrior"
+	desc = "A fast alien with sharp claws."
 	caste = "warrior"
 	icon_state = "alienwarrior_s"
 	maxHealth = 150

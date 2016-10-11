@@ -1,5 +1,6 @@
 /mob/living/carbon/alien/humanoid/sentinel
 	name = "alien sentinel"
+	desc = "An acid-spitting alien."
 	caste = "sentinel"
 	maxHealth = 130
 	health = 130
