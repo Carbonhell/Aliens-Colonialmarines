@@ -176,3 +176,8 @@
 	if(leaping)
 		return
 	..()
+
+/mob/living/carbon/alien/humanoid/update_canmove()
+	. = ..()
+	if(leaping || status_flags & FREEZED)
+		return 0

@@ -35,9 +35,9 @@
 			if(!blocked)
 				L.visible_message("<span class ='danger'>[src] pounces on [L]!</span>", "<span class ='userdanger'>[src] pounces on you!</span>")
 				status_flags |= FREEZED
-				L.Weaken(5)
+				L.Weaken(2)
 				playsound(loc, 'sound/voice/alien_pounce.ogg', 30, 1, 1)
-				spawn(1)
+				spawn(2)
 					status_flags &= ~FREEZED
 				sleep(2)//Runtime prevention (infinite bump() calls on hulks)
 				step_towards(src,L)
