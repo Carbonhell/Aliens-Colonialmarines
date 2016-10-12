@@ -252,7 +252,7 @@
 "eR" = (/obj/machinery/capture_the_flag/red,/turf/open/floor/plasteel/circuit/gcircuit/animated,/area/ctf)
 "eS" = (/obj/effect/landmark/shuttle_import,/turf/open/space,/area/space)
 "eT" = (/obj/docking_port/stationary{dir = 1; dwidth = 2; height = 8; id = "pod1_away"; name = "recovery ship"; width = 5},/turf/open/space,/area/space)
-"eU" = (/obj/docking_port/stationary{dir = 1; dwidth = 1; height = 4; id = "pod2_away"; name = "recovery ship"; width = 3},/turf/open/space,/area/space)
+"eU" = (/obj/docking_port/stationary{dir = 1; dwidth = 2; height = 8; id = "pod2_away"; name = "recovery ship"; width = 5},/turf/open/space,/area/space)
 "eV" = (/turf/open/floor/plasteel/darkblue/side{tag = "icon-darkblue (SOUTHWEST)"; dir = 10},/turf/open/floor/plasteel/warningline{tag = "icon-warningline (SOUTHWEST)"; dir = 10},/area/ctf)
 "eW" = (/turf/open/floor/plasteel/darkblue/side,/turf/open/floor/plasteel/warningline,/area/ctf)
 "eX" = (/turf/open/floor/plasteel/darkblue/side{tag = "icon-darkblue (SOUTHEAST)"; dir = 6},/turf/open/floor/plasteel/warningline,/area/ctf)

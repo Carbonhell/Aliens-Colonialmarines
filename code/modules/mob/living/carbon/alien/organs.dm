@@ -49,7 +49,7 @@
 
 	var/storedPlasma = 100
 	var/max_plasma = 300
-	var/heal_rate = 5
+	var/heal_rate = 2
 	var/plasma_rate = 10
 
 /obj/item/organ/alien/plasmavessel/prepare_eat()

@@ -5,7 +5,7 @@
 	maxHealth = 180
 	health = 180
 	icon_state = "alienravager"
-	melee_protection = 2
+	melee_protection = 1.5
 	caste_desc = "The core of the xenomorphic offense power. This guy can destroy defenses in a whim. As well as people."
 	move_delay_add = -1
 	can_leap = TRUE
