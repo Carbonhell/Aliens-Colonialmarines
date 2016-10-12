@@ -102,6 +102,7 @@
 /obj/item/gun_attachment/barrel/suppressor
 	name = "suppressor"
 	desc = "Lets you feel like a spy."
+	icon_state = "suppressor"
 	var/oldsound = null
 
 /obj/item/gun_attachment/barrel/suppressor/on_insert(mob/user)
@@ -148,6 +149,7 @@
 /obj/item/gun_attachment/underbarrel/forwardgrip
 	name = "forward grip"
 	desc = "Makes the gun easier to handle, effectively reducing the recoil."
+	icon_state = "forwardgrip"
 	var/oldrecoil = 0
 
 /obj/item/gun_attachment/underbarrel/forwardgrip/on_insert(mob/user)
@@ -244,18 +246,21 @@
 /obj/item/gun_attachment/stock/re93
 	name = "RE93 Absorbing Stock"
 	desc = "A spring loaded, shock-absorbing rifle stock that allows you to wield the gun with a single hand without recoil. Although, it decreases accuracy. Useless on guns that are already one-handed."
+	icon_state = "re93"
 	var/spreadoffset = 20
 	var/reset_weight = FALSE
 
 /obj/item/gun_attachment/stock/re93/on_insert(mob/user)
 	..()
 	gun.spread += spreadoffset
+	gun.base_spread += spreadoffset
 	if(gun.weapon_weight == WEAPON_HEAVY)
 		gun.weapon_weight = WEAPON_LIGHT
 		reset_weight = TRUE
 
 /obj/item/gun_attachment/stock/re93/on_remove(mob/user)
 	gun.spread -= spreadoffset
+	gun.base_spread -= spreadoffset
 	if(reset_weight == TRUE)
 		gun.weapon_weight = WEAPON_HEAVY
 		reset_weight = FALSE
