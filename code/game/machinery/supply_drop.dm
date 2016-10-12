@@ -1,10 +1,11 @@
 /obj/machinery/supply_drop
 	name = "supply dropper"
 	desc = "A modified mass driver used to shoot crates in a secure shell to make them land on planets without destroying the crate itself, along with its contents."
-	icon = 'icons/obj/objects.dmi'
-	icon_state = "hivebot_fab"
+	icon = 'icons/obj/machines/supply_drop.dmi'
+	icon_state = "dropper_open"
 	density = TRUE
 	anchored = TRUE
+	layer = BELOW_OBJ_LAYER//so you can see closets/crates without altclicking
 	speed_process = TRUE//for tgui ui-bar purposes so it's accurate
 	var/obj/structure/closet/supply //Yes,not a crate subtype,you can send lockers too...Hehe.
 	var/current_delay = 0 //last time a supply drop was sent, a world.time value
@@ -30,6 +31,8 @@
 		return
 	supply.forceMove(get_turf(src))
 	supply = null
+	spawn()
+		flick("dropper_opening", src)
 	update_icon()
 
 /obj/machinery/supply_drop/proc/load_supply(obj/load)
@@ -37,13 +40,15 @@
 		return
 	supply = load
 	load.forceMove(src)
+	spawn()
+		flick("dropper_closing", src)
 	update_icon()
 
 /obj/machinery/supply_drop/update_icon()
 	if(supply)
-		icon_state = "hivebot_fab_on"
+		icon_state = "dropper_closed"
 	else
-		icon_state = "hivebot_fab"
+		icon_state = "dropper_open"
 
 /obj/machinery/supply_drop/ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, \
 									datum/tgui/master_ui = null, datum/ui_state/state = default_state)
@@ -98,14 +103,18 @@
 			if(current_delay < delay)
 				return//shouldn't even be able to call this,but y'know,exploits man
 			var/turf/T = get_turf(current_beacon)
-			supply.forceMove(T)
-			for(var/mob/living/L in T)
-				L.take_overall_damage(50)
-				L.visible_message("<span class='danger'>\The [supply.name] hits [L] at full speed!</span>", "<span class='userdanger'>\The [supply.name] hits you at full speed!</span>")
-				L.Weaken(10)
-			supply = null
-			update_icon()
-			current_delay = 0
+			flick("launching", src)
+			current_beacon.visible_message()
+			spawn(32)//launching movie time in deciseconds
+				supply.forceMove(T)
+				for(var/mob/living/L in T)
+					L.take_overall_damage(50)
+					L.visible_message("<span class='danger'>\The [supply.name] hits [L] at full speed!</span>", "<span class='userdanger'>\The [supply.name] hits you at full speed!</span>")
+					L.Weaken(10)
+				supply = null
+				flick("recharging", src)
+				update_icon()
+				current_delay = 0
 		if("setbeacon")
 			for(var/i in existing_beacons)
 				var/obj/item/device/beacon/B = i
