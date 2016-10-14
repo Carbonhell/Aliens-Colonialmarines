@@ -293,7 +293,7 @@
 	id = "Bus 2"
 	network = "sulaconet"
 	freq_listening = list(BRAVO_FREQ, SUPP_FREQ, SEC_FREQ)
-	autolinkers = list("mprocessor2", "bravo", "msupply", "msecurity")
+	autolinkers = list("mprocessor2", "bravo", "msupply", "mpolice")
 
 /obj/machinery/telecomms/bus/preset_charlie
 	id = "Bus 3"
@@ -383,6 +383,7 @@
 	id = "Marine Hub"
 	network = "sulaconet"
 	autolinkers = list("marine_relay", "marine_support_relay", "mscience", "mmedical",
+	"alpha", "bravo", "charlie", "delta",
 	"msupply", "mcommon", "mcommand", "mengineering", "mpolice",
 	"mreceiverA", "mreceiverB", "mbroadcasterA", "mbroadcasterB")
 
@@ -462,11 +463,18 @@
 /obj/machinery/vending/marine/ammunition
 	name = "weapon rack"
 	desc = "Weapons for weapons."
-	icon_state = "liberationstation"
+	icon_state = "marinevend"
 	req_access_txt = "218"
-	products = list(/obj/item/weapon/gun/projectile/automatic/m41a = 4, /obj/item/ammo_box/magazine/smgm45/m41a = 20,
+	products = list(/obj/item/weapon/gun/projectile/automatic/m41a = 4, /obj/item/ammo_box/magazine/m41a = 20,
 					/obj/item/weapon/gun/projectile/automatic/m39 = 4, /obj/item/ammo_box/magazine/m39 = 30,
 					/obj/item/weapon/gun/projectile/shotgun/automatic/combat/mk221 = 4, /obj/item/ammo_box/magazine/m12g/slug = 10)
+	refill_canister = /obj/item/weapon/vending_refill/weapons
+
+/obj/item/weapon/vending_refill/weapons
+	machine_name = "weapon rack"
+	icon_state = "refill_weap"
+	charges = list(24, 0, 0)
+	init_charges = list(24, 0, 0)
 
 /obj/machinery/vending/snack/marine
 	name = "MRE storage unit"
@@ -477,9 +485,16 @@
 	name = "specialist vendor"
 	desc = "For the real men."
 	req_access_txt = "222"
-	products = list(/obj/item/weapon/coin/mythril = 1)
+	products = list(/obj/item/weapon/grenade/smokebomb  = 6)
 	premium = list(/obj/item/weapon/storage/lockbox/speckit/sadar = 1, /obj/item/weapon/storage/lockbox/speckit/smartgun = 1,
 					/obj/item/weapon/storage/lockbox/speckit/sniper = 1)//to be changed with kits filled with ammo aswell.
+	refill_canister = /obj/item/weapon/vending_refill/spec
+
+/obj/item/weapon/vending_refill/spec
+	machine_name = "specialist vendor"
+	icon_state = "refill_spec"
+	charges = list(2, 0, 1)
+	init_charges = list(2, 0, 1)
 
 /obj/item/weapon/storage/lockbox/speckit
 	name = "specialist kit"
@@ -491,7 +506,7 @@
 
 /obj/item/weapon/storage/lockbox/speckit/sadar/New()
 	..()
-	new /obj/item/weapon/gun/projectile/automatic/sadar(src)
+	new /obj/item/weapon/gun/projectile/sadar(src)
 	for(var/i in 1 to 3)
 		new /obj/item/ammo_casing/caseless/rocket(src)
 
@@ -514,6 +529,11 @@
 	..()
 	new /obj/item/weapon/minigunpack/smartgun(src)
 
+/obj/structure/closet/pod_locker
+	name = "pod locker"
+	desc = "A closet generally used to send supplies at high velocity through space from a ship."
+	icon_state = "dropper"
+
 /obj/structure/closet/secure_closet/marine
 	name = "standard marine locker"
 	req_access = list(access_marine_prep)
@@ -524,9 +544,13 @@
 
 /obj/structure/closet/secure_closet/marine/New()
 	..()
+	new /obj/item/weapon/storage/backpack/explorer(src)
+	new /obj/item/weapon/storage/backpack/satchel/explorer(src)
 	new /obj/item/clothing/under/rank/marine(src)
 	var/armorpath = pick(armors)
 	new armorpath(src)
+	var/helmetpath = pick(helmets)
+	new helmetpath(src)
 	new /obj/item/clothing/shoes/combat(src)
 	new /obj/item/clothing/gloves/combat(src)
 	new headset(src)
@@ -552,6 +576,10 @@
 /obj/structure/closet/secure_closet/marine/alpha/specialist
 	helmets = list(/obj/item/clothing/head/helmet/marine/specialist)
 
+/obj/structure/closet/secure_closet/marine/alpha/specialist/New()
+	..()
+	new /obj/item/weapon/coin/mythril(src)
+
 /obj/structure/closet/secure_closet/marine/alpha/leader
 	armors = list(/obj/item/clothing/suit/armor/vest/marine/leader)
 	headset = /obj/item/device/radio/headset/alpha/leader
@@ -575,6 +603,10 @@
 
 /obj/structure/closet/secure_closet/marine/bravo/specialist
 	helmets = list(/obj/item/clothing/head/helmet/marine/specialist)
+
+/obj/structure/closet/secure_closet/marine/bravo/specialist/New()
+	..()
+	new /obj/item/weapon/coin/mythril(src)
 
 /obj/structure/closet/secure_closet/marine/bravo/leader
 	armors = list(/obj/item/clothing/suit/armor/vest/marine/leader)
@@ -600,6 +632,10 @@
 /obj/structure/closet/secure_closet/marine/charlie/specialist
 	helmets = list(/obj/item/clothing/head/helmet/marine/specialist)
 
+/obj/structure/closet/secure_closet/marine/charlie/specialist/New()
+	..()
+	new /obj/item/weapon/coin/mythril(src)
+
 /obj/structure/closet/secure_closet/marine/charlie/leader
 	armors = list(/obj/item/clothing/suit/armor/vest/marine/leader)
 	headset = /obj/item/device/radio/headset/charlie/leader
@@ -624,6 +660,10 @@
 /obj/structure/closet/secure_closet/marine/delta/specialist
 	helmets = list(/obj/item/clothing/head/helmet/marine/specialist)
 
+/obj/structure/closet/secure_closet/marine/delta/specialist/New()
+	..()
+	new /obj/item/weapon/coin/mythril(src)
+
 /obj/structure/closet/secure_closet/marine/delta/leader
 	armors = list(/obj/item/clothing/suit/armor/vest/marine/leader)
 	headset = /obj/item/device/radio/headset/delta/leader
@@ -644,7 +684,7 @@
 	new /obj/item/device/radio/headset/headset_sec/alt(src)
 	new /obj/item/clothing/under/rank/security(src)
 	new /obj/item/clothing/gloves/color/black(src)
-	new /obj/item/clothing/head/helmet/sec(src)
+	new /obj/item/clothing/head/helmet/marine/police(src)
 	new /obj/item/clothing/suit/armor/vest/alt(src)
 	new /obj/item/clothing/shoes/jackboots(src)
 	new /obj/item/device/assembly/flash/handheld(src)

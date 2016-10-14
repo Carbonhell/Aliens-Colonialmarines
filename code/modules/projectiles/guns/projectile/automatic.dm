@@ -331,14 +331,15 @@
 	icon_state = "m41a"
 	item_state = "m41a"
 	weapon_weight = WEAPON_HEAVY
-	mag_type = /obj/item/ammo_box/magazine/smgm45/m41a
+	mag_type = /obj/item/ammo_box/magazine/m41a
 	fire_delay = 5
-	attachments_onnew = list(/obj/item/gun_attachment/underbarrel/nadelauncher)
-	attachment_x_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
-	attachment_y_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
+	attachments_flags = BARREL|OPTICS|UNDERBARREL|STOCK|PAINT
+	attachments_onnew = list(/obj/item/gun_attachment/underbarrel/nadelauncher, /obj/item/gun_attachment/stock/m41a)
+	attachment_x_offsets = list("barrel" = 31, "optics" = 10, "underbarrel" = 27, "stock" = 2, "paint" = 0)//TO BE SET
+	attachment_y_offsets = list("barrel" = 2, "optics" = 5, "underbarrel" = -2, "stock" = 2, "paint" = 0)//TO BE SET
 
 /obj/item/weapon/gun/projectile/automatic/m41a/update_icon(ammobased_iconstate = FALSE)
-	icon_state = "m41a[magazine ? "" : "-0"][wielded ? "-w" : ""]"
+	icon_state = "m41a[magazine ? "" : "-0"]"
 	item_state = "m41a[magazine ? "" : "-0"][wielded ? "-w" : ""]"
 	..()
 
@@ -349,8 +350,10 @@
 	item_state = "m39"
 	weapon_weight = WEAPON_LIGHT
 	mag_type = /obj/item/ammo_box/magazine/m39
-	attachment_x_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
-	attachment_y_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
+	attachments_onnew = list(/obj/item/gun_attachment/stock/m39)
+	attachments_flags = BARREL|OPTICS|UNDERBARREL|STOCK|PAINT
+	attachment_x_offsets = list("barrel" = 29, "optics" = 10, "underbarrel" = 24, "stock" = 8, "paint" = 0)//TO BE SET
+	attachment_y_offsets = list("barrel" = 2, "optics" = 2, "underbarrel" = -2, "stock" = 0, "paint" = 0)//TO BE SET
 
 /obj/item/weapon/gun/projectile/automatic/m39/update_icon(ammobased_iconstate = FALSE)
 	icon_state = "m39[magazine ? "" : "-0"]"
@@ -363,9 +366,9 @@
 	icon_state = "nsg23"
 	item_state = "nsg23"
 	weapon_weight = WEAPON_LIGHT
-	mag_type = /obj/item/ammo_box/magazine/m39
-	attachment_x_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
-	attachment_y_offsets = list("barrel" = 0, "optics" = 0, "underbarrel" = 0, "stock" = 0, "paint" = 0)//TO BE SET
+	mag_type = /obj/item/ammo_box/magazine/nsg23
+	attachment_x_offsets = list("barrel" = 30, "optics" = 11, "underbarrel" = 20, "stock" = 0, "paint" = 0)//TO BE SET
+	attachment_y_offsets = list("barrel" = 3, "optics" = 5, "underbarrel" = -1, "stock" = 2, "paint" = 0)//TO BE SET
 
 /obj/item/weapon/gun/projectile/automatic/nsg23/update_icon(ammobased_iconstate = FALSE)
 	icon_state = "nsg23[magazine ? "" : "-0"]"

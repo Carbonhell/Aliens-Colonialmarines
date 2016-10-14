@@ -365,12 +365,12 @@
 	name = "M41A crate"
 	contains = list(/obj/item/weapon/gun/projectile/automatic/m41a,
 					/obj/item/weapon/gun/projectile/automatic/m41a,
-					/obj/item/ammo_box/magazine/smgm45/m41a,
-					/obj/item/ammo_box/magazine/smgm45/m41a,
-					/obj/item/ammo_box/magazine/smgm45/m41a,
-					/obj/item/ammo_box/magazine/smgm45/m41a,
-					/obj/item/ammo_box/magazine/smgm45/m41a,
-					/obj/item/ammo_box/magazine/smgm45/m41a)
+					/obj/item/ammo_box/magazine/m41a,
+					/obj/item/ammo_box/magazine/m41a,
+					/obj/item/ammo_box/magazine/m41a,
+					/obj/item/ammo_box/magazine/m41a,
+					/obj/item/ammo_box/magazine/m41a,
+					/obj/item/ammo_box/magazine/m41a)
 	cost = 5000
 	crate_name = "m41a crate"
 
@@ -391,12 +391,12 @@
 	name = "NSG23 Crate"
 	contains = list(/obj/item/weapon/gun/projectile/automatic/nsg23,
 					/obj/item/weapon/gun/projectile/automatic/nsg23,
-					/obj/item/ammo_box/magazine/m39,
-					/obj/item/ammo_box/magazine/m39,
-					/obj/item/ammo_box/magazine/m39,
-					/obj/item/ammo_box/magazine/m39,
-					/obj/item/ammo_box/magazine/m39,
-					/obj/item/ammo_box/magazine/m39)
+					/obj/item/ammo_box/magazine/nsg23,
+					/obj/item/ammo_box/magazine/nsg23,
+					/obj/item/ammo_box/magazine/nsg23,
+					/obj/item/ammo_box/magazine/nsg23,
+					/obj/item/ammo_box/magazine/nsg23,
+					/obj/item/ammo_box/magazine/nsg23)
 	cost = 4000
 	crate_name = "nsg23 crate"
 
@@ -415,12 +415,14 @@
 
 /datum/supply_pack/security/mixedammo
 	name = "Mixed Ammo Crate"
-	contains = list(/obj/item/ammo_box/magazine/smgm45/m41a,
-					/obj/item/ammo_box/magazine/smgm45/m41a,
-					/obj/item/ammo_box/magazine/smgm45/m41a,
-					/obj/item/ammo_box/magazine/smgm45/m41a,
+	contains = list(/obj/item/ammo_box/magazine/m41a,
+					/obj/item/ammo_box/magazine/m41a,
+					/obj/item/ammo_box/magazine/m41a,
+					/obj/item/ammo_box/magazine/m41a,
 					/obj/item/ammo_box/magazine/m39,
 					/obj/item/ammo_box/magazine/m39,
+					/obj/item/ammo_box/magazine/nsg23,
+					/obj/item/ammo_box/magazine/nsg23,
 					/obj/item/ammo_box/magazine/m12g/slug,
 					/obj/item/ammo_box/magazine/m12g/slug)
 	cost = 3000

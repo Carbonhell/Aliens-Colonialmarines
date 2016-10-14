@@ -38,7 +38,7 @@
 
 /obj/item/projectile/bullet/rocket/on_hit(atom/target, blocked = 0)
 	..()
-	explosion(target, -1, 0, 2)
+	explosion(target, -1, 1, 2)
 	return 1
 
 /obj/item/projectile/bullet/a40mm

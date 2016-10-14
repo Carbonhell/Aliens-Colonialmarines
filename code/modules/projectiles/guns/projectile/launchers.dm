@@ -73,13 +73,26 @@
 		update_icon()
 		chamber_round()
 
-/obj/item/weapon/gun/projectile/automatic/sadar
+/obj/item/weapon/gun/projectile/sadar
 	name = "M83A2 SADAR"
 	desc = "The M83A2 SADAR (Shoulder-launched Active-homing Disposable Anti-tank Rocket) is a lightweight one-shot anti-armor weapon capable of engaging enemy vehicles at ranges up to 1,000 m."
 	icon_state = "sadar"
 	item_state = "sadar"
 	w_class = 4
 	fire_sound = 'sound/weapons/grenadelaunch.ogg'
-	burst_size = 1
 	mag_type = /obj/item/ammo_box/magazine/internal/sadar
 	actions_types = list(/datum/action/item_action/wield)
+
+/obj/item/weapon/gun/projectile/sadar/attack_self(mob/user)
+	if(chambered)
+		chambered.loc = get_turf(src)//eject rocket
+		chambered = null
+		user << "<span class='notice'>You unload the rocket from \the [src]!</span>"
+
+/obj/item/weapon/gun/projectile/sadar/attackby(obj/item/A, mob/user, params)
+	if(..())
+		return
+	var/num_loaded = magazine.attackby(A, user, params, 1)
+	if(num_loaded)
+		user << "<span class='notice'>You load [num_loaded] rocket\s into \the [src]!</span>"
+		chamber_round()

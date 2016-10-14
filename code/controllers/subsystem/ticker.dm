@@ -189,7 +189,7 @@ var/datum/subsystem/ticker/ticker
 
 	Master.RoundStart()
 
-	world << "<FONT color='blue'><B>Welcome to [station_name()], enjoy your stay!</B></FONT>"
+	world << "<FONT color='blue'><B>Welcome to [station_name()], eat something, gear up and go fight!</B></FONT>"
 	world << sound('sound/AI/welcome.ogg')
 
 	if(SSevent.holidays)

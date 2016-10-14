@@ -3,7 +3,7 @@ var/list/existing_beacons = list()//fuck you,i can't think of a better way godda
 /obj/item/device/beacon
 	name = "standard beacon"
 	desc = "A device capable of sending a signal with an internal long-lasting energy cell."
-	icon_state = "powersink0"
+	icon_state = "beacon-0"
 	item_state = "electronic"
 	w_class = 3
 	var/on = FALSE
@@ -22,6 +22,7 @@ var/list/existing_beacons = list()//fuck you,i can't think of a better way godda
 	var/datum/squad/S = squadtext2datum(signal)
 	if(S)
 		S.beacons += src
+	update_icon()
 
 /obj/item/device/beacon/Destroy()
 	var/datum/squad/S = squadtext2datum(signal)
@@ -48,7 +49,8 @@ var/list/existing_beacons = list()//fuck you,i can't think of a better way godda
 	..()
 
 /obj/item/device/beacon/update_icon()
-	icon_state = "powersink[on]"
+	..()
+	icon_state = "[signal]beacon-[on]"
 
 
 //Actual beacons
