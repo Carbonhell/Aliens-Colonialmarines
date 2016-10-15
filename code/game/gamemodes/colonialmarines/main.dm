@@ -25,11 +25,14 @@
 		survivor_candidates.Cut(max_surv_amt+1)//remove the excess survivors
 	return 1
 
-/datum/game_mode/colonialmarines/post_setup()
+/datum/game_mode/colonialmarines/pre_setup()
 	for(var/i in antag_candidates)
 		var/datum/mind/M = i//less lag than typechecking in the for loop!
 		M.make_Alien(spawnpoint = pick(xeno_spawn))//defaults to larva
 		M.current << "You are an alien! Reproduce and make a new home out of this place. Speak in the hivemind with :a (Like ':a Hello fellow sisters!')"
+		if(islarva(M.current))
+			var/mob/living/carbon/alien/larva/L = M.current
+			L.amount_grown = L.max_grown
 	for(var/survy in survivor_candidates)
 		if(isemptylist(survivor_spawn))
 			break
@@ -125,7 +128,6 @@
 			break
 
 /datum/game_mode/colonialmarines/send_intercept()
-	var/intercepttext = "<b><i>USCM Status Summary</i></b><hr>"
-	intercepttext += "<b>A distress signal has been sent from a Weyland-Yutani colony and you've been sent to deal with the issue. The signal says that there are unknown lifeforms everywhere, then goes static."
+	var/intercepttext = "A distress signal has been sent from a Weyland-Yutani colony and you've been sent to deal with the issue. The signal says that there are unknown lifeforms everywhere, then goes static."
 	intercepttext += "That's all we know. Gear up and save any survivor, while cleaning this xenomorphic infestation, along with doing what the Liaison asks."
 	priority_announce(intercepttext, "Distress signal location reached.", 'sound/AI/intercept.ogg')

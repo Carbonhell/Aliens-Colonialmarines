@@ -10,6 +10,7 @@
 	mutant_bodyparts = list("tail_human", "ears", "wings")
 	default_features = list("mcolor" = "FFF", "tail_human" = "None", "ears" = "None", "wings" = "None")
 	use_skintones = 1
+	roundstart = 1
 	skinned_type = /obj/item/stack/sheet/animalhide/human
 	teeth_type = /obj/item/stack/teeth/human
 
@@ -185,7 +186,7 @@
 	id = "ipc"
 	say_mod = "beeps"
 	default_color = "00FF00"
-	roundstart = 1
+	roundstart = 0
 	specflags = list(MUTCOLORS,EYECOLOR,LIPS,HAIR)
 	attack_verb = "punch"
 	attack_sound = 'sound/weapons/smash.ogg'

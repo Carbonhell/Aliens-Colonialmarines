@@ -132,6 +132,7 @@
 
 /obj/structure/alien/resin/door/proc/switchstate()
 	density = !density
+	opacity = !opacity
 	flick("flick_[density]", src)
 	icon_state = "door_[density]"
 

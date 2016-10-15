@@ -51,7 +51,7 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 	if(..())
 		return
 	if (src.z > ZLEVEL_CENTCOM) //Can only use on centcom and SS13
-		usr << "<span class='boldannounce'>Unable to establish a connection</span>: \black You're too far away from the station!"
+		usr << "<span class='boldannounce'>Unable to establish a connection</span>: \black You're too far away from the ship!"
 		return
 	usr.set_machine(src)
 
@@ -72,7 +72,7 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 				if(src.check_access(I))
 					authenticated = 1
 					auth_id = "[I.registered_name] ([I.assignment])"
-					if((20 in I.access))
+					if((access_sulaco_executive in I.access))
 						authenticated = 2
 				if(src.emagged)
 					authenticated = 2
@@ -87,7 +87,7 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 				var/obj/item/device/pda/pda = I
 				I = pda.id
 			if (I && istype(I))
-				if(access_captain in I.access)
+				if(access_sulaco_executive in I.access)
 					var/old_level = security_level
 					if(!tmp_alertlevel) tmp_alertlevel = SEC_LEVEL_GREEN
 					if(tmp_alertlevel < SEC_LEVEL_GREEN) tmp_alertlevel = SEC_LEVEL_GREEN
@@ -121,11 +121,11 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 				if(CM.lastTimeUsed + 600 > world.time)
 					usr << "Arrays recycling.  Please stand by."
 					return
-				var/input = stripped_multiline_input(usr, "Please choose a message to transmit to an allied station.  Please be aware that this process is very expensive, and abuse will lead to... termination.", "Send a message to an allied station.", "")
+				var/input = stripped_multiline_input(usr, "Please choose a message to transmit to an allied ship.  Please be aware that this process is very expensive, and abuse will lead to... termination.", "Send a message to an allied ship.", "")
 				if(!input || !(usr in view(1,src)))
 					return
 				send2otherserver("[station_name()]", input,"Comms_Console")
-				minor_announce(input, title = "Outgoing message to allied station")
+				minor_announce(input, title = "Outgoing message to allied ship")
 				log_say("[key_name(usr)] has sent a message to the other server: [input]")
 				message_admins("[key_name_admin(usr)] has sent a message to the other server.")
 				CM.lastTimeUsed = world.time
@@ -219,12 +219,12 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 				if(CM.lastTimeUsed + 600 > world.time)
 					usr << "Arrays recycling.  Please stand by."
 					return
-				var/input = stripped_input(usr, "Please choose a message to transmit to Centcom via quantum entanglement.  Please be aware that this process is very expensive, and abuse will lead to... termination.  Transmission does not guarantee a response.", "Send a message to Centcomm.", "")
+				var/input = stripped_input(usr, "Please choose a message to transmit to USCM via quantum entanglement.  Please be aware that this process is very expensive, and abuse will lead to... termination.  Transmission does not guarantee a response.", "Send a message to USCM.", "")
 				if(!input || !(usr in view(1,src)))
 					return
 				Centcomm_announce(input, usr)
 				usr << "Message transmitted."
-				log_say("[key_name(usr)] has made a Centcom announcement: [input]")
+				log_say("[key_name(usr)] has made an USCM announcement: [input]")
 				CM.lastTimeUsed = world.time
 
 
@@ -257,8 +257,8 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 					return
 				Nuke_request(input, usr)
 				usr << "Request sent."
-				log_say("[key_name(usr)] has requested the nuclear codes from Centcomm")
-				priority_announce("The codes for the on-station nuclear self-destruct have been requested by [usr]. Confirmation or denial of this request will be sent shortly.", "Nuclear Self Destruct Codes Requested",'sound/AI/commandreport.ogg')
+				log_say("[key_name(usr)] has requested the nuclear codes from USCM")
+				priority_announce("The codes for the on-ship nuclear self-destruct have been requested by [usr]. Confirmation or denial of this request will be sent shortly.", "Nuclear Self Destruct Codes Requested",'sound/AI/commandreport.ogg')
 				CM.lastTimeUsed = world.time
 
 
@@ -352,7 +352,7 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 	if(..())
 		return
 	if (src.z > 6)
-		user << "<span class='boldannounce'>Unable to establish a connection</span>: \black You're too far away from the station!"
+		user << "<span class='boldannounce'>Unable to establish a connection</span>: \black You're too far away from the ship!"
 		return
 
 	user.set_machine(src)
@@ -396,15 +396,15 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 
 				dat += "<BR>\[ <A HREF='?src=\ref[src];operation=status'>Set Status Display</A> \]"
 				if (src.authenticated==2)
-					dat += "<BR><BR><B>Captain Functions</B>"
-					dat += "<BR>\[ <A HREF='?src=\ref[src];operation=announce'>Make a Captain's Announcement</A> \]"
+					dat += "<BR><BR><B>Commander Functions</B>"
+					dat += "<BR>\[ <A HREF='?src=\ref[src];operation=announce'>Make a Commander's Announcement</A> \]"
 					if(cross_allowed)
-						dat += "<BR>\[ <A HREF='?src=\ref[src];operation=crossserver'>Send a message to an allied station</A> \]"
+						dat += "<BR>\[ <A HREF='?src=\ref[src];operation=crossserver'>Send a message to an allied ship</A> \]"
 					dat += "<BR>\[ <A HREF='?src=\ref[src];operation=changeseclevel'>Change Alert Level</A> \]"
 					dat += "<BR>\[ <A HREF='?src=\ref[src];operation=emergencyaccess'>Emergency Maintenance Access</A> \]"
 					dat += "<BR>\[ <A HREF='?src=\ref[src];operation=nukerequest'>Request Nuclear Authentication Codes</A> \]"
 					if(src.emagged == 0)
-						dat += "<BR>\[ <A HREF='?src=\ref[src];operation=MessageCentcomm'>Send Message to Centcom</A> \]"
+						dat += "<BR>\[ <A HREF='?src=\ref[src];operation=MessageCentcomm'>Send Message to USCM</A> \]"
 					else
 						dat += "<BR>\[ <A HREF='?src=\ref[src];operation=MessageSyndicate'>Send Message to \[UNKNOWN\]</A> \]"
 						dat += "<BR>\[ <A HREF='?src=\ref[src];operation=RestoreBackup'>Restore Backup Routing Data</A> \]"
@@ -582,7 +582,7 @@ var/const/CALL_SHUTTLE_REASON_LENGTH = 12
 	return dat
 
 /obj/machinery/computer/communications/proc/make_announcement(mob/living/user, is_silicon)
-	var/input = stripped_input(user, "Please choose a message to announce to the station crew.", "What?")
+	var/input = stripped_input(user, "Please choose a message to announce to the ship crew.", "What?")
 	if(!input || !user.canUseTopic(src))
 		return
 	if(is_silicon)

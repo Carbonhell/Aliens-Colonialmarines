@@ -7,7 +7,7 @@
 	health = 120
 	timerMax = 200
 	tier = 1
-	evolves_to = list("praetorian")//can evolve to queen directly
+	evolves_to = list("praetorian", "queen")//can evolve to queen directly
 	caste_desc = "The ones behind the stage, these little ones suck at combat but they are the builders of the Hive."
 	mob_size = MOB_SIZE_HUMAN
 

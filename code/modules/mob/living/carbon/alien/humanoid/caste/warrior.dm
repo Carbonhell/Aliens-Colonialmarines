@@ -6,7 +6,7 @@
 	maxHealth = 150
 	health = 150
 	timerMax = 500
-	move_delay_add = -1
+	move_delay_add = -2
 	tier = 1
 	melee_protection = 1.5
 	evolves_to = list("crusher","ravager")

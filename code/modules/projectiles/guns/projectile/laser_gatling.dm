@@ -184,6 +184,9 @@
 		else
 			qdel(src)//No pack, no gun
 
+/obj/item/weapon/gun/projectile/minigun/attack_hand(mob/user)
+	return //to fix an ugly bug with gun duplication when you attack it with your other empty hand
+
 /obj/item/weapon/gun/projectile/minigun/smartgun
 	name = "M56 smartgun"
 	desc = "The marine's best friend, the M56 has an electronic device able to stop friendly fire."

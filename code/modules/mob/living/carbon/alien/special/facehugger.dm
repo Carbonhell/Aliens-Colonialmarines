@@ -14,6 +14,7 @@ var/const/MAX_ACTIVE_TIME = 200
 	icon = 'icons/mob/alien.dmi'
 	icon_state = "facehugger"
 	item_state = "facehugger"
+	anchored = TRUE //To avoid being able to be pulled by aliens. It should technically work,but it can potentially cause issues. Let's place our bets!
 	w_class = 1 //note: can be picked up by aliens unlike most other items of w_class below 4
 	flags = MASKINTERNALS
 	throw_range = 1
@@ -103,9 +104,11 @@ var/const/MAX_ACTIVE_TIME = 200
 		visible_message("<span class='danger'>The facehugger is furiously cannibalized by the nearby horde of other ones!</span>")
 		qdel(src)
 		return
+	spawn(20) // 2 seconds delay before it starts hunting again
+		attached = FALSE
 
 /obj/item/clothing/mask/facehugger/attack_hand(mob/user)
-	if((stat == CONSCIOUS && !sterile))
+	if((stat == CONSCIOUS && !sterile) && (loc != user))
 		if(Attach(user))
 			return
 	..()
@@ -180,9 +183,7 @@ var/const/MAX_ACTIVE_TIME = 200
 	if(attached)
 		return 0
 	else
-		attached++
-		spawn(MAX_IMPREGNATION_TIME)
-			attached = 0
+		attached = TRUE
 	if(M.getorgan(/obj/item/organ/alien/hivenode))
 		return 0
 	if(M.getorgan(/obj/item/organ/body_egg/alien_embryo))

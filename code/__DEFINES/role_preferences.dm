@@ -28,7 +28,6 @@
 #define ROLE_PAI				"pAI"
 #define ROLE_SURVIVOR			"survivor"
 #define ROLE_RESPONDER			"responder"
-#define ROLE_PREDATOR			"predator"
 
 //Missing assignment means it's not a gamemode specific role, IT'S NOT A BUG OR ERROR.
 //The gamemode specific ones are just so the gamemodes can query whether a player is old enough
@@ -38,7 +37,6 @@ var/global/list/special_roles = list(
 	ROLE_PAI,
 	ROLE_SURVIVOR,
 	ROLE_RESPONDER,
-	ROLE_PREDATOR,
 )
 
 //Job defines for what happens when you fail to qualify for any job during job selection

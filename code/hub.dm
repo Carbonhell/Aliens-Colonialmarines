@@ -1,3 +1,4 @@
+#define PUTONHUB 1
 /world
 
 	hub = "Exadv1.spacestation13"

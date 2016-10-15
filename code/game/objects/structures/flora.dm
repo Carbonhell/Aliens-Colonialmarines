@@ -276,19 +276,16 @@
 
 /obj/structure/flora/rock
 	icon_state = "basalt"
-	desc = "A volcanic rock"
+	desc = "A volcanic rock."
 	icon = 'icons/obj/flora/rocks.dmi'
 	burn_state = FIRE_PROOF
 	density = 1
 
 /obj/structure/flora/rock/New()
 	..()
-	icon_state = "[icon_state][rand(1,3)]"
+	icon_state = "[initial(icon_state)][rand(1,3)]"
 
 /obj/structure/flora/rock/pile
 	icon_state = "lavarocks"
 	desc = "A pile of rocks"
 
-/obj/structure/flora/rock/pile/New()
-	..()
-	icon_state = "[icon_state][rand(1,3)]"

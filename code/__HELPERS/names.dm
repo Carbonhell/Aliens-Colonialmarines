@@ -32,7 +32,7 @@ var/command_name = null
 	if (command_name)
 		return command_name
 
-	var/name = "Central Command"
+	var/name = "USCM"
 
 	command_name = name
 	return name

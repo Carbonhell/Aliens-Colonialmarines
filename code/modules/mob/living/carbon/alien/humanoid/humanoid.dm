@@ -150,7 +150,7 @@
 		toggle_leap(0)
 		//It's also extremely buggy visually, so it's balance+bugfix
 		return
-	if(!usePlasma(-10))
+	if(!usePlasma(10))
 		src << "<span class='alertalien'>You have not enough plasma to pounce right now!</span>"
 		toggle_leap(0)
 		return

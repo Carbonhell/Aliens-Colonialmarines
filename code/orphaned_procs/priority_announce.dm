@@ -9,17 +9,17 @@
 		if (title && length(title) > 0)
 			announcement += "<br><h2 class='alert'>[html_encode(title)]</h2>"
 	else if(type == "Captain")
-		announcement += "<h1 class='alert'>Captain Announces</h1>"
-		news_network.SubmitArticle(text, "Captain's Announcement", "Station Announcements", null)
+		announcement += "<h1 class='alert'>Commander Announces</h1>"
+		news_network.SubmitArticle(text, "Commander's Announcement", "Sulaco Announcements", null)
 
 	else
 		announcement += "<h1 class='alert'>[command_name()] Update</h1>"
 		if (title && length(title) > 0)
 			announcement += "<br><h2 class='alert'>[html_encode(title)]</h2>"
 		if(title == "")
-			news_network.SubmitArticle(text, "Central Command Update", "Station Announcements", null)
+			news_network.SubmitArticle(text, "USCM Update", "Sulaco Announcements", null)
 		else
-			news_network.SubmitArticle(title + "<br><br>" + text, "Central Command", "Station Announcements", null)
+			news_network.SubmitArticle(title + "<br><br>" + text, "USCM", "Sulaco Announcements", null)
 
 	announcement += "<br><span class='alert'>[html_encode(text)]</span><br>"
 	announcement += "<br>"
@@ -30,7 +30,7 @@
 			if(M.client.prefs.toggles & SOUND_ANNOUNCEMENTS)
 				M << sound(sound)
 
-/proc/print_command_report(text = "", title = "Central Command Update")
+/proc/print_command_report(text = "", title = "USCM Update")
 	for (var/obj/machinery/computer/communications/C in machines)
 		if(!(C.stat & (BROKEN|NOPOWER)) && C.z == ZLEVEL_STATION)
 			var/obj/item/weapon/paper/P = new /obj/item/weapon/paper( C.loc )
