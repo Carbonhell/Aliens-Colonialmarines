@@ -373,6 +373,9 @@
 /turf/open/floor/plasteel/vaporwave
 	icon_state = "pinkblack"
 
+/turf/open/floor/plasteel/grillerfloor
+	icon_state = "griller_floor"
+
 /turf/open/floor/plasteel/goonplaque
 	icon_state = "plaque"
 	name = "Commemorative Plaque"
@@ -408,6 +411,12 @@
 	icon_state = "stairs-m"
 /turf/open/floor/plasteel/stairs/right
 	icon_state = "stairs-r"
+/turf/open/floor/plasteel/stairs/left_t
+	icon_state = "stairs-lt"
+/turf/open/floor/plasteel/stairs/medium_t
+	icon_state = "stairs-mt"
+/turf/open/floor/plasteel/stairs/right_t
+	icon_state = "stairs-rt"
 /turf/open/floor/plasteel/stairs/old
 	icon_state = "stairs-old"
 
