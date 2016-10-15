@@ -98,6 +98,15 @@
 	for(var/obj/structure/closet/closet in T)
 		if(closet != src && !closet.wall_mounted)
 			return 0
+
+	var/hugger_count = 0
+	for (var/obj/item/clothing/mask/facehugger in T)
+		hugger_count++
+
+	if (hugger_count > 2 && isalien(user))
+		user << "<span class='danger'>There are too many facehuggers in here to close the closet!</span>"
+		return
+
 	for(var/mob/living/L in T)
 		if(L.anchored || horizontal && L.mob_size > MOB_SIZE_TINY && L.density)
 			if(user)

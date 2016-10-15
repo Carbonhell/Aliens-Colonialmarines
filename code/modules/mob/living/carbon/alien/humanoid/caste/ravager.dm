@@ -15,6 +15,10 @@
 	internal_organs += new /obj/item/organ/alien/plasmavessel/small
 	..()
 
+/mob/living/carbon/alien/humanoid/big/ravager/movement_delay()
+	. = ..()
+	. -= 0.4
+
 /mob/living/carbon/alien/humanoid/big/ravager/throw_impact(atom/A)
 
 	if(!leaping)

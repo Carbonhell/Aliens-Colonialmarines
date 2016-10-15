@@ -14,10 +14,15 @@
 	can_leap = TRUE
 	leap_range = 7
 
+
 /mob/living/carbon/alien/humanoid/warrior/New()
 	internal_organs += new /obj/item/organ/alien/plasmavessel/small
 	AddAbility(new /obj/effect/proc_holder/alien/sneak)
 	..()
+
+/mob/living/carbon/alien/humanoid/sentinel/movement_delay()
+	. = ..()
+	. -= 0.5
 
 /mob/living/carbon/alien/humanoid/warrior/throw_impact(atom/A)
 

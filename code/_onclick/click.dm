@@ -223,6 +223,8 @@
 	For most objects, pull
 */
 /mob/proc/CtrlClickOn(atom/A)
+	if (istype(A, /obj/item/clothing/mask/facehugger))
+		return
 	A.CtrlClick(src)
 	return
 

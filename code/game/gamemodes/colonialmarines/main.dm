@@ -76,7 +76,7 @@
 		if(1)//aliens won
 			feedback_set_details("round_end_result","alien win - major")
 			world << "<FONT size = 3><B>Aliens Major Victory!</B></FONT>"
-			world << "<B>The infestation continues, the human kind is definitely in danger now!</B>"
+			world << "<B>The infestation continues; human kind is definitely in danger now!</B>"
 		if(2)//
 			feedback_set_details("round_end_result","marine win - major")
 			world << "<FONT size = 3><B>Marines Major Victory!</B></FONT>"

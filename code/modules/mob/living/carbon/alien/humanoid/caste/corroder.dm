@@ -17,3 +17,7 @@
 	AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/repulse/xeno(src))
 
 	..()
+
+/mob/living/carbon/alien/humanoid/big/corroder/movement_delay()
+	. = ..()
+	. += 0.5

@@ -17,3 +17,7 @@
 	internal_organs += new /obj/item/organ/alien/neurotoxin/spitter
 	AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/repulse/xeno(src))
 	..()
+
+/mob/living/carbon/alien/humanoid/big/praetorian/movement_delay()
+	. = ..()
+	. += 0.4

@@ -16,7 +16,7 @@
 		shuttleId = C.shuttleId
 
 /obj/machinery/computer/shuttle/attack_hand(mob/user)
-	if(..(user))
+	if(..(user) && !istype(user, /mob/living/carbon/alien/humanoid/big/queen))
 		return
 	src.add_fingerprint(usr)
 

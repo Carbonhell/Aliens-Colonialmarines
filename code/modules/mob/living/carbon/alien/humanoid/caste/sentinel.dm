@@ -16,3 +16,7 @@
 	internal_organs += new /obj/item/organ/alien/neurotoxin/spitter
 	AddAbility(new /obj/effect/proc_holder/alien/sneak())
 	..()
+
+/mob/living/carbon/alien/humanoid/sentinel/movement_delay()
+	. = ..()
+	. -= 0.3
