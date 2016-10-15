@@ -367,24 +367,36 @@
 	icon_state = "m12gbc"
 	ammo_type = /obj/item/ammo_casing/shotgun/breaching
 
-/obj/item/ammo_box/magazine/smgm45/m41a
+/obj/item/ammo_box/magazine/m41a
 	name = "M41A magazine (10x24mm Caseless)"
+	icon_state = "m41a-1"
 	ammo_type = /obj/item/ammo_casing/caseless/m41a
 	caliber = "10x24"
 	max_ammo = 40
 
+/obj/item/ammo_box/magazine/m41a/update_icon()
+	..()
+	icon_state = "m41a-[ammo_count() ? "1" : "0"]"
+
 /obj/item/ammo_box/magazine/m39
 	name = "M39 magazine (7.62mm Caseless)"
-	icon_state = "smg9mm-42"
+	icon_state = "m39-1"
 	ammo_type = /obj/item/ammo_casing/caseless/m39
 	caliber = "m762"
 	max_ammo = 48
 
 /obj/item/ammo_box/magazine/m39/update_icon()
-	if(ammo_count())
-		icon_state = "smg9mm-42"
-	else
-		icon_state = "smg9mm-0"
+	icon_state = "m39-[ammo_count() ? "1" : "0"]"
+
+/obj/item/ammo_box/magazine/nsg23
+	name = "NSG23 magazine (7.62mm Caseless)"
+	icon_state = "nsg23-1"
+	ammo_type = /obj/item/ammo_casing/caseless/m39
+	caliber = "m762"
+	max_ammo = 48
+
+/obj/item/ammo_box/magazine/nsg23/update_icon()
+	icon_state = "nsg23-[ammo_count() ? "1" : "0"]"
 
 //// SNIPER MAGAZINES
 

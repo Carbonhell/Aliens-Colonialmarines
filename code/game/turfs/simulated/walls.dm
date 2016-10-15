@@ -75,6 +75,8 @@
 	new /obj/item/stack/sheet/metal(src)
 
 /turf/closed/wall/ex_act(severity, target)
+	if(z == ZLEVEL_PLANET)
+		baseturf = /turf/open/floor/plating/desert
 	if(target == src)
 		dismantle_wall(1,1)
 		return

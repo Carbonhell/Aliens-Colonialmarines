@@ -123,3 +123,9 @@
 		if(A && A.mind && A.client)
 			. = 0
 			break
+
+/datum/game_mode/colonialmarines/send_intercept()
+	var/intercepttext = "<b><i>USCM Status Summary</i></b><hr>"
+	intercepttext += "<b>A distress signal has been sent from a Weyland-Yutani colony and you've been sent to deal with the issue. The signal says that there are unknown lifeforms everywhere, then goes static."
+	intercepttext += "That's all we know. Gear up and save any survivor, while cleaning this xenomorphic infestation, along with doing what the Liaison asks."
+	priority_announce(intercepttext, "Distress signal location reached.", 'sound/AI/intercept.ogg')

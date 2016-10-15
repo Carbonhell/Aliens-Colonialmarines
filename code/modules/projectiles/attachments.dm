@@ -126,6 +126,7 @@
 /obj/item/gun_attachment/optics/sniper
 	name = "multiple spectrum sight"
 	desc = "An electronic scope that sees in the televisual, infra-red and electromagnetic spectrums."
+	icon_state = "mss"
 	zoom_amt = 7
 	action_path = /datum/action/item_action/attachment/zoom/mss
 	var/old_seeinvisible = null
@@ -243,6 +244,17 @@
 			user.AddLuminosity(-brightness_on)
 	..()
 //STOCK
+//Base stocks,aesthetical
+/obj/item/gun_attachment/stock/m41a
+	name = "m41a stock"
+	desc = "A stock commonly found on M41As."
+	icon_state = "m41a_stock"
+
+/obj/item/gun_attachment/stock/m39
+	name = "m39 stock"
+	desc = "A stock commonly found on M39s."
+	icon_state = "m39_stock"
+
 /obj/item/gun_attachment/stock/re93
 	name = "RE93 Absorbing Stock"
 	desc = "A spring loaded, shock-absorbing rifle stock that allows you to wield the gun with a single hand without recoil. Although, it decreases accuracy. Useless on guns that are already one-handed."
@@ -289,15 +301,16 @@
 
 /datum/action/item_action/attachment/zoom/IsAvailable()
 	if(!..())
+		zoom(owner, FALSE)
 		return 0
 	var/obj/item/weapon/gun/G = target
 	if(!istype(G))
+		zoom(owner, FALSE)
 		return 0
 	var/obj/item/gun_attachment/optics/Z = locate() in G.attachments
 	if(!istype(Z))
-		return 0
-	if(Z.zoomed)
 		zoom(owner, FALSE)
+		return 0
 	return 1
 
 /datum/action/item_action/attachment/zoom/Trigger()

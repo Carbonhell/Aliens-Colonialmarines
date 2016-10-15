@@ -55,6 +55,7 @@
 /obj/item/weapon/minigunpack/dropped(mob/user)
 	if(armed)
 		user.unEquip(gun,1)
+	..()
 
 /obj/item/weapon/minigunpack/MouseDrop(atom/over_object)
 	if(armed)

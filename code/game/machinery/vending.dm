@@ -85,7 +85,9 @@
 							/obj/machinery/vending/cola = "Robust Softdrinks",
 							/obj/machinery/vending/cigarette = "ShadyCigs Deluxe",
 							/obj/machinery/vending/autodrobe = "AutoDrobe",
-							/obj/machinery/vending/clothing = "ClothesMate")
+							/obj/machinery/vending/clothing = "ClothesMate",
+							/obj/machinery/vending/marine/ammunition = "weapon rack",
+							/obj/machinery/vending/special = "specialist")
 
 /obj/item/weapon/circuitboard/machine/vendor/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/weapon/screwdriver))
