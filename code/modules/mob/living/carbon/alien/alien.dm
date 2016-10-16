@@ -39,7 +39,6 @@ var/queen_died_recently = FALSE
 	var/leaping = 0
 
 	var/caste = ""
-	var/caste_desc = ""
 
 	gib_type = /obj/effect/decal/cleanable/xenoblood/xgibs
 	unique_name = 1
@@ -261,8 +260,7 @@ Des: Removes all infected images from the alien.
 /mob/living/carbon/alien/examine(mob/user)
 	if(!user)
 		return
-	if(isalien(user)  && caste_desc)
-		user << caste_desc
+	..()
 
 	if(stat == DEAD)
 		user << "It is not moving anymore."
@@ -281,7 +279,6 @@ Des: Removes all infected images from the alien.
 				user << "It bleeds with sizzling wounds."
 			if(1 to 24)
 				user << "It is heavily injured and limping badly."
-	return
 
 /mob/living/carbon/alien/Destroy()
 	aliens -= src

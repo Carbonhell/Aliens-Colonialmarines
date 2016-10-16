@@ -534,4 +534,4 @@
 		declare_cooldown = 0
 
 /obj/machinery/bot_core/medbot
-	req_one_access =list(access_medical, access_robotics)
+	req_access =list(access_sulaco_medbay)

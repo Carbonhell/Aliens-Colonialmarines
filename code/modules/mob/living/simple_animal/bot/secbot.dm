@@ -415,4 +415,4 @@ Auto Patrol: []"},
 	..()
 
 /obj/machinery/bot_core/secbot
-	req_access = list(access_security)
+	req_access = list(access_sulaco_brig)

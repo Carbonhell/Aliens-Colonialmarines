@@ -316,8 +316,9 @@
 		return
 
 /obj/structure/closet/attack_alien(mob/living/user)
-	return attack_hand(user)
-
+	user.do_attack_animation(src)
+	visible_message("<span class='danger'>[user] destroys \the [src].</span>")
+	qdel(src)
 
 // tk grab then use on self
 /obj/structure/closet/attack_self_tk(mob/user)

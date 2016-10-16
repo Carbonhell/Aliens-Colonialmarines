@@ -5,7 +5,6 @@
 	icon_state = "aliencorroder"
 	maxHealth = 180
 	health = 180
-	caste_desc = "The xenomorph's mortar, it can defeat its enemies from behind the lines and can melt things extremely quickly."
 	luminosity = 3
 
 /mob/living/carbon/alien/humanoid/big/corroder/New()

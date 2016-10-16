@@ -10,7 +10,6 @@
 	tier = 1
 	melee_protection = 1.5
 	evolves_to = list("crusher","ravager")
-	caste_desc = "The warrior, known to find his prey alone and snatching it without alarming the enemies."
 	can_leap = TRUE
 	leap_range = 7
 

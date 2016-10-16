@@ -276,6 +276,7 @@ Doesn't work on other aliens/AI.*/
 	var/soundspit = pick("sound/voice/alien_spitacid.ogg","sound/voice/alien_spitacid2.ogg")
 	playsound(user.loc, soundspit, 50, 1, 1)
 	user.newtonian_move(get_dir(U, T))
+	remove_ranged_ability(user)
 	spawn(0)
 		charge_max = initial(charge_max) * N.chosenammo
 		start_recharge()
@@ -463,6 +464,7 @@ Doesn't work on other aliens/AI.*/
 		turfsleft--
 		new /obj/effect/sprayed_acid(T)
 		sleep(2)
+	remove_ranged_ability(user)
 	return TRUE
 
 /obj/effect/proc_holder/alien/zoom

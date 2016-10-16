@@ -1,2 +1,1 @@
 carbonhell role=admin
-shamzie role=admin

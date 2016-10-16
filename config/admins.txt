@@ -8,4 +8,6 @@
 # NOTE: syntax was changed to allow hyphenation of ranknames, since spaces are stripped.      #
 ###############################################################################################
 Carbonhell = Host
-Shamzie = Host
+Shamzie = Trial Admin
+Mini_Meatwad = Trial Admin
+Oprayx73 = Trial Admin

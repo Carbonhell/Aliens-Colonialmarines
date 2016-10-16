@@ -7,7 +7,6 @@
 	icon_state = "alienpraetorian"
 	evolves_to = list("queen")
 	melee_protection = 1.5
-	caste_desc = "The queen's bodyguards, these aliens are tasked to protect the hive with their defensive power."
 
 /mob/living/carbon/alien/humanoid/big/praetorian/New()
 

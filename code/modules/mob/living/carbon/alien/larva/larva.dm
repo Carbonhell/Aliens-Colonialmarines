@@ -1,5 +1,6 @@
 /mob/living/carbon/alien/larva
 	name = "alien larva"
+	desc = "D'awww, so cute!"
 	real_name = "alien larva"
 	icon_state = "larva0"
 	pass_flags = PASSTABLE | PASSMOB
@@ -16,7 +17,6 @@
 	var/time_of_birth
 
 	rotate_on_lying = 0
-	caste_desc = "D'awww, so cute!"
 
 //This is fine right now, if we're adding organ specific damage this needs to be updated
 /mob/living/carbon/alien/larva/New()

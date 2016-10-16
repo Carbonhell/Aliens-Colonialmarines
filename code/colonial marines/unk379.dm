@@ -51,7 +51,7 @@
 
 /area/sulaco/tcomms
 	name = "Comms"
-	icon_state = "tcommsatcomp"
+	icon_state = "tcommsatcham"
 
 /area/sulaco/containment
 	name = "Containment"

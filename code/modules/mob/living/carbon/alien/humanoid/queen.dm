@@ -12,6 +12,7 @@ var/global/list/queenckeys = list()
 
 /mob/living/carbon/alien/humanoid/big/queen
 	name = "alien queen"
+	desc = "The one, the queen, the biggest. This lady controls everything, with an iron fist. Well, claw."
 	icon_state = "alienqueen"
 	caste = "queen"
 	maxHealth = 400
@@ -19,7 +20,6 @@ var/global/list/queenckeys = list()
 	unique_name = 0
 	tier = 3
 	is_intelligent = TRUE
-	caste_desc = "The one, the queen, the biggest. This lady controls everything, with an iron fist. Well, claw."
 
 /mob/living/carbon/alien/humanoid/big/queen/death(gibbed, corpse = FALSE)
 	if(stat == DEAD)

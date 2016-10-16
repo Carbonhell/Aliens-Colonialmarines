@@ -76,3 +76,15 @@
 		emagged = 1
 		user << "<span class='notice'>You fried the consoles ID checking system.</span>"
 
+/obj/machinery/computer/shuttle/attack_alien(mob/living/carbon/alien/A)
+	if(A.is_intelligent)
+		A << "<span class='noticealien'>You press a random button with your claw.</span>"
+		var/list/options = params2list(possible_destinations)
+		var/obj/docking_port/mobile/M = SSshuttle.getShuttle(shuttleId)
+		for(var/obj/docking_port/stationary/S in SSshuttle.stationary)
+			if(!options.Find(S.id))
+				continue
+			if(!M.check_dock(S))
+				continue
+			SSshuttle.moveShuttle(shuttleId, S.id, 1)
+			break

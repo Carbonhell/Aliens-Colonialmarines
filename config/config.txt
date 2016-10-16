@@ -1,5 +1,5 @@
 ## Server name: This appears at the top of the screen in-game. Remove the # infront of SERVERNAME and replace 'tgstation' with the name of your choice
-# SERVERNAME Aliens: Colonial Marines
+SERVERNAME Aliens: Colonial Marines
 
 ## Station name: The name of the station as it is referred to in-game. If commented out, the game will generate a random name instead.
 STATIONNAME Space Station 13
@@ -144,19 +144,19 @@ CHECK_RANDOMIZER
 # SERVER ss13.example.com:2506
 
 ## forum address
-# FORUMURL http://tgstation13.org/phpBB/index.php
+FORUMURL https://discord.gg/PKs3yab
 
 ## Wiki address
-# WIKIURL http://www.tgstation13.org/wiki
+WIKIURL https://discord.gg/PKs3yab
 
 ##Rules address
-# RULESURL http://www.tgstation13.org/wiki/Rules
+RULESURL https://discord.gg/PKs3yab
 
 ##Github address
-# GITHUBURL https://www.github.com/tgstation/-tg-station
+GITHUBURL https://github.com/Carbonhell/Aliens-Colonialmarines-WIP
 
 ## Ban appeals URL - usually for a forum or wherever people should go to contact your admins.
-# BANAPPEALS http://justanotherday.example.com
+BANAPPEALS https://discord.gg/PKs3yab
 
 ## In-game features
 ##Toggle for having jobs load up from the .txt
