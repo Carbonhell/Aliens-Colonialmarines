@@ -9,6 +9,7 @@
 	move_delay_add = -2
 	can_leap = TRUE
 	leap_range = 4
+	move_delay_add = -4.5
 
 /mob/living/carbon/alien/humanoid/big/ravager/New()
 	internal_organs += new /obj/item/organ/alien/plasmavessel/small

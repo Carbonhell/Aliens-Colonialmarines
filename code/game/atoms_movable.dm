@@ -18,8 +18,6 @@
 	glide_size = 8
 	appearance_flags = TILE_BOUND|KEEP_TOGETHER
 
-
-
 /atom/movable/Move(atom/newloc, direct = 0)
 	if(!loc || !newloc) return 0
 	var/atom/oldloc = loc

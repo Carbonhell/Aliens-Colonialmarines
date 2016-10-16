@@ -20,6 +20,7 @@ var/global/list/queenckeys = list()
 	unique_name = 0
 	tier = 3
 	is_intelligent = TRUE
+	move_delay_add = -3
 
 /mob/living/carbon/alien/humanoid/big/queen/death(gibbed, corpse = FALSE)
 	if(stat == DEAD)

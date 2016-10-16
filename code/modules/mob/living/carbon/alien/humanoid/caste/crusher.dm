@@ -10,6 +10,7 @@
 	var/speed = 0
 	var/olddir
 	var/timeout = 0
+	move_delay_add = -3.5
 
 /mob/living/carbon/alien/humanoid/big/crusher/New()
 	internal_organs += new /obj/item/organ/alien/plasmavessel

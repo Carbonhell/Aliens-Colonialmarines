@@ -9,6 +9,7 @@
 	tier = 1
 	evolves_to = list("praetorian", "queen")//can evolve to queen directly
 	mob_size = MOB_SIZE_HUMAN
+	move_delay_add = -3.33
 
 /mob/living/carbon/alien/humanoid/drone/New()
 	internal_organs += new /obj/item/organ/alien/plasmavessel/large

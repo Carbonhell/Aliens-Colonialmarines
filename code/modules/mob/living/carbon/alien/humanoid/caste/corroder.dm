@@ -6,6 +6,7 @@
 	maxHealth = 180
 	health = 180
 	luminosity = 3
+	move_delay_add = -2.5
 
 /mob/living/carbon/alien/humanoid/big/corroder/New()
 	internal_organs += new /obj/item/organ/alien/plasmavessel/large/corroder

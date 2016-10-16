@@ -36,6 +36,13 @@ var/const/MAX_ACTIVE_TIME = 200
 /obj/item/clothing/mask/facehugger/New()
 	..()
 	START_PROCESSING(SSobj, src)
+
+/obj/item/clothing/mask/facehugger/Move()
+	if (pulledby)
+		pulledby.pulling = null
+		pulledby = null
+		return
+	..()
 //<vg>
 /obj/item/clothing/mask/facehugger/process()
 	followtarget()
