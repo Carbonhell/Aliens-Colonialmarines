@@ -12,6 +12,7 @@
 	evolves_to = list("crusher","ravager")
 	can_leap = TRUE
 	leap_range = 7
+	move_delay_add = -4
 
 /mob/living/carbon/alien/humanoid/warrior/New()
 	internal_organs += new /obj/item/organ/alien/plasmavessel/small

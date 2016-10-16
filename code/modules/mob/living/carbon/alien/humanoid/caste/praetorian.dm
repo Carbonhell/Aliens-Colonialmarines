@@ -7,6 +7,7 @@
 	icon_state = "alienpraetorian"
 	evolves_to = list("queen")
 	melee_protection = 1.5
+	move_delay_add = -3.25
 
 /mob/living/carbon/alien/humanoid/big/praetorian/New()
 
