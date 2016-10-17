@@ -1380,7 +1380,7 @@ window "infowindow"
 		right-click = false
 		saved-params = "is-checked"
 		on-size = ""
-		text = "Forum"
+		text = "Discord"
 		image = ""
 		command = "forum"
 		is-flat = false
