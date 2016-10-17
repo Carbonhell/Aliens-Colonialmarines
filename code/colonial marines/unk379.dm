@@ -691,6 +691,36 @@
 	new /obj/item/weapon/gun/energy/gun/advtaser(src)
 	new /obj/item/weapon/melee/baton/loaded(src)
 
+/obj/structure/closet/secure_closet/commander
+	name = "\proper commander's locker"
+	req_access = list(access_sulaco_commander)
+	icon_state = "cap"
+
+/obj/structure/closet/secure_closet/commander/New()
+	..()
+	new /obj/item/clothing/suit/hooded/wintercoat/captain(src)
+	if(prob(50))
+		new /obj/item/weapon/storage/backpack/captain(src)
+	else
+		new /obj/item/weapon/storage/backpack/satchel/cap(src)
+	new /obj/item/clothing/suit/cloak/cap(src)
+	new /obj/item/weapon/storage/backpack/dufflebag/captain(src)
+	new /obj/item/clothing/head/crown/fancy(src)
+	new /obj/item/clothing/suit/captunic(src)
+	new /obj/item/clothing/under/captainparade(src)
+	new /obj/item/clothing/head/caphat/parade(src)
+	new /obj/item/clothing/under/rank/commander(src)
+	new /obj/item/weapon/storage/belt/military/army(src)
+	new /obj/item/clothing/suit/armor/vest/capcarapace/alt(src)
+	new /obj/item/weapon/cartridge/captain(src)
+	new /obj/item/clothing/shoes/laceup(src)
+	new /obj/item/weapon/storage/box/silver_ids(src)
+	new /obj/item/device/radio/headset/heads/captain/alt(src)
+	new /obj/item/device/radio/headset/heads/captain(src)
+	new /obj/item/clothing/glasses/sunglasses/gar/supergar(src)
+	new /obj/item/clothing/gloves/color/captain(src)
+	new /obj/item/weapon/storage/belt/sabre(src)
+
 /obj/item/device/encryptionkey/alpha
 	name = "alpha encryption key"
 	desc = "An encryption key for a radio headset.  To access the alpha channel, use :q."
