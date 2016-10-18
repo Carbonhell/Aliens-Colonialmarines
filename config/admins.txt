@@ -11,4 +11,3 @@ Carbonhell = Host
 Shamzie = Trial Admin
 Mini_Meatwad = Trial Admin
 Oprayx73 = Trial Admin
-furrychicken = Host
