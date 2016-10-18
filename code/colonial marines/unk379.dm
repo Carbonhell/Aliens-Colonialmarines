@@ -498,7 +498,11 @@
 
 /obj/item/weapon/storage/lockbox/speckit
 	name = "specialist kit"
+	icon_state = "uscmbox-deny"
 	req_access = list(access_marine_specprep)
+	icon_locked = "uscmbox-deny"
+	icon_closed = "uscmbox-allow"
+	icon_broken = "uscmbox-emag"
 
 /obj/item/weapon/storage/lockbox/speckit/sadar
 	name = "SADAR kit"

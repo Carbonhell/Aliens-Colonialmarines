@@ -20,6 +20,7 @@
 	var/max_ammo = 300
 	var/obj/item/weapon/stock_parts/cell/cell
 	var/obj/item/device/paicard/pai
+	var/obj/item/weapon/remote_turret/remote
 
 /obj/machinery/porta_turret/syndicate/marine/New()
 	..()
@@ -91,7 +92,11 @@
 				return
 			manual_override = !manual_override
 			dir_lock = 1//must be on
-			usr << "<span class='notice'>You turn the manual override [manual_override ? "on" : "off"].</span>"
+			usr << "<span class='notice'>You turn the manual override [manual_override ? "on" : "off"] and the turret [manual_override ? "ejects" : "retracts"] its remote screen.</span>"
+			if(manual_override)
+				remote = new(get_turf(src), linkedturret = src)
+			else
+				qdel(remote)
 		if("ejectpai")
 			if(pai)
 				pai.forceMove(loc)
@@ -109,6 +114,7 @@
 			user << "<span class='notice'>You unfasten the turret's bolts.</span>"
 		else
 			user << "<span class='danger'>Turn it off first!</span>"
+		return
 	else if(istype(I, /obj/item/weapon/screwdriver))
 		if(!on)
 			if(cell)
@@ -120,12 +126,14 @@
 				user << "<span class='notice'>There's no cell to remove!</span>"
 		else
 			user << "<span class='danger'>Turn it off first!</span>"
+		return
 	else if(istype(I, /obj/item/weapon/stock_parts/cell) && !cell)
 		user << "<span class='notice'>You begin inserting \the [I] inside \the [src]...</span>"
 		if(do_after(user, 30, target = src))
 			I.forceMove(src)
 			cell = I
 			user << "<span class='notice'>You successfully insert \the [I].</span>"
+		return
 	else if(istype(I, /obj/item/weapon/weldingtool))
 		var/obj/item/weapon/weldingtool/W = I
 		if(!W.welding || W.welding == 2)
@@ -136,6 +144,7 @@
 		if(do_after(user, 20/W.toolspeed, target = src))
 			user << "<span class='notice'>You fix some dents on \the [src]."
 			health = min(initial(health), health+30)
+		return
 	else if(istype(I, /obj/item/device/paicard))
 		var/obj/item/device/paicard/P = I
 		if(!user.unEquip(P))
@@ -145,6 +154,11 @@
 		pai = P
 		P.forceMove(src)
 		update_icon()
+		return
+	else if(istype(I, /obj/item/weapon/remote_turret))
+		user << "<span class='notice'>You re-insert the remote inside \the [src].</span>"
+		qdel(remote)
+		manual_override = FALSE
 	else
 		..()
 
@@ -185,6 +199,11 @@
 		shot_delay = initial(shot_delay)
 
 /obj/machinery/porta_turret/syndicate/marine/process()
+	if(remote)
+		if(get_dist(src, remote) > 1)
+			remote.visible_message("<span class='warning'>[remote] rapidly retracts back into its turret storage.</span>", "<span class='italics'>You hear a click and the sound of wire spooling rapidly.</span>")
+			qdel(remote)
+			manual_override = FALSE
 	if(!on)
 		return
 	if(check_power(0.1))//should be 1 power per sec
@@ -224,3 +243,125 @@
 	else if(pai)
 		base_icon_state = "sentryPAI"
 	icon_state = "[base_icon_state][on == 1 ? "Bullet" : "Off"]"
+
+/obj/item/weapon/remote_turret
+	name = "machine gun linked screen"
+	desc = "A screen linked to a machine gun via cable."
+	icon = 'icons/obj/device.dmi'
+	icon_state = "gangtool-white"
+	var/obj/machinery/porta_turret/syndicate/marine/turret
+
+/obj/item/weapon/remote_turret/New(location, linkedturret)
+	..()
+	if(linkedturret)
+		turret = linkedturret
+	else
+		qdel(src)
+
+/obj/item/weapon/remote_turret/afterattack(atom/target, mob/user, proximity)
+	if(turret)
+		turret.shootAt(target)
+
+//Marine turret build stages
+/obj/item/sentry_sensor
+	name = "sentry sensor"
+	desc = "A sensor commonly found mounted on machine guns."
+	icon = 'icons/obj/turrets.dmi'
+	icon_state = "sentrySensor"
+
+/obj/item/sentry_top
+	name = "sentry top"
+	desc = "A machine gun barrel commonly found mounted on machine guns."
+	icon = 'icons/obj/turrets.dmi'
+	icon_state = "sentryTop"
+
+/obj/machinery/porta_turret_construct/sentry
+	name = "machine gun frame"
+	icon_state = "sentryBase"
+	turrettype = /obj/machinery/porta_turret/syndicate/marine
+
+/obj/machinery/porta_turret_construct/sentry/update_icon()
+	switch(build_step)
+		if(PTURRET_UNSECURED || PTURRET_BOLTED)
+			icon_state = "sentryBase"
+		if(PTURRET_START_INTERNAL_ARMOUR)
+			icon_state = "sentryWired"
+		if(PTURRET_INTERNAL_ARMOUR_ON)
+			icon_state = "sensorless"
+		if(PTURRET_SENSORS_ON)
+			icon_state = "sentryOff"
+
+/obj/machinery/porta_turret_construct/sentry/attack_hand(mob/user)
+	return
+
+/obj/machinery/porta_turret_construct/sentry/pturret_bolted_stage(obj/item/I, mob/user)
+	if(istype(I, /obj/item/stack/cable_coil))
+		var/obj/item/stack/cable_coil/C = I
+		if(C.use(5))
+			user << "<span class='notice'>You add wires to \the [src].</span>"
+			build_step = PTURRET_START_INTERNAL_ARMOUR
+			update_icon()
+			return 1
+	else if(istype(I, /obj/item/weapon/wrench))
+		playsound(loc, 'sound/items/Ratchet.ogg', 75, 1)
+		user << "<span class='notice'>You unfasten the external bolts.</span>"
+		anchored = FALSE
+		build_step = PTURRET_UNSECURED
+		return 1
+
+/obj/machinery/porta_turret_construct/sentry/pturret_internalarmor_stage(obj/item/I, mob/user)
+	if(istype(I, /obj/item/sentry_top))
+		if(user.unEquip(I))
+			user << "<span class='notice'>You add \the [I] to the frame.</span>"
+			qdel(I)
+			build_step = PTURRET_INTERNAL_ARMOUR_ON
+			update_icon()
+			return 1
+	else if(istype(I, /obj/item/weapon/wirecutters))
+		new /obj/item/stack/cable_coil(get_turf(src), amount = 5)
+		user << "<span class='notice'>You cut the wires from \the [src].</span>"
+		build_step = PTURRET_BOLTED
+		update_icon()
+		return 1
+
+/obj/machinery/porta_turret_construct/sentry/pturret_afterarmor_stage(obj/item/I, mob/user)
+	if(istype(I, /obj/item/sentry_sensor))
+		if(user.unEquip(I))
+			user << "<span class='notice'>You add \the [I] to the frame.</span>"
+			qdel(I)
+			build_step = PTURRET_SENSORS_ON//yes,we jumped a define,not needed
+			update_icon()
+			return 1
+	else if(istype(I, /obj/item/weapon/crowbar))
+		var/obj/item/sentry_top/T = new(get_turf(src))
+		user << "<span class='notice'>You remove \the [T] to the frame.</span>"
+		build_step = PTURRET_START_INTERNAL_ARMOUR
+		update_icon()
+		return 1
+
+/obj/machinery/porta_turret_construct/sentry/pturret_afterproxi_stage(obj/item/I, mob/user)
+	if(..())
+		return 1
+	if(istype(I, /obj/item/weapon/crowbar))
+		var/obj/item/sentry_sensor/T = new(get_turf(src))
+		user << "<span class='notice'>You remove \the [T] to the frame.</span>"
+		build_step = PTURRET_INTERNAL_ARMOUR_ON
+		update_icon()
+		return 1
+
+
+/obj/item/weapon/storage/box/sentry
+	name = "sentry box"
+	desc = "A large box containing a DIY sentry kit."
+	w_class = 5
+	icon_state = "uscmbox"
+
+/obj/item/weapon/storage/box/sentry/New()
+	..()
+	new /obj/item/stack/sheet/metal(src, 7)
+	new /obj/item/weapon/wrench(src)
+	new /obj/item/stack/cable_coil(src, 5)
+	new /obj/item/sentry_top(src)
+	new /obj/item/sentry_sensor(src)
+	new /obj/item/weapon/screwdriver(src)
+	new /obj/item/weapon/weldingtool(src)
