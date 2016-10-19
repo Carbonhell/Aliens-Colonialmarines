@@ -65,6 +65,7 @@
 		var/mob/living/carbon/alien/A = a
 		if(A && A.mind && A.client)
 			num_aliens_survived++
+
 	var/winner = check_finished()
 	switch(winner)
 		if(0)//everybody died,jeez
@@ -112,19 +113,19 @@
 		world << thesurvies
 
 /datum/game_mode/colonialmarines/proc/check_aliens()
-	. = 1
+	. = 0
 	for(var/i in aliens)
 		var/mob/living/carbon/alien/A = i
 		if(A && A.mind && A.client)
-			. = 0
+			. = 1
 			break
 
 /datum/game_mode/colonialmarines/proc/check_humans()
-	. = 1
+	. = 0
 	for(var/i in humans)
-		var/mob/living/carbon/human/A = i
-		if(A && A.mind && A.client)
-			. = 0
+		var/mob/living/carbon/human/H = i
+		if(H && H.mind && H.client)
+			. = 1
 			break
 
 /datum/game_mode/colonialmarines/send_intercept()
