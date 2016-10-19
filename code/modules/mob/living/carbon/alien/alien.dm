@@ -71,6 +71,8 @@ var/queen_died_recently = FALSE
 	var/random_name = pick(alien_names)
 	name = "[random_name] [caste]"
 	real_name = name
+	if(queen_died_recently)
+		throw_alert("alien_noqueen", /obj/screen/alert/alien_vulnerable)
 
 /mob/living/carbon/alien/movement_delay()
 	. = ..()

@@ -27,7 +27,8 @@
 	..()
 
 /obj/item/weapon/minigunpack/process()
-	overheat = max(0, overheat - heat_diffusion)
+	if(overheat_max)
+		overheat = max(0, overheat - heat_diffusion)
 
 /obj/item/weapon/minigunpack/attack_hand(mob/living/carbon/user)
 	if(loc == user)
@@ -113,10 +114,15 @@
 	if(!gun || ispath(gun) || !gun.magazine)
 		return//just how
 	user.visible_message("[user] begins to reload \the [gun]...", "You begin to reload \the [gun]...")
+	gun.semicd = TRUE
 	if(do_after(user, 30, target = src))
 		user.visible_message("[user] reloads \the [gun]!", "You reload \the [gun]!")
 		gun.magazine.attackby(box, user, silent = 1)
 		gun.chamber_round()
+		gun.semicd = FALSE
+	else
+		user << "<span class='warning'>You fail to reload \the [gun], don't move while reloading!</span>"
+		gun.semicd = FALSE
 
 /obj/item/weapon/minigunpack/smartgun/update_icon()
 	..()
@@ -197,4 +203,5 @@
 	burst_size = 1
 	fire_delay = 1
 	automatic = 1
+	flags = CONDUCT | NODROP
 	mag_type = /obj/item/ammo_box/magazine/internal/smartgun

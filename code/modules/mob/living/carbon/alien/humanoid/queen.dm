@@ -39,6 +39,8 @@ var/global/list/queenckeys = list()
 	..()
 
 /proc/reset_queendeath()
+	if(!queen_died_recently)
+		return
 	queen_died_recently = FALSE
 	xeno_message("The queen death's event starts to fade from your mind, you feel like the hive's ready for its next queen...")
 	for(var/mob/living/carbon/alien/A in aliens)

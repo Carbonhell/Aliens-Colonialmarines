@@ -40,6 +40,11 @@
 			user << "You must wait to become powerful enough to evolve. Currently at: [user.timerGrow] / [user.timerMax]."
 			return
 
+	if(chosen_caste == "queen")//gotta check if you can evolve
+		if(queen_died_recently)
+			user << "<span class='warning'>A queen died too recently for you to replace it! Wait some more time.</span>"
+			return
+
 	user.visible_message("<span class='greentext'><b>\The [user] begins to twist and contort..</b></span>","<span class='greentext'><b>You begin to twist and contort..</b></span>")
 	if(do_after(user,25))
 		if(!user.can_evolve())

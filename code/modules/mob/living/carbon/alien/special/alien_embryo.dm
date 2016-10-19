@@ -91,8 +91,14 @@ var/const/ALIEN_AFK_BRACKET = 450 // 45 seconds
 			stage = 4 // Let's try again later.
 			return
 
-	var/overlay = image('icons/mob/alien.dmi', loc = owner, icon_state = "burst_lie")
-	owner.add_overlay(overlay)
+	if(ishuman(owner))
+		var/mob/living/carbon/human/H = owner
+		var/tempoverlay = image('icons/mob/alien.dmi', loc = owner, icon_state = "burst_[H.lying ? "lie" : "stand"]")
+		var/permoverlay = image('icons/mob/alien.dmi', loc = owner, icon_state = "bursted_[H.lying ? "lie" : "stand"]")
+		H.add_overlay(tempoverlay)
+		spawn(6)
+			H.overlays -= tempoverlay
+			H.add_overlay(permoverlay, 1)
 
 	var/atom/xeno_loc = get_turf(owner)
 	var/mob/living/carbon/alien/larva/new_xeno = new(xeno_loc)
@@ -107,10 +113,12 @@ var/const/ALIEN_AFK_BRACKET = 450 // 45 seconds
 			new_xeno.notransform = 0
 			new_xeno.invisibility = 0
 		if(kill_on_success)
-			owner.death()
+			var/obj/item/organ/heart/heart = locate() in owner.internal_organs
+			qdel(heart)//metal as fuck
+			owner.adjustBruteLoss(200)
 		else
 			owner.adjustBruteLoss(40)
-		owner.overlays -= overlay
+		RemoveInfectionImages()
 		qdel(src)
 
 
@@ -119,7 +127,7 @@ Proc: AddInfectionImages(C)
 Des: Adds the infection image to all aliens for this embryo
 ----------------------------------------*/
 /obj/item/organ/body_egg/alien_embryo/AddInfectionImages()
-	for(var/mob/living/carbon/alien/alien in player_list)
+	for(var/mob/living/carbon/alien/alien in aliens)
 		if(alien.client)
 			var/I = image('icons/mob/alien.dmi', loc = owner, icon_state = "infected[stage]")
 			alien.client.images += I
@@ -129,7 +137,7 @@ Proc: RemoveInfectionImage(C)
 Des: Removes all images from the mob infected by this embryo
 ----------------------------------------*/
 /obj/item/organ/body_egg/alien_embryo/RemoveInfectionImages()
-	for(var/mob/living/carbon/alien/alien in player_list)
+	for(var/mob/living/carbon/alien/alien in aliens)
 		if(alien.client)
 			for(var/image/I in alien.client.images)
 				if(dd_hasprefix_case(I.icon_state, "infected") && I.loc == owner)

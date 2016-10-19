@@ -228,7 +228,7 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 
 /obj/screen/alert/alien_vulnerable
 	name = "Severed Matriarchy"
-	desc = "Your queen has been killed, you will suffer movement penalties and loss of hivemind. A new queen cannot be made until you recover."
+	desc = "Your queen has been killed, you will be unable to move at first. A new queen cannot be made until you recover."
 	icon_state = "alien_noqueen"
 	alerttooltipstyle = "alien"
 
