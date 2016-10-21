@@ -150,21 +150,16 @@
 		toggle_leap(0)
 		//It's also extremely buggy visually, so it's balance+bugfix
 		return
-	if(!usePlasma(10))
-		src << "<span class='alertalien'>You have not enough plasma to pounce right now!</span>"
-		toggle_leap(0)
-		return
-	else
-		leaping = 1
-		weather_immunities += "lava"
-		update_icons()
-		throw_at(A,leap_range,1, spin=0, diagonals_first = 1)//this defines the effect of each leap.
-		leaping = 0
-		weather_immunities -= "lava"
-		update_icons()
+	leaping = 1
+	weather_immunities += "lava"
+	update_icons()
+	throw_at(A,leap_range,1, spin=0, diagonals_first = 1)//this defines the effect of each leap.
+	leaping = 0
+	weather_immunities -= "lava"
+	update_icons()
+	pounce_cooldown = !pounce_cooldown
+	spawn(pounce_cooldown_time) //3s by default
 		pounce_cooldown = !pounce_cooldown
-		spawn(pounce_cooldown_time) //3s by default
-			pounce_cooldown = !pounce_cooldown
 
 /mob/living/carbon/alien/humanoid/proc/toggle_leap(message = 1)
 	leap_on_click = !leap_on_click

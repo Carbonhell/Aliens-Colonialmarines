@@ -28,6 +28,9 @@
 /datum/game_mode/colonialmarines/pre_setup()
 	if(isemptylist(antag_candidates))
 		return 0
+	shuffle(antag_candidates)
+	if(antag_candidates.len > recommended_enemies)
+		antag_candidates.Cut(recommended_enemies+1)//remove exceed candidates
 	for(var/i in antag_candidates)
 		var/datum/mind/M = i//less lag than typechecking in the for loop!
 		M.make_Alien(spawnpoint = pick(xeno_spawn))//defaults to larva
