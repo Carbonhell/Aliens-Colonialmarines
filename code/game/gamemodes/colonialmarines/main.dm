@@ -51,11 +51,7 @@
 	return 1
 
 /datum/game_mode/colonialmarines/check_finished()
-	. = 0
-	if(check_aliens())
-		.++
-	if(check_humans())
-		. += 2
+	. = no_aliens_left() + no_humans_left()
 
 /datum/game_mode/colonialmarines/declare_completion()
 	var/num_marines_survived = 0
@@ -72,9 +68,9 @@
 		if(A && A.mind && A.client)
 			num_aliens_survived++
 
-	var/winner = check_finished()
+	var/winner = no_aliens_left() + no_humans_left()
 	switch(winner)
-		if(0)//everybody died,jeez
+		if(3)//everybody died,jeez
 			if(station_was_nuked)
 				feedback_set_details("round_end_result","marine win - minor")
 				world << "<FONT size = 3><B>Marines Minor Victory!</B></FONT>"
@@ -87,11 +83,11 @@
 			feedback_set_details("round_end_result","alien win - major")
 			world << "<FONT size = 3><B>Aliens Major Victory!</B></FONT>"
 			world << "<B>The infestation continues, the human kind is definitely in danger now!</B>"
-		if(2)//
+		if(2)//humans won
 			feedback_set_details("round_end_result","marine win - major")
 			world << "<FONT size = 3><B>Marines Major Victory!</B></FONT>"
 			world << "<B>The infestation has been cleared successfully. Marines, now you can return home!</B>"
-		if(3)//both teams are still alive,aka marines evacuated
+		if(0)//both teams are still alive,aka marines evacuated
 			feedback_set_details("round_end_result","alien win - minor")
 			world << "<FONT size = 3><B>Aliens Minor Victory!</B></FONT>"
 			world << "<B>The marines have failed to clear the infestation, the hive can live for another day.</B>"
@@ -118,20 +114,20 @@
 				thesurvies += "."
 		world << thesurvies
 
-/datum/game_mode/colonialmarines/proc/check_aliens()
-	. = 0
+/datum/game_mode/colonialmarines/proc/no_aliens_left()
+	. = 2
 	for(var/i in aliens)
 		var/mob/living/carbon/alien/A = i
 		if(A && A.mind && A.client)
-			. = 1
+			. = 0
 			break
 
-/datum/game_mode/colonialmarines/proc/check_humans()
-	. = 0
+/datum/game_mode/colonialmarines/proc/no_humans_left()
+	. = 1
 	for(var/i in humans)
 		var/mob/living/carbon/human/H = i
 		if(H && H.mind && H.client)
-			. = 1
+			. = 0
 			break
 
 /datum/game_mode/colonialmarines/send_intercept()
