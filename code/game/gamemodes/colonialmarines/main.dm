@@ -26,6 +26,8 @@
 	return 1
 
 /datum/game_mode/colonialmarines/pre_setup()
+	if(isemptylist(antag_candidates))
+		return 0
 	for(var/i in antag_candidates)
 		var/datum/mind/M = i//less lag than typechecking in the for loop!
 		M.make_Alien(spawnpoint = pick(xeno_spawn))//defaults to larva
@@ -43,6 +45,7 @@
 		survivor_candidates[survy] = H.real_name
 		H.equipOutfit(pick(subtypesof(/datum/outfit/survivor)))//random outfit
 	..()
+	return 1
 
 /datum/game_mode/colonialmarines/check_finished()
 	. = 0
