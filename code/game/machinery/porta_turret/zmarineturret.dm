@@ -1,4 +1,5 @@
-/obj/machinery/porta_turret/syndicate/marine
+//oh my god this is worse than expected,this really needs a rewrite fucking now
+/obj/machinery/porta_turret/syndicate/marine//This and guns need a complete rewrite,their code is cancerous and makes me want to cut my dick off
 	name = "machine gun"
 	desc = "A smart machine gun capable of avoiding friendly fire and dealing huge amount of damage."
 	icon_state = "sentryOff"
@@ -13,9 +14,13 @@
 	on = 0
 	projectile = /obj/item/projectile/bullet/smart
 	eprojectile = /obj/item/projectile/bullet/smart
+	shot_delay = 4//handled differently
 	var/dir_lock = 0
 	var/manual_override = 0
 	var/burst_fire = 0
+	var/burst = 1//how many bullets get shot. gets set to min if burst_fire = 0, otherwise to max
+	var/burst_min = 1
+	var/burst_max = 3
 	var/ammo = 300
 	var/max_ammo = 300
 	var/obj/item/weapon/stock_parts/cell/cell
@@ -40,12 +45,20 @@
 				<A href='?src=\ref[src];op=direction'>Direction Cycle Lock:</a> [dir_lock ? "ON, " : ""]"
 	if(dir_lock)
 		switch(dir)
+			if(NORTHWEST)
+				dat += "NORTHWEST<BR>"
 			if(NORTH)
 				dat += "NORTH<BR>"
+			if(NORTHEAST)
+				dat += "NORTHEAST<BR>"
 			if(EAST)
 				dat += "EAST<BR>"
+			if(SOUTHEAST)
+				dat += "SOUTHEAST<BR>"
 			if(SOUTH)
 				dat += "SOUTH<BR>"
+			if(SOUTHWEST)
+				dat += "SOUTHWEST<BR>"
 			if(WEST)
 				dat += "WEST<BR>"
 	else
@@ -53,7 +66,7 @@
 	if(cell)
 		dat += "Power Cell: [cell.charge] / [cell.maxcharge]<BR>"
 	dat += "Burst Fire: [burst_fire ? "<b>ON</b>" : "<A href='?src=\ref[src];op=burst'>ON</a>"]/[burst_fire ? "<A href='?src=\ref[src];op=burst'>OFF</a>" : "<b>OFF</b>"]<br>"
-	dat += "AI Logic: <A href='?src=\ref[src];op=manual_override'>[manual_override ? "<b>ON</b>" : "OVERRIDE"]</a><br>"
+	dat += "Manual Override: <A href='?src=\ref[src];op=manual_override'>[manual_override ? "<b>ON</b>" : "OVERRIDE"]</a><br>"
 	dat += "pAI: [pai ? "<A href='?src=\ref[src];op=ejectpai'>EJECT</a>" : "NONE"]."
 	user.set_machine(src)
 	user << browse(dat, "window=turret;size=300x400")
@@ -62,30 +75,34 @@
 /obj/machinery/porta_turret/syndicate/marine/Topic(href, href_list)
 	if(..())
 		return
+	if(!Adjacent(usr))
+		return
 	usr.set_machine(src)
 	add_fingerprint(usr)
 	switch(href_list["op"])
 		if("power")
-			if(on == -1)
-				return //no cell
+			if(on == -1 || !anchored)
+				return //no cell/trying to exploit you little nigger HUH
 			on = !on
+			usr << "<span class='notice'>You turn \the [src] [on ? "on" : "off"].</span>"
 			if(on)
 				SetLuminosity(7)
+				visible_message("<span class='notice'>[src] hums to life and emits several beeps.</span>")
+				visible_message("\icon[src] [src] buzzes in a monotone: 'Default systems initiated.'")
 			else
 				SetLuminosity(0)
+				visible_message("<span class='notice'>As \the [src] shuts off, the remote snaps back to it quickly.</span>")
+				qdel(remote)
 			update_icon()
-			usr << "<span class='notice'>You turn \the [src] [on ? "on" : "off"].</span>"
-			visible_message("<span class='notice'>[src] hums to life and emits several beeps.</span>")
-			visible_message("\icon[src] [src] buzzes in a monotone: 'Default systems initiated.'")
 		if("direction")
-			if(!on)
+			if(!on || manual_override)
 				return
 			dir_lock = !dir_lock
 			usr << "<span class='notice'>You turn the direction lock [dir_lock ? "on" : "off"].</span>"
 		if("burst")
 			if(!on)
 				return
-			burst_fire = !burst_fire
+			update_burst()
 			usr << "<span class='notice'>You turn the burst fire [burst_fire ? "on" : "off"].</span>"
 		if("manual_override")
 			if(!on)
@@ -111,7 +128,7 @@
 	if(istype(I, /obj/item/weapon/wrench))
 		if(!on)
 			anchored = !anchored
-			user << "<span class='notice'>You unfasten the turret's bolts.</span>"
+			user << "<span class='notice'>You [anchored ? "fasten" : "unfasten"] the turret's bolts.</span>"
 		else
 			user << "<span class='danger'>Turn it off first!</span>"
 		return
@@ -159,6 +176,21 @@
 		user << "<span class='notice'>You re-insert the remote inside \the [src].</span>"
 		qdel(remote)
 		manual_override = FALSE
+		return
+	else if(istype(I, /obj/item/turret_ammobox))
+		var/obj/item/turret_ammobox/ammobox = I
+		var/ammo_space = max_ammo - ammo
+		if(ammo_space <= 0)
+			user << "<span class='notice'>\The [src] is already full of ammo!</span>"
+			return
+		var/ammo_put_in = Clamp(ammobox.ammo, 0, ammo_space)
+		ammobox.ammo -= ammo_put_in
+		ammo += ammo_put_in
+		ammobox.update_icon()
+		if(!ammobox.ammo)
+			qdel(ammobox)
+		user << "<span class='notice'>You insert [ammo_put_in] round\s inside \the [src].</span>"
+		return
 	else
 		..()
 
@@ -184,19 +216,41 @@
 	if(manual_override || pai)
 		return
 	if(!dir_lock)
-		shootAt(target)
+		setDir(get_dir(src, target))
 	else
-		if(is_B_faced_by_A(src, target))
-			shootAt(target)
+		if(!(get_dir(src,target) in list(turn(dir, -45),dir,turn(dir, 45))))
+			return
+	shootAt(target)
 
 /obj/machinery/porta_turret/syndicate/marine/shootAt(atom/movable/target)
-	..()
+	for(var/i in 1 to burst)
+		if(!on)
+			break
+		if(dir_lock)//stuff that may be changed meanwhile
+			if(!(get_dir(src,target) in list(turn(dir, -45),dir,turn(dir, 45))))
+				break
+		else
+			setDir(get_dir(src, target))
+		if(ammo_check())
+			return
+		..(target, TRUE)
+		ammo--
+		sleep(shot_delay)
+
+/obj/machinery/porta_turret/syndicate/marine/proc/ammo_check()
+	if(ammo <= 0)
+		visible_message("<span class='warning'>\The [src] shuts off due to a lack of ammo!</span>")
+		on = FALSE
+		SetLuminosity(0)
+		update_icon()
+		return 1
+
+/obj/machinery/porta_turret/syndicate/marine/proc/update_burst()
+	burst_fire = !burst_fire
 	if(burst_fire)
-		shot_delay = 0
-		for(var/i in 1 to 2)
-			..()
-			sleep(1)
-		shot_delay = initial(shot_delay)
+		burst = burst_max
+	else
+		burst = burst_min
 
 /obj/machinery/porta_turret/syndicate/marine/process()
 	if(remote)
@@ -365,3 +419,21 @@
 	new /obj/item/sentry_sensor(src)
 	new /obj/item/weapon/screwdriver(src)
 	new /obj/item/weapon/weldingtool(src)
+	new /obj/item/turret_ammobox(src)
+
+//Cancerous snowflake ammo box because making an actual gun would need 2muchwork4me
+/obj/item/turret_ammobox
+	name = "sentry ammo box"
+	icon = 'icons/obj/ammo.dmi'
+	icon_state = "a762-50"
+	desc = "An ammo box which fits in a marine sentry."
+	w_class = 3
+	var/ammo = 300
+
+/obj/item/turret_ammobox/examine(mob/user)
+	..()
+	user << "There's [ammo] left inside."
+
+/obj/item/turret_ammobox/update_icon()
+	icon_state = "a762-[round((ammo/6), 10)]"
+	..()

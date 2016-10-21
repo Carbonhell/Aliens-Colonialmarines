@@ -162,6 +162,9 @@
 		leaping = 0
 		weather_immunities -= "lava"
 		update_icons()
+		pounce_cooldown = !pounce_cooldown
+		spawn(pounce_cooldown_time) //3s by default
+			pounce_cooldown = !pounce_cooldown
 
 /mob/living/carbon/alien/humanoid/proc/toggle_leap(message = 1)
 	leap_on_click = !leap_on_click

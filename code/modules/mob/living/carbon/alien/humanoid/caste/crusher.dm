@@ -48,6 +48,9 @@
 		var/tempdir = turn(A.dir, direction)
 		step(A, tempdir)
 		visible_message("<span class='danger'>[src] rams into [A]!</b>","<B>You ram into [A]!</span>")
+		if(!isalien(A))
+			var/mob/living/L = A
+			L.adjustBruteLoss(momentum/2)//max is 64,therefore max damage is 32,fair i think
 	else//turf or obj
 		if(A.density)
 			if("health" in A.vars)

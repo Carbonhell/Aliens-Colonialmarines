@@ -601,11 +601,11 @@
 		return 1
 	return
 
-/obj/machinery/porta_turret/proc/shootAt(atom/movable/target)
+/obj/machinery/porta_turret/proc/shootAt(atom/movable/target, ignore_delay = FALSE)
 	if(!raised) //the turret has to be raised in order to fire - makes sense, right?
 		return
 
-	if(!emagged)	//if it hasn't been emagged, cooldown before shooting again
+	if(!emagged && !ignore_delay)	//if it hasn't been emagged, cooldown before shooting again
 		if(last_fired + shot_delay > world.time)
 			return
 		last_fired = world.time

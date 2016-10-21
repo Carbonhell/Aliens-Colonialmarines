@@ -413,6 +413,14 @@
 	cost = 8000
 	crate_name = "mk221 crate"
 
+/datum/supply_pack/security/turret_ammo
+	name = "Turret Ammo Crate"
+	contains = list(/obj/item/turret_ammobox,
+					/obj/item/turret_ammobox,
+					/obj/item/turret_ammobox)
+	cost = 2000
+	crate_name = "turret ammo crate"
+
 /datum/supply_pack/security/mixedammo
 	name = "Mixed Ammo Crate"
 	contains = list(/obj/item/ammo_box/magazine/m41a,
@@ -424,7 +432,9 @@
 					/obj/item/ammo_box/magazine/nsg23,
 					/obj/item/ammo_box/magazine/nsg23,
 					/obj/item/ammo_box/magazine/m12g/slug,
-					/obj/item/ammo_box/magazine/m12g/slug)
+					/obj/item/ammo_box/magazine/m12g/slug,
+					/obj/item/turret_ammobox,
+					/obj/item/turret_ammobox)
 	cost = 3000
 	crate_name = "mixed ammo crate"
 
