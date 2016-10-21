@@ -905,7 +905,7 @@
 	if(actiontype == /datum/action/item_action/toggle_armor_lamp)
 		on = !on
 		user << "<span class='notice'>You turn the lamp [on ? "on" : "off"].</span>"
-		on ? (lamp.icon_state = "lamp-1") : (lamp.icon_state = "lamp-0")
+		lamp.icon_state = "lamp-[on]"
 		cut_overlays()
 		add_overlay(lamp, 1)
 		user.update_inv_wear_suit()
