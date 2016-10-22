@@ -3,16 +3,15 @@
 	desc = "A fast alien with sharp claws."
 	caste = "warrior"
 	icon_state = "alienwarrior_s"
-	maxHealth = 150
-	health = 150
+	maxHealth = 250
+	health = 250
 	timerMax = 500
-	move_delay_add = -2
+	move_delay_add = -3.5
 	tier = 1
 	melee_protection = 1.5
 	evolves_to = list("crusher","ravager")
 	can_leap = TRUE
 	leap_range = 7
-	move_delay_add = -4
 
 /mob/living/carbon/alien/humanoid/warrior/New()
 	internal_organs += new /obj/item/organ/alien/plasmavessel/small

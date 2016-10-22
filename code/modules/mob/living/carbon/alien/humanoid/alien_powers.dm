@@ -411,7 +411,7 @@ Doesn't work on other aliens/AI.*/
 		var/chosenpmone = input(user, "Which pheromone would you like to emit?", "Pheromones") as null|anything in P.pheromone_types
 		if(!chosenpmone)
 			return
-		visible_message("<span class='notice'><b>[user] begins to emit strange-smelling pheromones.</b></span>","<span class='notice'><b>You begin to emit [chosenpmone] pheromones.</b></span>")
+		user.visible_message("<span class='notice'><b>[user] begins to emit strange-smelling pheromones.</b></span>","<span class='notice'><b>You begin to emit [chosenpmone] pheromones.</b></span>")
 		P.pheromone = chosenpmone
 		P.active = TRUE
 	else

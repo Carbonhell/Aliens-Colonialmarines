@@ -2,8 +2,8 @@
 	name = "alien sentinel"
 	desc = "An acid-spitting alien."
 	caste = "sentinel"
-	maxHealth = 130
-	health = 130
+	maxHealth = 230
+	health = 230
 	tier = 1
 	timerMax = 400
 	icon_state = "aliensentinel_s"

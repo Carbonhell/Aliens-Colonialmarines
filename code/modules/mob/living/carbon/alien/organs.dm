@@ -61,25 +61,27 @@
 	name = "large plasma vessel"
 	icon_state = "plasma_large"
 	w_class = 4
-	storedPlasma = 350
-	max_plasma = 750
+	storedPlasma = 300
+	max_plasma = 500
 	plasma_rate = 12
+	heal_rate = 4
 
 /obj/item/organ/alien/plasmavessel/large/hivelord
 	storedPlasma = 200
 	max_plasma = 800
-	plasma_rate = 35
+	plasma_rate = 20
+	heal_rate = 5
 
 /obj/item/organ/alien/plasmavessel/large/praetorian
 	storedPlasma = 200
-	max_plasma = 800
-	plasma_rate = 25
+	max_plasma = 600
+	plasma_rate = 20
 
 /obj/item/organ/alien/plasmavessel/large/queen
 	origin_tech = "biotech=6;plasmatech=4"
 	storedPlasma = 300
-	max_plasma = 700
-	plasma_rate = 30
+	max_plasma = 600
+	plasma_rate = 20
 
 /obj/item/organ/alien/plasmavessel/small
 	name = "small plasma vessel"
@@ -87,15 +89,16 @@
 	w_class = 2
 	storedPlasma = 50
 	max_plasma = 100
-	plasma_rate = 8
+	plasma_rate = 5
+	heal_rate = 1
 
 /obj/item/organ/alien/plasmavessel/small/tiny
 	name = "tiny plasma vessel"
 	icon_state = "plasma_tiny"
 	w_class = 1
-	storedPlasma = 100
-	max_plasma = 100
-	alien_powers = list(/obj/effect/proc_holder/alien/transfer)
+	storedPlasma = 2
+	max_plasma = 10
+	plasma_rate = 2
 
 /obj/item/organ/alien/plasmavessel/on_life()
 	if(!owner)

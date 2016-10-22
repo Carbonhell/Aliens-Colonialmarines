@@ -79,6 +79,7 @@ var/queen_died_recently = FALSE
 	if("frenzy" in active_pheromones)
 		. = round(. /FRENZYPOWERUP)
 	. += mob_size+1
+	. += move_delay_add
 
 /mob/living/carbon/alien/assess_threat() // beepsky won't hunt aliums
 	return -10

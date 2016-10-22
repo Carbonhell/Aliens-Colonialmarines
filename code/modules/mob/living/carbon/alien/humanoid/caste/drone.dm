@@ -3,8 +3,8 @@
 	desc = "An alien capable of shaping resin in several different ways."
 	icon_state = "aliendrone_s"
 	caste = "drone"
-	maxHealth = 120
-	health = 120
+	maxHealth = 220
+	health = 220
 	timerMax = 200
 	tier = 1
 	evolves_to = list("praetorian", "queen")//can evolve to queen directly

@@ -469,6 +469,8 @@
 					/obj/item/weapon/gun/projectile/automatic/m39 = 4, /obj/item/ammo_box/magazine/m39 = 30,
 					/obj/item/weapon/gun/projectile/shotgun/automatic/combat/mk221 = 4, /obj/item/ammo_box/magazine/m12g/slug = 10)
 	refill_canister = /obj/item/weapon/vending_refill/weapons
+	icon_vend = "marinevend-vend"
+	icon_deny = "marinevend-deny"
 
 /obj/item/weapon/vending_refill/weapons
 	machine_name = "weapon rack"

@@ -3,8 +3,8 @@
 	desc = "A huge, grotesque xenomorph covered in glowing, oozing acid slime."
 	caste = "corroder"
 	icon_state = "aliencorroder"
-	maxHealth = 180
-	health = 180
+	maxHealth = 280
+	health = 280
 	luminosity = 3
 	move_delay_add = -2.5
 

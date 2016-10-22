@@ -297,6 +297,10 @@ obj/item/weapon/gun/proc/newshot()
 
 /obj/item/weapon/gun/equipped(mob/user, slot)
 	..()
+	if(user)
+		var/obj/item/weapon/twohanded/offhand/O = user.get_inactive_hand()
+		if(istype(O))
+			O.unwield(user)
 	for(var/i in actions)
 		var/datum/action/A = i
 		A.UpdateButtonIcon()
@@ -429,6 +433,8 @@ obj/item/weapon/gun/proc/newshot()
 			SetLuminosity(F.brightness_on)
 	if(user)
 		var/obj/item/weapon/twohanded/offhand/O = user.get_inactive_hand()
+		if(!istype(O))
+			O = user.get_active_hand()//can happen if you get stripped, for example
 		if(istype(O))
 			O.unwield(user)
 

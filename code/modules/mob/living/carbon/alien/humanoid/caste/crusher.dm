@@ -3,8 +3,8 @@
 	desc = "An huge alien with an enormous armored head crest."
 	icon_state = "aliencrusher"
 	caste = "crusher"
-	maxHealth = 200
-	health = 200
+	maxHealth = 300
+	health = 300
 	melee_protection = 2
 	var/momentum = 0
 	var/speed = 0
@@ -84,9 +84,9 @@
 /obj/effect/proc_holder/alien/togglemomentum/fire(mob/living/carbon/user)
 	if(istype(user, /mob/living/carbon/alien/humanoid/big/crusher))
 		var/mob/living/carbon/alien/humanoid/big/crusher/C = user
-		C.momentum = C.momentum != -1 ? -1 : 0
-		user << "<span class='notice'>You will [C.momentum == -1 ? "no longer" : "now"] charge when moving.</span>"
 		active = !active
+		C.momentum = active ? 0 : -1
+		user << "<span class='notice'>You will [active ? "now" : "no longer"] charge when moving.</span>"
 
 /mob/living/carbon/alien/humanoid/big/crusher/Life()
 	..()

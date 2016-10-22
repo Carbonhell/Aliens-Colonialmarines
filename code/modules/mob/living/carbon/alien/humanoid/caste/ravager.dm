@@ -2,8 +2,8 @@
 	name = "alien ravager"
 	desc = "A huge alien with massive claws."
 	caste = "ravager"
-	maxHealth = 180
-	health = 180
+	maxHealth = 280
+	health = 280
 	icon_state = "alienravager"
 	melee_protection = 1.5
 	move_delay_add = -2
