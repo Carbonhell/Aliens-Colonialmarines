@@ -33,7 +33,7 @@ Doesn't work on other aliens/AI.*/
 	var/mob/living/carbon/user = usr
 	if(cost_check(check_turf,user))
 		if(fire(user) && user) // Second check to prevent runtimes when evolving
-			user.adjustPlasma(-plasma_cost)
+			user.usePlasma(plasma_cost)
 	return 1
 
 /obj/effect/proc_holder/alien/proc/start_recharge()
@@ -448,6 +448,10 @@ Doesn't work on other aliens/AI.*/
 
 /obj/effect/proc_holder/alien/sprayacid/InterceptClickOn(mob/living/carbon/user, params, atom/target)
 	if(..())
+		return
+	if(!user.usePlasma(plasma_cost))
+		user << "<span class='warning'>You need at least [plasma_cost] plasma to spray.</span>"
+		remove_ranged_ability(user)
 		return
 	user << "<span class='danger'>You spray several globs of acid towards \the [target]!</span>"
 	spawn(0)

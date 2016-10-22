@@ -6,6 +6,7 @@
 	maxHealth = 280
 	health = 280
 	luminosity = 3
+	see_in_dark = 16
 	move_delay_add = -2.5
 
 /mob/living/carbon/alien/humanoid/big/corroder/New()

@@ -13,6 +13,8 @@
 					Follow your orders and find out what exactly happened down there."
 	required_players = 2
 	required_enemies = 1
+	var/time_passed_noqueen = 0
+	var/force_end = FALSE
 
 /datum/game_mode/colonialmarines/can_start()
 	var/ready_players = num_players()
@@ -50,8 +52,22 @@
 	..()
 	return 1
 
+/datum/game_mode/colonialmarines/process()
+	var/mob/living/carbon/alien/humanoid/big/queen/Q = locate() in aliens
+	if(!Q)
+		if(!time_passed_noqueen)//let's set it
+			time_passed_noqueen = world.time + 6000
+		else
+			if(world.time >= time_passed_noqueen)
+				force_end = TRUE
+	else
+		if(time_passed_noqueen)
+			time_passed_noqueen = 0//reset the timer
+
 /datum/game_mode/colonialmarines/check_finished()
 	. = no_aliens_left() + no_humans_left()
+	if(force_end)
+		return 2//humans win cause no aliums queens spawned
 
 /datum/game_mode/colonialmarines/declare_completion()
 	var/num_marines_survived = 0
