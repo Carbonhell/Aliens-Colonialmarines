@@ -63,7 +63,7 @@
 		user << "<span class='warning'>You don't have an ID.</span>"
 		return
 
-	if(!(access_heads in ID.access))
+	if(!(access_sulaco_bridge in ID.access))
 		user << "<span class='warning'>The access level of \
 			your card is not high enough.</span>"
 		return
