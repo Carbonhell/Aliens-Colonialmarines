@@ -3,12 +3,16 @@ var/list/existing_squads = list()
 
 /datum/squad
 	var/name = "Squad name"
-	var/list/squad_comrades = list()		//list of the current squad members minds, should not be edited
-	var/list/special_access = list()		//eventual extra access, such as the main four squad's prep rooms
-	var/radio_frequency	    = 1491			//radio frequency
-	var/list/orders			= list()		//list of orders given by Command. There can be as many as command wants.
-	var/start_squad 		= FALSE			//Is this a roundstart squad(alpha,bravo,charlie,delta)
-	var/list/beacons		= list()//list of supply beacons. May include other types of beacons such as orbital strike ones in the future.
+	var/list/squad_comrades = list()							//list of the current squad members minds, should not be edited
+	var/list/special_access = list()							//eventual extra access, such as the main four squad's prep rooms
+	var/radio_frequency	    = 1491								//radio frequency
+	var/list/orders			= list()							//list of orders given by Command. There can be as many as command wants.
+	var/start_squad 		= FALSE								//Is this a roundstart squad(alpha,bravo,charlie,delta)
+	var/list/beacons		= list()							//list of supply beacons. May include other types of beacons such as orbital strike ones in the future.
+	var/list/rank_limits	= list("Squad Leader" = 1,			//list of rank limits. for example,this squad can have only 1 specialist, etc.
+									"Squad Engineer" = 2,
+									"Squad Medic" = 2,
+									"Squad Specialist" = 1)
 
 /datum/squad/New()
 	..()
@@ -61,11 +65,21 @@ var/list/existing_squads = list()
 		var/datum/squad/check = i
 		if(S)
 			if(S.squad_comrades.len > check.squad_comrades.len)
+				if(user.job in check.rank_limits)
+					if(check.rank_limits[user.job] <= 0)
+						continue
+					check.rank_limits[user.job]--
 				S = check
 		else
+			if(user.job in check.rank_limits)
+				if(check.rank_limits[user.job] <= 0)
+					continue
 			S = check
 	if(S)
 		add_to_squad(user, S.name)
+		return 1
+	else
+		return 0//Okay,this shouldn't happen if you set the jobs limits correctly,but if this even happens,you'll just lack a squad.
 
 /proc/add_to_squad(mob/user, squadname)//squad is the squad name
 	if(user.mind)

@@ -43,8 +43,8 @@ Squad specialist
 /datum/job/marine/sqspc
 	title = "Squad Specialist"
 	flag = SQUADSP
-	total_positions = 8
-	spawn_positions = 8
+	total_positions = 4
+	spawn_positions = 4
 	outfit = /datum/outfit/job/marine/sqspc
 
 	access = list(access_marine_prep, access_marine_specprep)

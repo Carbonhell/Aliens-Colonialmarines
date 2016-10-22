@@ -315,7 +315,8 @@
 	projectile_type = /obj/item/projectile/bullet/gyro
 
 /obj/item/ammo_casing/caseless/rocket
-	name = "A rocket. Pretty heavy, huh."
+	name = "rocket"
+	desc = "A rocket. Pretty heavy, huh."
 	caliber = "missile"
 	icon_state = "rocket"
 	projectile_type = /obj/item/projectile/bullet/rocket

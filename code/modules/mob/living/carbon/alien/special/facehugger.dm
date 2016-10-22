@@ -207,7 +207,7 @@ var/const/MAX_ACTIVE_TIME = 200
 			if(D.flags & NODROP)
 				continue
 			if(D.anti_hug)
-				H.visible_message("<span class='userdanger'>[src] smashes against [H]'s [D] and [D.anti_hug == 1 ? "rips it off!" : "bounces off!"]</span>")
+				H.visible_message("<span class='warning'>[src] smashes against [H]'s [D] and [D.anti_hug == 1 ? "rips it off!" : "bounces off!"]</span>")
 				D.anti_hug--
 				if(!D.anti_hug)
 					H.unEquip(D)

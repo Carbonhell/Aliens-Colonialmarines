@@ -218,7 +218,9 @@ Doesn't work on other aliens/AI.*/
 		return
 	if(isobj(target) || istype(target, /turf/closed))
 		remove_ranged_ability(user)
-		return corrode(target, user)
+		if(corrode(target, user))
+			user.usePlasma(plasma_cost)//checking in ..() if the guy has enough plasma.
+			return 1
 
 /obj/effect/proc_holder/alien/neurotoxin
 	name = "Spit Neurotoxin"

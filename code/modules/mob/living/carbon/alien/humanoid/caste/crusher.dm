@@ -10,6 +10,7 @@
 	var/speed = 0
 	var/olddir
 	var/timeout = 0
+	var/turf/prev_turf
 	move_delay_add = -3.5
 
 /mob/living/carbon/alien/humanoid/big/crusher/New()
@@ -17,6 +18,7 @@
 	internal_organs += new /obj/item/organ/alien/legmuscles
 	AddAbility(new/obj/effect/proc_holder/alien/togglemomentum())
 	..()
+	prev_turf = get_turf(src)
 
 /mob/living/carbon/alien/humanoid/big/crusher/Stat()
 	..()
@@ -90,7 +92,12 @@
 
 /mob/living/carbon/alien/humanoid/big/crusher/Life()
 	..()
-	if(dir == olddir)
+	var/turf/current_turf = get_turf(src)
+	if(current_turf == prev_turf)
 		timeout++
-	if(timeout >= 5)
+	else
+		timeout = 0
+	prev_turf = current_turf
+	if(timeout >= 10)
 		momentum = 0
+		timeout = 0

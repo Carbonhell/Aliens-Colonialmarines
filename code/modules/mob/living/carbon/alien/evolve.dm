@@ -93,6 +93,6 @@
 		user << "<span class='danger'>Your plasma vessel must be full to evolve.</span>"
 		return
 	if(!(user.can_evolve()))
-		user << "<span class='danger'>Your queen doesn't want you to evolve yet.</span>"
+		user << "<span class='danger'>There are too many big sisters for you to evolve.</span>"
 		return
 	return 1

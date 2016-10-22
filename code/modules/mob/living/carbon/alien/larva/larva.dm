@@ -8,6 +8,7 @@
 	density = 0
 	tier = 0
 	caste = "larva"
+	move_delay_add = -1
 
 	maxHealth = 100
 	health = 100

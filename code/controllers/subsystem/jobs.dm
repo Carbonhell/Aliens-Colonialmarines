@@ -342,7 +342,7 @@ var/datum/subsystem/job/SSjob
 			RejectPlayer(player)
 		if(player.client.prefs.joblessrole == BEMARINE)
 			Debug("AC2 Assistant located, Player: [player]")
-			AssignRole(player, "Assistant")
+			AssignRole(player, "Squad Marine")
 		else // For those who don't want to play if their preference were filled, back you go.
 			RejectPlayer(player)
 
