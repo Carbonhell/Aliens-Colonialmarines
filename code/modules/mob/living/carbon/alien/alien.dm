@@ -180,6 +180,10 @@ var/queen_died_recently = FALSE
 
 	if(statpanel("Status"))
 		stat(null, "Intent: [a_intent]")
+		for(var/i in active_pheromones)
+			stat(null, "You are affected by a pheromone of [i].")
+		if(hive_orders)
+			stat(null,"Hive Orders: [hive_orders]")
 
 /mob/living/carbon/alien/getTrail()
 	if(getBruteLoss() < 200)

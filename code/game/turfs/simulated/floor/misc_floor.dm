@@ -88,7 +88,6 @@
 	desc = "A section of plating covered in a light layer of snow."
 	icon = 'icons/turf/snow.dmi'
 	icon_state = "snowplating"
-	temperature = 180
 
 /turf/open/floor/plating/snowed/colder
 	temperature = 140

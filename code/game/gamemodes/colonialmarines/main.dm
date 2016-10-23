@@ -44,6 +44,8 @@
 		if(isemptylist(survivor_spawn))
 			break
 		var/datum/mind/S = survy
+		if(S.current && !istype(S.current, /mob/new_player))//already got spawned
+			continue
 		var/mob/living/carbon/human/H = new(pick(survivor_spawn))
 		S.transfer_to(H, 1)
 		survivors += H

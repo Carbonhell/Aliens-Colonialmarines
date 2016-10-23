@@ -388,7 +388,7 @@
 	fire_delay = 40
 	burst_size = 1
 	origin_tech = "combat=7"
-	w_class = 3
+	w_class = 4
 	slot_flags = SLOT_BACK
 	actions_types = list(/datum/action/item_action/wield)
 	attachments_onnew = list(/obj/item/gun_attachment/optics/sniper)

@@ -115,19 +115,6 @@
 	if(statpanel("Status"))
 		if(timerMax)
 			stat(null, "Evolution Progress: [timerGrow]/[timerMax]")
-		/*var/slashing = ""
-		switch(slashing_allowed)
-			if(0)
-				slashing = "NOT ALLOWED"
-			if(1)
-				slashing = "ONLY WHEN NEEDED"
-			if(2)
-				slashing = "PERMITTED"
-		stat(null, "Slashing of hosts is currently: [slashing].")*/
-		for(var/i in active_pheromones)
-			stat(null, "You are affected by a pheromone of [i].")
-		if(hive_orders)
-			stat(null,"Hive Orders: [hive_orders]")
 
 /mob/living/carbon/alien/humanoid/ClickOn(atom/A, params)
 	face_atom(A)

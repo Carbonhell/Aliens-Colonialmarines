@@ -14,11 +14,30 @@
 	move_delay_add = -3.5
 
 /mob/living/carbon/alien/humanoid/big/crusher/New()
+	START_PROCESSING(SSfastprocess, src)
 	internal_organs += new /obj/item/organ/alien/plasmavessel
 	internal_organs += new /obj/item/organ/alien/legmuscles
 	AddAbility(new/obj/effect/proc_holder/alien/togglemomentum())
 	..()
 	prev_turf = get_turf(src)
+
+/mob/living/carbon/alien/humanoid/big/crusher/Destroy()
+	STOP_PROCESSING(SSfastprocess, src)
+	..()
+
+/mob/living/carbon/alien/humanoid/big/crusher/process()//process is faster than life
+	var/turf/current_turf = get_turf(src)
+	if(current_turf == prev_turf)
+		if(!timeout)//let's set it to the next second
+			timeout = world.time + 3
+		else
+			if(world.time >= timeout)
+				momentum = 0
+				speed = 0
+				timeout = 0
+	else
+		timeout = 0
+	prev_turf = current_turf
 
 /mob/living/carbon/alien/humanoid/big/crusher/Stat()
 	..()
@@ -89,15 +108,3 @@
 		active = !active
 		C.momentum = active ? 0 : -1
 		user << "<span class='notice'>You will [active ? "now" : "no longer"] charge when moving.</span>"
-
-/mob/living/carbon/alien/humanoid/big/crusher/Life()
-	..()
-	var/turf/current_turf = get_turf(src)
-	if(current_turf == prev_turf)
-		timeout++
-	else
-		timeout = 0
-	prev_turf = current_turf
-	if(timeout >= 10)
-		momentum = 0
-		timeout = 0

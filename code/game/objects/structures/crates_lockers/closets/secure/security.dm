@@ -27,7 +27,6 @@
 	new /obj/item/clothing/gloves/color/captain(src)
 	new /obj/item/weapon/restraints/handcuffs/cable/zipties(src)
 	new /obj/item/weapon/storage/belt/sabre(src)
-	new /obj/item/weapon/gun/energy/gun(src)
 	new /obj/item/weapon/door_remote/captain(src)
 
 /obj/structure/closet/secure_closet/hop
@@ -78,7 +77,6 @@
 	new /obj/item/weapon/storage/box/flashbangs(src)
 	new /obj/item/weapon/shield/riot/tele(src)
 	new /obj/item/weapon/storage/belt/security/full(src)
-	new /obj/item/weapon/gun/energy/gun/hos(src)
 	new /obj/item/device/flashlight/seclite(src)
 	new /obj/item/weapon/pinpointer(src)
 

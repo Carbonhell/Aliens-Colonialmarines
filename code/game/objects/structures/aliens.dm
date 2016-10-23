@@ -126,7 +126,7 @@
 		return
 	..()
 
-/obj/structure/alien/resin/door/Bump(atom/A, yes)
+/obj/structure/alien/resin/door/Bumped(atom/A, yes)
 	if(density && isalien(A))
 		switchstate()
 

@@ -49,6 +49,10 @@
 	name = "Delta"
 	icon_state = "delta"
 
+/area/sulaco/fitness
+	name = "Fitness"
+	icon_state = "fitness"
+
 /area/sulaco/tcomms
 	name = "Comms"
 	icon_state = "tcommsatcham"
@@ -152,7 +156,7 @@
 	broken_states = list("desert")
 	burnt_states = list("desert")
 
-/turf/open/floor/plating/desert/New()
+/turf/open/floor/plating/desert/initialize()
 	..()
 	if(prob(85))
 		icon_state = "desert"
@@ -177,7 +181,7 @@
 	icon_state = "grass0"
 	icon_plating = "grass0"
 
-/turf/open/floor/plating/grass/New()
+/turf/open/floor/plating/grass/initialize()
 	..()
 	if(icon_state == "grass0")
 		if(prob(50))
@@ -467,7 +471,8 @@
 	req_access_txt = "218"
 	products = list(/obj/item/weapon/gun/projectile/automatic/m41a = 4, /obj/item/ammo_box/magazine/m41a = 20,
 					/obj/item/weapon/gun/projectile/automatic/m39 = 4, /obj/item/ammo_box/magazine/m39 = 30,
-					/obj/item/weapon/gun/projectile/shotgun/automatic/combat/mk221 = 4, /obj/item/ammo_box/magazine/m12g/slug = 10)
+					/obj/item/weapon/gun/projectile/shotgun/automatic/combat/mk221 = 4, /obj/item/ammo_box/magazine/m12g/slug = 10,
+					/obj/item/device/flashlight/flare = 6)
 	refill_canister = /obj/item/weapon/vending_refill/weapons
 	icon_vend = "marinevend-vend"
 	icon_deny = "marinevend-deny"
@@ -475,8 +480,8 @@
 /obj/item/weapon/vending_refill/weapons
 	machine_name = "weapon rack"
 	icon_state = "refill_weap"
-	charges = list(24, 0, 0)
-	init_charges = list(24, 0, 0)
+	charges = list(26, 0, 0)
+	init_charges = list(26, 0, 0)
 
 /obj/machinery/vending/snack/marine
 	name = "MRE storage unit"
@@ -893,6 +898,7 @@
 	icon_state = "marine"
 	item_state = "marine"
 	body_parts_covered = CHEST|GROIN|LEGS
+	allowed = list(/obj/item/weapon/gun, /obj/item/ammo_box)
 	actions_types = list(/datum/action/item_action/toggle_armor_lamp)
 	var/on = FALSE
 	var/brightness_on = 4 //luminosity when on
