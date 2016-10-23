@@ -40,6 +40,11 @@
 		if(islarva(M.current))
 			var/mob/living/carbon/alien/larva/L = M.current
 			L.amount_grown = L.max_grown
+
+			for (var/v = 1, v <= 3, v++)
+				if (prob(50))
+					new/mob/living/carbon/monkey(locate(L.x + rand(-1, 1), L.y + rand(-1, 1), L.z))
+
 	for(var/survy in survivor_candidates)
 		if(isemptylist(survivor_spawn))
 			break
@@ -144,7 +149,7 @@
 	. = 1
 	for(var/i in humans)
 		var/mob/living/carbon/human/H = i
-		if(H && H.mind && H.client)
+		if(H && H.mind && H.client && !locate(/obj/item/organ/body_egg/alien_embryo) in H.internal_organs)
 			. = 0
 			break
 

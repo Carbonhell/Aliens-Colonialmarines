@@ -177,6 +177,10 @@ Doesn't work on other aliens/AI.*/
 		else if(istype(target, /turf))
 			var/turf/T = target
 			// R WALL
+			if (istype(T, /turf/closed/mineral/planet))
+				user << "<span class='noticealien'>You cannot dissolve this object.</span>"
+				return 0
+
 			if(istype(T, /turf/closed/wall/r_wall))
 				user << "<span class='noticealien'>You cannot dissolve this object.</span>"
 				return 0
@@ -532,6 +536,7 @@ Doesn't work on other aliens/AI.*/
 	action_icon_state = "alien_stomp"
 	var/range = 5
 	plasma_cost = 50
+	charge_max = 50
 
 /obj/effect/proc_holder/alien/stomp/fire(mob/living/carbon/user)
 	var/obj/item/organ/alien/legmuscles/L = user.getorgan(/obj/item/organ/alien/legmuscles)

@@ -7,7 +7,7 @@
 	health = 280
 	luminosity = 3
 	see_in_dark = 16
-	move_delay_add = -2.5
+	move_delay_add = -2
 
 /mob/living/carbon/alien/humanoid/big/corroder/New()
 	internal_organs += new /obj/item/organ/alien/plasmavessel/large/corroder
