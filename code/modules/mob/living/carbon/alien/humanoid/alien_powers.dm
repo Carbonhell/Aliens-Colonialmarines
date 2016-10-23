@@ -339,6 +339,9 @@ Doesn't work on other aliens/AI.*/
 		return 0
 	if (!cost_check(check_turf,user))
 		return 0
+	if(locate(structures[choice]) in user.loc)
+		user << "<span class='warning'>There's already \a [choice] here!</span>"
+		return 0
 	user << "<span class='notice'>You shape a [choice].</span>"
 	user.visible_message("<span class='notice'>[user] vomits up a thick purple substance and begins to shape it.</span>")
 
