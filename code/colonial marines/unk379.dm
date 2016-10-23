@@ -155,6 +155,7 @@
 	icon_plating = "desert"
 	broken_states = list("desert")
 	burnt_states = list("desert")
+	planetary_atmos = TRUE
 
 /turf/open/floor/plating/desert/initialize()
 	..()
@@ -180,6 +181,7 @@
 	icon = 'icons/turf/desert2.dmi'
 	icon_state = "grass0"
 	icon_plating = "grass0"
+	planetary_atmos = TRUE
 
 /turf/open/floor/plating/grass/initialize()
 	..()

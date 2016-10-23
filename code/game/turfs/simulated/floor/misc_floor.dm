@@ -29,6 +29,7 @@
 /turf/open/floor/plating/beach
 	name = "Beach"
 	icon = 'icons/misc/beach.dmi'
+	planetary_atmos = TRUE
 
 /turf/open/floor/plating/beach/ex_act(severity, target)
 	contents_explosion(severity, target)
