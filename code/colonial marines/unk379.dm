@@ -167,12 +167,12 @@
 		else
 			icon_state = "desert_dug"
 
-	if (ticker.state != GAME_STATE_PLAYING)
-		if(prob(1))
-			if(prob(50))
-				new /obj/effect/overlay/palmtree_l(src)
-			else
-				new /obj/effect/overlay/palmtree_r(src)
+
+	if(prob(1))
+		if(prob(50))
+			new /obj/effect/overlay/palmtree_l(src)
+		else
+			new /obj/effect/overlay/palmtree_r(src)
 
 /turf/open/floor/plating/desert/ex_act(severity, target)
 	contents_explosion(severity, target)

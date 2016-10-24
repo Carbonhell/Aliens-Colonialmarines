@@ -300,19 +300,24 @@ Des: Removes all infected images from the alien.
 	return
 
 /mob/living/carbon/alien/proc/can_evolve()
+	var/list/alive_aliens = aliens
+	for (var/mob/m in alive_aliens)
+		if (m.stat == DEAD)
+			alive_aliens -= m
+
 	switch(tier)
 		if(0)//larva wants to evolve
 			return 1//larvas can always evolve.
 		if(1)//warrior/drone/sentinels wanna evolve.
 			var/high_caste_num = 0//number of tier 2 aliens already existing
-			for(var/i in aliens)
+			for(var/i in alive_aliens)
 				var/mob/living/carbon/alien/A = i
 				if(A.tier == 2)
 					high_caste_num++
 			if(aliens.len/TIERTWOLIMIT >= high_caste_num)
 				return 1
 		if(2)//queen evolution
-			if(!(locate(/mob/living/carbon/alien/humanoid/big/queen) in aliens) && !queen_died_recently)//we got a queen or it died recently!
+			if(!(locate(/mob/living/carbon/alien/humanoid/big/queen) in alive_aliens) && !queen_died_recently)//we got a queen or it died recently!
 				return 1
 
 /proc/xeno_message(message = "", size = 3, sound)

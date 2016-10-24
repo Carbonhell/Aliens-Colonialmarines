@@ -14,6 +14,4 @@
 		for (var/mob/living/carbon/alien/a in aliens)
 			a << "<span class='alertalien'>[src] has been slain at [src.loc.loc ? src.loc.loc : src.loc ? src.loc : "the void"]!</span>"
 
-	aliens -= src
-
-	return ..()
+	return ..(gibbed)

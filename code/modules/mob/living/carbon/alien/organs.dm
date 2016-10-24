@@ -114,16 +114,19 @@
 			owner.adjustPlasma(plasma_rate*multiplier)
 		else
 			var/heal_amt = heal_rate*multiplier
+
 			if(!isalien(owner))
 				heal_amt *= 0.2
 
-			if (owner.resting || owner.sleeping)
-				owner.adjustBruteLoss(-heal_amt)
-				owner.adjustFireLoss(-heal_amt)
-				owner.adjustOxyLoss(-heal_amt)
-				owner.adjustCloneLoss(-heal_amt)
+			if (owner.lying)
+				var/heal_divider = owner.stat == UNCONSCIOUS ? 2 : 1
 
-			owner.adjustPlasma(plasmarate*multiplier*0.5)//not healing plasma when damaged is really stupid imo - Cherkir
+				owner.adjustBruteLoss(-heal_amt/heal_divider)
+				owner.adjustFireLoss(-heal_amt/heal_divider)
+				owner.adjustOxyLoss(-heal_amt/heal_divider)
+				owner.adjustCloneLoss(-heal_amt/heal_divider)
+
+			owner.adjustPlasma(plasma_rate*multiplier*0.5)
 
 	return ..()
 

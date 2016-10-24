@@ -8,6 +8,4 @@
 	if(!gibbed)
 		visible_message("<span class='name'>[src]</span> lets out a waning high-pitched cry.")
 
-	aliens -= src
-
 	return ..(gibbed)

@@ -41,7 +41,7 @@
 			var/mob/living/carbon/alien/larva/L = M.current
 			L.amount_grown = L.max_grown
 
-			for (var/v = 1, v <= 3, v++)
+			for (var/v in 1 to 3)
 				if (prob(50))
 					new/mob/living/carbon/monkey(locate(L.x + rand(-1, 1), L.y + rand(-1, 1), L.z))
 
@@ -145,11 +145,18 @@
 			. = 0
 			break
 
+/datum/game_mode/colonialmarines/proc/has_embryo(var/mob/living/carbon/human/H)//this might be a stupid place to put this
+//check but it probably won't be used outside of this gamemode tbh
+	if (locate(/obj/item/organ/body_egg/alien_embryo) in H.internal_organs)
+		return 1
+	else
+		return 0
+
 /datum/game_mode/colonialmarines/proc/no_humans_left()
 	. = 1
 	for(var/i in humans)
 		var/mob/living/carbon/human/H = i
-		if(H && H.mind && H.client && !locate(/obj/item/organ/body_egg/alien_embryo) in H.internal_organs)
+		if(H && H.mind && H.client && !has_embryo(H))
 			. = 0
 			break
 
