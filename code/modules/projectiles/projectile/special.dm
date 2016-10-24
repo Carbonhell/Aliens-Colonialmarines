@@ -34,7 +34,7 @@
 /obj/item/projectile/bullet/rocket
 	name = "rocket"
 	icon_state = "rocket"
-	damage = 50
+	damage = 150
 
 /obj/item/projectile/bullet/rocket/on_hit(atom/target, blocked = 0)
 	..()
@@ -45,7 +45,7 @@
 	name ="40mm grenade"
 	desc = "USE A WEEL GUN"
 	icon_state= "bolter"
-	damage = 20
+	damage = 100
 
 /obj/item/projectile/bullet/a40mm/on_hit(atom/target, blocked = 0)
 	..()

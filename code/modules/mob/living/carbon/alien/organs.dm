@@ -103,8 +103,7 @@
 /obj/item/organ/alien/plasmavessel/on_life()
 	if(!owner)
 		return
-	if (!owner.resting && !owner.sleeping)
-		return
+
 	var/mob/living/carbon/alien/A = owner
 	if("recovery" in A.active_pheromones)
 		affected_by_pheromone = TRUE
@@ -117,10 +116,15 @@
 			var/heal_amt = heal_rate*multiplier
 			if(!isalien(owner))
 				heal_amt *= 0.2
-			owner.adjustBruteLoss(-heal_amt)
-			owner.adjustFireLoss(-heal_amt)
-			owner.adjustOxyLoss(-heal_amt)
-			owner.adjustCloneLoss(-heal_amt)
+
+			if (owner.resting || owner.sleeping)
+				owner.adjustBruteLoss(-heal_amt)
+				owner.adjustFireLoss(-heal_amt)
+				owner.adjustOxyLoss(-heal_amt)
+				owner.adjustCloneLoss(-heal_amt)
+
+			owner.adjustPlasma(plasmarate*multiplier*0.5)//not healing plasma when damaged is really stupid imo - Cherkir
+
 	return ..()
 
 /obj/item/organ/alien/plasmavessel/Insert(mob/living/carbon/M, special = 0)

@@ -5,6 +5,8 @@
 
 	var/message_a = say_quote(message, get_spans())
 	var/rendered = "<i><span class='alien'>Hivemind, <span class='name'>[shown_name]</span> <span class='message'>[message_a]</span></span></i>"
+	if (istype(src, /mob/living/carbon/alien/humanoid/big/queen))
+		rendered = "<i><span class='alien'><font size = 3>Hivemind, <span class='name'>[shown_name]</span> <span class='message'>[message_a]</span></span></i></font>"
 	for(var/mob/S in player_list)
 		if(!S.stat && S.hivecheck())
 			S << rendered

@@ -293,6 +293,7 @@
 /obj/item/projectile/bullet/smart
 	name = "smart bullet"
 	var/faction = "Marine"
+	damage = 75
 
 /obj/item/projectile/bullet/smart/Bump(atom/A, yes)
 	if(ismob(A))
