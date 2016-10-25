@@ -11,7 +11,4 @@
 		update_icons()
 		status_flags |= CANPUSH
 
-		for (var/mob/living/carbon/alien/a in aliens)
-			a << "<span class='alertalien'>[src] has been slain at [src.loc.loc ? src.loc.loc : src.loc ? src.loc : "the void"]!</span>"
-
 	return ..(gibbed)

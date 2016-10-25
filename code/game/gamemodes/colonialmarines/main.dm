@@ -145,18 +145,13 @@
 			. = 0
 			break
 
-/datum/game_mode/colonialmarines/proc/has_embryo(var/mob/living/carbon/human/H)//this might be a stupid place to put this
-//check but it probably won't be used outside of this gamemode tbh
-	if (locate(/obj/item/organ/body_egg/alien_embryo) in H.internal_organs)
-		return 1
-	else
-		return 0
+
 
 /datum/game_mode/colonialmarines/proc/no_humans_left()
 	. = 1
 	for(var/i in humans)
 		var/mob/living/carbon/human/H = i
-		if(H && H.mind && H.client && !has_embryo(H))
+		if(H && H.mind && H.client && !H.has_embryo())
 			. = 0
 			break
 

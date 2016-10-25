@@ -300,7 +300,7 @@ Des: Removes all infected images from the alien.
 	return
 
 /mob/living/carbon/alien/proc/can_evolve()
-	var/list/alive_aliens = aliens
+	var/list/alive_aliens = aliens.Copy()
 	for (var/mob/m in alive_aliens)
 		if (m.stat == DEAD)
 			alive_aliens -= m
