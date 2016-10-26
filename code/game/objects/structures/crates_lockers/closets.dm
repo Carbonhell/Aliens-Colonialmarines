@@ -317,7 +317,7 @@
 
 /obj/structure/closet/attack_alien(mob/living/user)
 	user.do_attack_animation(src)
-	visible_message("<span class='danger'>[user] destroys \the [src].</span>")
+	visible_message("<span class='danger'>[user] smashes \the [src] into pieces.</span>")
 	qdel(src)
 
 // tk grab then use on self

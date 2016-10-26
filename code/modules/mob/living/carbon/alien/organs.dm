@@ -103,6 +103,7 @@
 /obj/item/organ/alien/plasmavessel/on_life()
 	if(!owner)
 		return
+
 	var/mob/living/carbon/alien/A = owner
 	if("recovery" in A.active_pheromones)
 		affected_by_pheromone = TRUE
@@ -113,12 +114,20 @@
 			owner.adjustPlasma(plasma_rate*multiplier)
 		else
 			var/heal_amt = heal_rate*multiplier
+
 			if(!isalien(owner))
 				heal_amt *= 0.2
-			owner.adjustBruteLoss(-heal_amt)
-			owner.adjustFireLoss(-heal_amt)
-			owner.adjustOxyLoss(-heal_amt)
-			owner.adjustCloneLoss(-heal_amt)
+
+			if (owner.lying)
+				var/heal_divider = owner.stat == UNCONSCIOUS ? 2 : 1
+
+				owner.adjustBruteLoss(-heal_amt/heal_divider)
+				owner.adjustFireLoss(-heal_amt/heal_divider)
+				owner.adjustOxyLoss(-heal_amt/heal_divider)
+				owner.adjustCloneLoss(-heal_amt/heal_divider)
+
+			owner.adjustPlasma(plasma_rate*multiplier*0.5)
+
 	return ..()
 
 /obj/item/organ/alien/plasmavessel/Insert(mob/living/carbon/M, special = 0)

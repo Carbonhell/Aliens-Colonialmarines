@@ -166,6 +166,8 @@
 			icon_state = "desert[rand(1,5)]"
 		else
 			icon_state = "desert_dug"
+
+
 	if(prob(1))
 		if(prob(50))
 			new /obj/effect/overlay/palmtree_l(src)

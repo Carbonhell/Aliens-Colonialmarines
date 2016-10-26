@@ -142,3 +142,9 @@ Des: Removes all images from the mob infected by this embryo
 			for(var/image/I in alien.client.images)
 				if(dd_hasprefix_case(I.icon_state, "infected") && I.loc == owner)
 					qdel(I)
+
+/mob/living/carbon/proc/has_embryo()
+	if (locate(/obj/item/organ/body_egg/alien_embryo) in internal_organs)
+		return 1
+	else
+		return 0

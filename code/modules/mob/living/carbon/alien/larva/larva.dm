@@ -26,6 +26,10 @@
 
 	AddAbility(new/obj/effect/proc_holder/alien/hide())
 	AddAbility(new/obj/effect/proc_holder/alien/larva_evolve())
+
+	for (var/mob/living/carbon/alien/a in aliens)
+		a << "<span class='alertalien'>[src] has been born at [get_area(src)]!</span>"
+
 	..()
 
 //This needs to be fixed

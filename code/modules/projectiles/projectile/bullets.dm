@@ -20,7 +20,7 @@
 	damage = 20
 
 /obj/item/projectile/bullet/weakbullet4
-	damage = 15
+	damage = 30
 
 /obj/item/projectile/bullet/toxinbullet
 	damage = 15
@@ -74,7 +74,7 @@
 	damage = 30
 
 /obj/item/projectile/bullet/heavybullet
-	damage = 35
+	damage = 60
 
 /obj/item/projectile/bullet/rpellet
 	damage = 3
@@ -293,6 +293,7 @@
 /obj/item/projectile/bullet/smart
 	name = "smart bullet"
 	var/faction = "Marine"
+	damage = 75
 
 /obj/item/projectile/bullet/smart/Bump(atom/A, yes)
 	if(ismob(A))

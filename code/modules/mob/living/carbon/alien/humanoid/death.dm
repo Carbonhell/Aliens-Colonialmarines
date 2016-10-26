@@ -11,4 +11,4 @@
 		update_icons()
 		status_flags |= CANPUSH
 
-	return ..()
+	return ..(gibbed)

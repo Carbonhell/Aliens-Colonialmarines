@@ -20,7 +20,7 @@ var/global/list/queenckeys = list()
 	unique_name = 0
 	tier = 3
 	is_intelligent = TRUE
-	move_delay_add = -3
+	move_delay_add = -2.5
 
 /mob/living/carbon/alien/humanoid/big/queen/death(gibbed, corpse = FALSE)
 	if(stat == DEAD)
@@ -42,7 +42,7 @@ var/global/list/queenckeys = list()
 	if(!queen_died_recently)
 		return
 	queen_died_recently = FALSE
-	xeno_message("The queen death's event starts to fade from your mind, you feel like the hive's ready for its next queen...")
+	xeno_message("The queen's death starts to fade from your mind; you feel like the hive's ready for its next queen...")
 	for(var/mob/living/carbon/alien/A in aliens)
 		A.clear_alert("alien_noqueen")
 
