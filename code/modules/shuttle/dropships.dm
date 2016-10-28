@@ -4,6 +4,8 @@
 	req_one_access = list(access_sulaco_bridge, access_marine_leaderprep)
 	shuttleId = "marine1"
 	possible_destinations = "planet1;sulaco1"
+	use_power = FALSE
+	unacidable = TRUE
 
 /obj/machinery/computer/shuttle/dropship2
 	name = "dropship 2 console"
@@ -11,6 +13,8 @@
 	req_one_access = list(access_sulaco_bridge, access_marine_leaderprep)
 	shuttleId = "marine2"
 	possible_destinations = "planet2;sulaco2"
+	use_power = FALSE
+	unacidable = TRUE
 
 /obj/item/weapon/circuitboard/computer/dropship1
 	name = "circuit board (Dropship 1)"
