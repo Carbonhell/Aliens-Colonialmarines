@@ -135,6 +135,11 @@
 	opacity = !opacity
 	flick("flick_[density]", src)
 	icon_state = "door_[density]"
+	if(density)
+		return//if we're closing the door,return
+	spawn(100)//else let's try to close it after 10 secs
+		if(!density)//if it's open
+			switchstate()
 
 /obj/structure/alien/resin/ex_act(severity, target)
 	switch(severity)
