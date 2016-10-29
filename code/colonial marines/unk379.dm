@@ -496,7 +496,7 @@
 					/obj/item/weapon/gun/projectile/automatic/m39 = 4, /obj/item/ammo_box/magazine/m39 = 30,
 					/obj/item/weapon/gun/projectile/shotgun/automatic/combat/mk221 = 4, /obj/item/ammo_box/magazine/m12g/slug = 10,
 					/obj/item/weapon/gun/projectile/automatic/pistol/m4a3 = 4, /obj/item/ammo_box/magazine/pistolm9mm = 10,
-					/obj/item/device/flashlight/flare = 6, /obj/item/weapon/kitchen/knife/combat/survival = 4)
+					/obj/item/weapon/storage/box/flares = 6, /obj/item/weapon/kitchen/knife/combat/survival = 4)
 	refill_canister = /obj/item/weapon/vending_refill/weapons
 	icon_vend = "marinevend-vend"
 	icon_deny = "marinevend-deny"

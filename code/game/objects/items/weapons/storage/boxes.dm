@@ -868,3 +868,53 @@
 	new /obj/item/weapon/circuitboard/machine/destructive_analyzer(src)
 	new /obj/item/weapon/circuitboard/machine/circuit_imprinter(src)
 	new /obj/item/weapon/circuitboard/computer/rdconsole(src)
+
+/obj/item/weapon/storage/box/flares
+	name = "flare box"
+	desc = "A flare box which can hold up to 4 flares. Can be opened and closed, like a wallet."
+	icon_state = "flarebox"
+	foldable = null
+	can_hold = list(/obj/item/device/flashlight/flare)
+	storage_slots = 4
+	var/open = FALSE
+
+/obj/item/weapon/storage/box/flares/New()
+	..()
+	for(var/i in 1 to 4)
+		new /obj/item/device/flashlight/flare(src)
+
+/obj/item/weapon/storage/box/flares/attack_self(mob/user)
+	..()
+	open = !open
+	if(!open)
+		close_all()
+	user << "<span class='notice'>You [open ? "open" : "close"] \the [src].</span>"
+	update_icon()
+
+/obj/item/weapon/storage/box/flares/can_be_inserted(obj/item/W, stop_messages = 0)
+	if(open)
+		return ..()
+
+/obj/item/weapon/storage/box/flares/attackby(obj/item/W, mob/user, params)
+	if(open)
+		return ..()
+
+/obj/item/weapon/storage/box/flares/show_to(mob/user)
+	if(open)
+		return ..()
+
+/obj/item/weapon/storage/box/flares/storage_contents_dump_act(obj/item/weapon/storage/src_object, mob/user)
+	if(open)
+		return ..()
+
+/obj/item/weapon/storage/box/flares/MouseDrop(over_object, src_location, over_location)
+	if(open)
+		return ..()
+
+/obj/item/weapon/storage/box/flares/update_icon()
+	..()
+	icon_state = "flarebox"
+	if(open)
+		icon_state += "[min(contents.len, 4)]"
+
+
