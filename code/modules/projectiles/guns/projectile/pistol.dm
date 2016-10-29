@@ -23,6 +23,13 @@
 	mag_type = /obj/item/ammo_box/magazine/m45
 	can_suppress = 0
 
+/obj/item/weapon/gun/projectile/automatic/pistol/m4a3
+	name = "M4A3 service pistol"
+	desc = "The Armat M4A3 service pistol is an American-made semi-automatic, recoil operated, magazine-fed pistol chambered for 9mm ammunition."
+	icon_state = "m1911"
+	w_class = 2
+	mag_type = /obj/item/ammo_box/magazine/pistolm9mm
+
 /obj/item/weapon/gun/projectile/automatic/pistol/deagle
 	name = "desert eagle"
 	desc = "A robust .50 AE handgun."

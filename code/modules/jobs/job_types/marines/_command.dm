@@ -32,7 +32,7 @@
 	uniform =  /obj/item/clothing/under/rank/commander
 	shoes = /obj/item/clothing/shoes/laceup
 	head = /obj/item/clothing/head/caphat
-	backpack_contents = list(/obj/item/weapon/melee/classic_baton/telescopic=1)
+	backpack_contents = list(/obj/item/weapon/gun/projectile/automatic/pistol/m4a3=1,/obj/item/weapon/melee/classic_baton/telescopic=1)
 
 	backpack = /obj/item/weapon/storage/backpack/captain
 	satchel = /obj/item/weapon/storage/backpack/satchel/cap
@@ -87,7 +87,7 @@
 	uniform = /obj/item/clothing/under/rank/xo
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	head = /obj/item/clothing/head/hopcap
-	backpack_contents = list(/obj/item/weapon/storage/box/ids=1,\
+	backpack_contents = list(/obj/item/weapon/storage/box/ids=1,/obj/item/weapon/gun/projectile/automatic/pistol/m4a3=1,\
 		/obj/item/weapon/melee/classic_baton/telescopic=1, /obj/item/device/modular_computer/tablet/preset/advanced = 1)
 
 /datum/outfit/job/xo/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
@@ -130,7 +130,7 @@
 	uniform = /obj/item/clothing/under/rank/bo
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	head = /obj/item/clothing/head/hopcap
-	backpack_contents = list(/obj/item/weapon/storage/box/ids=1,\
+	backpack_contents = list(/obj/item/weapon/storage/box/ids=1,/obj/item/weapon/gun/projectile/automatic/pistol/m4a3=1,\
 		/obj/item/weapon/melee/classic_baton/telescopic=1, /obj/item/device/modular_computer/tablet/preset/advanced = 1)
 
 /datum/outfit/job/bo/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)

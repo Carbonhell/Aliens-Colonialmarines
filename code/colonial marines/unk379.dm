@@ -495,7 +495,8 @@
 	products = list(/obj/item/weapon/gun/projectile/automatic/m41a = 4, /obj/item/ammo_box/magazine/m41a = 20,
 					/obj/item/weapon/gun/projectile/automatic/m39 = 4, /obj/item/ammo_box/magazine/m39 = 30,
 					/obj/item/weapon/gun/projectile/shotgun/automatic/combat/mk221 = 4, /obj/item/ammo_box/magazine/m12g/slug = 10,
-					/obj/item/device/flashlight/flare = 6)
+					/obj/item/weapon/gun/projectile/automatic/pistol/m4a3 = 4, /obj/item/ammo_box/magazine/pistolm9mm = 10,
+					/obj/item/device/flashlight/flare = 6, /obj/item/weapon/kitchen/knife/combat/survival = 4)
 	refill_canister = /obj/item/weapon/vending_refill/weapons
 	icon_vend = "marinevend-vend"
 	icon_deny = "marinevend-deny"
@@ -503,8 +504,8 @@
 /obj/item/weapon/vending_refill/weapons
 	machine_name = "weapon rack"
 	icon_state = "refill_weap"
-	charges = list(26, 0, 0)
-	init_charges = list(26, 0, 0)
+	charges = list(32, 0, 0)
+	init_charges = list(32, 0, 0)
 
 /obj/machinery/vending/snack/marine
 	name = "MRE storage unit"
