@@ -44,6 +44,13 @@
 		if(queen_died_recently)
 			user << "<span class='warning'>A queen died too recently for you to replace it! Wait some more time.</span>"
 			return
+		else if(locate(/mob/living/carbon/alien/humanoid/big/queen) in aliens)
+			user << "<span class='warning'>There can only be one queen at once!</span>"
+			return
+	else
+		if(!(user.can_evolve()))
+			user << "<span class='danger'>There are too many big sisters for you to evolve.</span>"
+			return
 
 	user.visible_message("<span class='greentext'><b>\The [user] begins to twist and contort..</b></span>","<span class='greentext'><b>You begin to twist and contort..</b></span>")
 	if(do_after(user,25))
@@ -91,8 +98,5 @@
 	var/obj/item/organ/alien/plasmavessel/P = user.getorgan(/obj/item/organ/alien/plasmavessel)
 	if(P.storedPlasma < P.max_plasma)
 		user << "<span class='danger'>Your plasma vessel must be full to evolve.</span>"
-		return
-	if(!(user.can_evolve()))
-		user << "<span class='danger'>There are too many big sisters for you to evolve.</span>"
 		return
 	return 1

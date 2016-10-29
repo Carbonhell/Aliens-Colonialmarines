@@ -316,9 +316,6 @@ Des: Removes all infected images from the alien.
 					high_caste_num++
 			if(aliens.len/TIERTWOLIMIT >= high_caste_num)
 				return 1
-		if(2)//queen evolution
-			if(!(locate(/mob/living/carbon/alien/humanoid/big/queen) in alive_aliens) && !queen_died_recently)//we got a queen or it died recently!
-				return 1
 
 /proc/xeno_message(message = "", size = 3, sound)
 	if(!message)
