@@ -6,6 +6,25 @@
 	name = "Wasteland"
 	icon_state = "cave"
 
+/area/centralriver
+	name = "Central River"
+	icon_state = "centralriver"
+/area/westriver
+	name = "Western River"
+	icon_state = "westriver"
+/area/eastriver
+	name = "Eastern River"
+	icon_state = "eastriver"
+/area/southwestriver
+	name = "Southwestern River"
+	icon_state = "southwestriver"
+/area/southeastriver
+	name = "Southeastern River"
+	icon_state = "southeastriver"
+/area/ruins
+	name = "Ruins"
+	icon_state = "ruins"
+
 /area/holodeck/alphadeck
 	name = "Alpha deck"
 
