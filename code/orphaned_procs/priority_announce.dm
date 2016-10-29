@@ -66,8 +66,3 @@
 					M << sound('sound/misc/notice1.ogg')
 				else
 					M << sound('sound/misc/notice2.ogg')
-
-
-
-
-
