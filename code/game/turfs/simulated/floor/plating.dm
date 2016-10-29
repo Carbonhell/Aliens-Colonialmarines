@@ -108,12 +108,14 @@
 
 
 /turf/open/floor/engine/ex_act(severity,target)
+	if(z == ZLEVEL_PLANET)
+		baseturf = /turf/open/floor/plating/desert
 	switch(severity)
 		if(1)
 			if(prob(80))
 				ReplaceWithLattice()
 			else if(prob(50))
-				qdel(src)
+				ChangeTurf(baseturf)
 			else
 				make_plating(1)
 		if(2)

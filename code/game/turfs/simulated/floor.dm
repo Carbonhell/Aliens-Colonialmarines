@@ -42,11 +42,11 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 
 /turf/open/floor/ex_act(severity, target)
 	var/shielded = is_shielded()
+	if(z == ZLEVEL_PLANET)
+		baseturf = /turf/open/floor/plating/desert
 	..()
 	if(severity != 1 && shielded && target != src)
 		return
-	if(z == ZLEVEL_PLANET)
-		baseturf = /turf/open/floor/plating/desert
 	if(target == src)
 		src.ChangeTurf(src.baseturf)
 	if(target != null)
