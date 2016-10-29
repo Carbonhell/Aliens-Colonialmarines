@@ -118,13 +118,16 @@
 			if(!isalien(owner))
 				heal_amt *= 0.2
 
-			if (owner.lying)
+			if (owner.lying || affected_by_pheromone || !isalien(owner))
 				var/heal_divider = owner.stat == UNCONSCIOUS ? 2 : 1
 
 				owner.adjustBruteLoss(-heal_amt/heal_divider)
 				owner.adjustFireLoss(-heal_amt/heal_divider)
 				owner.adjustOxyLoss(-heal_amt/heal_divider)
 				owner.adjustCloneLoss(-heal_amt/heal_divider)
+			else
+				if (owner.getBruteLoss() < 50)
+					owner.adjustBruteLoss(-heal_amt)
 
 			owner.adjustPlasma(plasma_rate*multiplier*0.5)
 
