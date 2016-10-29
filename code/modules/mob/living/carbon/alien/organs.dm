@@ -107,6 +107,8 @@
 	var/mob/living/carbon/alien/A = owner
 	if("recovery" in A.active_pheromones)
 		affected_by_pheromone = TRUE
+	else
+		affected_by_pheromone = FALSE
 	//If there are alien weeds on the ground then heal if needed or give some plasma
 	if(locate(/obj/structure/alien/weeds) in owner.loc)
 		var/multiplier = affected_by_pheromone ? 1 : 2
