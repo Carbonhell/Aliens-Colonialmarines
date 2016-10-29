@@ -1257,7 +1257,7 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 		src << "Only administrators may use this command."
 		return
 
-	xeno_scan()
+	human_scan()
 
 
 	log_admin("[key_name(src)] has informed to the humans, the numbers of xenos.")
