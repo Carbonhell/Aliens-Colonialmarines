@@ -514,6 +514,8 @@ obj/item/weapon/gun/proc/newshot()
 	if(!..())
 		return 0
 	if(target && owner)
+		if((target != owner.r_hand) && (target != owner.l_hand))//not in hand
+			return
 		var/obj/item/weapon/gun/G = target
 		if(!G.wielded)//If we're gonna wield it,let's do some checks first
 			var/check = FALSE
