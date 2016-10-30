@@ -42,7 +42,7 @@
 /obj/machinery/telecomms/attack_hand(mob/user)
 
 	// You need a multitool to use this, or be silicon
-	if(!issilicon(user))
+	if(!issilicon(user) && isturf(loc))
 		// istype returns false if the value is null
 		if(!istype(user.get_active_hand(), /obj/item/device/multitool))
 			return

@@ -404,6 +404,15 @@
 /obj/machinery/telecomms/relay/preset/marine/support
 	id = "Support Relay"
 	autolinkers = list("marine_support_relay")
+	listening_level = ZLEVEL_PLANET
+
+/obj/machinery/telecomms/relay/preset/marine/support/initialize()
+	..()
+	for(var/obj/machinery/telecomms/T in telecomms_list)
+		T.add_link(src)
+
+/obj/machinery/telecomms/relay/preset/marine/support/nopower
+	use_power = FALSE
 
 //Hub
 /obj/machinery/telecomms/hub/preset/marine
@@ -1041,3 +1050,24 @@
 	desc = "A normal red band."
 	icon_state = "redband"
 	item_state = "redband"
+
+/obj/item/backpack_relay
+	name = "portable telecommunication relay unit"
+	desc = "A portable telecommunication relay able to provide radio to marines."
+	icon_state = "war_radio"
+	item_state = "war_radio"
+	w_class = 4
+	slot_flags = SLOT_BACK
+	var/obj/machinery/telecomms/relay/preset/marine/support/nopower/relay
+
+/obj/item/backpack_relay/New()
+	..()
+	relay = new(src)
+	relay.initialize()
+
+/obj/item/backpack_relay/Destroy()
+	qdel(relay)
+	..()
+
+/obj/item/backpack_relay/attack_self(mob/user)
+	return relay.attack_hand(user)
