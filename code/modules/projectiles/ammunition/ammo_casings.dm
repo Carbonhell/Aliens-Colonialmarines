@@ -319,6 +319,7 @@
 	desc = "A rocket. Pretty heavy, huh."
 	caliber = "missile"
 	icon_state = "rocket"
+	w_class = 3//it's a goddamn rocket,not a toy ree
 	projectile_type = /obj/item/projectile/bullet/rocket
 
 /obj/item/ammo_casing/caseless/smartgun

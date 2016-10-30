@@ -32,8 +32,9 @@
 						"<span class='userdanger'>[M] disarmed [src]!</span>")
 			else
 				playsound(loc, 'sound/weapons/pierce.ogg', 25, 1, -1)
-				Weaken(5)
 				add_logs(M, src, "tackled")
-				visible_message("<span class='danger'>[M] has tackled down [src]!</span>", \
-					"<span class='userdanger'>[M] has tackled down [src]!</span>")
+				visible_message("<span class='danger'>[M] has tackled [src]!</span>", \
+					"<span class='userdanger'>[M] has tackled [src]!</span>")
+				if(staminaloss <= 90)
+					adjustStaminaLoss(18)
 	return
