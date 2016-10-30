@@ -44,9 +44,11 @@
 		if(queen_died_recently)
 			user << "<span class='warning'>A queen died too recently for you to replace it! Wait some more time.</span>"
 			return
-		else if(locate(/mob/living/carbon/alien/humanoid/big/queen) in aliens)
-			user << "<span class='warning'>There can only be one queen at once!</span>"
-			return
+		else
+			for(var/mob/living/carbon/alien/humanoid/big/queen/queen in aliens)
+				if(queen.stat != DEAD)
+					user << "<span class='warning'>There can only be one queen at once!</span>"
+					return
 	else
 		if(!(user.can_evolve()))
 			user << "<span class='danger'>There are too many big sisters for you to evolve.</span>"
