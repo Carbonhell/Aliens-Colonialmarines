@@ -15,7 +15,7 @@
 	else if(type =="Xeno") //because players deserve heard admins
 		announcement += "<h1 class='alert'>Queen Announces To The Hivemind</h1>"
 	else if(type =="BioscanXeno") //because xeno deserve know the tallhosts numbers
-		announcement += "<h1 class='alert'>Hivermind Senses</h1>"
+		announcement += "<h1 class='alert'>Hivemind Senses</h1>"
 	else if(type =="BioscanHuman") //because humans deserve know the fun things numbers
 		announcement += "<h1 class='alert'>M.O.T.H.E.R's Scanner Report</h1>"
 		news_network.SubmitArticle(text, "M.O.T.H.E.R's Announcement", "Sulaco Announcements", null)
