@@ -5,7 +5,7 @@
 		var/turf/playerturf = get_turf(G)
 		if(playerturf.z == ZLEVEL_STATION && ishuman(G))
 			pInStation ++
-		else if(ishuman(G))
+		else if(playerturf.z == ZLEVEL_PLANET && ishuman(G))
 			pInPlanet ++
 
 	var/input = "The number of humans in the Sulaco is [pInStation] and the number of humans in the planet is [pInPlanet]"
@@ -19,7 +19,7 @@
 		var/turf/playerturf = get_turf(G)
 		if(playerturf.z == ZLEVEL_STATION && isalien(G))
 			pInStation ++
-		else if(isalien(G))
+		else if(playerturf.z == ZLEVEL_PLANET && isalien(G))
 			pInPlanet ++
 
 	var/input = "The Sulacco scanner detects [pInStation] unknows lifeforms in the Sulaco and [pInPlanet] unknows lifeforms in the planet."
