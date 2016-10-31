@@ -22,7 +22,7 @@
 		else if(playerturf.z == ZLEVEL_PLANET && isalien(G))
 			pInPlanet ++
 
-	var/input = "The Sulacco scanner detects [pInStation] unknows lifeforms in the Sulaco and [pInPlanet] unknows lifeforms in the planet."
+	var/input = "The Sulacco scanner detects [pInStation] unknows lifeforms in the Sulaco and [pInPlanet] unknow lifeforms in the planet."
 
 	priority_announce(input, null , 'sound/misc/notice1.ogg', "BioscanHuman")
 
