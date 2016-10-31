@@ -35,15 +35,20 @@
 		antag_candidates.Cut(recommended_enemies+1)//remove exceed candidates
 	for(var/i in antag_candidates)
 		var/datum/mind/M = i//less lag than typechecking in the for loop!
+		if(istype(/mob/new_player, M.current))
+			var/mob/new_player/ANP = M.current
+			ANP.close_spawn_windows()
 		M.make_Alien(spawnpoint = pick(xeno_spawn))//defaults to larva
 		M.current << "You are an alien! Reproduce and make a new home out of this place. Speak in the hivemind with :a (Like ':a Hello fellow sisters!')"
 		if(islarva(M.current))
 			var/mob/living/carbon/alien/larva/L = M.current
 			L.amount_grown = L.max_grown
-
-			for (var/v in 1 to 3)
-				if (prob(50))
-					new/mob/living/carbon/monkey(locate(L.x + rand(-1, 1), L.y + rand(-1, 1), L.z))
+			for(var/v in 1 to 3)
+				if(prob(50))
+					var/turf/open/T = get_step_rand(L)
+					if(!istype(T))//if it's a closed turf,for example
+						T = L.loc//spawn it on the alien
+					new /mob/living/carbon/monkey(T)
 
 	for(var/survy in survivor_candidates)
 		if(isemptylist(survivor_spawn))
@@ -51,6 +56,9 @@
 		var/datum/mind/S = survy
 		if(S.current && !istype(S.current, /mob/new_player))//already got spawned
 			continue
+		else
+			var/mob/new_player/SNP = S.current
+			SNP.close_spawn_windows()
 		var/mob/living/carbon/human/H = new(pick(survivor_spawn))
 		S.transfer_to(H, 1)
 		survivors += H
