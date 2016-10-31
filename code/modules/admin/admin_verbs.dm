@@ -69,7 +69,7 @@ var/list/admin_verbs_admin = list(
 	/client/proc/resetSNPC, /* Resets any interactive crewmembers in the world */
 	/client/proc/toggleSNPC, /* Toggles an npc's processing mode */
 	/client/proc/open_shuttle_manipulator, /* Opens shuttle manipulator UI */
-	/client/proc/spawn_human /*Spawns one human */
+	/client/proc/spawn_human /*Spawns one human, */
 	/client/proc/cmd_admin_create_xeno_report, /*Create xeno report for aliens players */
 	/client/proc/cmd_admin_marinescountxeno, /*Create report of numbers for the aliens players*/
 	/client/proc/cmd_admin_xenocounthuman /* Create a report for the humans with the xenos numbers*/
