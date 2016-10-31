@@ -532,14 +532,14 @@
 
 /obj/machinery/door/airlock/alphasulaco
 	name = "alpha airlock"
-	icon = 'icons/obj/doors/airlocks/sulaco/alpha.dmi'
+	icon = 'icons/obj/doors/airlocks/alpha.dmi'
 	overlays_file = 'icons/obj/doors/airlocks/overlays.dmi'
 	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
 	explosion_block = 2
 
 /obj/machinery/door/airlock/bravosulaco
 	name = "bravo airlock"
-	icon = 'icons/obj/doors/airlocks/sulaco/bravo.dmi'
+	icon = 'icons/obj/doors/airlocks/bravo.dmi'
 	overlays_file = 'icons/obj/doors/airlocks/overlays.dmi'
 	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
 	explosion_block = 2
