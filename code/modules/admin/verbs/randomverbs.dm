@@ -1221,7 +1221,7 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 	if(!holder)
 		src << "Only administrators may use this command."
 		return
-	var/input = input(usr, "Please enter anything you want. Anything. Serious.", "What?", "") as message|null
+	var/input = stripped_input(usr, "Please enter anything you want. Anything. Serious.", "What?", "") as message|null
 	if(!input)
 		return
 
