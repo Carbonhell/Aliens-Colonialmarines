@@ -240,7 +240,7 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/debug_huds,
 	/client/proc/customiseSNPC,
 	/client/proc/resetSNPC,
-	/client/proc/toggleSNPC
+	/client/proc/toggleSNPC,
 	/client/proc/cmd_admin_create_xeno_report, /*Create xeno report for aliens players */
 	/client/proc/cmd_admin_marinescountxeno, /* Reports to the xenos the numbers of humans*/
 	/client/proc/cmd_admin_xenocounthuman /*Reports to the humans the numbers of xenos*/
