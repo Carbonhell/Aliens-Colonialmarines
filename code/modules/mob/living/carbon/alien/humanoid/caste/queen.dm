@@ -63,7 +63,7 @@ var/global/list/queenckeys = list()
 	internal_organs += new /obj/item/organ/alien/neurotoxin/spitter
 	internal_organs += new /obj/item/organ/alien/eggsac
 	internal_organs += new /obj/item/organ/alien/pheromone
-	internal_organs += new /obj/effect/proc_holder/alien/screech
+	internal_organs += new /obj/item/organ/alien/reinforcedvchords
 //	AddAbility(new/obj/effect/proc_holder/alien/claw_toggle())   removed
 	AddAbility(new/obj/effect/proc_holder/alien/queen_order())
 	..()
