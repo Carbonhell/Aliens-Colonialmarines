@@ -12,6 +12,14 @@
 		announcement += "<h1 class='alert'>Commander Announces</h1>"
 		news_network.SubmitArticle(text, "Commander's Announcement", "Sulaco Announcements", null)
 
+	else if(type =="Xeno") //because players deserve heard admins
+		announcement += "<h1 class='alert'>Queen Announces To The Hivemind</h1>"
+	else if(type =="BioscanXeno") //because xeno deserve know the tallhosts numbers
+		announcement += "<h1 class='alert'>Hivermind Senses</h1>"
+	else if(type =="BioscanHuman") //because humans deserve know the fun things numbers
+		announcement += "<h1 class='alert'>M.O.T.H.E.R's Scanner Report</h1>"
+		news_network.SubmitArticle(text, "M.O.T.H.E.R's Announcement", "Sulaco Announcements", null)
+
 	else
 		announcement += "<h1 class='alert'>[command_name()] Update</h1>"
 		if (title && length(title) > 0)
@@ -25,10 +33,16 @@
 	announcement += "<br>"
 
 	for(var/mob/M in player_list)
-		if(!istype(M,/mob/new_player) && !M.ear_deaf && !isalien(M))
-			M << announcement
-			if(M.client.prefs.toggles & SOUND_ANNOUNCEMENTS)
-				M << sound(sound)
+		if(!istype(M,/mob/new_player) && !M.ear_deaf  )
+			if(type == "Xeno" || type == "BioscanXeno" && !ishuman(M))
+				M << announcement
+				if(M.client.prefs.toggles & SOUND_ANNOUNCEMENTS)
+					M << sound(sound)
+			else
+				if(type != "Xeno" && type != "BioscanXeno" && !isalien(M))
+					M << announcement
+					if(M.client.prefs.toggles & SOUND_ANNOUNCEMENTS)
+						M << sound(sound)
 
 /proc/print_command_report(text = "", title = "USCM Update")
 	for (var/obj/machinery/computer/communications/C in machines)
