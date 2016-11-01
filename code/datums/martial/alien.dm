@@ -4,6 +4,12 @@
 	name = "Alien combos"
 	var/help_text = "You have several combos you can do on other lifeforms. Kill-grab someone and slash them to bite their head with your inner mouth. Perform a slash,slash,tackle,tackle,slash to impale your victim with your tail."
 
+
+/datum/martial_art/alien/teach(mob/living/carbon/H,make_temporary=0)
+	..()
+	if(H.mind)
+		H.mind.store_memory(help_text)
+
 /datum/martial_art/alien/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(findtext(streak,TAIL_IMPALE))
 		streak = ""

@@ -24,9 +24,6 @@
 	..()
 	var/datum/martial_art/alien/combo = new()
 	combo.teach(src)
-	if(mind)
-		mind.store_memory(combo.help_text)
-
 
 /mob/living/carbon/alien/humanoid/movement_delay()
 	. = ..()
