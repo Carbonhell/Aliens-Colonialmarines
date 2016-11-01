@@ -1,11 +1,11 @@
 /proc/xeno_scan()
 	var/pInStation = 0
 	var/pInPlanet = 0
-	for(var/mob/G in player_list)
-		var/turf/playerturf = get_turf(G)
-		if(playerturf.z == ZLEVEL_STATION && ishuman(G))
+	for(var/G in humans)
+		var/mob/living/carbon/human/H = G
+		if(H.z == ZLEVEL_STATION)
 			pInStation ++
-		else if(playerturf.z == ZLEVEL_PLANET && ishuman(G))
+		else if(H.z == ZLEVEL_PLANET)
 			pInPlanet ++
 
 	var/input = "The number of humans in the Sulaco is [pInStation] and the number of humans in the planet is [pInPlanet]"
@@ -15,16 +15,18 @@
 /proc/human_scan()
 	var/pInStation = 0
 	var/pInPlanet = 0
-	for(var/mob/G in aliens)
-		var/turf/playerturf = get_turf(G)
-		if(playerturf.z == ZLEVEL_STATION)
+	for(var/G in aliens)
+		var/mob/living/carbon/alien/H = G
+		if(H.z == ZLEVEL_STATION)
 			pInStation ++
-		else if(playerturf.z == ZLEVEL_PLANET)
+		else if(H.z == ZLEVEL_PLANET)
 			pInPlanet ++
 
-	var/input = "The Sulacco scanner detects [pInStation] unknows lifeforms in the Sulaco and [pInPlanet] unknow lifeforms in the planet."
+	var/input = "The Sulacco scanner detects [pInStation] unknows lifeforms in the Sulaco and [pInPlanet] unknows lifeforms in the planet."
 
 	priority_announce(input, null , 'sound/misc/notice1.ogg', "BioscanHuman")
+
+
 
 
 
