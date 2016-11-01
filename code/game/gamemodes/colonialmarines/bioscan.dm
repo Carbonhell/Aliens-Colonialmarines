@@ -15,11 +15,11 @@
 /proc/human_scan()
 	var/pInStation = 0
 	var/pInPlanet = 0
-	for(var/mob/G in player_list)
+	for(var/mob/G in aliens)
 		var/turf/playerturf = get_turf(G)
-		if(playerturf.z == ZLEVEL_STATION && isalien(G))
+		if(playerturf.z == ZLEVEL_STATION)
 			pInStation ++
-		else if(playerturf.z == ZLEVEL_PLANET && isalien(G))
+		else if(playerturf.z == ZLEVEL_PLANET)
 			pInPlanet ++
 
 	var/input = "The Sulacco scanner detects [pInStation] unknows lifeforms in the Sulaco and [pInPlanet] unknow lifeforms in the planet."
