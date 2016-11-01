@@ -1,9 +1,8 @@
 /mob/living/carbon/human/attack_alien(mob/living/carbon/alien/humanoid/M)
-	if(check_shields(0, M.name))
-		visible_message("<span class='danger'>[M] attempted to touch [src]!</span>")
-		return 0
-
 	if(..())
+		if(check_shields(0, M.name))
+			visible_message("<span class='danger'>[M] attempted to touch [src]!</span>")
+			return 0
 		if(M.a_intent == "harm")
 			if (w_uniform)
 				w_uniform.add_fingerprint(M)

@@ -86,6 +86,12 @@
 			H.leap_icon.screen_loc = ui_alien_storage_r
 			static_inventory += H.leap_icon
 
+	using = new /obj/screen/combo() //For martial arts
+	using.icon_state = ""
+	using.screen_loc = ui_combo
+	static_inventory += using
+	combo_object = using
+
 	using = new /obj/screen/drop()
 	using.icon = 'icons/mob/screen_alien.dmi'
 	using.screen_loc = ui_drop_throw

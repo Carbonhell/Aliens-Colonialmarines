@@ -34,3 +34,4 @@
 	var/tinttotal = 0	// Total level of visualy impairing items
 
 	var/list/bodyparts = list() //Gets filled up in the constructor (New() proc in human.dm and monkey.dm)
+	var/datum/martial_art/martial_art = null

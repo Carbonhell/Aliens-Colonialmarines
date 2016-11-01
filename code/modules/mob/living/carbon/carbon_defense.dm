@@ -51,8 +51,34 @@
 			for(var/datum/surgery/S in surgeries)
 				if(S.next_step(user))
 					return 1
+
+	if(user.martial_art)
+		var/datum/martial_art/attacker_style = user.martial_art
+		switch(user.a_intent)
+			if("grab")
+				return attacker_style.grab_act(user,src)
+			if("disarm")
+				return attacker_style.disarm_act(user,src)
+			if("harm")
+				return attacker_style.harm_act(user,src)
+
 	return 0
 
+/mob/living/carbon/attack_alien(mob/living/carbon/alien/humanoid/user)
+	if(user.martial_art)
+		var/datum/martial_art/attacker_style = user.martial_art
+		switch(user.a_intent)
+			if("grab")
+				if(attacker_style.grab_act(user,src))
+					return 0//we finished attacking
+			if("disarm")
+				if(attacker_style.disarm_act(user,src))
+					return 0
+			if("harm")
+				if(attacker_style.harm_act(user,src))
+					return 0
+
+	return ..()
 
 /mob/living/carbon/attack_paw(mob/living/carbon/monkey/M)
 	if(!istype(M, /mob/living/carbon))

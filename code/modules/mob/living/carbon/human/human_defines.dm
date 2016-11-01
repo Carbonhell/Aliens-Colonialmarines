@@ -47,8 +47,6 @@ var/global/default_martial_art = new/datum/martial_art
 	var/bleed_rate = 0 //how much are we bleeding
 	var/bleedsuppress = 0 //for stopping bloodloss, eventually this will be limb-based like bleeding
 
-	var/datum/martial_art/martial_art = null
-
 	var/name_override //For temporary visible name changes
 
 	var/heart_attack = 0

@@ -392,6 +392,9 @@
 		spawn handle_hallucinations()
 		hallucination = max(hallucination-2,0)
 
+	if(hud_used && hud_used.combo_object && hud_used.combo_object.cooldown < world.time)
+		hud_used.combo_object.update_icon()
+
 //used in human and monkey handle_environment()
 /mob/living/carbon/proc/natural_bodytemperature_stabilization()
 	var/body_temperature_difference = 310.15 - bodytemperature

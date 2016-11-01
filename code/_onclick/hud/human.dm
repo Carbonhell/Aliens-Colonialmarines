@@ -109,6 +109,12 @@
 	static_inventory += using
 	action_intent = using
 
+	using = new /obj/screen/combo() //For martial arts
+	using.icon_state = ""
+	using.screen_loc = ui_combo
+	static_inventory += using
+	combo_object = using
+
 	using = new /obj/screen/mov_intent()
 	using.icon = ui_style
 	using.icon_state = (mymob.m_intent == "run" ? "running" : "walking")

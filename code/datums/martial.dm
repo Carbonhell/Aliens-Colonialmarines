@@ -8,35 +8,47 @@
 	var/deflection_chance = 0 //Chance to deflect projectiles
 	var/help_verb = null
 
-/datum/martial_art/proc/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+/datum/martial_art/proc/disarm_act(mob/living/carbon/A, mob/living/carbon/D)
 	return 0
 
-/datum/martial_art/proc/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+/datum/martial_art/proc/harm_act(mob/living/carbon/A, mob/living/carbon/D)
 	return 0
 
-/datum/martial_art/proc/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+/datum/martial_art/proc/grab_act(mob/living/carbon/A, mob/living/carbon/D)
 	return 0
 
-/datum/martial_art/proc/add_to_streak(element,mob/living/carbon/human/D)
+/datum/martial_art/proc/add_to_streak(element,mob/living/carbon/D, mob/living/carbon/A)
 	if(D != current_target)
 		current_target = D
 		streak = ""
 	streak = streak+element
 	if(length(streak) > max_streak_length)
 		streak = copytext(streak,2)
+	if(istype(A))
+		A.hud_used.combo_object.update_icon(streak)
 	return
 
-/datum/martial_art/proc/basic_hit(mob/living/carbon/human/A,mob/living/carbon/human/D)
+/datum/martial_art/proc/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	return 0
+
+/datum/martial_art/proc/basic_hit(mob/living/carbon/A,mob/living/carbon/D)//Will probably need a rewrite in future to allow any carbon,but at the moment i can't rewrite all fucking mobs for this
 
 	A.do_attack_animation(D)
-	var/damage = rand(A.dna.species.punchdamagelow, A.dna.species.punchdamagehigh)
-
-	var/atk_verb = A.dna.species.attack_verb
-	if(D.lying)
-		atk_verb = "kick"
+	var/damage = 6
+	var/atk_verb = "slash"
+	var/misssound = 'sound/weapons/slashmiss.ogg'
+	var/attacksound = 'sound/weapons/slice.ogg'
+	if(ishuman(A))
+		var/mob/living/carbon/human/H = A
+		damage = rand(H.dna.species.punchdamagelow, H.dna.species.punchdamagehigh)
+		atk_verb = H.dna.species.attack_verb
+		misssound = H.dna.species.miss_sound
+		attacksound = H.dna.species.attack_sound
+		if(D.lying)
+			atk_verb = "slash"
 
 	if(!damage)
-		playsound(D.loc, A.dna.species.miss_sound, 25, 1, -1)
+		playsound(D.loc, misssound, 25, 1, -1)
 		D.visible_message("<span class='warning'>[A] has attempted to [atk_verb] [D]!</span>")
 		add_logs(A, D, "attempted to [atk_verb]")
 		return 0
@@ -44,24 +56,19 @@
 	var/obj/item/bodypart/affecting = D.get_bodypart(ran_zone(A.zone_selected))
 	var/armor_block = D.run_armor_check(affecting, "melee")
 
-	playsound(D.loc, A.dna.species.attack_sound, 25, 1, -1)
+	playsound(D.loc, attacksound, 25, 1, -1)
 	D.visible_message("<span class='danger'>[A] has [atk_verb]ed [D]!</span>", \
 								"<span class='userdanger'>[A] has [atk_verb]ed [D]!</span>")
 
 	D.apply_damage(damage, BRUTE, affecting, armor_block)
 
-	add_logs(A, D, "punched")
+	add_logs(A, D, "[atk_verb]ed")
 
-	if((D.stat != DEAD) && damage >= A.dna.species.punchstunthreshold)
-		D.visible_message("<span class='danger'>[A] has weakened [D]!!</span>", \
-								"<span class='userdanger'>[A] has weakened [D]!</span>")
-		D.apply_effect(4, WEAKEN, armor_block)
-		D.forcesay(hit_appends)
-	else if(D.lying)
+	if(D.lying)
 		D.forcesay(hit_appends)
 	return 1
 
-/datum/martial_art/proc/teach(mob/living/carbon/human/H,make_temporary=0)
+/datum/martial_art/proc/teach(mob/living/carbon/H,make_temporary=0)
 	if(help_verb)
 		H.verbs += help_verb
 	if(make_temporary)
@@ -70,7 +77,7 @@
 		base = H.martial_art
 	H.martial_art = src
 
-/datum/martial_art/proc/remove(mob/living/carbon/human/H)
+/datum/martial_art/proc/remove(mob/living/carbon/H)
 	if(H.martial_art != src)
 		return
 	H.martial_art = base
@@ -144,7 +151,7 @@
 	help_verb = /mob/living/carbon/human/proc/plasma_fist_help
 
 
-/datum/martial_art/plasma_fist/proc/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
+/datum/martial_art/plasma_fist/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(findtext(streak,TORNADO_COMBO))
 		streak = ""
 		Tornado(A,D)
@@ -195,21 +202,21 @@
 	return
 
 /datum/martial_art/plasma_fist/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	add_to_streak("H",D)
+	add_to_streak("H",D, A)
 	if(check_streak(A,D))
 		return 1
 	basic_hit(A,D)
 	return 1
 
 /datum/martial_art/plasma_fist/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	add_to_streak("D",D)
+	add_to_streak("D",D, A)
 	if(check_streak(A,D))
 		return 1
 	basic_hit(A,D)
 	return 1
 
 /datum/martial_art/plasma_fist/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	add_to_streak("G",D)
+	add_to_streak("G",D, A)
 	if(check_streak(A,D))
 		return 1
 	basic_hit(A,D)
@@ -236,7 +243,7 @@
 	deflection_chance = 100
 	help_verb = /mob/living/carbon/human/proc/sleeping_carp_help
 
-/datum/martial_art/the_sleeping_carp/proc/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
+/datum/martial_art/the_sleeping_carp/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(findtext(streak,WRIST_WRENCH_COMBO))
 		streak = ""
 		wristWrench(A,D)
@@ -325,7 +332,7 @@
 	return basic_hit(A,D)
 
 /datum/martial_art/the_sleeping_carp/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	add_to_streak("G",D)
+	add_to_streak("G",D, A)
 	if(check_streak(A,D))
 		return 1
 	if(A.grab_state >= GRAB_AGGRESSIVE)
@@ -341,7 +348,7 @@
 	return 1
 
 /datum/martial_art/the_sleeping_carp/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	add_to_streak("H",D)
+	add_to_streak("H",D, A)
 	if(check_streak(A,D))
 		return 1
 	A.do_attack_animation(D)
@@ -358,7 +365,7 @@
 
 
 /datum/martial_art/the_sleeping_carp/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	add_to_streak("D",D)
+	add_to_streak("D",D, A)
 	if(check_streak(A,D))
 		return 1
 	return ..()

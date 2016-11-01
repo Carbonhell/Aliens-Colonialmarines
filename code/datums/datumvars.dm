@@ -275,6 +275,8 @@ var/global/list/internal_byond_list_vars = list("contents" = TRUE, "verbs" = TRU
 			body += "<option value>---</option>"
 			body += "<option value='?_src_=vars;editorgans=\ref[D]'>Modify organs</option>"
 			body += "<option value='?_src_=vars;makeai=\ref[D]'>Make AI</option>"
+			body += "<option value='?_src_=vars;givemartial=\ref[D]'>Give Martial Art</option>"
+			body += "<option value='?_src_=vars;removemartial=\ref[D]'>Remove Martial Art</option>"
 		if(ishuman(D))
 			body += "<option value='?_src_=vars;makemonkey=\ref[D]'>Make monkey</option>"
 			body += "<option value='?_src_=vars;setspecies=\ref[D]'>Set Species</option>"
@@ -873,6 +875,36 @@ body
 				usr << "Mob doesn't exist anymore"
 				return
 			holder.Topic(href, list("makeai"=href_list["makeai"]))
+
+		else if(href_list["givemartial"])
+			if(!check_rights(0))
+				return
+
+			var/mob/living/carbon/M = locate(href_list["givemartial"])
+			if(!istype(M))
+				usr << "This can only be used on instances of type /mob/living/carbon"
+				return
+
+			var/chosen_martial = input("Choose what martial art to give", "Dojo") as null|anything in subtypesof(/datum/martial_art)
+			if(!chosen_martial)
+				return
+			var/datum/martial_art/art = new chosen_martial
+			art.teach(M)
+
+		else if(href_list["removemartial"])
+			if(!check_rights(0))
+				return
+
+			var/mob/living/carbon/M = locate(href_list["removemartial"])
+			if(!istype(M))
+				usr << "This can only be used on instances of type /mob/living/carbon"
+				return
+			if(!M.martial_art)
+				usr << "The mob has no martial art to remove."
+				return
+			var/datum/martial_art/art = M.martial_art
+			art.remove(M)
+			qdel(art)
 
 		else if(href_list["setspecies"])
 			if(!check_rights(R_SPAWN))
