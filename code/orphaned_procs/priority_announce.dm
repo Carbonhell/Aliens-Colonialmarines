@@ -39,7 +39,7 @@
 				if(M.client.prefs.toggles & SOUND_ANNOUNCEMENTS)
 					M << sound(sound)
 			else
-				if(type != "Xeno" && type != "BioscanXeno" && !isalien(M))
+				if(type == "BioscanHuman" && ishuman(M))
 					M << announcement
 					if(M.client.prefs.toggles & SOUND_ANNOUNCEMENTS)
 						M << sound(sound)
