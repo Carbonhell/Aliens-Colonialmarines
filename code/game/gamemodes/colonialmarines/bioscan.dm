@@ -24,7 +24,7 @@
 			else if(H.z == ZLEVEL_PLANET)
 				pInPlanet ++
 
-	var/input = "The Sulaco scanner detects [pInStation] unknows lifeforms in the Sulaco and [pInPlanet] unknows lifeforms in the planet."
+	var/input = "The Sulaco scanner detects [pInStation] unknow lifeforms in the Sulaco and [pInPlanet] unknows lifeforms in the planet."
 
 	priority_announce(input, null , 'sound/misc/notice1.ogg', "BioscanHuman")
 
