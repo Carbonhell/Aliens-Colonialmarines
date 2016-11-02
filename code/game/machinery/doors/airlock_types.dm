@@ -516,8 +516,7 @@
 	glass = 1
 	bound_width = 64 // 2x1
 
-/obj/machinery/door/airlock/glass_large/narsie_act()
-	return
+
 	
 //////////////////////////////////////////
 /*
