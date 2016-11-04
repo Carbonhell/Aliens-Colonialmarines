@@ -54,11 +54,11 @@
 		var/datum/mind/S = survy
 		if(S.current && !istype(S.current, /mob/new_player))//already got spawned
 			continue
-		else
-			var/mob/new_player/SNP = S.current
-			SNP.close_spawn_windows()
+		S.assigned_role = "Survivor"
+		S.special_role = "Survivor"//to avoid getting equiprank'd
 		var/mob/living/carbon/human/H = new(pick(survivor_spawn))
 		S.transfer_to(H, 1)
+		H.close_spawn_windows()
 		survivors += H
 		survivor_candidates[survy] = H.real_name
 		H.equipOutfit(pick(subtypesof(/datum/outfit/survivor)))//random outfit

@@ -149,7 +149,7 @@
 	SetLuminosity(0)
 	SSair.hotspots -= src
 	DestroyTurf()
-	if(istype(loc, /turf))
+	if(istype(loc, /turf/open))
 		var/turf/open/T = loc
 		if(T.active_hotspot == src)
 			T.active_hotspot = null
