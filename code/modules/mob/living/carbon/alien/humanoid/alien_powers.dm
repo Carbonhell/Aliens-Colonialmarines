@@ -560,7 +560,9 @@ Doesn't work on other aliens/AI.*/
 	var/obj/item/organ/alien/reinforcedvchords/R = user.getorgan(/obj/item/organ/alien/reinforcedvchords)
 	if(!R)
 		return
-	for(var/mob/M in view())
+	playsound(user.loc, 'sound/voice/alien_queen_screech.ogg', 50, 1, 1)
+	user << "<span class='danger'>You emit an ear-splitting guttural roar, shaking the ground beneath your feet!</span>"
+	for(var/mob/M in hearers(7, user))
 		if(M == src || !M.client || isalien(M))
 			continue
 		var/stuntime = get_dist(src, M) <= 4 ? 4 : 2
@@ -568,8 +570,8 @@ Doesn't work on other aliens/AI.*/
 		M.Weaken(1)
 		shake_camera(M, 30, 1)
 		M.adjustEarDamage(stuntime*2,stuntime*2)
-		playsound(user.loc, 'sound/voice/alien_queen_screech.ogg', 50, 1, 1)
 		M << "<span class='danger'>An ear-splitting guttural roar shakes the ground beneath your feet!</span>"
+	shake_camera(user, 20, 1)
 	spawn(0)
 		start_recharge()
 

@@ -1353,7 +1353,7 @@
 "Aa" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 5},/turf/open/floor/plasteel/darkpurple/corner{dir = 1},/area/medical/medbay/sulaco)
 "Ab" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden{dir = 10},/turf/open/floor/plasteel/darkpurple/corner{dir = 1},/area/medical/medbay/sulaco)
 "Ac" = (/obj/structure/chair/office/light{dir = 4},/turf/open/floor/plasteel/darkpurple/side{dir = 4},/area/medical/medbay/sulaco)
-"Ad" = (/obj/structure/table/reinforced,/obj/machinery/door/window/brigdoor/westleft{name = "Chemistry Desk"; req_access_txt = "501"},/turf/open/floor/plating,/area/medical/medbay/sulaco)
+"Ad" = (/obj/structure/table/reinforced,/obj/machinery/door/window/brigdoor/westleft{name = "Chemistry Desk"; req_access_txt = "217"},/turf/open/floor/plating,/area/medical/medbay/sulaco)
 "Ae" = (/turf/open/floor/plasteel{dir = 8; icon_state = "whitegreen"},/area/medical/medbay/sulaco)
 "Af" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"; pixel_y = 0},/turf/open/floor/plasteel{dir = 4; icon_state = "whitegreencorner"},/area/medical/medbay/sulaco)
 "Ag" = (/obj/machinery/atmospherics/pipe/simple/supply/hidden,/obj/structure/disposalpipe/segment,/turf/open/floor/plasteel{dir = 1; icon_state = "whitegreencorner"},/area/medical/medbay/sulaco)
