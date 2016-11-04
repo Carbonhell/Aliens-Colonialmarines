@@ -246,10 +246,12 @@
 		current << "<span class='userdanger'>Despite your creators current allegiances, your true master remains [creator.real_name]. If their loyalities change, so do yours. This will never change unless your creator's body is destroyed.</span>"
 
 /datum/mind/proc/show_memory(mob/recipient, window=1)
-	if(!recipient)
+	if(!recipient && current)
 		recipient = current
 	var/output = "<B>[current.real_name]'s Memories:</B><br>"
 	output += memory
+	if(recipient.memory)
+		output += recipient.memory
 
 	if(objectives.len)
 		output += "<B>Objectives:</B>"

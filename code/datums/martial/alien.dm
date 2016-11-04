@@ -7,8 +7,7 @@
 
 /datum/martial_art/alien/teach(mob/living/carbon/H,make_temporary=0)
 	..()
-	if(H.mind)
-		H.mind.store_memory(help_text)
+	H.memory += help_text
 
 /datum/martial_art/alien/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(findtext(streak,TAIL_IMPALE))
