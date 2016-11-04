@@ -204,7 +204,7 @@
 			table_deconstruct(user, 0)
 			return
 
-	if(istype(I, /obj/item/weapon/storage/bag/tray) && !flipped)
+	if(istype(I, /obj/item/weapon/storage/bag/tray) && flipped != 1)
 		var/obj/item/weapon/storage/bag/tray/T = I
 		if(T.contents.len > 0) // If the tray isn't empty
 			var/list/obj/item/oldContents = T.contents.Copy()
@@ -217,7 +217,7 @@
 			return
 		// If the tray IS empty, continue on (tray will be placed on the table like other items)
 
-	if(user.a_intent != "harm" && !(I.flags & ABSTRACT) && !flipped)
+	if(user.a_intent != "harm" && !(I.flags & ABSTRACT) && flipped != 1)
 		if(user.drop_item())
 			I.Move(loc)
 			var/list/click_params = params2list(params)
