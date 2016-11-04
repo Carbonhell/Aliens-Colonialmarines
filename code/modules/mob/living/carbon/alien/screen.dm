@@ -16,6 +16,8 @@
 			return
 		var/turf/Q = get_turf(queen)
 		var/turf/A = get_turf(src)
+		if(!Q || !A)
+			return//somehow, the turfs do not exist.
 		if(Q.z != A.z) //The queen is on a different Z level, we cannot sense that far.
 			return
 		var/Qdir = get_dir(src, Q)

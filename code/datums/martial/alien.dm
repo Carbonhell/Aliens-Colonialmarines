@@ -55,7 +55,7 @@
 		if(B.body_zone in list("head", "chest"))
 			continue
 		limbs_yacan_dismember += B.body_zone
-	if(isemptylist(limbs_yacan_dismember.len))
+	if(isemptylist(limbs_yacan_dismember))
 		return
 	var/limb_aimed = user.zone_selected
 	if(!(limb_aimed in limbs_yacan_dismember))//dismembering head or chest would be too op,let's be honest
