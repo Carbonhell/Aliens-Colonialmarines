@@ -124,3 +124,5 @@
 		if(do_after(M, 50, src))
 			M << "<span class='danger'>You claw the [name] down.</span>"
 			qdel(src)
+	else
+		..()

@@ -35,10 +35,8 @@
 		antag_candidates.Cut(recommended_enemies+1)//remove exceed candidates
 	for(var/i in antag_candidates)
 		var/datum/mind/M = i//less lag than typechecking in the for loop!
-		if(istype(/mob/new_player, M.current))
-			var/mob/new_player/ANP = M.current
-			ANP.close_spawn_windows()
 		M.make_Alien(spawnpoint = pick(xeno_spawn))//defaults to larva
+		M.current.close_spawn_windows()//bugfix cause the spawn window didn't go away at roundstart
 		M.current << "You are an alien! Reproduce and make a new home out of this place. Speak in the hivemind with :a (Like ':a Hello fellow sisters!')"
 		if(islarva(M.current))
 			var/mob/living/carbon/alien/larva/L = M.current
