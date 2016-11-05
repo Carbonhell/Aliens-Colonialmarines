@@ -341,6 +341,12 @@ Doesn't work on other aliens/AI.*/
 	var/choice = input("Choose what you wish to shape.","Resin building") as null|anything in structures
 	if(!choice)
 		return 0
+	if(locate(/obj/structure/alien/resin) in user.loc)//checking again due to input
+		user << "<span class='danger'>There is already a resin structure there.</span>"
+		return 0
+	if(!locate(/obj/structure/alien/weeds) in user.loc)
+		user << "<span class='danger'>You must plant some weeds first!</span>"
+		return 0
 	if (!cost_check(check_turf,user))
 		return 0
 	if(locate(structures[choice]) in user.loc)
