@@ -9,6 +9,8 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/grenadelauncher
 	fire_sound = 'sound/weapons/grenadelaunch.ogg'
 	w_class = 3
+	recoil = 6
+	fire_delay = 100
 
 /obj/item/weapon/gun/projectile/revolver/grenadelauncher/arc
 	mag_type = /obj/item/ammo_box/magazine/internal/grenadelauncher/arc
