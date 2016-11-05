@@ -244,7 +244,9 @@ obj/item/weapon/gun/proc/newshot()
 			break
 		process_chamber()
 		update_icon()
+		semicd = TRUE
 		sleep(fire_delay)
+		semicd = FALSE
 	firing_burst = 0
 
 	if(user)
@@ -252,6 +254,8 @@ obj/item/weapon/gun/proc/newshot()
 			user.update_inv_l_hand()
 		else
 			user.update_inv_r_hand()
+		if(fire_delay > 50)//if it's more than 5 seconds,let's notify the user the gun can shoot again.)
+			user << "<span class='notice'>\The [name] is ready to be shot again!</span>"
 	feedback_add_details("gun_fired","[src.type]")
 
 /obj/item/weapon/gun/attack(mob/M as mob, mob/user)
