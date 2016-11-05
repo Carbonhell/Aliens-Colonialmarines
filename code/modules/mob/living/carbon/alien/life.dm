@@ -49,9 +49,9 @@
 /mob/living/carbon/alien/proc/checkPheromones()
 	active_pheromones.Cut()
 	for(var/mob/living/carbon/C in range(7, src))
-		var/obj/item/organ/alien/pheromone/P = C.getorgan(/obj/item/organ/alien/pheromone)
-		if(!C)
+		if(C == src)
 			continue
+		var/obj/item/organ/alien/pheromone/P = C.getorgan(/obj/item/organ/alien/pheromone)
 		if(!P)
 			continue
 		if(P.active && P.pheromone && !(P.pheromone in active_pheromones))
