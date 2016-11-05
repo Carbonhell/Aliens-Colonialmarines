@@ -548,6 +548,8 @@ Doesn't work on other aliens/AI.*/
 		M << "<span class='userdanger'>The earth moves beneath your feet!</span>"
 		if(M && M.client)
 			shake_camera(M, 5, 1)
+	spawn(0)
+		start_recharge()
 
 /obj/effect/proc_holder/alien/screech
 	name = "Screech"
