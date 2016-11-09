@@ -516,5 +516,43 @@
 	glass = 1
 	bound_width = 64 // 2x1
 
-/obj/machinery/door/airlock/glass_large/narsie_act()
-	return
+
+	
+//////////////////////////////////////////
+/*
+	Sulaco airlocks
+*/
+/obj/machinery/door/airlock/defaultsulaco
+	name = "sulaco airlock"
+	icon = 'icons/obj/doors/airlocks/deafultsulaco.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
+	explosion_block = 2
+
+/obj/machinery/door/airlock/alphasulaco
+	name = "alpha airlock"
+	icon = 'icons/obj/doors/airlocks/alpha.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
+	explosion_block = 2
+
+/obj/machinery/door/airlock/bravosulaco
+	name = "bravo airlock"
+	icon = 'icons/obj/doors/airlocks/bravo.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
+	explosion_block = 2
+
+/obj/machinery/door/airlock/charlietsulaco
+	name = "charlie airlock"
+	icon = 'icons/obj/doors/airlocks/charlie.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
+	explosion_block = 2
+
+/obj/machinery/door/airlock/deltasulaco
+	name = "delta airlock"
+	icon = 'icons/obj/doors/airlocks/delta.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
+	explosion_block = 2
