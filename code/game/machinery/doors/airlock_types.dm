@@ -285,6 +285,47 @@
 	overlays_file = 'icons/obj/doors/airlocks/highsec/overlays.dmi'
 	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
 	explosion_block = 2
+//////////////////////////////////////////
+/*
+	Sulaco airlocks
+*/
+/obj/machinery/door/airlock/defaultsulaco
+	name = "sulaco airlock"
+	icon = 'icons/obj/doors/airlocks/deafultsulaco.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
+	explosion_block = 2
+
+/obj/machinery/door/airlock/alphasulaco
+	name = "alpha airlock"
+	icon = 'icons/obj/doors/airlocks/sulaco/alpha.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
+	explosion_block = 2
+
+/obj/machinery/door/airlock/bravosulaco
+	name = "bravo airlock"
+	icon = 'icons/obj/doors/airlocks/sulaco/bravo.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
+	explosion_block = 2
+
+/obj/machinery/door/airlock/charlietsulaco
+	name = "charlie airlock"
+	icon = 'icons/obj/doors/airlocks/charlie.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
+	explosion_block = 2
+
+/obj/machinery/door/airlock/deltasulaco
+	name = "delta airlock"
+	icon = 'icons/obj/doors/airlocks/delta.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
+	explosion_block = 2
+
+
+
 
 //////////////////////////////////
 /*

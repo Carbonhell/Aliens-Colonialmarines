@@ -1209,3 +1209,57 @@ var/list/datum/outfit/custom_outfits = list() //Admin created outfits
 	message_admins("[key_name(src)] filled the hullbreachs in [size] tiles.")
 	log_game("[key_name(src)] filled the hullbreachs in [size] tiles.")
 	*/
+/*
+
+	When you want tell something important to the aliens
+
+*/
+/client/proc/cmd_admin_create_xeno_report()
+	set category = "Special Verbs"
+	set name = "Create Alien Report"
+	if(!holder)
+		src << "Only administrators may use this command."
+		return
+	var/input = input(usr, "Please enter anything you want. Anything. Serious.", "What?", "") as message|null
+	if(!input)
+		return
+
+
+	priority_announce(input, null, 'sound/voice/alien_queen_command3.ogg',"Xeno")
+
+
+
+	log_admin("[key_name(src)] has created an alien report: [input]")
+	message_admins("[key_name_admin(src)] has created an alien report")
+	feedback_add_details("admin_verb","CXR") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+/*
+	//Proccess to report the numbers of every team
+*/
+
+/client/proc/cmd_admin_marinescountxeno()
+	set category = "Special Verbs"
+	set name = "Report Xeno Numbers"
+	if(!holder)
+		src << "Only administrators may use this command."
+		return
+
+	xeno_scan()
+
+
+	log_admin("[key_name(src)] has informed to the xenos, the numbers of marines.")
+	message_admins("[key_name_admin(src)] has created an alien report of marines numbers")
+	feedback_add_details("admin_verb","MCX") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+/client/proc/cmd_admin_xenocounthuman()
+	set category = "Special Verbs"
+	set name = "Report Humans Numbers"
+	if(!holder)
+		src << "Only administrators may use this command."
+		return
+
+	human_scan()
+
+
+	log_admin("[key_name(src)] has informed to the humans, the numbers of xenos.")
+	message_admins("[key_name_admin(src)] has created an human report of xenos numbers")
+	feedback_add_details("admin_verb","MCH") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
