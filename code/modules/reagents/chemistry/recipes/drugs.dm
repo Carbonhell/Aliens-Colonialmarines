@@ -12,12 +12,6 @@
 	mix_message = "The mixture violently reacts, leaving behind a few crystalline shards."
 	required_temp = 390
 
-/datum/chemical_reaction/heroin
-	name = "Heroin"
-	id = "heroin"
-	results = list("heroin" = 4)
-	required_reagents = list("morphine" = 1, "cyanide" = 1, "potassium" = 1, "epinephrine" = 1)
-	required_temp = 420
 
 /datum/chemical_reaction/krokodil
 	name = "Krokodil"
@@ -38,7 +32,7 @@
 	name = "bath_salts"
 	id = "bath_salts"
 	results = list("bath_salts" = 7)
-	required_reagents = list("????" = 1, "saltpetre" = 1, "nutriment" = 1, "cleaner" = 1, "enzyme" = 1, "tea" = 1, "mercury" = 1)
+	required_reagents = list("bad_food" = 1, "saltpetre" = 1, "nutriment" = 1, "cleaner" = 1, "enzyme" = 1, "tea" = 1, "mercury" = 1)
 	required_temp = 374
 
 /datum/chemical_reaction/aranesp

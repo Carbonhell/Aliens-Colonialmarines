@@ -14,8 +14,8 @@ Whenever it isn't chasing something down, it will sink into nearby blood pools (
 To make this possible, it sprays streams of blood at random.
 From these blood pools Bubblegum may summon slaughterlings - weak, low-damage minions designed to impede the target's progress.
 
-When Bubblegum dies, it leaves behind a chest that can contain three things:
- 1. A slaughter demon spawner
+When Bubblegum dies, it leaves behind a H.E.C.K. suit+helmet as well as a chest that can contain three things:
+ 1. A spellblade that can slice off limbs at range
  2. A bottle that, when activated, drives everyone nearby into a frenzy
  3. A contract that marks for death the chosen target
 
@@ -25,7 +25,7 @@ Difficulty: Hard
 
 /mob/living/simple_animal/hostile/megafauna/bubblegum
 	name = "bubblegum"
-	desc = "In what passes for a heirarchy among slaughter demons, this one is king."
+	desc = "In what passes for a hierarchy among slaughter demons, this one is king."
 	health = 2500
 	maxHealth = 2500
 	attacktext = "rends"
@@ -44,14 +44,15 @@ Difficulty: Hard
 	ranged = 1
 	pixel_x = -32
 	del_on_death = 1
+	crusher_loot = list(/obj/structure/closet/crate/necropolis/bubblegum/crusher)
 	loot = list(/obj/structure/closet/crate/necropolis/bubblegum)
 	var/charging = 0
-	medal_type = MEDAL_PREFIX
+	medal_type = BOSS_MEDAL_BUBBLEGUM
 	score_type = BUBBLEGUM_SCORE
 	deathmessage = "sinks into a pool of blood, fleeing the battle. You've won, for now... "
 	death_sound = 'sound/magic/enter_blood.ogg'
 
-/obj/item/device/gps/internal/bubblegum
+/obj/item/gps/internal/bubblegum
 	icon_state = null
 	gpstag = "Bloody Signal"
 	desc = "You're not quite sure how a signal can be bloody."
@@ -59,10 +60,10 @@ Difficulty: Hard
 
 /mob/living/simple_animal/hostile/megafauna/bubblegum/Life()
 	..()
-	move_to_delay = Clamp(round((health/maxHealth) * 10), 5, 10)
+	move_to_delay = CLAMP(round((health/maxHealth) * 10), 5, 10)
 
 /mob/living/simple_animal/hostile/megafauna/bubblegum/OpenFire()
-	anger_modifier = Clamp(((maxHealth - health)/50),0,20)
+	anger_modifier = CLAMP(((maxHealth - health)/50),0,20)
 	if(charging)
 		return
 	ranged_cooldown = world.time + ranged_cooldown_time
@@ -70,28 +71,32 @@ Difficulty: Hard
 	blood_warp()
 
 	if(prob(25))
-		addtimer(src, "blood_spray", 0)
+		INVOKE_ASYNC(src, .proc/blood_spray)
 
 	else if(prob(5+anger_modifier/2))
 		slaughterlings()
 	else
 		if(health > maxHealth/2 && !client)
-			addtimer(src, "charge", 0)
+			INVOKE_ASYNC(src, .proc/charge)
 		else
-			addtimer(src, "triple_charge", 0)
+			INVOKE_ASYNC(src, .proc/triple_charge)
 
 
-/mob/living/simple_animal/hostile/megafauna/bubblegum/New()
-	..()
-	for(var/mob/living/simple_animal/hostile/megafauna/bubblegum/B in mob_list)
+/mob/living/simple_animal/hostile/megafauna/bubblegum/Initialize()
+	. = ..()
+	for(var/mob/living/simple_animal/hostile/megafauna/bubblegum/B in GLOB.mob_list)
 		if(B != src)
-			qdel(src) //There can be only one
-			break
+			return INITIALIZE_HINT_QDEL //There can be only one
 	var/obj/effect/proc_holder/spell/bloodcrawl/bloodspell = new
 	AddSpell(bloodspell)
 	if(istype(loc, /obj/effect/dummy/slaughter))
 		bloodspell.phased = 1
-	internal = new/obj/item/device/gps/internal/bubblegum(src)
+	internal = new/obj/item/gps/internal/bubblegum(src)
+
+/mob/living/simple_animal/hostile/megafauna/bubblegum/grant_achievement(medaltype,scoretype)
+	. = ..()
+	if(.)
+		SSshuttle.shuttle_purchase_requirements_met |= "bubblegum"
 
 /mob/living/simple_animal/hostile/megafauna/bubblegum/do_attack_animation(atom/A)
 	if(charging)
@@ -112,7 +117,7 @@ Difficulty: Hard
 	if(!stat)
 		playsound(src.loc, 'sound/effects/meteorimpact.ogg', 200, 1, 2, 1)
 	if(charging)
-		PoolOrNew(/obj/effect/overlay/temp/decoy/fading, list(loc,src))
+		new/obj/effect/temp_visual/decoy/fading(loc,src)
 		DestroySurroundings()
 	. = ..()
 	if(charging)
@@ -129,23 +134,23 @@ Difficulty: Hard
 	var/turf/T = get_turf(target)
 	if(!T || T == loc)
 		return
-	PoolOrNew(/obj/effect/overlay/temp/dragon_swoop, T)
+	new /obj/effect/temp_visual/dragon_swoop(T)
 	charging = 1
 	DestroySurroundings()
 	walk(src, 0)
 	setDir(get_dir(src, T))
-	var/obj/effect/overlay/temp/decoy/D = PoolOrNew(/obj/effect/overlay/temp/decoy, list(loc,src))
-	D.color = "#FF0000"
-	animate(D, alpha = 0, color = initial(D.color), transform = matrix()*2, time = 5)
+	var/obj/effect/temp_visual/decoy/D = new /obj/effect/temp_visual/decoy(loc,src)
+	animate(D, alpha = 0, color = "#FF0000", transform = matrix()*2, time = 5)
 	sleep(5)
 	throw_at(T, get_dist(src, T), 1, src, 0)
 	charging = 0
 	Goto(target, move_to_delay, minimum_distance)
 
+
 /mob/living/simple_animal/hostile/megafauna/bubblegum/Bump(atom/A)
 	if(charging)
-		if(istype(A, /turf) || istype(A, /obj) && A.density)
-			A.ex_act(2)
+		if(isturf(A) || isobj(A) && A.density)
+			A.ex_act(EXPLODE_HEAVY)
 		DestroySurroundings()
 	..()
 
@@ -161,7 +166,7 @@ Difficulty: Hard
 		shake_camera(L, 4, 3)
 		shake_camera(src, 2, 3)
 		var/throwtarget = get_edge_target_turf(src, get_dir(src, get_step_away(L, src)))
-		L.throw_at_fast(throwtarget, 3)
+		L.throw_at(throwtarget, 3)
 
 	charging = 0
 
@@ -178,7 +183,7 @@ Difficulty: Hard
 	for(var/obj/effect/decal/cleanable/blood/nearby in view(get_turf(target),2))
 		pools += nearby
 	if(pools.len)
-		shuffle(pools)
+		shuffle_inplace(pools)
 		found_bloodpool = pick(pools)
 	if(found_bloodpool)
 		visible_message("<span class='danger'>[src] sinks into the blood...</span>")
@@ -196,7 +201,7 @@ Difficulty: Hard
 	for(var/turf/J in getline(src,E))
 		if(!range)
 			break
-		PoolOrNew(/obj/effect/overlay/temp/bloodsplatter, list(previousturf, get_dir(previousturf, J)))
+		new /obj/effect/temp_visual/dir_setting/bloodsplatter(previousturf, get_dir(previousturf, J))
 		if(!previousturf.CanAtmosPass(J))
 			break
 		playsound(J,'sound/effects/splat.ogg', 100, 1, -1)
@@ -209,12 +214,23 @@ Difficulty: Hard
 	visible_message("<span class='danger'>[src] summons a shoal of slaughterlings!</span>")
 	for(var/obj/effect/decal/cleanable/blood/H in range(src, 10))
 		if(prob(25))
-			new /mob/living/simple_animal/hostile/asteroid/hivelordbrood/blood/slaughter(H.loc)
+			new /mob/living/simple_animal/hostile/asteroid/hivelordbrood/slaughter(H.loc)
 
-/mob/living/simple_animal/hostile/asteroid/hivelordbrood/blood/slaughter
+/mob/living/simple_animal/hostile/asteroid/hivelordbrood/slaughter
 	name = "slaughterling"
 	desc = "Though not yet strong enough to create a true physical form, it's nonetheless determined to murder you."
-	faction = list("mining")
+	icon_state = "bloodbrood"
+	icon_living = "bloodbrood"
+	icon_aggro = "bloodbrood"
+	attacktext = "pierces"
+	color = "#C80000"
+	density = FALSE
+	faction = list("mining", "boss")
 	weather_immunities = list("lava","ash")
+
+/mob/living/simple_animal/hostile/asteroid/hivelordbrood/slaughter/CanPass(atom/movable/mover, turf/target)
+	if(istype(mover, /mob/living/simple_animal/hostile/megafauna/bubblegum))
+		return 1
+	return 0
 
 #undef MEDAL_PREFIX

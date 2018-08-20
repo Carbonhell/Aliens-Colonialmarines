@@ -24,7 +24,6 @@
 		//doesn't have an object argument because this is "Stacking" with the animate call above
 		//3 billion% intentional
 
-
 //Dumps the matrix data in format a-f
 /matrix/proc/tolist()
 	. = list()
@@ -61,13 +60,33 @@
 /matrix/proc/get_y_shift()
 	. = f
 
-// Color matrices:
+/matrix/proc/get_x_skew()
+	. = b
+
+/matrix/proc/get_y_skew()
+	. = d
+
+//Skews a matrix in a particular direction
+//Missing arguments are treated as no skew in that direction
+
+//As Rotation is defined as a scale+skew, these procs will break any existing rotation
+//Unless the result is multiplied against the current matrix
+/matrix/proc/set_skew(x = 0, y = 0)
+	b = x
+	d = y
+
+
+/////////////////////
+// COLOUR MATRICES //
+/////////////////////
 
 /* Documenting a couple of potentially useful color matrices here to inspire ideas
 // Greyscale - indentical to saturation @ 0
 list(LUMA_R,LUMA_R,LUMA_R,0, LUMA_G,LUMA_G,LUMA_G,0, LUMA_B,LUMA_B,LUMA_B,0, 0,0,0,1, 0,0,0,0)
+
 // Color inversion
 list(-1,0,0,0, 0,-1,0,0, 0,0,-1,0, 0,0,0,1, 1,1,1,0)
+
 // Sepiatone
 list(0.393,0.349,0.272,0, 0.769,0.686,0.534,0, 0.189,0.168,0.131,0, 0,0,0,1, 0,0,0,0)
 */

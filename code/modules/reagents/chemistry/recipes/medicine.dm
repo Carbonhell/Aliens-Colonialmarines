@@ -34,14 +34,15 @@
 	name = "Charcoal"
 	id = "charcoal"
 	results = list("charcoal" = 2)
-	required_reagents = list("oil" = 1, "sodiumchloride" = 1)
+	required_reagents = list("ash" = 1, "sodiumchloride" = 1)
 	mix_message = "The mixture yields a fine black powder."
+	required_temp = 380
 
 /datum/chemical_reaction/silver_sulfadiazine
 	name = "Silver Sulfadiazine"
 	id = "silver_sulfadiazine"
-	results = list("silver_sulfadiazine" = 4)
-	required_reagents = list("silver" = 1, "sulfur" = 1, "oxygen" = 1, "chlorine" = 1)
+	results = list("silver_sulfadiazine" = 5)
+	required_reagents = list("ammonia" = 1, "silver" = 1, "sulfur" = 1, "oxygen" = 1, "chlorine" = 1)
 
 /datum/chemical_reaction/salglu_solution
 	name = "Saline-Glucose Solution"
@@ -49,14 +50,11 @@
 	results = list("salglu_solution" = 3)
 	required_reagents = list("sodiumchloride" = 1, "water" = 1, "sugar" = 1)
 
-/*
 /datum/chemical_reaction/mine_salve
 	name = "Miner's Salve"
 	id = "mine_salve"
-	result = "mine_salve"
+	results = list("mine_salve" = 3)
 	required_reagents = list("oil" = 1, "water" = 1, "iron" = 1)
-	result_amount = 3
-*/
 
 /datum/chemical_reaction/mine_salve2
 	name = "Miner's Salve"
@@ -93,14 +91,26 @@
 /datum/chemical_reaction/pen_acid
 	name = "Pentetic Acid"
 	id = "pen_acid"
-	results = list("pen_acid" = 2)
-	required_reagents = list("potass_iodide" = 1, "cyanide" = 1)
+	results = list("pen_acid" = 6)
+	required_reagents = list("welding_fuel" = 1, "chlorine" = 1, "ammonia" = 1, "formaldehyde" = 1, "sodium" = 1, "cyanide" = 1)
+
+/datum/chemical_reaction/sal_acid
+	name = "Salicyclic Acid"
+	id = "sal_acid"
+	results = list("sal_acid" = 5)
+	required_reagents = list("sodium" = 1, "phenol" = 1, "carbon" = 1, "oxygen" = 1, "sacid" = 1)
+
+/datum/chemical_reaction/oxandrolone
+	name = "Oxandrolone"
+	id = "oxandrolone"
+	results = list("oxandrolone" = 6)
+	required_reagents = list("carbon" = 3, "phenol" = 1, "hydrogen" = 1, "oxygen" = 1)
 
 /datum/chemical_reaction/salbutamol
 	name = "Salbutamol"
 	id = "salbutamol"
-	results = list("salbutamol" = 3)
-	required_reagents = list("lithium" = 1, "oxygen" = 1, "bromine" = 1)
+	results = list("salbutamol" = 5)
+	required_reagents = list("sal_acid" = 1, "lithium" = 1, "aluminium" = 1, "bromine" = 1, "ammonia" = 1)
 
 /datum/chemical_reaction/perfluorodecalin
 	name = "Perfluorodecalin"
@@ -116,18 +126,6 @@
 	results = list("ephedrine" = 4)
 	required_reagents = list("sugar" = 1, "oil" = 1, "hydrogen" = 1, "diethylamine" = 1)
 	mix_message = "The solution fizzes and gives off toxic fumes."
-
-/datum/chemical_reaction/morphine
-	name = "Morphine"
-	id = "morphine"
-	results = list("morphine" = 3)
-	required_reagents = list("sleeptoxin" = 1, "oil" = 1, "nitrogen" = 1)
-
-/datum/chemical_reaction/sleeptoxin
-	name = "Sleep Toxin"
-	id = "sleeptoxin"
-	results = list("sleeptoxin" = 5)
-	required_reagents = list("sugar" = 4, "chloralhydrate" = 1)
 
 /datum/chemical_reaction/diphenhydramine
 	name = "Diphenhydramine"
@@ -146,15 +144,14 @@
 /datum/chemical_reaction/atropine
 	name = "Atropine"
 	id = "atropine"
-	results = list("atropine" = 3)
-	required_temp = 370
-	required_reagents = list("epinephrine" = 1, "ephedrine" = 1, "salbutamol" = 1)
+	results = list("atropine" = 5)
+	required_reagents = list("ethanol" = 1, "acetone" = 1, "diethylamine" = 1, "phenol" = 1, "sacid" = 1)
 
 /datum/chemical_reaction/epinephrine
 	name = "Epinephrine"
 	id = "epinephrine"
-	results = list("epinephrine" = 3)
-	required_reagents = list("carbon" = 1, "oxygen" = 1, "sugar" = 1)
+	results = list("epinephrine" = 6)
+	required_reagents = list("phenol" = 1, "acetone" = 1, "diethylamine" = 1, "oxygen" = 1, "chlorine" = 1, "hydrogen" = 1)
 
 /datum/chemical_reaction/strange_reagent
 	name = "Strange Reagent"
@@ -173,7 +170,7 @@
 	name = "Mutadone"
 	id = "mutadone"
 	results = list("mutadone" = 3)
-	required_reagents = list("mutagen" = 1, "oil" = 1, "bromine" = 1)
+	required_reagents = list("mutagen" = 1, "acetone" = 1, "bromine" = 1)
 
 /datum/chemical_reaction/antihol
 	name = "antihol"
@@ -185,13 +182,13 @@
 	name = "Cryoxadone"
 	id = "cryoxadone"
 	results = list("cryoxadone" = 3)
-	required_reagents = list("stable_plasma" = 1, "oil" = 1, "mutagen" = 1)
+	required_reagents = list("stable_plasma" = 1, "acetone" = 1, "mutagen" = 1)
 
-/datum/chemical_reaction/haloperidol
-	name = "Haloperidol"
-	id = "haloperidol"
-	results = list("haloperidol" = 5)
-	required_reagents = list("chlorine" = 1, "fluorine" = 1, "aluminium" = 1, "potass_iodide" = 1, "oil" = 1)
+/datum/chemical_reaction/pyroxadone
+	name = "Pyroxadone"
+	id = "pyroxadone"
+	results = list("pyroxadone" = 2)
+	required_reagents = list("cryoxadone" = 1, "slimejelly" = 1)
 
 /datum/chemical_reaction/clonexadone
 	name = "Clonexadone"
@@ -200,12 +197,17 @@
 	required_reagents = list("cryoxadone" = 1, "sodium" = 1)
 	required_catalysts = list("plasma" = 5)
 
+/datum/chemical_reaction/haloperidol
+	name = "Haloperidol"
+	id = "haloperidol"
+	results = list("haloperidol" = 5)
+	required_reagents = list("chlorine" = 1, "fluorine" = 1, "aluminium" = 1, "potass_iodide" = 1, "oil" = 1)
+
 /datum/chemical_reaction/bicaridine
 	name = "Bicaridine"
 	id = "bicaridine"
-	results = list("bicaridine" = 2)
-	required_temp = 370
-	required_reagents = list("epinephrine" = 1, "carbon" = 1)
+	results = list("bicaridine" = 3)
+	required_reagents = list("carbon" = 1, "oxygen" = 1, "sugar" = 1)
 
 /datum/chemical_reaction/kelotane
 	name = "Kelotane"
@@ -213,29 +215,40 @@
 	results = list("kelotane" = 2)
 	required_reagents = list("carbon" = 1, "silicon" = 1)
 
-/datum/chemical_reaction/bromelain
-	name = "Bromelain"
-	id = "bromelain"
-	results = list("bromelain" = 2)
-	required_reagents = list("styptic_powder" = 1, "bicaridine" = 1, "carbon" = 1)
-	required_catalysts = list("plasma" = 5)
-
-/datum/chemical_reaction/dermaline
-	name = "Dermaline"
-	id = "dermaline"
-	results = list("dermaline" = 2)
-	required_reagents = list("kelotane" = 1, "silver_sulfadiazine" = 1, "phosphorus" = 1)
-	required_catalysts = list("plasma" = 5)
-
 /datum/chemical_reaction/antitoxin
 	name = "Antitoxin"
 	id = "antitoxin"
-	results = list("charcoal" = 3)
-	required_reagents = list("nitrogen" = 2, "silicon" = 2, "potassium" = 2)
+	results = list("antitoxin" = 3)
+	required_reagents = list("nitrogen" = 1, "silicon" = 1, "potassium" = 1)
 
 /datum/chemical_reaction/tricordrazine
 	name = "Tricordrazine"
 	id = "tricordrazine"
 	results = list("tricordrazine" = 3)
-	required_temp = 370
-	required_reagents = list("bicaridine" = 1, "kelotane" = 1, "charcoal" = 1)
+	required_reagents = list("bicaridine" = 1, "kelotane" = 1, "antitoxin" = 1)
+
+/datum/chemical_reaction/regen_jelly
+	name = "Regenerative Jelly"
+	id = "regen_jelly"
+	results = list("regen_jelly" = 2)
+	required_reagents = list("tricordrazine" = 1, "slimejelly" = 1)
+
+/datum/chemical_reaction/corazone
+	name = "Corazone"
+	id = "corazone"
+	results = list("corazone" = 3)
+	required_reagents = list("phenol" = 2, "lithium" = 1)
+
+/datum/chemical_reaction/morphine
+	name = "Morphine"
+	id = "morphine"
+	results = list("morphine" = 2)
+	required_reagents = list("carbon" = 2, "hydrogen" = 2, "ethanol" = 1, "oxygen" = 1)
+	required_temp = 480
+
+/datum/chemical_reaction/modafinil
+	name = "Modafinil"
+	id = "modafinil"
+	results = list("modafinil" = 5)
+	required_reagents = list("diethylamine" = 1, "ammonia" = 1, "phenol" = 1, "acetone" = 1, "sacid" = 1)
+	required_catalysts = list("bromine" = 1) // as close to the real world synthesis as possible

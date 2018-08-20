@@ -1,118 +1,92 @@
-/* Alien shit!
- * Contains:
- *		effect/acid
- */
-
-
-/*
- * Acid
- */
 /obj/effect/acid
 	gender = PLURAL
 	name = "acid"
-	desc = "Burbling corrossive stuff."
+	desc = "Burbling corrosive stuff."
 	icon_state = "acid"
-	density = 0
+	density = FALSE
 	opacity = 0
-	anchored = 1
-	unacidable = 1
-	var/atom/target
-	var/ticks = 0
-	var/target_strength = 0
-	var/strength = 1
+	anchored = TRUE
+	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	layer = ABOVE_NORMAL_TURF_LAYER
+	var/turf/target
 
 
-/obj/effect/acid/New(loc, targ)
-	..(loc)
-	target = targ
+/obj/effect/acid/Initialize(mapload, acid_pwr, acid_amt)
+	. = ..()
+
+	target = get_turf(src)
+
+	if(acid_amt)
+		acid_level = min(acid_amt*acid_pwr, 12000) //capped so the acid effect doesn't last a half hour on the floor.
 
 	//handle APCs and newscasters and stuff nicely
-	pixel_x = target.pixel_x
-	pixel_y = target.pixel_y
+	pixel_x = target.pixel_x + rand(-4,4)
+	pixel_y = target.pixel_y + rand(-4,4)
 
-	target_strength = 600
-	target_strength /= strength
-	ticks = target_strength
-	tick()
+	START_PROCESSING(SSobj, src)
 
 
-/obj/effect/acid/proc/tick()
+/obj/effect/acid/Destroy()
+	STOP_PROCESSING(SSobj, src)
+	target = null
+	return ..()
+
+/obj/effect/acid/process()
+	. = 1
 	if(!target)
 		qdel(src)
-	if(!src)
-		return
+		return 0
 
-	ticks--
+	if(prob(5))
+		playsound(loc, 'sound/items/welder.ogg', 100, 1)
 
-	if(!ticks)
-		target.visible_message("<span class='warning'>[target] collapses under its own weight into a puddle of goop and undigested debris!</span>")
+	for(var/obj/O in target)
+		if(prob(20) && !(resistance_flags & UNACIDABLE))
+			if(O.acid_level < acid_level*0.3)
+				var/acid_used = min(acid_level*0.05, 20)
+				O.acid_act(10, acid_used)
+				acid_level = max(0, acid_level - acid_used*10)
 
-		if(istype(target, /obj/structure/closet))
-			var/obj/structure/closet/T = target
-			T.dump_contents()
-			qdel(target)
-
-		if(istype(target, /turf/closed/mineral))
-			var/turf/closed/mineral/M = target
-			M.ChangeTurf(M.baseturf)
-
-		if(istype(target, /turf/open/floor))
-			var/turf/open/floor/F = target
-			F.ChangeTurf(F.baseturf)
-
-		if(istype(target, /turf/closed/wall))
-			var/turf/closed/wall/W = target
-			W.dismantle_wall(1)
-
-		else
-			qdel(target)
-
+	acid_level = max(acid_level - (5 + 2*round(sqrt(acid_level))), 0)
+	if(acid_level <= 0)
 		qdel(src)
-		return
+		return 0
 
-	x = target.x
-	y = target.y
-	z = target.z
+/obj/effect/acid/Crossed(AM as mob|obj)
+	if(isliving(AM))
+		var/mob/living/L = AM
+		if(L.movement_type & FLYING)
+			return
+		if(L.m_intent != MOVE_INTENT_WALK && prob(40))
+			var/acid_used = min(acid_level*0.05, 20)
+			if(L.acid_act(10, acid_used, "feet"))
+				acid_level = max(0, acid_level - acid_used*10)
+				playsound(L, 'sound/weapons/sear.ogg', 50, 1)
+				to_chat(L, "<span class='userdanger'>[src] burns you!</span>")
 
-	if(ticks == target_strength/5)
-		visible_message("<span class='warning'>[target] is holding up against the acid!</span>")
-	else if(ticks == target_strength/4)
-		visible_message("<span class='warning'>[target] is being melted by the acid!</span>")
-	else if(ticks == target_strength/3)
-		visible_message("<span class='warning'>[target] is struggling to withstand the acid!</span>")
-	else if(ticks ==target_strength/2)
-		visible_message("<span class='warning'>[target] starts to fall apart!</span>")
-
-	spawn(1)
-		if(src)
-			tick()
-
-/obj/effect/acid/weak
-	name = "weak acid"
-	strength = 0.75
-
-/obj/effect/acid/strong
-	name = "strong acid"
-	strength = 1.25
+//xenomorph corrosive acid
+/obj/effect/acid/alien
+	var/target_strength = 30
 
 
-/obj/effect/sprayed_acid//different than the thing up here cause it doesn't actually melt stuff.
-	gender = PLURAL
-	name = "acid"
-	desc = "Burbling corrossive stuff."
-	icon_state = "acid"
-	density = 0
-	opacity = 0
-	anchored = 1
-	unacidable = 1
-	var/damage = 20
+/obj/effect/acid/alien/process()
+	. = ..()
+	if(.)
+		if(prob(45))
+			playsound(loc, 'sound/items/welder.ogg', 100, 1)
+		target_strength--
+		if(target_strength <= 0)
+			target.visible_message("<span class='warning'>[target] collapses under its own weight into a puddle of goop and undigested debris!</span>")
+			target.acid_melt()
+			qdel(src)
+		else
 
-/obj/effect/sprayed_acid/New()
-	..()
-	QDEL_IN(src, 100+rand(0,30))
-
-/obj/effect/sprayed_acid/Crossed(atom/A)
-	if(isliving(A))
-		if(!isalien(A))
-			var/mob/living/M = A
-			M.adjustFireLoss(damage)
+			switch(target_strength)
+				if(24)
+					visible_message("<span class='warning'>[target] is holding up against the acid!</span>")
+				if(16)
+					visible_message("<span class='warning'>[target] is being melted by the acid!</span>")
+				if(8)
+					visible_message("<span class='warning'>[target] is struggling to withstand the acid!</span>")
+				if(4)
+					visible_message("<span class='warning'>[target] begins to crumble under the acid!</span>")

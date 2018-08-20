@@ -1,18 +1,16 @@
 /mob/living/carbon/alien/humanoid/sentinel
 	name = "alien sentinel"
-	desc = "An acid-spitting alien."
-	caste = "sentinel"
-	maxHealth = 230
-	health = 230
-	tier = 1
-	timerMax = 400
-	icon_state = "aliensentinel_s"
-	evolves_to = list("corroder")
-	move_delay_add = -3
+	caste = "s"
+	maxHealth = 150
+	health = 150
+	icon_state = "aliens"
 
-/mob/living/carbon/alien/humanoid/sentinel/New()
+/mob/living/carbon/alien/humanoid/sentinel/Initialize()
+	AddAbility(new /obj/effect/proc_holder/alien/sneak)
+	. = ..()
+
+/mob/living/carbon/alien/humanoid/sentinel/create_internal_organs()
 	internal_organs += new /obj/item/organ/alien/plasmavessel
-	internal_organs += new /obj/item/organ/alien/acid(acidpower = ACID)
-	internal_organs += new /obj/item/organ/alien/neurotoxin/spitter
-	AddAbility(new /obj/effect/proc_holder/alien/sneak())
+	internal_organs += new /obj/item/organ/alien/acid
+	internal_organs += new /obj/item/organ/alien/neurotoxin
 	..()
